@@ -1,8 +1,44 @@
 
-.container {
-	border: 1px solid black;
+@media (min-width: 768px) {
+	.mobileMenu {
+		display: none;
+	}
 }
 
-.header1, .header2 {
-	padding: 0 0 5px 0;
+@media (max-width: 768px) {
+	.largeMenu {
+		display: none;
+	}	
+}
+
+.container {
+}
+
+.header1 {
+	background-color: #FFFFFF;
+}
+
+nav {
+	float:left;
+}
+
+.navbar-toggle {
+	float:left;
+}
+
+.nav>li>a {
+	padding: 15px 0px;
+}
+
+.nav>li:hover {
+	background-color: white !important;
+}
+
+.input-group {
+	margin: 8px 0px;
+	float:right;
+}
+
+.logo {
+	height: 150px;
 }

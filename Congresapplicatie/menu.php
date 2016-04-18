@@ -1,27 +1,42 @@
-<link rel="stylesheet" href="css/menu/side_menu.css">
-<div id="wrapper">
-	<!-- Sidebar -->
-	<nav class="navbar navbar-inverse" id="sidebar-wrapper" role="navigation">
-		<ul class="nav sidebar-nav">
-			<li class="sidebar-brand"> <a href="/viewposts"> Puk point </a> </li>
-			<li> <a href="/viewposts"><i class="fa fa-fw fa-home"></i> Tijdlijn </a> </li>
-			<li> <a href="/createpost"><i class="fa fa-fw fa-home"></i> Post plaatsen </a> </li>
-				<li class="dropdown"> <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Beheer <span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						<li class="dropdown-header">Beheer</li>
-						
-					</ul>
-				</li>
-		</ul>
-	</nav>
-	<!-- /#sidebar-wrapper -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" id="topbar-wrapper">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-			</div>
+<nav role="navigation" class="col-xs-12 col-sm-12 col-md-12 navbar navbar-default mobileMenu">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header col-xs-12">
+		<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<div class="input-group col-xs-10">
+			<input type="text" class="form-control" name=search
+				placeholder="Zoeken"> <span
+				class="input-group-btn">
+				<button class="btn btn-default" type="submit">Zoeken</button>
+			</span>
 		</div>
-	</nav>
-</div>
-<!-- /#wrapper -->
-<script src="css/menu/slide_menu.js"></script>
+	</div>
+	<!-- Collection of nav links and other content for toggling -->
+	<div id="navbarCollapse" class="collapse navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li class="active"><a href="#">Home</a></li>
+		</ul>
+	</div>
+</nav>
+
+<nav role="navigation" class="navbar navbar-default largeMenu col-xs-12 col-sm-12 col-md-12">
+	<div class="navbar-header col-xs-12 col-sm-12 col-md-12">
+		<ul class="nav navbar-nav col-sm-8 col-md-8">
+			<li class="col-sm-3 col-md-3"><a href="#">Congressen</a></li>
+			<li class="col-sm-3 col-md-3"><a href="#">Evenementen</a></li>
+			<li class="col-sm-3 col-md-3"><a href="#">Tracks</a></li>
+			<li class="col-sm-3 col-md-3"><a href="#">Iets anders</a></li>
+		</ul>
+		<div class="input-group col-sm-4 col-md-4">
+			<input type="text" class="form-control" name=search
+				placeholder="Zoeken"> <span
+				class="input-group-btn">
+				<button class="btn btn-default" type="submit">Zoeken</button>
+			</span>
+		</div>
+	</div>
+</nav>
