@@ -11,9 +11,6 @@
 	}	
 }
 
-.container {
-}
-
 .header1 {
 	background-color: #FFFFFF;
 }
@@ -32,6 +29,10 @@ nav {
 
 .nav>li:hover {
 	background-color: white !important;
+}
+
+#navbarCollapse ul li a {
+	margin-left: 20px;
 }
 
 .input-group {
