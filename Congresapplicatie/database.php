@@ -17,7 +17,7 @@ class Database
         $this->password = $password;
         $this->conn = false;
 
-        $this->maakConnectie($server, $database, $uid, $password);
+        $this->createConnection($server, $database, $uid, $password);
     }
     
 /*   -----------------------------------------------------------------------------------
@@ -31,12 +31,12 @@ class Database
      returns true of false
 */
     
-    public function maakConnectie($server, $database, $uid, $password)
+    public function createConnection($server, $database, $uid, $password)
     {
         $connectionInfo = array("Database" => $database, "UID" => $uid, "PWD" => $password);
         $this->conn = sqlsrv_connect($server, $connectionInfo);
         
-        if($this->checkConnectie())
+        if($this->checkConnection())
         {
             return true;
         }
@@ -50,7 +50,7 @@ class Database
      returns true of false
 */
         
-    public function checkConnectie()
+    public function checkConnection()
     {
         if(isset($this->conn))
         {
@@ -60,10 +60,7 @@ class Database
         
         return false;
     }
-        
-    /*    Connection check testscript */
 
-     
 
     
 /*   -----------------------------------------------------------------------------------
@@ -75,11 +72,11 @@ class Database
      returns sql dataset
 */
     
-    protected function verzendQuery($sql, $param)
+    protected function sendQuery($sql, $param)
     {
-        if(!$this->checkConnectie())
+        if(!$this->checkConnection())
         {
-            if(!$this->maakConnectie(   $this->server,
+            if(!$this->createConnection($this->server,
                                         $this->database,
                                         $this->uid,
                                         $this->password))
@@ -98,80 +95,8 @@ class Database
         return $result;
     }
 
-    
-/*   -----------------------------------------------------------------------------------
 
-     Checks whether the given gebruikersnaam + wachtwoord is correct 
-     Parameters:
-     Gebruikersnaam    String      
-     Wachtwoord        String
-     returns true of false
-*/
-
-    public function loginCheck($gebruikersnaam, $wachtwoord) 
-    {    
-        if(!$this->checkConnectie())
-        {
-            if(!$this->maakConnectie(   $this->server,
-                                        $this->database,
-                                        $this->uid,
-                                        $this->password))
-            {
-                return false;
-            }
-        }
- 
-        $sqlstmntUserLogin = 'SELECT gebruikersnaam, wachtwoord FROM Gebruiker WHERE gebruikersnaam = ?';
-        
-        $paramsUserLogin = array($gebruikersnaam);
-
-        $resultUserLogin = $this->verzendQuery($sqlstmntUserLogin, $paramsUserLogin);
-        
-        while ($row = sqlsrv_fetch_array($resultUserLogin, SQLSRV_FETCH_ASSOC)) {
-            
-            if($row['gebruikersnaam'] == $gebruikersnaam AND 
-               $row['wachtwoord'] == $this->encryptWachtwoord($wachtwoord)) {
-                // Login correct!
-                return true;
-            } else {
-                // Login incorrect!
-                return false;
-            }
-        }
-        
-        return false;
-    }
-
-/*  ----------------------------------------------------------------------------------- //
-
-    encrypt password with sha256 hash
-    returns encrypted password
-*/
-
-    public function encryptWachtwoord($wachtwoord) {
-        return hash("sha256", $wachtwoord);
-    }
-    
-/*  ----------------------------------------------------------------------------------- //
-
-    encrypt password with sha256 hash
-    returns encrypted password
-*/
-    public function maakWillekeurigWachtwoord($lengte)
-    {
-        $karakters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $karakterLengte = strlen($karakters);
-        
-        $wachtwoord = '';
-        
-        for ($i = 0; $i < $lengte; $i++) {
-            $wachtwoord .= $karakters[rand(0, $karakterLengte - 1)];
-        }
-        
-        return $wachtwoord;
-    }
-    
-    public function geefError()
+    public function getError()
     {
         $err = "";
         
@@ -185,7 +110,7 @@ class Database
             }
         }
         
-        echo $err;
+        return $err;
     }
     
 }
