@@ -27,6 +27,22 @@
                 return false;
             }
         }
+		
+		
+		public function getSubjects() {
+
+            $result = $this->sendQuery("SELECT DISTINCT Subject FROM Congress",null);
+
+            if ($result){
+				$array = array();
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
+                {
+					array_push($array,$row['Subject']);
+                }
+				return $array;
+            }
+			return false;
+		}
     }
 
 ?>
