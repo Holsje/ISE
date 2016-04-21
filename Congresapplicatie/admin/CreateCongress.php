@@ -19,26 +19,26 @@
 	?>
 	
 	<div id="createCongress" class="popup col-sm-12 col-md-12 col-xs-12">
-		<div class="popupWindow col-md-offset-3 col-md-6">
+		<div class="popupWindow col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-6">
 			<h1 class="col-md-8">Create congress</h1>
 			<button type="button" class="closePopup glyphicon glyphicon-remove" data-file="#testPop" onclick="$('#createCongress').toggle('fade');"></button>
 	   
-					<form name="CreateCongressForm" class="content form-horizontal col-xs-8 col-sm-6 col-md-6 col-xs-offset-2 col-sm-offset-3 col-xs-offset-3" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return validateForm()">
+					<form name="CreateCongressForm" class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-8 col-sm-10 col-md-10" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return validateForm()">
 						<div class="form-group">
-							<label class="control-label col-xs-5 col-sm-4 col-md-3">Congressname:</label> 
-							<div class="col-xs-7 col-sm-8 col-md-9">
+							<label class="control-label col-xs-8 col-sm-4 col-md-4">Congressname:</label> 
+							<div class="col-xs-12 col-sm-8 col-md-8">
 								<input type="text" id="CongressName" name="CongressName" class="form-control" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-5 col-sm-4 col-md-3">Location:</label> 
-							<div class="col-xs-7 col-sm-8 col-md-9">
+							<label class="control-label col-xs-8 col-sm-4 col-md-4">Location:</label> 
+							<div class="col-xs-12 col-sm-8 col-md-8">
 								<input type="text" id="Location" name="Location" class="form-control" required>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-5 col-sm-4 col-md-3">Subject:</label>
-							<div class="col-xs-6 col-sm-7 col-md-8">
+							<label class="control-label col-xs-8 col-sm-4 col-md-4">Subject:</label>
+							<div class="col-xs-12 col-sm-8 col-md-8">
 								<select id="Subject" name="Subject" class="form-control">
 									<?php 
 										foreach($CongressApplicationDB->getSubjects() as $array) {
@@ -52,19 +52,19 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-5 col-sm-4 col-md-3">StartDate:</label> 
-							<div class="col-xs-7 col-sm-8 col-md-9">
+							<label class="control-label col-xs-8 col-sm-4 col-md-4">StartDate:</label> 
+							<div class="col-xs-12 col-sm-8 col-md-8">
 								<input type="text" id="StartDate" name="StartDate" class="form-control datepicker" required onchange="validateDate()">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-5 col-sm-4 col-md-3">EndDate:</label> 
-							<div class="col-xs-7 col-sm-8 col-md-9">
+							<label class="control-label col-xs-8 col-sm-4 col-md-4">EndDate:</label> 
+							<div class="col-xs-12 col-sm-8 col-md-8">
 								<input type="text" id="EndDate" name="EndDate" class="form-control datepicker" required onchange="validateDate()">
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-xs-7 col-sm-8 col-md-9">
+							<div class="control-label col-xs-8 col-sm-4 col-md-4">
 								<label class="control-label col-xs-12 col-sm-12 col-md-12" style="display:none; color:red;" id="errorMsg">* error</label>
 							</div>
 						</div>
@@ -79,7 +79,7 @@
 	</div>
 	
 	<div id="addSubject" class="popup col-sm-12 col-md-12">
-		<div class="popupWindow col-md-offset-3 col-md-6">
+		<div class="popupWindow col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-6">
 			<h1 class="col-md-8">popup</h1>
 			<button type="button" class="closePopup glyphicon glyphicon-remove" data-file="#testPop" onclick="$('#addSubject').toggle('fade');"></button>
 		</div>
