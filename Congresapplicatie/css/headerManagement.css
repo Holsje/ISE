@@ -67,6 +67,7 @@ ul li a {
 
 .content {
     min-height: 81%;
+    min-width: 800px;
     background-color: #FFFFFF;
     font-family: "Trebuchet MS";
 }
@@ -92,8 +93,9 @@ h1{
 .popupWindow{
     margin-top: 7%;
     background-color: #FFFFFF;
-    height: 50%;
     border-radius: 25px;
+    box-shadow: 2px 2px 10px;
+    min-width: 500px;
 }
 
 .closePopup{
@@ -103,4 +105,8 @@ h1{
     float: right;
     margin: 20px 10px;
     color: lightgrey;
+}
+
+.form-horizontal{
+    margin-bottom: 60px;
 }
