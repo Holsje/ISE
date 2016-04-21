@@ -1,14 +1,16 @@
-@media (min-width: 768px) {
+@media screen and (min-width: 767px) {
     .mobileMenu {
         display: none;
     }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 767px) {
     .largeMenu {
         display: none;
     }
 }
+
+
 
 .header1 {
     background-color: #FFFFFF;
