@@ -5,7 +5,7 @@
 	$javaScript .= '<script src="js/globalFunctions.js"></script>';
 	$javaScript .= '<script src="js/CreateCongress.js"></script>';
 	
-	topLayoutMannagement('createCongress',$css,$javaScript);
+	topLayoutManagement('createCongress',$css,$javaScript);
 	$succes = false;
 	if(isset($_POST['Submit'])) {
 		include("createCongressFunctions.php");

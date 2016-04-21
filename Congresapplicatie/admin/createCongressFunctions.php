@@ -6,7 +6,7 @@
 		$startDate = "" . $newDate->format("Y-m-d");
 		$endDate = "" .  $newDate2->format("Y-m-d");
 		
-		$succes = $CongressApplicationDB->createCongress(($_POST['CongressName']),$_POST['Location'], $_POST['Subject'], $startDate, $endDate);
+		$succesCreateCongress = $CongressApplicationDB->createCongress(($_POST['CongressName']),$_POST['Location'], $_POST['Subject'], $startDate, $endDate);
 	}
 	
 	

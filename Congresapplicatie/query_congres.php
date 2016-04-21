@@ -31,7 +31,7 @@
 		
 		public function getSubjects() {
 
-            $result = $this->sendQuery("SELECT DISTINCT Subject FROM Congress",null);
+            $result = $this->sendQuery("SELECT Subject FROM Subject",null);
 
             if ($result){
 				$array = array();
