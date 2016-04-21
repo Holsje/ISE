@@ -29,6 +29,18 @@ function validateForm() {
 		return false;
 	}
 	
+	return true;
+	
+}
+
+function validateDate() {
+	var startDate = document.forms["CreateCongressForm"]["StartDate"].value;
+	var endDate = document.forms["CreateCongressForm"]["EndDate"].value;
+	if(startDate == "" || endDate == "")
+		return;
+	if(validateForm()) {
+		removeError();
+	}
 }
 
 var onFilledForm = function(output) {

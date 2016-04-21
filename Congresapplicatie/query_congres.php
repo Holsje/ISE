@@ -43,6 +43,14 @@
             }
 			return false;
 		}
+		
+		public function createCongress($congressName,$location,$subject,$startDate,$endDate) {
+			$result = $this->sendQuery("INSERT INTO Congress(Name,Location,[Subject],StartDate,EndDate) VALUES(?,?,?,?,?)", array($congressName,$location,$subject,$startDate,$endDate));
+			if($result) {
+				return true;
+			}
+			return false;
+		}
     }
 
 ?>

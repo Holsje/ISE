@@ -89,7 +89,7 @@ class Database
 
         if ($result === false)
         {
-            die(FormatErrors(sqlsrv_errors()));
+            die($this->getError());
         }
 
         return $result;

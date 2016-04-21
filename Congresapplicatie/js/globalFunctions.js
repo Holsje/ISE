@@ -49,3 +49,11 @@ function makeError(errorMessage,id) {
 		$("#errorMsg")[0].style.display = "";
 	}
 }
+
+function removeError(id) {
+	if(id) {	
+		$("#" + id)[0].style.display = "none";
+	}else {
+		$("#errorMsg")[0].style.display = "none";
+	}
+}
