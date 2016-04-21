@@ -1,0 +1,106 @@
+@media (min-width: 768px) {
+    .mobileMenu {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .largeMenu {
+        display: none;
+    }
+}
+
+.header1 {
+    background-color: #FFFFFF;
+}
+
+nav {
+    float:left;
+}
+
+.navbar-toggle {
+    float:left;
+}
+
+.nav>li>a {
+    padding: 15px 0px;
+}
+
+.nav>li:hover {
+    background-color: white !important;
+}
+
+#navbarCollapse ul li a {
+    margin-left: 20px;
+}
+
+.input-group {
+    margin: 8px 0px;
+    float:right;
+}
+
+.logo {
+    height: 150px;
+}
+
+ul li a {
+    text-align: center;
+}
+
+.largeMenu {
+    margin-bottom: 0;
+}
+
+.backgroundgrey{
+    background-color: #808080;
+}
+
+.container {
+    min-height: 81%;
+    background-color: #eaeaea;
+    padding: 0;
+}
+
+.row {
+    margin: 0px;
+}
+
+.content {
+    min-height: 81%;
+    background-color: #FFFFFF;
+    font-family: "Trebuchet MS";
+}
+
+h1{
+    font-size: 40px;
+}
+
+.managementTitle {
+    margin-top: 50px;
+}
+
+.popup {
+    z-index: 1;
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.popupWindow{
+    margin-top: 7%;
+    background-color: #FFFFFF;
+    height: 50%;
+    border-radius: 25px;
+}
+
+.closePopup{
+    -webkit-appearance: none;
+    border: 0;
+    background: 0;
+    float: right;
+    margin: 20px 10px;
+    color: lightgrey;
+}
