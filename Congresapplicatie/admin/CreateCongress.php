@@ -1,6 +1,7 @@
 <?php
 	require_once('../pageConfig.php');
 	$css = '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">';
+	$css .= '<link rel="stylesheet" href="../css/createCongress/createCongress.css">';
 	$javaScript = '<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>';
 	$javaScript .= '<script src="../js/globalFunctions.js"></script>';
 	$javaScript .= '<script src="../js/CreateCongress.js"></script>';
@@ -37,8 +38,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-8 col-sm-4 col-md-4">Subject:</label>
-							<div class="col-xs-12 col-sm-8 col-md-8">
+							<label class="control-label col-xs-4 col-sm-4 col-md-4">Subject:</label>
+							<div class="col-xs-10 col-sm-7 col-md-7 subjectInput">
 								<select id="Subject" name="Subject" class="form-control">
 									<?php 
 										foreach($CongressApplicationDB->getSubjects() as $array) {
@@ -47,7 +48,7 @@
 									?>
 								</select>
 							</div>
-							<div class="col-xs-1 col-sm-1 col-md-1">
+							<div class="col-xs-1 col-sm-1 col-md-1 addSubjectBox">
 								<button type="button" class="popupButton" data-file="#addSubject">+</button>
 							</div>
 						</div>

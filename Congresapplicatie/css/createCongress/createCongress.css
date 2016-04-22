@@ -1,0 +1,15 @@
+
+.subjectInput {
+	padding-right: 0px;
+}
+
+.addSubjectBox {
+	padding-left:0;
+	padding-right: 0;
+	height: 34px;
+}
+
+#addSubjectBox {
+	height:100%;
+}
+
