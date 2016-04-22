@@ -80,7 +80,7 @@
 	</div>
 	<div id="addSubject" class="popup col-sm-12 col-md-12 col-xs-12">
 		<div class="popupWindow col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-6">
-			<h1 class="col-md-8">Create new subject</h1>
+			<h1 class="col-md-8">Add subject</h1>
 			<button type="button" class="closePopup glyphicon glyphicon-remove" data-file="#addSubject"></button>
 			
 			<form name="addSubjectForm" class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-8 col-sm-10 col-md-10" method="#" action="#" onsubmit="return false">
@@ -92,7 +92,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-4 pull-right">
-						<button type="button" value="Toevoegen" name="Submit" class="btn btn-default form-control" onclick="addSubject()">Submit form</button>
+						<button type="button" value="Toevoegen" name="Submit" class="btn btn-default form-control" onclick="addSubject()">Toevoegen</button>
 					</div>
 				</div>
 			</form>

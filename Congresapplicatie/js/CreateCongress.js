@@ -56,7 +56,9 @@ function addSubject() {
 		newSubjectOption.appendChild(text);
 		
 		document.forms["CreateCongressForm"]["Subject"].appendChild(newSubjectOption);
+		$("#Subject").val(newSubject.value);
 		
+		$("#addSubject").toggle("fade");
 	
 	}
 }
