@@ -36,15 +36,29 @@ function validateForm() {
 function validateDate() {
 	var startDate = document.forms["CreateCongressForm"]["StartDate"].value;
 	var endDate = document.forms["CreateCongressForm"]["EndDate"].value;
-	if(startDate == "" || endDate == "")
+	if(startDate == "" || endDate == "") {
 		return;
+	}
 	if(validateForm()) {
 		removeError();
 	}
 }
 
-var onFilledForm = function(output) {
-	console.log(output);
+function addSubject() {
+	var newSubject = document.forms["addSubjectForm"]["newSubject"];
+	if(newSubject.value == "" || newSubject == null) {
+	
+		return;
+	}else {
+		var newSubjectOption = document.createElement("option");
+		var text = document.createTextNode(newSubject.value);
+		newSubjectOption.value = newSubject.value;
+		newSubjectOption.appendChild(text);
+		
+		document.forms["CreateCongressForm"]["Subject"].appendChild(newSubjectOption);
+		
+	
+	}
 }
 
 
