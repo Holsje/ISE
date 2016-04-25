@@ -11,6 +11,7 @@
 ?>
 		<head>
 			<title><?php echo $pageName; ?></title>
+			<meta name="viewport" content="width=device-width,initial-skill=1.0">
 			<link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 			<link href="css/header.css" rel="stylesheet">
 			<?php echo $css; ?>
@@ -36,6 +37,7 @@
 		?>
 		<head>
 			<title><?php echo $pageName; ?></title>
+			<meta name="viewport" content="width=device-width,initial-skill=1.0">
 			<link href="../css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 			<link href="../css/headerManagement.css" rel="stylesheet">
 			<?php echo $css; ?>

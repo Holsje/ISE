@@ -10,18 +10,27 @@
     </div>
     <!-- Collection of nav links and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li><a href="#">Congres</a></li>
-            <li><a href="#">Gebouwen</a></li>
-            <li><a href="#">Evenementen</a></li>
-            <li><a href="#">Reviewboard</a></li>
-            <li><a href="#">Medewerkers beheren</a></li>
-        </ul>
+        <?php
+            if (isset($_SESSION['user'])) {
+        ?>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Congres</a></li>
+                <li><a href="#">Gebouwen</a></li>
+                <li><a href="#">Evenementen</a></li>
+                <li><a href="#">Reviewboard</a></li>
+                <li><a href="#">Medewerkers beheren</a></li>
+            </ul>
+        <?php
+            }
+        ?>
     </div>
 </nav>
 
 <nav role="navigation" class="navbar navbar-default largeMenu col-xs-12 col-sm-12 col-md-12">
     <div class="navbar-header col-xs-12 col-sm-12 col-md-12">
+        <?php
+            if (isset($_SESSION['user'])) {
+        ?>
         <ul class="nav navbar-nav col-sm-12 col-md-12">
             <li class="col-sm-2 col-md-2"><a href="#">Congres</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Gebouwen</a></li>
@@ -29,5 +38,8 @@
             <li class="col-sm-2 col-md-2"><a href="#">Reviewboard</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Medewerkers beheren</a></li>
         </ul>
+        <?php
+            }
+        ?>
     </div>
 </nav>
