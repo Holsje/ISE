@@ -3,10 +3,10 @@
  */
 $(document).ready(function(){
    $(".popupButton").on("click",function(event){
-        $(event.target.attributes.getNamedItem("data-file").value).css("display", "block");
+		$(event.target.attributes.getNamedItem("data-file").value).toggle("fade");
    });
 
    $(".closePopup").on("click", function(event){
-        $(event.target.attributes.getNamedItem("data-file").value).css("display", "none");
+        $(event.target.attributes.getNamedItem("data-file").value).toggle("fade");
    });
 });

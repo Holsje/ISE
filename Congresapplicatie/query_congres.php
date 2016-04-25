@@ -31,7 +31,7 @@
 		
 		public function getSubjects() {
 
-            $result = $this->sendQuery("SELECT DISTINCT Subject FROM Congress",null);
+            $result = $this->sendQuery("SELECT Subject FROM Subject",null);
 
             if ($result){
 				$array = array();
@@ -41,6 +41,15 @@
                 }
 				return $array;
             }
+			return false;
+		}
+		
+		public function createCongress($congressName,$location,$subject,$startDate,$endDate) {
+			$this->sendQuery("IF NOT EXISTS(SELECT 1 FROM Subject WHERE Subject = ?) INSERT INTO Subject values(?);",array($subject,$subject));
+			$result = $this->sendQuery("INSERT INTO Congress(Name,Location,[Subject],StartDate,EndDate) VALUES(?,?,?,?,?)", array($congressName,$location,$subject,$startDate,$endDate));
+			if($result) {
+				return true;
+			}
 			return false;
 		}
     }

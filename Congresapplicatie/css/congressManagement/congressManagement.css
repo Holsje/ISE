@@ -1,0 +1,23 @@
+.congresManagementContent {
+	margin-top:50px;
+}
+
+.managementButton {
+	margin-bottom: 15px;
+}
+
+select[size], select[multiple] {
+	height:200px;
+}
+
+#congresListBox {
+	border: 0px;
+}
+
+th {
+	background-color: grey;
+}
+
+tr {
+	border: 1px solid black;
+}
