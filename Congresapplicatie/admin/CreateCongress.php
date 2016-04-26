@@ -17,6 +17,8 @@
 	}
 	
 	else {
+	
+		
 	?>
 	
 	<div id="createCongress" class="popup col-sm-12 col-md-12 col-xs-12">

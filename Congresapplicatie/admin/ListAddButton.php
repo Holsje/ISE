@@ -27,7 +27,14 @@
          * @return string
          */
         public function getObjectCode(){
-            $string = '<button type="button" name="' . $this->name .'" class="' . $this->classes . '"';
+            $string = '<button type="button" name="' . $this->name .'" class="';
+			if($this->classes != null) {
+				$string.= $this->classes;
+			}
+			else {
+				$string.= $this->classDictionary["ListAddButton"];
+			}
+			$string .= '"';
             if ($this->datafile != null) {
                 $string .= 'data-file="' . $this->datafile . '"';
             }

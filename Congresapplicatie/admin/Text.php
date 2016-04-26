@@ -6,7 +6,6 @@
  * Time: 13:52
  */
 
-
     class Text extends ScreenObject{
         private $required;
 
@@ -31,7 +30,14 @@
             if ($this->label != null) {
                 $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
             }
-            $string .= '<input type="text" value="' . $this->value . '" name="'. $this->name .'" class="'. $this->classes .'"';
+            $string .= '<input type="text" value="' . $this->value . '" name="'. $this->name .'" class="';
+			if($this->classes != null) {
+				$string.= $this->classes;
+			}
+			else {
+				$string.= $this->classDictionary["Text"];
+			}
+			$string .= '"';
             if ($this->required) {
                 $string .= 'required';
             }

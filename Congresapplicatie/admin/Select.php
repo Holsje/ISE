@@ -34,7 +34,18 @@
             if ($this->label != null) {
                 $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
             }
-            $string .= '<select value="' . $this->value . '" name="' . $this->name .'" class="' . $this->classes .'">';
+            $string .= '<select value="' . $this->value . '" name="' . $this->name .'" class="';
+			
+			if($this->classes != null) {
+				$string.= $this->classes;
+			}
+			else if($this->button != null) {
+				$string.= $this->classDictionary["SelectWithButton"];
+			}
+			else {
+				$string.= $this->classDictionary["SelectWithoutButton"];
+			}
+			$string .= '">';
             for ($i = 0; $i < sizeof($this->list); $i++){
                 if ($this->list[$i] == $this->value){
                     $string .= '<option value="' . $this->list[$i] . '" selected>' . $this->list[$i] .'</option>';

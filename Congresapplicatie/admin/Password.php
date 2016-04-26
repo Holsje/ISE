@@ -26,7 +26,14 @@
             if ($this->label != null) {
                 $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
             }
-            $string .= '<input type="password" name="'. $this->name .'" class="'. $this->classes .'" required>';
+            $string .= '<input type="password" name="'. $this->name .'" class="';
+			if($this->classes != null) {
+				$string.= $this->classes;
+			}
+			else {
+				$string.= $this->classDictionary["Password"];
+			}
+			$string .= '" required>';
             return $string;
         }
     }

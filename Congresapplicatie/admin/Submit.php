@@ -25,7 +25,16 @@
          * @return string
          */
         public function getObjectCode(){
-            $string = '<button type="submit" name="' . $this->name .'" class="' . $this->classes . '">'. $this->value .'</button>';
+            $string = '<button type="submit" name="' . $this->name .'" class="';
+			if($this->classes != null) {
+				$string.= $this->classes;
+			}
+			else {
+				$string.= $this->classDictionary["Submit"];
+			}
+			$string .= '">';
+			
+			$string .= $this->value .'</button>';
             return $string;
         }
     }
