@@ -44,6 +44,23 @@
 			return false;
 		}
 		
+		public function getCongresses() {
+			
+			$result = $this->sendQuery("SELECT * FROM Congress");
+			
+			if ($result){
+				$array = array();
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
+                {
+					array_push($array,array($row['CongressNo']=>array($row['Name'], $row['Subject'], $row['LOCATION'], $row['StartDate'], $row['EndDate'])));
+                }
+				return $array;
+            }
+			return false;
+		}
+		
+
+		
 		public function createCongress($congressName,$location,$subject,$startDate,$endDate) {
 			$this->sendQuery("IF NOT EXISTS(SELECT 1 FROM Subject WHERE Subject = ?) INSERT INTO Subject values(?);",array($subject,$subject));
 			$result = $this->sendQuery("INSERT INTO Congress(Name,Location,[Subject],StartDate,EndDate) VALUES(?,?,?,?,?)", array($congressName,$location,$subject,$startDate,$endDate));
