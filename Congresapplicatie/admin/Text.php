@@ -14,13 +14,11 @@
 
         public function getObjectCode(){
             $string = '<label class="control-label col-xs-8 col-sm-4 col-md-4">'. $this->label .':</label>';
-            $string .= '<div class="col-xs-12 col-sm-8 col-md-8">';
-            $string .= '<input type="text" value="' . $this->value . '" name="'. $this->name .'" class="form-control '. $this->classes .'"';
+            $string .= '<input type="text" value="' . $this->value . '" name="'. $this->name .'" class="'. $this->classes .'"';
             if ($this->required) {
                 $string .= 'required';
             }
             $string .= '>';
-            $string .= '</div>';
             return $string;
         }
     }

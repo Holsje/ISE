@@ -19,13 +19,7 @@
 
         public function getObjectCode(){
             $string = '<label class="control-label col-xs-8 col-sm-4 col-md-4">'. $this->label .':</label>';
-            if ($this->button != null){
-                $string .= '<div class="col-xs-10 col-sm-7 col-md-7 subjectInput">';
-            }
-            else{
-                $string .= '<div class="col-xs-10 col-sm-8 col-md-8 subjectInput">';
-            }
-            $string .= '<select value="' . $this->value . '" name="' . $this->name .'" class="form-control ' . $this->classes .'">';
+            $string .= '<select value="' . $this->value . '" name="' . $this->name .'" class="' . $this->classes .'">';
             for ($i = 0; $i < sizeof($this->list); $i++){
                 if ($this->list[$i] == $this->value){
                     $string .= '<option value="' . $this->list[$i] . '" selected>' . $this->list[$i] .'</option>';
@@ -35,7 +29,6 @@
                 }
             }
             $string .= '</select>';
-            $string .= '</div>';
             if ($this->button != null){
                 $string .= '<div class="col-xs-1 col-sm-1 col-md-1 addSubjectBox">';
                 $string .= $this->button->getObjectCode();

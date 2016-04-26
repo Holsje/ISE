@@ -16,7 +16,7 @@
         }
 
         public function getObjectCode(){
-            $string = '<button type="button" name="' . $this->name .'" class="btn btn-default form-control ' . $this->classes . '"';
+            $string = '<button type="button" name="' . $this->name .'" class="' . $this->classes . '"';
             if ($this->datafile != null) {
                 $string .= 'data-file="' . $this->datafile . '"';
             }

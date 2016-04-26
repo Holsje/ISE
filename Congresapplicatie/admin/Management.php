@@ -9,6 +9,14 @@
 require('../database.php');
 
     class Management extends Database{
+        public $classDictionary = array("Button"=>"form-control btn btn-default",
+                                        "ListAddButton"=>"form-control btn btn-default",
+                                        "Listbox"=>"",
+                                        "Password"=>"form-control col-xs-12 col-sm-8 col-md-8",
+                                        "SelectWithButton"=>"form-control col-xs-10 col-sm-7 col-md-7 subjectInput",
+                                        "SelectWithoutButton"=>"form-control col-xs-10 col-sm-8 col-md-8 subjectInput",
+                                        "Submit"=>"form-control col-md-4 pull-right btn btn-default",
+                                        "Text"=>"form-control col-xs-12 col-sm-4 col-md-4");
 
         public function __construct($server, $database, $uid, $password){
             parent::__construct($server, $database, $uid, $password);

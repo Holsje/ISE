@@ -13,9 +13,7 @@
         }
 
         public function getObjectCode(){
-            $string = '<div class="col-md-4 pull-right">';
-            $string .= '<button type="submit" name="' . $this->name .'" class="btn btn-default form-control ' . $this->classes . '">'. $this->value .'</button>';
-            $string .= '</div>';
+            $string = '<button type="submit" name="' . $this->name .'" class="' . $this->classes . '">'. $this->value .'</button>';
             return $string;
         }
     }
