@@ -1,9 +1,8 @@
 $(document).ready( function () {
     var table = $('#congresListBox').DataTable();
 	
-	$('#congresListBox_wrapper').addClass('col-xs-6 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-6 col-md-offset-2');
+	//$('#congresListBox_wrapper').addClass('col-xs-6 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-6 col-md-offset-2');
 	$('#dataTables_length').css('display', 'none');
-	$('#congresListBox_filter').css('display', 'none');
 	$('#congresListBox_length').css('display', 'none');
 	$('#congresListBox_paginate').css('display', 'none');
 	$('#congresListBox_info').css('display', 'none');

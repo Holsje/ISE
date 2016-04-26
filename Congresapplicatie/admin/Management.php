@@ -6,19 +6,29 @@
  * Time: 13:30
  */
 
-require('../database.php');
+require_once('../database.php');
+require_once('CreateScreen.php');
+require_once('../connectDatabase.php');
+require_once('../pageConfig.php');
 
 
-    class Management extends Database{
+    class Management{
+
+        protected $database;
+        protected $createScreen;
+
+
         /**
          * Management constructor.
          * @param $server
-         * @param $database
+         * @param $databaseName
          * @param $uid
          * @param $password
          */
-        public function __construct($server, $database, $uid, $password){
-            parent::__construct($server, $database, $uid, $password);
+        public function __construct(){
+            global $server, $databaseName, $uid, $password;
+            $this->database = new Database($server, $databaseName, $uid, $password);
+            $this->createScreen = new CreateScreen();
         }
 
         /**
@@ -26,11 +36,6 @@ require('../database.php');
          * @param $params
          */
         public function addRecord($storedProcName, $params){
-            $sql = "EXEC dbo." . $storedProcName . " ?";
-            for ($i = 0; $i < sizeof($params)-1; $i++){
-                $sql .= ", ?";
-            }
-            $this->sendQuery($sql, $params);
         }
 
         /**
@@ -38,7 +43,6 @@ require('../database.php');
          * @param $params
          */
         public function changeRecord($queryString, $params){
-            $this->sendQuery();
         }
 
         /**
@@ -46,34 +50,32 @@ require('../database.php');
          * @param $params
          */
         public function deleteRecord($queryString, $params){
-            $this->sendQuery();
         }
 
-        public function createForm($screenObjects,$extraCssClasses){
-			echo '<form class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-8 col-sm-10 col-md-10 ' . $extraCssClasses . '" method="POST" action="'.$_SERVER['PHP_SELF']. '">';
-            $size = sizeof($screenObjects);
-            for($i=0; $i < $size; $i++){
-                if ($screenObjects[$i]->getStartRow()) {
-                    echo '<div class="form-group"> ';
-                }
-                echo  $screenObjects[$i]->getObjectCode();
-                if ($screenObjects[$i]->getEndRow()) {
-                    echo '</div>';
+        public function createManagementScreen($columnList, $valueList, $buttonArray){
+
+
+            $listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", false, false, $columnList, $valueList, "congresListBox");
+            $buttonAdd = new Button("Toevoegen", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "PopupAdd");
+            $buttonChange = new Button("Aanpassen", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "PopupChange");
+
+            $array = array($listBox, $buttonAdd, $buttonChange);
+
+            if ($buttonArray != null) {
+                foreach ($buttonArray as $button) {
+                    array_push($array, $button);
                 }
             }
-            echo '</form>';
+            array_push($array, $buttonDelete = new Button("Verwijderen", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "PopupDelete"));
+
+            $this->createScreen->createForm($array, null);
         }
 
-        public function createPopup($screenObjects,$title,$popupId,$extraCssClasses){
-			echo '<div id="' . $popupId . '"  class="popup col-sm-12 col-md-12 col-xs-12 ' . $extraCssClasses . '">';
-				echo '<div class="popupWindow col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-6">';
-					echo '<div class="popupTitle">';
-					echo '<h1 class="col-md-8">' . $title . '</h1>';
-					echo '<button type="button" class="closePopup glyphicon glyphicon-remove" data-file="#' . $popupId . '"></button>';
-					echo '</div>';
-					$this->createForm($screenObjects, "formPopup");
-				echo '</div>';
-			echo '</div>';
+        /**
+         * @return Database
+         */
+        public function getDatabase(){
+            return $this->database;
         }
 
 

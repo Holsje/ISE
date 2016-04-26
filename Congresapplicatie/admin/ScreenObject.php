@@ -33,7 +33,7 @@
          */
         protected $endRow;
 
-		protected $classDictionary = array("Button"=>"form-control btn btn-default",
+		protected $classDictionary = array("Button"=>"form-control btn btn-default popupButton",
 									"ListAddButton"=>"form-control btn btn-default",
 									"Listbox"=>"",
 									"Password"=>"form-control col-xs-12 col-sm-8 col-md-8",

@@ -11,7 +11,13 @@ select[size], select[multiple] {
 }
 
 #congresListBox {
-	border: 0px;
+	border-style: solid;
+	border-color: #d3d3d3;
+	padding: 0px;
+}
+
+#congresListBox_wrapper {
+	margin: 20px 0px;
 }
 
 th {

@@ -22,6 +22,9 @@
          */
         public function __construct($value, $label, $name, $classes, $startRow, $endRow, $columnList, $valueList, $tableid)
         {
+            if($classes == null) {
+                $classes = $this->classDictionary['Listbox'];
+            }
             parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
             $this->columnList = $columnList;
             $this->valueList = $valueList;
@@ -32,7 +35,7 @@
          * @return string
          */
         public function getObjectCode(){
-            $string = '<table id="'. $this->tableid . '">';
+            $string = '<table id="'. $this->tableid . '" class="display ' . $this->classes . '">';
             $string .= '<thead>';
             $string .= '<tr>';
 
@@ -60,7 +63,13 @@
             return $string;
         }
 
+        public function setColumnList($columnList){
+            $this->Listbox->columnList = $columnList;
+        }
 
+        public function setValueList($valueList){
+            $this->Listbox->valueList = $valueList;
+        }
 
     }
 ?>

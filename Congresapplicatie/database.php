@@ -72,7 +72,7 @@ class Database
      returns sql dataset
 */
     
-    protected function sendQuery($sql, $param)
+    public function sendQuery($sql, $param)
     {
         if(!$this->checkConnection())
         {
