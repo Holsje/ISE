@@ -37,7 +37,11 @@ $input14 = new ListAddButton("+", null, "ListAddButton", $management->classDicti
 $input13 = new Select("Select", "Select", "Select",  $management->classDictionary["SelectWithButton"], array("Onno1", "Onno2", "Onno3", "Onno4"), $input14);
 $input15 = new Listbox(null, null, null, null, array("Naam", "Achternaam", "Leeftijd"), array(1=>array("Niels", "Bergervoet", "21"), 2=>array("Erik", "Evers", "19"), 3=>array("Daniel", "de Jong", "23")), "congresListBox");
 
+
 topLayoutManagement('TestForm','','<script type="text/javascript" src="../js/congressManagement.js"></script>');
+
+
+$management->createPopup(array($input1,$input2,$input3,$input4,$input5,$input6,$input7,$input8,$input9, $input10, $input11, $input12,$input13, $input15),"Dikke title","dikkeTitle",null);
 ?>
 
 
@@ -46,7 +50,7 @@ topLayoutManagement('TestForm','','<script type="text/javascript" src="../js/con
     <div class="container col-sm-12 col-md-12 col-xs-12">
         <div class="content col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
 <?php
-$management->createForm(array($input1,$input2,$input3,$input4,$input5,$input6,$input7,$input8,$input9, $input10, $input11, $input12,$input13, $input15))
+//$management->createForm(array($input1,$input2,$input3,$input4,$input5,$input6,$input7,$input8,$input9, $input10, $input11, $input12,$input13, $input15));
 ?>
 
         </div>
