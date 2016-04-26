@@ -7,13 +7,25 @@
  */
 
     class Password extends ScreenObject{
-
-        public function __construct($value, $label, $name, $classes){
-            parent::__construct($value, $label, $name, $classes);
+        /**
+         * Password constructor.
+         * @param $value
+         * @param $label
+         * @param $name
+         * @param $classes
+         */
+        public function __construct($value, $label, $name, $classes, $startRow, $endRow){
+            parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
         }
 
+        /**
+         * @return string
+         */
         public function getObjectCode(){
-            $string = '<label class="control-label col-xs-8 col-sm-4 col-md-4">'. $this->label .':</label>';
+            $string = "";
+            if ($this->label != null) {
+                $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
+            }
             $string .= '<input type="password" name="'. $this->name .'" class="'. $this->classes .'" required>';
             return $string;
         }

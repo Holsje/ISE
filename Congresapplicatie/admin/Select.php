@@ -11,14 +11,29 @@
         private $list;
         private $button;
 
-        public function __construct($value, $label, $name, $classes, $list, $button){
-            parent::__construct($value, $label, $name, $classes);
+        /**
+         * Select constructor.
+         * @param $value
+         * @param $label
+         * @param $name
+         * @param $classes
+         * @param $list
+         * @param $button
+         */
+        public function __construct($value, $label, $name, $classes, $startRow, $endRow, $list, $button){
+            parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
             $this->list = $list;
             $this->button = $button;
         }
 
+        /**
+         * @return string
+         */
         public function getObjectCode(){
-            $string = '<label class="control-label col-xs-8 col-sm-4 col-md-4">'. $this->label .':</label>';
+            $string = "";
+            if ($this->label != null) {
+                $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
+            }
             $string .= '<select value="' . $this->value . '" name="' . $this->name .'" class="' . $this->classes .'">';
             for ($i = 0; $i < sizeof($this->list); $i++){
                 if ($this->list[$i] == $this->value){
