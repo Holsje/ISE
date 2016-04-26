@@ -8,11 +8,22 @@
     class Button extends ScreenObject{
         private $datafile;
 
-        public function __construct($value, $label, $name, $classes, $datafile){
-            parent::__construct($value, $label, $name, $classes);
+        /**
+         * Button constructor.
+         * @param $value
+         * @param $label
+         * @param $name
+         * @param $classes
+         * @param $datafile
+         */
+        public function __construct($value, $label, $name, $classes, $startRow, $endRow, $datafile){
+            parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
             $this->datafile = $datafile;
         }
 
+        /**
+         * @return string
+         */
         public function getObjectCode(){
             $string = '<button type="button" name="' . $this->name .'" class="' . $this->classes . '"';
             if ($this->datafile != null){

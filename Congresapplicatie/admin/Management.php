@@ -8,6 +8,7 @@
 
 require('../database.php');
 
+
     class Management extends Database{
         public $classDictionary = array("Button"=>"form-control btn btn-default",
                                         "ListAddButton"=>"form-control btn btn-default",
@@ -18,10 +19,21 @@ require('../database.php');
                                         "Submit"=>"form-control col-md-4 pull-right btn btn-default",
                                         "Text"=>"form-control col-xs-12 col-sm-4 col-md-4");
 
+        /**
+         * Management constructor.
+         * @param $server
+         * @param $database
+         * @param $uid
+         * @param $password
+         */
         public function __construct($server, $database, $uid, $password){
             parent::__construct($server, $database, $uid, $password);
         }
 
+        /**
+         * @param $storedProcName
+         * @param $params
+         */
         public function addRecord($storedProcName, $params){
             $sql = "EXEC dbo." . $storedProcName . " ?";
             for ($i = 0; $i < sizeof($params)-1; $i++){
@@ -30,10 +42,18 @@ require('../database.php');
             $this->sendQuery($sql, $params);
         }
 
+        /**
+         * @param $queryString
+         * @param $params
+         */
         public function changeRecord($queryString, $params){
             $this->sendQuery();
         }
 
+        /**
+         * @param $queryString
+         * @param $params
+         */
         public function deleteRecord($queryString, $params){
             $this->sendQuery();
         }
@@ -42,9 +62,13 @@ require('../database.php');
 			echo '<form class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-8 col-sm-10 col-md-10 ' . $extraCssClasses . '" method="POST" action="'.$_SERVER['PHP_SELF']. '">';
             $size = sizeof($screenObjects);
             for($i=0; $i < $size; $i++){
-                echo '<div class="form-group"> ';
+                if ($screenObjects[$i]->getStartRow()) {
+                    echo '<div class="form-group"> ';
+                }
                 echo  $screenObjects[$i]->getObjectCode();
-                echo '</div>';
+                if ($screenObjects[$i]->getEndRow()) {
+                    echo '</div>';
+                }
             }
             echo '</form>';
         }

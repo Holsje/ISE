@@ -10,15 +10,27 @@
         private $valueList;
         private $tableid;
 
-
-        public function __construct($value, $label, $name, $classes, $columnList, $valueList, $tableid)
+        /**
+         * Listbox constructor.
+         * @param $value
+         * @param $label
+         * @param $name
+         * @param $classes
+         * @param $columnList
+         * @param $valueList
+         * @param $tableid
+         */
+        public function __construct($value, $label, $name, $classes, $startRow, $endRow, $columnList, $valueList, $tableid)
         {
-            parent::__construct($value, $label, $name, $classes);
+            parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
             $this->columnList = $columnList;
             $this->valueList = $valueList;
             $this->tableid  = $tableid;
         }
 
+        /**
+         * @return string
+         */
         public function getObjectCode(){
             $string = '<table id="'. $this->tableid . '">';
             $string .= '<thead>';

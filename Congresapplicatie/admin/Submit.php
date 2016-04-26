@@ -7,11 +7,23 @@
  */
 
     class Submit extends ScreenObject{
-        public function __construct($value, $label, $name, $classes)
+
+        /**
+         * Submit constructor.
+         * @param $value
+         * @param $label
+         * @param $name
+         * @param $classes
+         */
+        public function __construct($value, $label, $name, $classes, $startRow, $endRow)
         {
-            parent::__construct($value, $label, $name, $classes);
+            parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
         }
 
+
+        /**
+         * @return string
+         */
         public function getObjectCode(){
             $string = '<button type="submit" name="' . $this->name .'" class="' . $this->classes . '">'. $this->value .'</button>';
             return $string;
