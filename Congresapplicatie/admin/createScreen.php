@@ -18,7 +18,6 @@ require_once('Listbox.php');
 
     class CreateScreen{
 
-
         public function __construct(){
         }
 

@@ -28,11 +28,41 @@
             return false;
         }
 
-        public function createManagementScreen($columnList, $valueList)
-        {
+        public function createManagementScreen($columnList, $valueList) {
             $button = new Submit("Test", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "DATAFILE");
             $buttonArray = array($button);
             parent::createManagementScreen($columnList, $valueList, $buttonArray);
         }
+		
+		public function getSubjects() {
+
+            $result = parent::getDatabase()->sendQuery("SELECT Subject FROM Subject",null);
+
+            if ($result){
+				$array = array();
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
+                {
+					array_push($array,$row['Subject']);
+                }
+				return $array;
+            }
+			return false;
+		}
+		
+		
+		public function createCreateCongressScreen() {
+			$congressNameObject = new Text(null,"Naam","congressName",null, "??", "??", true);
+			$locationObject = new Text(null,"Locatie","congressLocation",null, "??", "??", true);
+			
+			$addSubjectObject = new ListAddButton("+",null,"addSubjectButton",null, "??", "??", "popupAddSubject");
+			$subjectList = this->getSubjects();
+			$subjectObject = new Select(null,"Onderwerp","congressSubject",null, "??", "??", $subjectList,$addSubjectObject);
+			
+			
+			$startDateObject = new Text(null,"DikkeShit","dikkeShitName",null, true, false, true);
+			$endDateObject = new Text(null,"DikkeShit","dikkeShitName",null, true, false, true);
+			$submitObject = new Text(null,"DikkeShit","dikkeShitName",null, true, false, true);
+		
+		}
 
     }
