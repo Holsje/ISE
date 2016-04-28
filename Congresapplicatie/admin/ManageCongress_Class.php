@@ -55,7 +55,7 @@
 			$locationObject = new Text(null,"Locatie","congressLocation",null, "??", "??", true);
 			
 			$addSubjectObject = new ListAddButton("+",null,"addSubjectButton",null, "??", "??", "popupAddSubject");
-			$subjectList = this->getSubjects();
+			$subjectList = $this->getSubjects();
 			$subjectObject = new Select(null,"Onderwerp","congressSubject",null, "??", "??", $subjectList,$addSubjectObject);
 			
 			
