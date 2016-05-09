@@ -21,7 +21,12 @@ $(document).ready( function () {
 	function deleteCongress() {
 		var selectedRow = table.row('.selected');
 		if(selectedRow.data()) {
-			if(confirm("Weet u zeker dat u deze rij wilt verwijderen?")) {
+			if(confirm("Weet u zeker dat u deze rij wilt verwijderen?")) {				
+				$.ajax({
+					url: window.location.href, 
+					type: 'POST',
+					data : 'Verwijderen=Verwijderen&CongressNo=' + selectedRow.data()[0]
+				});	
 				selectedRow.remove().draw(false);
 			}
 		}

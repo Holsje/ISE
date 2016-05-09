@@ -54,7 +54,7 @@ require_once('../pageConfig.php');
          * @param $params
          */
         public function changeRecord($queryString, $params){
-			$result = $this->sendQuery($queryString, $params);
+			$result = $this->database->sendQuery($queryString, $params);
             if($result) {
                 return $result;
             }
@@ -66,7 +66,7 @@ require_once('../pageConfig.php');
          * @param $params
          */
         public function deleteRecord($queryString, $params){
-			$result = $this->sendQuery($queryString, $params);
+			$result = $this->database->sendQuery($queryString, $params);
             if($result) {
                 return $result;
             }

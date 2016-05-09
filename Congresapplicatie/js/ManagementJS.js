@@ -4,8 +4,6 @@
 $(document).ready(function(){
    $(".popupButton").on("click",function(event){
 		$(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
-		console.log(event.target.attributes.getNamedItem("data-file").value);
-		console.log($(event.target.attributes.getNamedItem("data-file").value));
 		$("body").css("overflow", "hidden");
    });
 

@@ -10,9 +10,8 @@
                );
 			$manageCongress->addRecord("spInsertCongress",$params);
 		}
-	}
-	
-	if(isset($_POST['Bewerken'])) {
+	}	
+	else if(isset($_POST['Bewerken'])) {
 		if($_POST['Bewerken'] == "updateCongress") {
 				$params = array( 
                  array($_POST['congressIdentifier'], SQLSRV_PARAM_IN),
@@ -24,5 +23,12 @@
                );
 			$manageCongress->addRecord("spUpdateCongress",$params);
 		}
+	}	
+	
+	else if(isset($_POST['Verwijderen'])) {
+		
+		echo $manageCongress->deleteRecord("DELETE FROM Congress WHERE CongressNo=?",array($_POST['CongressNo']));
+		die();
 	}
+	
 ?>
