@@ -5,7 +5,7 @@
  * Date: 9-5-2016
  * Time: 13:00
  */
-    session_start();
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         if (isset($_POST['login'])){
             if ($login->checkLogin($_POST['input-username'], $_POST['input-password'])){

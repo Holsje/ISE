@@ -1,19 +1,10 @@
 <?php
-
+    session_start();
     require_once('Login_Class.php');
     $login = new Login();
 
     require_once('../pageConfig.php');
     require_once('InlogSubmit.php');
-
-
-    $inputUsername = new Text(null, "Gebruikersnaam", "input-username", "form-control col-xs-12 col-md-4 col-sm-4", true, true, true);
-    $inputPassword = new Password(null, "Wachtwoord", "input-password", "form-control col-xs-12 col-md-4 col-sm-4", true, true, true);
-    $submitButtonLogin = new Submit("Inloggen", null, "login", "form-control col-md-4 col-md-offset-4 btn btn-default", true, true);
-    $screenObjects = array($inputUsername, $inputPassword, $submitButtonLogin);
-
-    $submitButtonLogout = new Submit("Uitloggen", null, "logout", "form-control col-md-4 col-md-offset-4 btn btn-default", true, true);
-    $screenObjectsLoggedIn = array($submitButtonLogout);
     topLayoutManagement("Index", "", "");
 ?>
 
@@ -25,13 +16,13 @@
             ?>
                     <h1>Inloggen</h1>
             <?php
-                    $login->createForm($screenObjects, null);
+                    $login->createLoginScreenNotLoggedIn();
                 }
                 else{
             ?>
             <h1>Welkom <?php echo $_SESSION['user']; ?> in de beheerapplicatie!</h1>
             <?php
-                    $login->getCreateScreen()->createForm($screenObjectsLoggedIn, null);
+                    $login->createLoginScreenLoggedIn();
                 }
             ?>
         </div>
