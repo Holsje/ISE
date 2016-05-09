@@ -25,7 +25,7 @@
          * @return string
          */
         public function getObjectCode(){
-            $string = '<button type="submit" name="' . $this->name .'" class="';
+            $string = '<button value="' . $this->label . '" type="submit" name="' . $this->name .'" class="';
 			if($this->classes != null) {
 				$string.= $this->classes;
 			}

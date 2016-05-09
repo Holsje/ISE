@@ -36,6 +36,17 @@ require_once('../pageConfig.php');
          * @param $params
          */
         public function addRecord($storedProcName, $params){
+			$execString = "{call " . $storedProcName . "(";
+			for($i = 0;$i<sizeof($params)-1;$i++) {
+				$execString .= " ?,";
+			}
+			$execString .= "?)}";
+			
+			$result = $this->database->sendQuery($execString,$params);
+            if ($result){
+				return true;
+            }
+			return false;
         }
 
         /**
@@ -43,6 +54,11 @@ require_once('../pageConfig.php');
          * @param $params
          */
         public function changeRecord($queryString, $params){
+			$result = $this->sendQuery($queryString, $params);
+            if($result) {
+                return $result;
+            }
+            return false;
         }
 
         /**
@@ -50,14 +66,19 @@ require_once('../pageConfig.php');
          * @param $params
          */
         public function deleteRecord($queryString, $params){
+			$result = $this->sendQuery($queryString, $params);
+            if($result) {
+                return $result;
+            }
+            return false;
         }
 
         public function createManagementScreen($columnList, $valueList, $buttonArray){
 
 
             $listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", false, false, $columnList, $valueList, "congresListBox");
-            $buttonAdd = new Button("Toevoegen", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "PopupAdd");
-            $buttonChange = new Button("Aanpassen", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "PopupChange");
+            $buttonAdd = new Button("Toevoegen", null, "buttonAdd", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#PopupAdd");
+            $buttonChange = new Button("Aanpassen", null, "buttonEdit", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#PopupChange");
 
             $array = array($listBox, $buttonAdd, $buttonChange);
 
@@ -66,9 +87,9 @@ require_once('../pageConfig.php');
                     array_push($array, $button);
                 }
             }
-            array_push($array, $buttonDelete = new Button("Verwijderen", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "PopupDelete"));
+            array_push($array, $buttonDelete = new Button("Verwijderen", null, "buttonDelete", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#PopupDelete"));
 
-            $this->createScreen->createForm($array, null);
+            $this->createScreen->createForm($array, "formCreateCongress", null);
         }
 
         /**
