@@ -2,10 +2,7 @@
 
     require_once('Login_Class.php');
     $login = new Login();
-    require_once('Management.php');
-    $management = new Management();
-    require_once('CreateScreen.php');
-    $createscreen = new CreateScreen();
+
     require_once('../pageConfig.php');
     require_once('InlogSubmit.php');
 
@@ -28,13 +25,13 @@
             ?>
                     <h1>Inloggen</h1>
             <?php
-                    $createscreen->createForm($screenObjects, null);
+                    $login->createForm($screenObjects, null);
                 }
                 else{
             ?>
             <h1>Welkom <?php echo $_SESSION['user']; ?> in de beheerapplicatie!</h1>
             <?php
-                    $createscreen->createForm($screenObjectsLoggedIn, null);
+                    $login->getCreateScreen()->createForm($screenObjectsLoggedIn, null);
                 }
             ?>
         </div>
