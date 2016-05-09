@@ -12,7 +12,7 @@
                 //setcookie('user', $_POST['input-username'], time() + (14*24*60*60));
                 $_SESSION['user'] = $_POST['input-username'];
                 echo "Ingevulde inloggegevens zijn juist!";
-                header('Location: index2.php');
+                header('Location: index.php');
             }
             else{
                 echo "Ingevulde inloggegevens zijn onjuist!";
