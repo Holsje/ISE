@@ -1,6 +1,6 @@
 <?php
 
-    class identifier extends ScreenObject{
+    class Identifier extends ScreenObject{
         private $required;
 
         /**
