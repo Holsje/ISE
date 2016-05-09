@@ -78,6 +78,9 @@ require_once('../pageConfig.php');
             return $this->database;
         }
 
+        public function getCreateScreen(){
+            return $this->createScreen;
+        }
 
     }
 ?>
