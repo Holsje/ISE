@@ -16,7 +16,7 @@
             ?>
                     <h1>Inloggen</h1>
             <?php
-                    $login->createLoginScreenNotLoggedIn();
+                    $login->createLoginScreenNotLoggedIn($errorstring);
                 }
                 else{
             ?>

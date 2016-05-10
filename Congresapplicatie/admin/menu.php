@@ -15,10 +15,15 @@
         ?>
             <ul class="nav navbar-nav">
                 <li><a href="#">Congres</a></li>
+        <?php
+            if ($_SESSION['liberties']=="Algehele beheerder") {
+        ?>
                 <li><a href="#">Gebouwen</a></li>
                 <li><a href="#">Evenementen</a></li>
-                <li><a href="#">Reviewboard</a></li>
                 <li><a href="#">Medewerkers beheren</a></li>
+        <?php
+            }
+        ?>
             </ul>
         <?php
             }
@@ -33,10 +38,15 @@
         ?>
         <ul class="nav navbar-nav col-sm-12 col-md-12">
             <li class="col-sm-2 col-md-2"><a href="#">Congres</a></li>
+        <?php
+            if ($_SESSION['liberties']=="Algehele beheerder") {
+        ?>
             <li class="col-sm-2 col-md-2"><a href="#">Gebouwen</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Evenementen</a></li>
-            <li class="col-sm-2 col-md-2"><a href="#">Reviewboard</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Medewerkers beheren</a></li>
+        <?php
+            }
+        ?>
         </ul>
         <?php
             }
