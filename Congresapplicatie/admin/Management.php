@@ -49,9 +49,6 @@ require_once('../pageConfig.php');
          */
         public function changeRecord($storedProcName, $params){
 			$result = $this->sendStoredProc($storedProcName, $params);
-            if ($result){
-				return $this->database->getError();
-            }
 			return $this->database->getError();
         }
         
