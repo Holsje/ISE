@@ -14,7 +14,7 @@
             if (isset($_SESSION['user'])) {
         ?>
             <ul class="nav navbar-nav">
-                <li><a href="#">Congres</a></li>
+                <li><a href="ManageCongress.php">Congres</a></li>
         <?php
             if ($_SESSION['liberties']=="Algehele beheerder") {
         ?>

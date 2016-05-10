@@ -1,10 +1,15 @@
 <?php
-    session_start();
+    require_once('SessionHandler.php');
     require_once('Login_Class.php');
+    require_once('../pageConfig.php');
+
+    sessionHandler(false, false);
     $login = new Login();
 
-    require_once('../pageConfig.php');
-    require_once('InlogSubmit.php');
+    include('InlogSubmit.php');
+
+    
+
     topLayoutManagement("Index", "", "");
 ?>
 
