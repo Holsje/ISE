@@ -1,7 +1,8 @@
 <?php
     require_once('SessionHandler.php');
-    sessionHandler(false, false);
     require_once('../pageConfig.php');
+    
+    sessionHandler(false, false);
     topLayoutManagement("Geen Toegang", "", "");
 ?>
 
