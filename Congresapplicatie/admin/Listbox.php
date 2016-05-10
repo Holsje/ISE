@@ -47,15 +47,16 @@
             $string .= '</tr>';
             $string .= '</thead>';
             $string .= '<tbody>';
+            if($this->valueList != null){
+                foreach($this->valueList as $columnName => $value){
+                    $size = sizeof($value);
+                    $string .= '<tr>';
 
-            foreach($this->valueList as $columnName => $value){
-                $size = sizeof($value);
-                $string .= '<tr>';
-
-                for ($i=0; $i<$size; $i++) {
-                    $string .= '<td>' . $value[$i] . '</td>';
+                    for ($i=0; $i<$size; $i++) {
+                        $string .= '<td>' . $value[$i] . '</td>';
+                    }
+                    $string .= '</tr>';
                 }
-                $string .= '</tr>';
             }
             $string .= '</tbody>';
             $string .= '</table>';

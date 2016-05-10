@@ -29,20 +29,6 @@
         }
 		
 		
-		public function getSubjects() {
-
-            $result = $this->sendQuery("SELECT Subject FROM Subject",null);
-
-            if ($result){
-				$array = array();
-				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
-                {
-					array_push($array,$row['Subject']);
-                }
-				return $array;
-            }
-			return false;
-		}
 		
 
 		

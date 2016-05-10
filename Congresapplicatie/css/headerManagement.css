@@ -123,3 +123,11 @@ h1 {
 .form-horizontal {
     margin-bottom: 60px;
 }
+.dataTable tbody tr {
+    cursor: pointer;
+}
+.errorMsg {
+    color: #FF0000;
+    font-weight: bold;
+    font-family: "Trebuchet MS";
+}

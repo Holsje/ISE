@@ -89,7 +89,7 @@ class Database
 
         if ($result === false)
         {
-            die($this->getError());
+            return $this->getError();
         }
 
         return $result;
@@ -104,9 +104,7 @@ class Database
         {
             foreach( $errors as $error ) 
             {
-                $err .= "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-                $err .= "code: ".$error[ 'code']."<br />";
-                $err .= "message: ".$error[ 'message']."<br />";
+                $err=substr($error['message'],54,strlen($error['message'])-54).'<br>';
             }
         }
         
