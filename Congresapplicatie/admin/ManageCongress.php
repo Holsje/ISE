@@ -7,8 +7,11 @@
  */
 require_once('ManageCongress_Class.php');
 $manageCongress = new ManageCongress();
+include('ManageCongressSubmits.php');
 
-topLayoutManagement('Beheren Congres','<link rel="stylesheet" href="../css/congressManagement/congressManagement.css">','<script type="text/javascript" src="../js/congressManagement.js"></script>');
+$css = '<link rel="stylesheet" href="../css/congressManagement/congressManagement.css">';
+$js = '<script type="text/javascript" src="../js/congressManagement.js"></script>';
+topLayoutManagement('Beheren Congres',$css,$js);
 ?>
 
 <div class="row">
@@ -20,3 +23,13 @@ topLayoutManagement('Beheren Congres','<link rel="stylesheet" href="../css/congr
         </div>
     </div>
 </div>
+
+<?php 
+$manageCongress->createCreateCongressScreen(); 
+$manageCongress->createEditCongressScreen(); 
+
+bottomLayout();
+
+?>
+
+
