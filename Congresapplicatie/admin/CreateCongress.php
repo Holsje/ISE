@@ -21,6 +21,8 @@
 		
 	?>
 	
+	$manageCongress->getCreateScreen()->createScreen();
+	
 	<div id="createCongress" class="popup col-sm-12 col-md-12 col-xs-12">
 		<div class="popupWindow col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-6">
 			<h1 class="col-md-8">Create congress</h1>
