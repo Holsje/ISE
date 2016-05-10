@@ -105,9 +105,7 @@ require_once('../pageConfig.php');
 			return $this->createScreen;
 		}
 
-        public function getCreateScreen(){
-            return $this->createScreen;
-        }
+ 
 
     }
 ?>
