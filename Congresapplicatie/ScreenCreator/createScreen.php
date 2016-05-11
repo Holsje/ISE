@@ -5,16 +5,16 @@
  * Date: 26-4-2016
  * Time: 13:48
  */
-require_once('ScreenObject.php');
-require_once('Text.php');
-require_once('Button.php');
-require_once('Submit.php');
-require_once('Select.php');
-require_once('Password.php');
-require_once('ListAddButton.php');
-require_once('Listbox.php');
-require_once('Date.php');
-require_once('Span.php');
+require_once('ScreenObjects/ScreenObject.php');
+require_once('ScreenObjects/Text.php');
+require_once('ScreenObjects/Button.php');
+require_once('ScreenObjects/Submit.php');
+require_once('ScreenObjects/Select.php');
+require_once('ScreenObjects/Password.php');
+require_once('ScreenObjects/ListAddButton.php');
+require_once('ScreenObjects/Listbox.php');
+require_once('ScreenObjects/Date.php');
+require_once('ScreenObjects/Span.php');
 
 
     class CreateScreen{

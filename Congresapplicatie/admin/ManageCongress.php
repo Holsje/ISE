@@ -9,9 +9,8 @@ require_once('ManageCongress_Class.php');
 $manageCongress = new ManageCongress();
 include('ManageCongressSubmits.php');
 
-$css = '<link rel="stylesheet" href="../css/congressManagement/congressManagement.css">';
 $js = '<script type="text/javascript" src="../js/congressManagement.js"></script>';
-topLayoutManagement('Beheren Congres',$css,$js);
+topLayoutManagement('Beheren Congres',null,$js);
 ?>
 
 <div class="row">
@@ -25,11 +24,9 @@ topLayoutManagement('Beheren Congres',$css,$js);
 </div>
 
 <?php 
-$manageCongress->createCreateCongressScreen(); 
-$manageCongress->createEditCongressScreen(); 
-
-bottomLayout();
+    $manageCongress->createCreateCongressScreen(); 
+    $manageCongress->createEditCongressScreen(); 
+    
+    bottomLayout();
 
 ?>
-
-

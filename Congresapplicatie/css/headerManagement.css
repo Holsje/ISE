@@ -8,9 +8,6 @@
         display: none;
     }
 }
-.header1 {
-    background-color: #FFFFFF;
-}
 nav {
     float: left;
 }
@@ -26,108 +23,9 @@ nav {
 #navbarCollapse ul li a {
     margin-left: 20px;
 }
-.input-group {
-    margin: 8px 0px;
-    float: right;
-}
 .logo {
     height: 150px;
 }
-ul li a {
-    text-align: center;
-}
 .largeMenu {
     margin-bottom: 0;
-}
-.backgroundgrey {
-    background-color: #808080;
-}
-.container {
-    min-height: 81%;
-    background-color: #eaeaea;
-    padding: 0;
-}
-.row {
-    margin: 0px;
-}
-.content {
-    min-height: 81%;
-    min-width: 800px;
-    background-color: #FFFFFF;
-    font-family: "Trebuchet MS";
-}
-h1 {
-    font-size: 40px;
-}
-.managementTitle {
-    margin-top: 50px;
-}
-.popup {
-    z-index: 1;
-    display: none;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-}
-.popupWindow::-webkit-scrollbar {
-    width: 8px;
-    background-color: rgba(255, 255, 255, 0);
-}
-.popupWindow::-webkit-scrollbar-track {
-    margin: 50px 0px;
-}
-.popupWindow::-webkit-scrollbar-thumb {
-    background-color: #dddddd;
-    border-radius: 10px;
-}
-.popupWindow::-webkit-scrollbar-thumb:hover {
-    background-color: #c6c6c6
-}
-.formPopup {
-    top: 80px;
-}
-.popupWindow {
-    top: 7%;
-    background-color: #FFFFFF;
-    border-radius: 25px;
-    box-shadow: 2px 2px 10px;
-    min-width: 500px;
-    overflow: auto;
-    height: 86%;
-}
-.closePopup {
-    -webkit-appearance: none;
-    border: 0;
-    background: 0;
-    float: right;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: #dbdbdb;
-    position: relative;
-}
-.closePopup:hover {
-    color: #afaeae;
-}
-.popupTitle {
-    position: fixed;
-    width: 48%;
-    transform: translate(-1%, 0%);
-    top: 7%;
-    background-color: #FFFFFF;
-    z-index: 2;
-    border-radius: inherit;
-}
-.form-horizontal {
-    margin-bottom: 60px;
-}
-.dataTable tbody tr {
-    cursor: pointer;
-}
-.errorMsg {
-    color: #FF0000;
-    font-weight: bold;
-    font-family: "Trebuchet MS";
 }
