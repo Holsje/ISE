@@ -5,6 +5,11 @@
     border-color: #d3d3d3;
     padding: 0px;
 }
+
+.display {
+	padding: 0;
+}
+
 #congresListBox_wrapper {
     margin: 20px 0px;
 }

@@ -1,12 +1,15 @@
 var table;
 $(document).ready(function () {
-    table = $('#congresListBox').DataTable();
+    table = $('#congresListBox').DataTable( {
+		"sScrollY": "500px",
+		"bPaginate": false
+	});
     $('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
     $('#congresListBox_length').css('display', 'none');
-    $('#congresListBox_paginate').css('display', 'none');
+    //$('#congresListBox_paginate').css('display', 'none');
     $('#congresListBox_info').css('display', 'none');
-
+	
     $('.dataTable tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
