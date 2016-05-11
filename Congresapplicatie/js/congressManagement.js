@@ -77,9 +77,7 @@ $(document).ready(function () {
 
     $('html').keyup(function (e) {
         if (e.keyCode == 46) {
-            alert('Delete Key Pressed');
-            var selectedRow = table.row('.selected');
-            selectedRow.remove().draw(false);
+            deleteCongress();
         }
     });
 
@@ -104,14 +102,14 @@ $(document).ready(function () {
                 newCongressEndDate: document.forms['formUpdate']["congressEndDate"].value
             },
             success: function (data) {
-                if (data != null) {
+
+                if (data != null && data != '') {
                     data = JSON.parse(data);
                     document.getElementsByName('errMsgBewerken')[0].innerHTML = '*' + data['err'];
                     var confirmBox = confirm(data['err']);
                     if (confirmBox) {
 
                     } else {
-                        //(congressName, congressSubject, congressLocation, congressStartDate, congressEndDate)
                         startDate = parseDate(data['StartDate']['date']);
                         endDate = parseDate(data['EndDate']['date']);
                         updateCongressInfo(data['Name'], data['Subject'], data['Location'], startDate, endDate);
@@ -122,10 +120,30 @@ $(document).ready(function () {
             }
 
         });
-        //$('#popUpUpdate .closePopUp').click();
     }
 
-    document.forms["formUpdate"]["updateCongress"].onclick = onUpdateCongress;
+    function submitAddSubject() {
+        $('#popUpAddSubjectFromEdit .closePopUp').click();
+        var selector = document.forms['formUpdate']['congressSubject'];
+        var newSubject = document.forms['formAddSubjectFromEdit']['subjectName'].value;
+        for (i = 0; i < selector.options.length; i++) {
+            if (selector.options[i].value == newSubject) {
+                selector.options[i].selected = 'true';
+                document.forms['formAddSubjectFromEdit']['subjectName'].value = '';
+                return;
+            }
+        }
+        var option = document.createElement('option');
+        option.value = newSubject;
+        option.innerHTML = newSubject;
+        option.selected = 'true';
+        document.forms['formAddSubjectFromEdit']['subjectName'].value = '';
+        selector.add(option);
+    }
+
+    document.forms['formUpdate']['updateCongress'].onclick = onUpdateCongress;
+
+    document.forms['formAddSubjectFromEdit']['Bewerken'].onclick = submitAddSubject;
 
     function parseDate(dateString) {
         return dateString.split(' ')[0];
