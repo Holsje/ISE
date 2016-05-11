@@ -31,7 +31,7 @@
 	
 	else if(isset($_POST['verwijderen'])) {
 		
-		echo $manageCongress->deleteRecord("DELETE FROM Congress WHERE CongressNo=?",array($_POST['CongressNo']));
+		echo $manageCongress->deleteRecord("DELETE FROM Congress WHERE CongressNo=?",array($_POST['congressNo']));
 		die();
 	}
 	
