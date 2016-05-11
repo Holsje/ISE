@@ -83,7 +83,7 @@ function onUpdateCongress() {
         },
         success: function (data) {
 
-            if (data != null && data != '') {
+            if (data != null && data != '' &&  /\S/.test(data)) {
                 data = JSON.parse(data);
                 document.getElementsByName('errMsgBewerken')[0].innerHTML = '*' + data['err'];
                 var confirmBox = confirm(data['err']);
@@ -93,6 +93,11 @@ function onUpdateCongress() {
                     var startDate = parseDate(data['StartDate']['date']);
                     var endDate = parseDate(data['EndDate']['date']);
                     updateCongressInfo(data['Name'], data['Subject'], data['Location'], startDate, endDate);
+					oldCongressName = data['Name'];
+					oldCongressLocation = data['Location'];
+					oldCongressSubject = data['Subject'];
+					oldCongressStartDate = startDate;
+					oldCongressEndDate = endDate;
                 }
             } else {
                 location.reload();
