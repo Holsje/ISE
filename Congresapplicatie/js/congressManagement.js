@@ -104,14 +104,12 @@ $(document).ready(function () {
             success: function (data) {
 
                 if (data != null && data != '') {
-                    console.log(data);
                     data = JSON.parse(data);
                     document.getElementsByName('errMsgBewerken')[0].innerHTML = '*' + data['err'];
                     var confirmBox = confirm(data['err']);
                     if (confirmBox) {
 
                     } else {
-                        //(congressName, congressSubject, congressLocation, congressStartDate, congressEndDate)
                         startDate = parseDate(data['StartDate']['date']);
                         endDate = parseDate(data['EndDate']['date']);
                         updateCongressInfo(data['Name'], data['Subject'], data['Location'], startDate, endDate);
@@ -122,7 +120,6 @@ $(document).ready(function () {
             }
 
         });
-        //$('#popUpUpdate .closePopUp').click();
     }
 
     function submitAddSubject() {
