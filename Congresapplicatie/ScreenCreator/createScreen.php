@@ -15,6 +15,7 @@ require_once('ScreenObjects/ListAddButton.php');
 require_once('ScreenObjects/Listbox.php');
 require_once('ScreenObjects/Date.php');
 require_once('ScreenObjects/Span.php');
+require_once('ScreenObjects/Img.php');
 
 
     class CreateScreen{
