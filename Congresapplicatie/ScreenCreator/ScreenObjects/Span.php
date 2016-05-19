@@ -20,7 +20,7 @@
             if ($this->label != null) {
                 $string .= '<label class="col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
             }
-            $string .= '<span name="' . $this->name . '" class="';
+            $string .= '<span id="' . $this->name . '" class="';
             if($this->classes != null){
                 $string .= $this->classes . '"';
             }else{

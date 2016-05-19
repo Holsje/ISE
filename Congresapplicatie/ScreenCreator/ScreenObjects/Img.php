@@ -7,7 +7,7 @@
         }
 
         public function getObjectCode(){
-            $string = '<img name=' . $this->name .' src="'.$this->value . '" class="img ';
+            $string = '<img id=' . $this->name .' src="'.$this->value . '" class="img ';
 			if($this->classes != null) {
 				$string.= $this->classes;
 			}

@@ -1,6 +1,8 @@
 <?php
 	require_once('Index_Class.php');
     $indexClass = new Index();
+    require_once('index_Submit.php');
+
     topLayout('Index','','');
 ?>
     <div class="row">
