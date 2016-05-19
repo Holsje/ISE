@@ -15,3 +15,12 @@ $(document).ready(function() {
 		}
 	});	
 })
+
+
+
+$(document).ready(function () {
+    $(".popupButton").on("click", function (event) {
+        $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
+        console.log($(this).closest("div").attr("value"));
+    });
+});

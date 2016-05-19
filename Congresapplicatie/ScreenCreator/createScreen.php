@@ -17,7 +17,6 @@ require_once('ScreenObjects/Date.php');
 require_once('ScreenObjects/Span.php');
 require_once('ScreenObjects/Img.php');
 
-
     class CreateScreen{
 
         public function __construct(){
@@ -49,6 +48,29 @@ require_once('ScreenObjects/Img.php');
 				echo '</div>';
             echo '</div>';
         }
+		
+		public function createEventInfo($eventName,$description,$eventId,$dataFile,$classes,$extraStyle,$image,$timeString) {
+			if($classes != null) {
+				echo '<div value="' . $eventId . '" class="' . $classes . ' eventInfoBox"';
+			}else {
+				echo '<div class="col-sm-3 col-md-3 col-xs-3 eventInfoBox"';
+			}
+			if($extraStyle != null) {
+				echo "style='" . $extraStyle . "'";
+			}
+			echo ">";
+				echo '<h1>' . $eventName ;
+				if($image != null) {
+					echo '<img class="eventImage" src="' . $image . '">';
+				}				
+				echo'</h1>';
+				echo '<p>' . $description . '</p>';
+				
+				echo '<p class="eventTime">' . $timeString . '</p>';
+				$button = new Button("Meer Info", null, null, "btn btn-default moreInfoButton popupButton", true, true, $dataFile);
+				echo $button->getObjectCode();
+			echo '</div>';
+		}
     }
 
 ?>
