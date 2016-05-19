@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="ManageCongress.php">Congres</a></li>
         <?php
-            if ($_SESSION['liberties']=="Algehele beheerder") {
+            if ($_SESSION['liberties']=="Algemene beheerder") {
         ?>
                 <li><a href="#">Gebouwen</a></li>
                 <li><a href="#">Evenementen</a></li>
@@ -39,7 +39,7 @@
         <ul class="nav navbar-nav col-sm-12 col-md-12">
             <li class="col-sm-2 col-md-2"><a href="ManageCongress.php">Congres</a></li>
         <?php
-            if ($_SESSION['liberties']=="Algehele beheerder") {
+            if ($_SESSION['liberties']=="Algemene beheerder") {
         ?>
             <li class="col-sm-2 col-md-2"><a href="#">Gebouwen</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Evenementen</a></li>
