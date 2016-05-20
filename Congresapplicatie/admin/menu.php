@@ -44,10 +44,20 @@
             <li class="col-sm-2 col-md-2"><a href="#">Gebouwen</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Evenementen</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Medewerkers beheren</a></li>
-        <?php
-            }
-        ?>
+
+            <div class="col-sm-4 col-md-4">
+            <?php
+                }
+                if (isset($_SESSION['user'])){
+                    echo '<form method="post" class="logoutForm" action="'.$_SERVER['PHP_SELF'].'">';
+                    echo '<span class="welcomeText">Welkom ' . $_SESSION['user'] . '</span>';
+                    echo '<input type="submit" name="logout" value="Uitloggen">';
+                    echo '</form>';
+                }
+            ?>
+            </div>
         </ul>
+
         <?php
             }
         ?>
