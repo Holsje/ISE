@@ -16,7 +16,11 @@
          * @return string
          */
         public function getObjectCode(){
-            $string = '<span name="' . $this->name . '" class="';
+            $string = "";
+            if ($this->label != null) {
+                $string .= '<label class="col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
+            }
+            $string .= '<span id="' . $this->name . '" class="';
             if($this->classes != null){
                 $string .= $this->classes . '"';
             }else{

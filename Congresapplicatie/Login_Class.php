@@ -26,7 +26,7 @@ require_once('pageConfig.php');
             $inputPassword = new Password(null, "Wachtwoord", "input-password", null, true, true);
             $submitLogin = new Submit("Inloggen", null, "submitLogin", null, true, true);
             $loginScreenObjects = array($inputUsername, $inputPassword, $submitLogin);
-            $this->createScreen->createPopup($loginScreenObjects, "Inloggen", "Login", null);
+            $this->createScreen->createPopup($loginScreenObjects, "Inloggen", "Login", 'smallPop');
         }
 
         public function checkLogin($username, $password){
