@@ -2,24 +2,20 @@ h1 {
     font-size: 40px;
 }
 .popupTitle {
-    position: fixed;
-    width: 48%;
-    transform: translate(-1%, 0%);
-    top: 7%;
     background-color: #FFFFFF;
     z-index: 2;
-    border-radius: inherit;
+    position: fixed;
+    top: 7%;
+    border-radius: 7px;
 }
 .closePopup {
     -webkit-appearance: none;
     border: 0;
     background: 0;
-    float: right;
-    position: absolute;
     top: 10px;
-    right: 10px;
+    left: 20px;
+    float: right;
     color: #dbdbdb;
-    position: relative;
 }
 .closePopup:hover {
     color: #afaeae;
@@ -56,11 +52,9 @@ h1 {
 .popupWindow::-webkit-scrollbar-thumb:hover {
     background-color: #c6c6c6
 }
-.formPopup {
-    top: 80px;
-}
 .form-horizontal {
     margin-bottom: 60px;
+    margin-top: 6%;
 }
 .errorMsg {
     color: #FF0000;
@@ -82,12 +76,27 @@ h1 {
 }
 .eventImage {
     float: right;
-    width: 25%;
-    height: width;
+    width: 30%;
     border-radius: 5px;
+    margin: 5px;
     box-shadow: 0px 0px 2px 1px #888888;
 }
 .eventTime {
     bottom: 0px;
     position: absolute;
+}
+#popUpeventInfo .popupWindow {
+    width: 80%;
+    margin: 0 10%;
+}
+
+/*SpeakerInfo*/
+
+.speaker {
+    height: 200px;
+    margin: 2px !important;
+}
+.speaker img {
+    margin: 5px 0px;
+    padding: 0px;
 }
