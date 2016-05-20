@@ -24,6 +24,16 @@
         }
     }
 
+    function sessionHandlerWeb($logInRequired){
+        session_start();
+        
+        if ($logInRequired) {
+            if (!isset($_SESSION['userWeb'])) {
+                header('Location:admin/noEntry.php');
+            }
+        }
+    }
+
 
 
 

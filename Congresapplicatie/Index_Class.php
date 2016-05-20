@@ -3,9 +3,9 @@
     require_once('database.php');
     require_once('ScreenCreator/CreateScreen.php');
     require_once('connectDatabase.php');
-    if(session_status() === PHP_SESSION_NONE){
-        session_start();
-    }
+    //if(session_status() === PHP_SESSION_NONE){
+    //    session_start();
+    //}
     
     if(isset($_GET['congresNo'])){
         $_SESSION['congresNo'] = $_GET['congresNo'];
@@ -68,7 +68,7 @@
             $spanDescription = new Span('','Over evenement','eventDescription','col-md-8 col-sm-6',false,true);
             $spanSubjects = new Span('','Onderwerp(en)','subjects','col-md-12 col-sm-12',true,true);
             $spanSpeakers = new Span('','Spreker(s)','speakers','',true,true);
-            $this->createScreen->createPopup(array($image,$spanDescription,$spanSubjects,$spanSpeakers),"","eventInfo",null);
+            $this->createScreen->createPopup(array($image,$spanDescription,$spanSubjects,$spanSpeakers),"","eventInfo",'bigPop');
         }
     }
 ?>

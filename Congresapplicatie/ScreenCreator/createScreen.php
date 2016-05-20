@@ -38,9 +38,9 @@ require_once('ScreenObjects/Img.php');
         }
 
         public function createPopup($screenObjects,$title,$popupId,$extraCssClasses){
-            echo '<div id="popUp' . $popupId . '"  class="popup col-sm-12 col-md-12 col-xs-12 ' . $extraCssClasses . '">';
-				echo '<div class="popupWindow col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-6">';
-					echo '<div class="popupTitle col-md-9">';
+            echo '<div id="popUp' . $popupId . '"  class="popup col-sm-12 col-md-12 col-xs-12">';
+				echo '<div class="popupWindow col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-6 ' . $extraCssClasses. '">';
+					echo '<div class="popupTitle col-md-6">';
 						echo '<h1 class="col-md-8">' . $title . '</h1>';
 						echo '<button type="button" class="closePopup glyphicon glyphicon-remove" data-file="#popUp' . $popupId . '"></button>';
 					echo '</div>';

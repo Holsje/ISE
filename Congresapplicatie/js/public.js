@@ -19,7 +19,7 @@ function getEventInfo(eventNo) {
         },
         success: function (data) {
             data = JSON.parse(data);
-            $('.popupTitle h1').html(data['ENAME']);
+            $('#popUpeventInfo .popupTitle h1').html(data['ENAME']);
             $('#thumbnail').attr('src', data['FILEDIRECTORY'] + 'thumbnail.png');
             $('#subjects').html(data['SUBJECT']);
             $('#eventDescription').html(data['DESCRIPTION']);

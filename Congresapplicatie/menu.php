@@ -24,7 +24,21 @@
 <nav role="navigation" class="navbar navbar-default largeMenu col-xs-12 col-sm-12 col-md-12">
     <div class="navbar-header col-xs-12 col-sm-12 col-md-12">
         <div class="input-group col-xs-12 col-sm-12 col-md-12">
-            <button type="button " class=" col-md-offset-11 btn btn-default popupButton " datafile="popUpLogin ">Login</button>
+            <?php
+                if (!isset($_SESSION['userWeb'])){
+            ?>
+                <button type="button" class="col-md-offset-11 btn btn-default popupButton" data-file="#popUpLogin">Login</button>
+                <?php
+                }
+                else if (isset($_SESSION['userWeb'])){
+                    echo '<form method="post" class="logoutForm col-md-offset-9" action="'.$_SERVER['PHP_SELF'].'">';
+                    echo '<span class="welcomeText">Welkom ' . $_SESSION['userWeb'] . '</span>';
+                    echo '<input type="submit" class=btn btn-default name="logout" value="Uitloggen">';
+                    echo '</form>';
+                }
+            
+            ?>
+
         </div>
     </div>
 </nav>

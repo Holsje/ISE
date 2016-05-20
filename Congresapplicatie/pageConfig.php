@@ -36,6 +36,7 @@
             <?php include 'menu.php'; ?>
         </header>
         <?php
+            include 'Login.php';
 	}
 	
 	

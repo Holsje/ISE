@@ -1,4 +1,6 @@
 <?php
+    require_once('admin/SessionHandler.php');
+    sessionHandlerWeb(false);
 	require_once('Index_Class.php');
     $indexClass = new Index();
     require_once('index_Submit.php');
