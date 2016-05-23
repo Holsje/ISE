@@ -71,23 +71,27 @@
 			}
 			
 			$hourHeight = 200;
+			$firstTrack = true;
+			echo"<script>var json = JSON.parse('". json_encode($events) ."'); console.log(json);</script>";
 			foreach($events as $tracks) {
 					echo"<script>var json = JSON.parse('". json_encode($tracks) ."'); console.log(json);</script>";
 					foreach($tracks["DAYS"] AS $eventDates) {
-						echo '<div id="timeBar" style="height:' . (($eventDates['ENDTIME']-$eventDates['STARTTIME'])*$hourHeight) . 'px; top:100px;" class="col-sm-1 col-md-1 col-xs-1">';
-							for($i = 0;$i<($eventDates['ENDTIME']-$eventDates['STARTTIME'])+1;$i++) {
-								echo '<div style="height:' . $hourHeight . ';">';
-								if($eventDates['STARTTIME']+$i < 10) {
-									echo '0' . $eventDates['STARTTIME']+$i;
+							if($firstTrack) {
+								echo '<div id="timeBar" style="height:' . (($eventDates['ENDTIME']-$eventDates['STARTTIME'])*$hourHeight) . 'px; top:100px;" class="col-sm-1 col-md-1 col-xs-1">';
+								for($i = 0;$i<($eventDates['ENDTIME']-$eventDates['STARTTIME'])+1;$i++) {
+									echo '<div style="height:' . $hourHeight . ';">';
+									if($eventDates['STARTTIME']+$i < 10) {
+										echo '0' . $eventDates['STARTTIME']+$i;
+									}
+									else {
+										echo $eventDates['STARTTIME']+$i;
+									}
+									echo ':00</div>';
 								}
-								else {
-									echo $eventDates['STARTTIME']+$i;
-								}
-								echo ':00</div>';
+								echo '</div>';
 							}
-						echo '</div>';
 						
-						echo '<div class="col-sm-4 col-md-4 col-xs-4">';
+						echo '<div class="col-sm-3 col-md-3 col-xs-3">';
 						echo '<div class="col-sm-12 col-md-12 col-xs-12" style="height:100px"><h1>' . $tracks['INFO']['TRACKNAME'] . '</h1></div>';
 						echo '<div class="col-sm-12 col-md-12 col-xs-12" style="margin-left:10px; margin-top:0px; border-style:solid; border-width:1px; background-color:#F0F0F0; height:' . (($eventDates['ENDTIME']-$eventDates['STARTTIME'])*$hourHeight) . ';">';
 						
@@ -104,9 +108,8 @@
 						}
 						echo '</div>';
 						echo '</div>';
-						return;
 					}
-			
+				$firstTrack = false;
 			}
 			
 			

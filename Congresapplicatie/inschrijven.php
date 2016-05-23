@@ -5,7 +5,7 @@
 ?>
 	 <div class="row">
         <div class="container   col-md-12 col-xs-12">
-            <div class="content col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
+            <div class="content col-sm-9 col-sm-offset-1 col-md-9 col-md-offset-1 col-xs-9 col-xs-offset-1">
 				<div class="row">
 					<div id="Content" style="background-color:#FFF;" class="col-sm-12 col-md-12 col-xs-12">
 						<?php

@@ -67,7 +67,9 @@ require_once('ScreenObjects/Span.php');
 				for($i = 0;$i<sizeof($subjects)-1;$i++) {
 					echo $subjects[$i] . " - ";
 				}
-				echo $subjects[sizeof($subjects)-1];
+				if($subjects != null) {
+					echo $subjects[sizeof($subjects)-1];
+				}
 				echo'</p>';
 				echo '<p>' . $type . '</p>';
 				echo '<p class="eventTime">' . $timeString . '</p>';
