@@ -22,10 +22,10 @@
         }
         
         public function getEventInfo($eventNo,$congresNo){
-            $sqlStatement = 'SELECT ENAME, FILEDIRECTORY, DESCRIPTION
+            $sqlEvent = 'SELECT ENAME, FILEDIRECTORY, DESCRIPTION
                              FROM EVENT
                              WHERE EVENTNO = ? AND CONGRESSNO = ?';
-            $sqlStatementSpeakers = 'SELECT P.PERSONNO, S.PICTUREPATH, P.FIRSTNAME, P.LASTNAME
+            $sqlSpeakers = 'SELECT P.PERSONNO, S.PICTUREPATH, P.FIRSTNAME, P.LASTNAME
                                      FROM SPEAKEROFEVENT SE INNER JOIN SPEAKER S 
                                          ON SE.PERSONNO = S.PERSONNO INNER JOIN PERSON P 
                                              ON P.PERSONNO = S.PERSONNO
@@ -34,7 +34,7 @@
                             FROM SubjectOfEvent
                             WHERE EventNO = ? AND CongressNo = ?';
             $params = array($eventNo,$congresNo);
-            $resultSpeakers = $this->database->sendQuery($sqlStatementSpeakers, $params);
+            $resultSpeakers = $this->database->sendQuery($sqlSpeakers, $params);
             $arraySpeakers = array();
             if($resultSpeakers){
                 while($row = sqlsrv_fetch_array($resultSpeakers,SQLSRV_FETCH_ASSOC)){
@@ -48,7 +48,7 @@
                     array_push($arraySubjects,$row);
                 }
             }
-            $result = $this->database->sendQuery($sqlStatement,$params);
+            $result = $this->database->sendQuery($sqlEvent,$params);
             if($result){
                 if($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
                     $row['speakers'] = $arraySpeakers;
@@ -59,21 +59,21 @@
         }
         
         public function createCongresOverzicht(){
-            $sqlStmt = 'SELECT LocationName, City, CName, Startdate, Enddate,Price, Description
+            $sqlCongress = 'SELECT LocationName, City, CName, Startdate, Enddate,Price, Description
                         FROM Congress
                         WHERE CongressNo = ? ';
             $params = array($_SESSION['congresNo']);
-            $resultCong = $this->database->sendQuery($sqlStmt,$params);
+            $resultCongress = $this->database->sendQuery($sqlCongress,$params);
             
-            $sqlStatement = 'SELECT EVENTNO, ENAME, FILEDIRECTORY, DESCRIPTION
+            $sqlEvents = 'SELECT EVENTNO, ENAME, FILEDIRECTORY, DESCRIPTION
                              FROM EVENT
                              WHERE CONGRESSNO = ?';
-            $result = $this->database->sendQuery($sqlStatement,$params);
-            if($resultCong){
-                if($congressResults = sqlsrv_fetch_array($resultCong, SQLSRV_FETCH_ASSOC)){
-                    if($result){
+            $resultEvents = $this->database->sendQuery($sqlEvents,$params);
+            if($resultCongress){
+                if($congressResults = sqlsrv_fetch_array($resultCongress, SQLSRV_FETCH_ASSOC)){
+                    if($resultEvents){
                         echo '<div class="col-md-9" >';
-                        while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
+                        while($row = sqlsrv_fetch_array($resultEvents,SQLSRV_FETCH_ASSOC)){
                             $this->createScreen->createEventInfo($row['ENAME'],$row['DESCRIPTION'],$row['EVENTNO'],'#popUpeventInfo','col-sm-2 col-md-3 col-xs-2','margin-right:50px; margin-bottom:50px; ',$row['FILEDIRECTORY'] . 'thumbnail.png','');
                         }
                         echo '</div>';
@@ -103,12 +103,12 @@
                     //Subject Box
                     echo '<h3 class="col-md-12">Onderwerpen</h3>';
                     echo '<div class="col-md-12 congresInfo subjects">';
-                    $subjectSql = ' SELECT Subject 
+                    $sqlSubjects = ' SELECT Subject 
                                     FROM SubjectOfCongress
                                     WHERE CongressNo = ?';
-                    $resultSubject = $this->database->sendQuery($subjectSql,$params);
-                    if($resultSubject){
-                        while($row = sqlsrv_fetch_array($resultSubject,SQLSRV_FETCH_ASSOC)){
+                    $resultSubjects = $this->database->sendQuery($sqlSubjects,$params);
+                    if($resultSubjects){
+                        while($row = sqlsrv_fetch_array($resultSubjects,SQLSRV_FETCH_ASSOC)){
                             $subject = new Span($row['Subject'].' ','','',' ',false,false);
                             echo $subject->getObjectCode();
                         }
