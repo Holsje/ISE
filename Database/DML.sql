@@ -24,6 +24,7 @@ DELETE FROM PersonType
 
 
 /*
+
 DBCC CHECKIDENT ('Person', RESEED, 0);
 DBCC CHECKIDENT ('Congress', RESEED, 0);
 */
