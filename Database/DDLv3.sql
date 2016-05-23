@@ -16,141 +16,141 @@ GO
 /*==============================================================*/
 /* Domain: D_BOOLEAN                                            */
 /*==============================================================*/
-create Type D_BOOLEAN
-   from bit
+CREATE TYPE D_BOOLEAN
+   FROM BIT
 GO
 
 /*==============================================================*/
 /* Domain: D_CAPACITY                                           */
 /*==============================================================*/
-create Type D_CAPACITY
-   from smallint
+CREATE TYPE D_CAPACITY
+   FROM SMALLINT
 GO
 
 /*==============================================================*/
 /* Domain: D_CONGRESSNO                                         */
 /*==============================================================*/
-create Type D_CONGRESSNO
-   from int
+CREATE TYPE D_CONGRESSNO
+   FROM INT
 GO
 
 /*==============================================================*/
 /* Domain: D_DATE                                               */
 /*==============================================================*/
-create Type D_DATE
-   from datetime
+CREATE TYPE D_DATE
+   FROM DATE
 GO
 
 /*==============================================================*/
 /* Domain: D_DATETIME                                           */
 /*==============================================================*/
-create Type D_DATETIME
-   from datetime
+CREATE TYPE D_DATETIME
+   FROM DATETIME
 GO
 
 /*==============================================================*/
 /* Domain: D_DESCRIPTION                                        */
 /*==============================================================*/
-create Type D_DESCRIPTION
-   from varchar(150)
+CREATE TYPE D_DESCRIPTION
+   FROM VARCHAR(150)
 GO
 
 /*==============================================================*/
 /* Domain: D_EVENTNO                                            */
 /*==============================================================*/
-create Type D_EVENTNO
-   from int
+CREATE TYPE D_EVENTNO
+   FROM INT
 GO
 
 /*==============================================================*/
 /* Domain: D_FILE                                               */
 /*==============================================================*/
-create Type D_FILE
-   from varchar(500)
+CREATE TYPE D_FILE
+   FROM VARCHAR(500)
 GO
 
 /*==============================================================*/
 /* Domain: D_HOUSENO                                            */
 /*==============================================================*/
-create Type D_HOUSENO
-   from smallint
+CREATE TYPE D_HOUSENO
+   FROM SMALLINT
 GO
 
 /*==============================================================*/
 /* Domain: D_LOCATION                                           */
 /*==============================================================*/
-create Type D_LOCATION
-   from varchar(20)
+CREATE TYPE D_LOCATION
+   FROM VARCHAR(20)
 GO
 
 /*==============================================================*/
 /* Domain: D_MAIL                                               */
 /*==============================================================*/
-create Type D_MAIL
-   from varchar(50)
+CREATE TYPE D_MAIL
+   FROM VARCHAR(50)
 GO
 
 /*==============================================================*/
 /* Domain: D_NAME                                               */
 /*==============================================================*/
-create Type D_NAME
-   from varchar(50)
+CREATE TYPE D_NAME
+   FROM VARCHAR(50)
 GO
 
 /*==============================================================*/
 /* Domain: D_PASSWORD                                           */
 /*==============================================================*/
-create Type D_PASSWORD
-   from varchar(64)
+CREATE TYPE D_PASSWORD
+   FROM VARCHAR(64)
 GO
 
 /*==============================================================*/
 /* Domain: D_PERSONNO                                           */
 /*==============================================================*/
-create Type D_PERSONNO
-   from int
+CREATE TYPE D_PERSONNO
+   FROM INT
 GO
 
 /*==============================================================*/
 /* Domain: D_PRICE                                              */
 /*==============================================================*/
-create Type D_PRICE
-   from money
+CREATE TYPE D_PRICE
+   FROM MONEY
 GO
 
 /*==============================================================*/
 /* Domain: D_SUBJECT                                            */
 /*==============================================================*/
-create Type D_SUBJECT
-   from varchar(50)
+CREATE TYPE D_SUBJECT
+   FROM VARCHAR(50)
 GO
 
 /*==============================================================*/
 /* Domain: D_TELNR                                              */
 /*==============================================================*/
-create Type D_TELNR
-   from varchar(25)
+CREATE TYPE D_TELNR
+   FROM VARCHAR(25)
 GO
 
 /*==============================================================*/
 /* Domain: D_TRACKNO                                            */
 /*==============================================================*/
-create Type D_TRACKNO
-   from int
+CREATE TYPE D_TRACKNO
+   FROM INT
 GO
 
 /*==============================================================*/
 /* Domain: D_TYPE                                               */
 /*==============================================================*/
-create Type D_TYPE
-   from varchar(18)
+CREATE TYPE D_TYPE
+   FROM VARCHAR(18)
 GO
 
 /*==============================================================*/
 /* Domain: D_ZIPCODE                                            */
 /*==============================================================*/
-create Type D_ZIPCODE
-   from varchar(6)
+CREATE TYPE D_ZIPCODE
+   FROM VARCHAR(6)
 GO
 
 /*==============================================================*/
