@@ -29,3 +29,13 @@ nav {
 .largeMenu {
     margin-bottom: 0;
 }
+
+.logoutForm {
+    color: #777777;
+    padding-top: 15px;
+    margin-left: 330px;
+}
+
+.welcomeText {
+    padding-right: 20px;
+}

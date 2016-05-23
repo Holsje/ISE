@@ -32,7 +32,7 @@
 
         public function checkLogin($username, $password){
 
-            $result = parent::getDatabase()->sendQuery("SELECT username FROM Employee WHERE Username = ? AND Password = ?", array($username, hash('sha256', $password)));
+            $result = parent::getDatabase()->sendQuery("IF EXISTS (SELECT 1 FROM CongressManager CM INNER JOIN Person P ON CM.PersonNo = P.PersonNo WHERE P.MailAddress = ? AND CM.Password = ?) OR EXISTS (SELECT 1 FROM GeneralManager GM INNER JOIN Person P ON GM.PersonNo = P.PersonNo WHERE P.MailAddress = ? AND GM.Password = ?) BEGIN SELECT 1 END ", array($username, hash('sha256', $password), $username, hash('sha256', $password)));
 
             if ($result){
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
@@ -44,21 +44,21 @@
         }
 
         public function checkUser($username){
-            $result = parent::getDatabase()->sendQuery("SELECT Type FROM Employee WHERE Username = ?", array($username));
+            $result = parent::getDatabase()->sendQuery("SELECT TypeName FROM Person P INNER JOIN PersonTypeOfPerson PTOP ON P.PersonNo = PTOP.PersonNo WHERE MailAddress = ?", array($username));
             if ($result){
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
-                    if ($row['Type']=="Congresbeheerder"){
+                    if ($row['TypeName']=="Congresbeheerder"){
                         return $this->getAdminCongresses($username);
                     }
-                    else{
-                        return $row['Type'];
+                    elseif ($row['TypeName']=="Algemene beheerder"){
+                        return $row['TypeName'];
                     }
                 }
             }
         }
 
         public function getAdminCongresses($username){
-            $result = parent::getDatabase()->sendQuery("SELECT CE.CongressNo FROM CongressEmployee CE INNER JOIN Employee E ON CE.EmployeeNo = E.EmployeeNo WHERE E.Username = ?", array($username));
+            $result = parent::getDatabase()->sendQuery("SELECT COC.CongressNo FROM CongressManagerOfCongress COC INNER JOIN CongressManager CM ON COC.PersonNo = CM.PersonNo WHERE P.MailAddress = ?", array($username));
             $congressesarray = array();
             if ($result){
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){

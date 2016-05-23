@@ -21,6 +21,8 @@
         <?php echo $css; ?>
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
             <script src="css/bootstrap/js/bootstrap.min.js"></script>
+            <script src="js/public.js"></script>
+            <script src="js/functions.js"></script>
             <script src="js/headerfunctions.js"></script>
             <script src="js/regex.js"></script>
             <?php echo $javaScript; ?>
@@ -34,6 +36,7 @@
             <?php include 'menu.php'; ?>
         </header>
         <?php
+            include 'Login.php';
 	}
 	
 	
