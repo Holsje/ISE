@@ -48,7 +48,7 @@ require_once('ScreenObjects/Span.php');
             echo '</div>';
         }
 		
-		public function createEventInfo($eventName,$subjects,$eventId,$dataFile,$classes,$extraStyle,$image,$timeString) {
+		public function createEventInfo($eventName,$subjects,$price,$type,$eventId,$dataFile,$classes,$extraStyle,$image,$timeString) {
 			if($classes != null) {
 				echo '<div value="' . $eventId . '" class="' . $classes . ' eventInfoBox"';
 			}else {
@@ -69,8 +69,11 @@ require_once('ScreenObjects/Span.php');
 				}
 				echo $subjects[sizeof($subjects)-1];
 				echo'</p>';
-				
+				echo '<p>' . $type . '</p>';
 				echo '<p class="eventTime">' . $timeString . '</p>';
+				if($price!=null) {
+					echo '<p class="eventPrice">Price:' . $price . '</p>';
+				}
 				$button = new Button("Meer Info", null, null, "btn btn-default moreInfoButton popupButton", true, true, $dataFile);
 				echo $button->getObjectCode();
 			echo '</div>';

@@ -100,7 +100,7 @@
 							
 							$distanceFromTop = ($startTimeInHours - ($eventDates['STARTTIME']))*$hourHeight;
 							$height = ($endTimeInHours-$startTimeInHours)*$hourHeight;
-							echo $this->CreateScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],"id","#popupNaam","col-sm-12 col-md-12 col-xs-12","position:absolute; top:" . $distanceFromTop . "px; height:" . $height . "px; width:90%; left:5%; background-color:#FFF;",$event['FILEDIRECTORY'],$event['START'] . " -  " . $event['END']);
+							echo $this->CreateScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],"id","#popupNaam","col-sm-12 col-md-12 col-xs-12","position:absolute; top:" . $distanceFromTop . "px; height:" . $height . "px; width:90%; left:5%; background-color:#FFF;",$event['FILEDIRECTORY'],$event['START'] . " -  " . $event['END']);
 						}
 						echo '</div>';
 						echo '</div>';

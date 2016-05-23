@@ -24,3 +24,9 @@
 	bottom:0px; 
 	position:absolute;
 }
+
+.eventPrice {
+	position:absolute;
+	right:100px;
+	bottom:0px;
+}
