@@ -21,15 +21,13 @@ function getEventInfo(eventNo) {
             data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['ENAME']);
             $('#thumbnail').attr('src', data['FILEDIRECTORY'] + 'thumbnail.png');
-            $('#subjects').html(data['SUBJECT']);
             $('#eventDescription').html(data['DESCRIPTION']);
-            var sizeSpeaker = 0;
+            var size = 0;
             for (var value in data['speakers']) {
-                sizeSpeaker++;
+                size++;
             }
 
-            for (i = 0; i < sizeSpeaker; i++) {
-                console.log(data['speakers'][i]['FIRSTNAME']);
+            for (i = 0; i < size; i++) {
                 var formGroup = document.createElement('DIV');
                 formGroup.className += 'form-group';
                 formGroup.className += ' speaker';
@@ -44,6 +42,18 @@ function getEventInfo(eventNo) {
                 formGroup.appendChild(name);
                 document.forms['formeventInfo'].appendChild(formGroup);
             }
+            size = 0;
+            for (var value in data['subjects']) {
+                size++;
+            }
+            var subjects = "";
+            for (i = 0; i < size; i++) {
+                subjects += data['subjects'][i]['Subject'];
+                if (i != size - 1) {
+                    subjects += ", ";
+                }
+            }
+            $('#subjects').html(subjects);
 
         },
         error: function (request, status, error) {
