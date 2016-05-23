@@ -1,16 +1,16 @@
 USE master
 GO
 
-IF db_id('CongressDB2') IS NOT NULL
+IF db_id('CongressDB') IS NOT NULL
 BEGIN
-	DROP DATABASE CongressDB2
+	DROP DATABASE CongressDB
 END
 GO
 
-CREATE DATABASE CongressDB2
+CREATE DATABASE CongressDB
 GO
 
-USE CongressDB2
+USE CongressDB
 GO
 
 /*==============================================================*/
@@ -52,7 +52,7 @@ GO
 /* Domain: D_DESCRIPTION                                        */
 /*==============================================================*/
 CREATE TYPE D_DESCRIPTION
-   FROM VARCHAR(150)
+   FROM VARCHAR(1000)
 GO
 
 /*==============================================================*/
@@ -192,6 +192,8 @@ CREATE TABLE Congress (
    Startdate            D_DATE               NULL,
    Enddate              D_DATE               NULL,
    Price                D_PRICE              NULL,
+   Description			D_DESCRIPTION	     NULL,
+   Banner				D_FILE				 NULL,
    [Public]             D_BOOLEAN            NOT NULL DEFAULT 0,
    CONSTRAINT PK_CONGRESS PRIMARY KEY (CongressNo),
    CONSTRAINT FK_CONGRESS_RT_CONGRE_LOCATION FOREIGN KEY (LocationName, City)

@@ -21,12 +21,12 @@ DELETE FROM Speaker
 DELETE FROM PersonTypeOfPerson
 DELETE FROM Person
 DELETE FROM PersonType
+GO
 
 
-/*
 DBCC CHECKIDENT ('Person', RESEED, 0);
 DBCC CHECKIDENT ('Congress', RESEED, 0);
-*/
+
 
 INSERT INTO PersonType (TypeName) VALUES ('Algemene beheerder'),
 							  ('Congresbeheerder'),
@@ -101,8 +101,8 @@ INSERT INTO Room (LocationName, City, BName, RName, Description, MaxNumberOfPart
 																								 ('Van der Valk Hotel Arnhem', 'Arnhem', 'Hotel', 'Zaal 1', 'Met geluidsinstallatie', 100),
 																								 ('Hotel Papendal', 'Arnhem', 'Congresgebouw', 'Zaal 2', 'Met geluidsinstallatie', 750);
 
-INSERT INTO Congress (CName, LocationName, City, Startdate, Enddate, Price, Description, [Public]) VALUES ('Data Modeling Zone', 'Abion Spreebogen', 'Berlijn', '2016-10-10', '2016-10-11', 950, 'Omschrijving', 0),
-																										  ('HAN NIOC 2013', 'HAN', 'Nijmegen', '2013-04-04', '2013-04-05', 500, 'Omschrijving', 0);  
+INSERT INTO Congress (CName, LocationName, City, Startdate, Enddate, Price, Description, Banner, [Public]) VALUES ('Data Modeling Zone', 'Abion Spreebogen', 'Berlijn', '2016-10-10', '2016-10-11', 950, 'Omschrijving', 'img/Congresses/Congress1', 0),
+																										  ('HAN NIOC 2013', 'HAN', 'Nijmegen', '2013-04-04', '2013-04-06', 500, 'Omschrijving', 'img/Congresses/Congress2', 0);  
 
 INSERT INTO CongressManagerOfCongress (PersonNo, CongressNo) VALUES (5, 1),
 																	(3, 2);
@@ -124,7 +124,7 @@ INSERT INTO Event (CongressNo, EventNo, EName, Type, MaxVisitors, Price, FileDir
 																											(1, 7, 'Data Vault to Star', 'Lezing', 60, NULL, 'img/', 'Evenement over Data Vault naar Ster..'),
 																											(1, 8, 'Raw Data', 'Lezing', 50, NULL, 'img/', 'Dit evenement leert je alles over..'),
 																											(1, 9, 'Meta Data', 'Lezing', 50, NULL, 'img/', 'Dit evenement leert je alles over..'),
-																											(2, 1, 'Hadoop', 'Lezing', 40, 50, 'img/', 'Leer alles over betalingssystemen!'),
+																											(2, 1, 'Hadoop', 'Lezing', 40, 50, 'img/', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere finibus accumsan. Nulla facilisi. Praesent ullamcorper quam sed lacus gravida, id commodo nunc fringilla. Maecenas non blandit velit, lacinia mollis ipsum. Integer interdum a tellus sed sollicitudin. Nullam varius tellus et lorem fermentum porta non quis sapien. Nunc a dictum erat. Nunc accumsan bibendum suscipit. Morbi dignissim tellus at erat pellentesque imperdiet. Phasellus interdum risus vel lectus consectetur elementum. Morbi sit amet lectus vitae odio efficitur tempus non eget neque. Aenean lacinia justo quam, vitae malesuada nibh volutpat id. Cras ut fermentum nulla, eget sodales lectus. Aenean sit amet consequat enim. Aliquam lectus arcu, molestie in arcu eu, vulputate vulputate velit. Pellentesque interdum lacus id mi rhoncus vulputate. Aliquam in viverra mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur quis finibus nisi. Maecenas sit amet sapien maximus magna lacinia posuere'),
 																											(2, 2, 'NoSQL vs. Relationele Database', 'Lezing', 40, 50, 'img/', 'Leer alles over betalingssystemen!'),
 																											(2, 3, 'NoTables', 'Lezing', 40, 50, 'img/', 'Leer alles over betalingssystemen!'),
 																											(2, 4, 'Power-BI', 'Workshop', 20, 100, 'img/', 'Dit evenement over Power-BI...'),
@@ -133,25 +133,25 @@ INSERT INTO Event (CongressNo, EventNo, EName, Type, MaxVisitors, Price, FileDir
 																											(2, 7, 'Data Vault to Star', 'Lezing', 60, NULL, 'img/', 'Evenement over Data Vault naar Ster..'),
 																											(2, 8, 'Raw Data', 'Lezing', 50, NULL, 'img/', 'Dit evenement leert je alles over..'),
 																											(2, 9, 'Meta Data', 'Lezing', 50, NULL, 'img/', 'Dit evenement leert je alles over..');
-																																																						
+																																																				
 INSERT INTO EventInTrack (TRA_CongressNo, TrackNo, CongressNo, EventNo, Start, [End]) VALUES (1, 1, 1, 1, '2016-10-10 12:00', '2016-10-10 13:00'),
 																							 (1, 1, 1, 2, '2016-10-10 13:30', '2016-10-10 15:00'),
 																							 (1, 1, 1, 3, '2016-10-11 09:00', '2016-10-11 11:30'),
 																							 (1, 2, 1, 4, '2016-10-10 10:00', '2016-10-10 12:00'),
 																							 (1, 2, 1, 5, '2016-10-11 09:30', '2016-10-11 12:00'),
 																							 (1, 2, 1, 6, '2016-10-11 13:00', '2016-10-11 15:00'),
-																							 (1, 3, 1, 7, '2016-10-10 13:00', '2016-10-11 15:00'),
-																							 (1, 3, 1, 8, '2016-10-11 13:00', '2016-10-11 15:00'),
-																							 (1, 3, 1, 9, '2016-10-12 13:00', '2016-10-11 15:00'),
+																							 (1, 3, 1, 7, '2016-10-11 13:00', '2016-10-11 15:00'),
+																							 (1, 3, 1, 8, '2016-10-11 15:00', '2016-10-11 16:00'),
+																							 (1, 3, 1, 9, '2016-10-11 16:00', '2016-10-11 17:00'),
 																							 (2, 1, 2, 1, '2013-04-04 10:00', '2013-04-04 12:00'),
 																							 (2, 1, 2, 2, '2013-04-04 13:00', '2013-04-04 15:00'),
 																							 (2, 1, 2, 3, '2013-04-04 15:30', '2013-04-04 17:00'),
 																							 (2, 2, 2, 4, '2013-04-04 10:00', '2013-04-04 12:00'),
 																							 (2, 2, 2, 5, '2013-04-04 13:00', '2013-04-04 14:00'),
-																							 (2, 2, 2, 6, '2013-04-05 09:00', '2013-04-04 11:30'),
+																							 (2, 2, 2, 6, '2013-04-05 09:00', '2013-04-05 11:30'),
 																							 (2, 3, 2, 7, '2013-04-04 10:00', '2013-04-04 12:00'),
-																							 (2, 3, 2, 8, '2013-04-05 10:00', '2013-04-04 12:00'),
-																							 (2, 3, 2, 9, '2013-04-06 10:00', '2013-04-04 12:00');
+																							 (2, 3, 2, 8, '2013-04-05 10:00', '2013-04-05 12:00'),
+																							 (2, 3, 2, 9, '2013-04-06 10:00', '2013-04-06 12:00');
 
 INSERT INTO EventInRoom (CongressNo, TrackNo, EventNo, LocationName, City, BName, RName, TRA_CongressNo) VALUES (1, 1, 1, 'Abion Spreebogen', 'Berlijn', 'Ameron Hotel', '101', 1),
 																												(1, 1, 2, 'Abion Spreebogen', 'Berlijn', 'Ameron Hotel', '101', 1),
@@ -206,7 +206,11 @@ INSERT INTO SpeakerOfEvent (PersonNo, CongressNo, EventNo) VALUES (1, 1, 1),
 																  (6, 1, 7),
 																  (6, 1, 8),
 																  (6, 1, 9),
+																  (1, 2, 1),
+																  (2, 2, 1),
+																  (3, 2, 1),
 																  (4, 2, 1),
+																  (5, 2, 1),
 																  (4, 2, 2),
 																  (4, 2, 3),
 																  (5, 2, 4),
