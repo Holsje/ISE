@@ -64,7 +64,7 @@
 					while ($subjectsRow = sqlsrv_fetch_array($subjectsResult,SQLSRV_FETCH_ASSOC)) {
 						array_push($subjects,$subjectsRow["SUBJECT"]);
 					}
-					array_push($congress[$row['TRACKNO']]['DAYS'][$row['START']->format('Y-m-d')]['EVENTS'],array("ENAME"=>$row['ENAME'],"TYPE"=>$row['TYPE'],"START"=>$row['START']->format('H:i:s'),"END"=>$row['END']->format('H:i:s'),"PRICE"=>$row['PRICE'],"FILEDIRECTORY"=>$row['FILEDIRECTORY'],"SUBJECTS"=>$subjects));
+					array_push($congress[$row['TRACKNO']]['DAYS'][$row['START']->format('Y-m-d')]['EVENTS'],array("ENAME"=>$row['ENAME'],"TYPE"=>$row['TYPE'],"START"=>$row['START']->format('H:i:s'),"END"=>$row['END']->format('H:i:s'),"PRICE"=>$row['PRICE'],"FILEDIRECTORY"=>$row['FILEDIRECTORY'],"SUBJECTS"=>$subjects,"EVENTNO"=>$row['EVENTNO']));
 				}
 			}else {
 				return;
@@ -110,7 +110,7 @@
 							
 							$distanceFromTop = ($startTimeInHours - ($congress['TIMES'][$dayKey]['STARTTIME']))*$hourHeight;
 							$height = ($endTimeInHours-$startTimeInHours)*$hourHeight;
-							echo $this->CreateScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],"id","#popupNaam","col-sm-12 col-md-12 col-xs-12","position:absolute; top:" . $distanceFromTop . "px; height:" . $height . "px; width:90%; left:5%; background-color:#FFF;",$event['FILEDIRECTORY'],$event['START'] . " -  " . $event['END']);
+							echo $this->CreateScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"],"#popUpeventInfo","col-sm-12 col-md-12 col-xs-12","position:absolute; top:" . $distanceFromTop . "px; height:" . $height . "px; width:90%; left:5%; background-color:#FFF;",$event['FILEDIRECTORY'],$event['START'] . " -  " . $event['END']);
 						}
 						echo '</div>';
 						echo '</div>';

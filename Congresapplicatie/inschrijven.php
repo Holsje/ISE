@@ -1,7 +1,9 @@
 <?php
 	require_once('inschrijven_class.php');
+	require_once('Index_Class.php');
 	topLayout('Inschrijven',null,null);
 	$inschrijven = new Inschrijven();
+	$index = new Index();
 ?>
 	 <div class="row">
         <div class="container   col-md-12 col-xs-12">
@@ -18,5 +20,5 @@
 
 <?php
 	bottomLayout();
-
+$index->createEventInfoPopup();
 ?>
