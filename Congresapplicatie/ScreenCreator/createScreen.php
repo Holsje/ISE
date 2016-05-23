@@ -58,11 +58,11 @@ require_once('ScreenObjects/Span.php');
 				echo "style='" . $extraStyle . "'";
 			}
 			echo ">";
-				echo '<h1>' . $eventName ;
+				echo '<h3>' . $eventName ;
 				if($image != null) {
 					echo '<img class="eventImage" src="' . $image . '">';
 				}				
-				echo'</h1>';
+				echo'</h3>';
 				echo '<p>';
 				for($i = 0;$i<sizeof($subjects)-1;$i++) {
 					echo $subjects[$i] . " - ";

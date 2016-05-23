@@ -4,6 +4,7 @@
 	border-width:1px; 
 	min-width:200px; 
 	height:250px;
+	overflow:auto;
 }
 
 .moreInfoButton {
