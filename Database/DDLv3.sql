@@ -18,162 +18,155 @@ GO
 /*==============================================================*/
 create Type D_BOOLEAN
    from bit
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_CAPACITY                                           */
 /*==============================================================*/
 create Type D_CAPACITY
    from smallint
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_CONGRESSNO                                         */
 /*==============================================================*/
 create Type D_CONGRESSNO
    from int
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_DATE                                               */
 /*==============================================================*/
 create Type D_DATE
    from datetime
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_DATETIME                                           */
 /*==============================================================*/
 create Type D_DATETIME
    from datetime
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_DESCRIPTION                                        */
 /*==============================================================*/
 create Type D_DESCRIPTION
    from varchar(150)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_EVENTNO                                            */
 /*==============================================================*/
 create Type D_EVENTNO
    from int
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_FILE                                               */
 /*==============================================================*/
 create Type D_FILE
    from varchar(500)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_HOUSENO                                            */
 /*==============================================================*/
 create Type D_HOUSENO
    from smallint
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_LOCATION                                           */
 /*==============================================================*/
 create Type D_LOCATION
    from varchar(20)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_MAIL                                               */
 /*==============================================================*/
 create Type D_MAIL
    from varchar(50)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_NAME                                               */
 /*==============================================================*/
 create Type D_NAME
    from varchar(50)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_PASSWORD                                           */
 /*==============================================================*/
 create Type D_PASSWORD
    from varchar(64)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_PERSONNO                                           */
 /*==============================================================*/
 create Type D_PERSONNO
    from int
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_PRICE                                              */
 /*==============================================================*/
 create Type D_PRICE
    from money
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_SUBJECT                                            */
 /*==============================================================*/
 create Type D_SUBJECT
    from varchar(50)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_TELNR                                              */
 /*==============================================================*/
 create Type D_TELNR
    from varchar(25)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_TRACKNO                                            */
 /*==============================================================*/
 create Type D_TRACKNO
    from int
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_TYPE                                               */
 /*==============================================================*/
 create Type D_TYPE
    from varchar(18)
-go
-
-/*==============================================================*/
-/* Domain: D_USERNAME                                           */
-/*==============================================================*/
-create Type D_USERNAME
-   from varchar(20)
-go
+GO
 
 /*==============================================================*/
 /* Domain: D_ZIPCODE                                            */
 /*==============================================================*/
 create Type D_ZIPCODE
    from varchar(6)
-go
+GO
 
 /*==============================================================*/
 /* Table: Location                                              */
 /*==============================================================*/
-create table Location (
+CREATE TABLE Location (
    LocationName         D_NAME               NOT NULL,
    City                 D_LOCATION           NOT NULL,
-   CONSTRAINT PK_Location PRIMARY KEY (LocationName, City)
+   CONSTRAINT PK_Location PRIMARY KEY (LocationName, City) 
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Building                                              */
 /*==============================================================*/
-create table Building (
+CREATE TABLE Building (
    LocationName         D_NAME               NOT NULL,
    City                 D_LOCATION           NOT NULL,
    BName                D_NAME               NOT NULL,
@@ -186,12 +179,12 @@ create table Building (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Congress                                              */
 /*==============================================================*/
-create table Congress (
+CREATE TABLE Congress (
    CongressNo           D_CONGRESSNO         NOT NULL,
    LocationName         D_NAME               NULL,
    City                 D_LOCATION           NULL,
@@ -206,12 +199,12 @@ create table Congress (
 							ON UPDATE CASCADE
 							ON DELETE NO ACTION
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Person                                                */
 /*==============================================================*/
-create table Person (
+CREATE TABLE Person (
    PersonNo             D_PERSONNO           NOT NULL,
    FirstName            D_NAME               NOT NULL,
    LastName             D_NAME               NOT NULL,
@@ -219,12 +212,12 @@ create table Person (
    PhoneNumber          D_TELNR              NOT NULL,
    CONSTRAINT PK_PERSON PRIMARY KEY (PersonNo)
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: CongressManager                                       */
 /*==============================================================*/
-create table CongressManager (
+CREATE TABLE CongressManager (
    PersonNo             D_PERSONNO           NOT NULL,
    Password             D_PASSWORD           NOT NULL,
    CONSTRAINT PK_CONGRESSMANAGER PRIMARY KEY (PersonNo),
@@ -233,12 +226,12 @@ create table CongressManager (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: CongressManagerOfCongress                             */
 /*==============================================================*/
-create table CongressManagerOfCongress (
+CREATE TABLE CongressManagerOfCongress (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    CONSTRAINT PK_CONGRESSMANAGEROFCONGRESS PRIMARY KEY (PersonNo, CongressNo),
@@ -251,12 +244,12 @@ create table CongressManagerOfCongress (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Event                                                 */
 /*==============================================================*/
-create table Event (
+CREATE TABLE Event (
    CongressNo           D_CONGRESSNO         NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
    EName                D_NAME               NOT NULL,
@@ -269,14 +262,14 @@ create table Event (
    CONSTRAINT FK_EVENT_RT_EVENT__CONGRESS FOREIGN KEY (CongressNo)
       REFERENCES Congress (CongressNo)
 							--ON UPDATE CASCADE
-							ON DELETE NO ACTION
+							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Track                                                 */
 /*==============================================================*/
-create table Track (
+CREATE TABLE Track (
    CongressNo           D_CONGRESSNO         NOT NULL,
    TrackNo              D_TRACKNO            NOT NULL,
    Description          D_DESCRIPTION        NULL,
@@ -285,19 +278,19 @@ create table Track (
    CONSTRAINT FK_TRACK_RT_TRACK__CONGRESS FOREIGN KEY (CongressNo)
       REFERENCES Congress (CongressNo)
 							--ON UPDATE CASCADE
-							ON DELETE NO ACTION
+							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: EventInTrack                                          */
 /*==============================================================*/
-create table EventInTrack (
+CREATE TABLE EventInTrack (
    TRA_CongressNo       D_CONGRESSNO         NOT NULL,
    TrackNo              D_TRACKNO            NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
-   START                D_DATETIME           NULL,
+   Start                D_DATETIME           NULL,
    [End]                D_DATETIME           NULL,
    CONSTRAINT PK_EVENTINTRACK PRIMARY KEY (TRA_CongressNo, CongressNo, TrackNo, EventNo),
    CONSTRAINT FK_EVENTINT_RT_TRACK__TRACK FOREIGN KEY (TRA_CongressNo, TrackNo)
@@ -309,12 +302,12 @@ create table EventInTrack (
 							ON UPDATE CASCADE -- DEZE EVENTUEEL ANDERS	
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Room                                                  */
 /*==============================================================*/
-create table Room (
+CREATE TABLE Room (
    LocationName         D_NAME               NOT NULL,
    City                 D_LOCATION           NOT NULL,
    BName                D_NAME               NOT NULL,
@@ -327,12 +320,12 @@ create table Room (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: EventInRoom                                           */
 /*==============================================================*/
-create table EventInRoom (
+CREATE TABLE EventInRoom (
    CongressNo           D_CONGRESSNO         NOT NULL,
    TrackNo              D_TRACKNO            NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
@@ -351,12 +344,12 @@ create table EventInRoom (
 							ON UPDATE CASCADE -- DEZE EVENTUEEL ANDERS
 							ON DELETE NO ACTION
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Visitor                                               */
 /*==============================================================*/
-create table Visitor (
+CREATE TABLE Visitor (
    PersonNo             D_PERSONNO           NOT NULL,
    Password             D_PASSWORD           NOT NULL,
    CONSTRAINT PK_VISITOR PRIMARY KEY (PersonNo),
@@ -365,12 +358,12 @@ create table Visitor (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: VisitorOfCongress                                     */
 /*==============================================================*/
-create table VisitorOfCongress (
+CREATE TABLE VisitorOfCongress (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    HasPaid              D_BOOLEAN            NOT NULL,
@@ -384,12 +377,12 @@ create table VisitorOfCongress (
 							ON UPDATE CASCADE
 							ON DELETE NO ACTION
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: EventOfVisitorOfCongress                              */
 /*==============================================================*/
-create table EventOfVisitorOfCongress (
+CREATE TABLE EventOfVisitorOfCongress (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    EVE_CongressNo       D_CONGRESSNO         NOT NULL,
@@ -400,18 +393,18 @@ create table EventOfVisitorOfCongress (
    CONSTRAINT FK_EVENTOFV_RT_EVENT__VISITORO FOREIGN KEY (PersonNo, CongressNo)
       REFERENCES VisitorOfCongress (PersonNo, CongressNo)
 							ON UPDATE CASCADE
-							ON DELETE NO ACTION,
+							ON DELETE CASCADE,
    CONSTRAINT FK_EVENTOFV_RT_EVENT__EVENTINT FOREIGN KEY (TRA_CongressNo, EVE_CongressNo, TrackNo, EventNo)
       REFERENCES EventInTrack (TRA_CongressNo, CongressNo, TrackNo, EventNo)
 							ON UPDATE CASCADE --DEZE EVENTUEEL ANDERS
 							ON DELETE NO ACTION
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: GeneralManager                                        */
 /*==============================================================*/
-create table GeneralManager (
+CREATE TABLE GeneralManager (
    PersonNo             D_PERSONNO           NOT NULL,
    Password             D_PASSWORD           NOT NULL,
    CONSTRAINT PK_GENERALMANAGER PRIMARY KEY (PersonNo),
@@ -420,21 +413,21 @@ create table GeneralManager (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: PersonType                                            */
 /*==============================================================*/
-create table PersonType (
+CREATE TABLE PersonType (
    TypeName             D_TYPE               NOT NULL,
    CONSTRAINT PK_PERSONTYPE PRIMARY KEY (TypeName)
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: PersonTypeOFPerson                                    */
 /*==============================================================*/
-create table PersonTypeOfPerson (
+CREATE TABLE PersonTypeOfPerson (
    PersonNo             D_PERSONNO           NOT NULL,
    TypeName             D_TYPE               NOT NULL,
    CONSTRAINT PK_PERSONTYPEOFPERSON PRIMARY KEY (PersonNo, TypeName),
@@ -447,12 +440,12 @@ create table PersonTypeOfPerson (
 							ON UPDATE CASCADE
 							ON DELETE NO ACTION
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Reviewboard                                           */
 /*==============================================================*/
-create table Reviewboard (	
+CREATE TABLE Reviewboard (	
    PersonNo             D_PERSONNO           NOT NULL,
    CONSTRAINT PK_REVIEWBOARD PRIMARY KEY (PersonNo),
    CONSTRAINT FK_REVIEWBO_INHERITAN_PERSON FOREIGN KEY (PersonNo)
@@ -460,12 +453,12 @@ create table Reviewboard (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: ReviewboardOfCongress                                 */
 /*==============================================================*/
-create table ReviewboardOfCongress (
+CREATE TABLE ReviewboardOfCongress (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    CONSTRAINT PK_REVIEWBOARDOFCONGRESS PRIMARY KEY (PersonNo, CongressNo),
@@ -478,12 +471,12 @@ create table ReviewboardOfCongress (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Speaker                                               */
 /*==============================================================*/
-create table Speaker (
+CREATE TABLE Speaker (
    PersonNo             D_PERSONNO           NOT NULL,
    Description          D_DESCRIPTION        NOT NULL,
    PicturePath          D_FILE               NOT NULL,
@@ -493,12 +486,12 @@ create table Speaker (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: SpeakerOfCongress                                    */
 /*==============================================================*/
-create table SpeakerOfCongress (
+CREATE TABLE SpeakerOfCongress (
    PersonNo             D_PERSONNO          NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    Agreement            D_DESCRIPTION        NOT NULL,
@@ -512,12 +505,12 @@ create table SpeakerOfCongress (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: SpeakerOfEvent                                        */
 /*==============================================================*/
-create table SpeakerOfEvent (
+CREATE TABLE SpeakerOfEvent (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
@@ -531,21 +524,21 @@ create table SpeakerOfEvent (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: Subject                                               */
 /*==============================================================*/
-create table Subject (
+CREATE TABLE Subject (
    Subject              D_SUBJECT            NOT NULL,
    CONSTRAINT PK_Subject PRIMARY KEY (Subject)
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: SubjectOfCongress                                     */
 /*==============================================================*/
-create table SubjectOfCongress (
+CREATE TABLE SubjectOfCongress (
    Subject              D_SUBJECT            NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    CONSTRAINT PK_SUBJECTOFCONGRESS PRIMARY KEY (Subject, CongressNo),
@@ -558,12 +551,12 @@ create table SubjectOfCongress (
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
 )
-go
+GO
 
 /*==============================================================*/
 /* Table: SubjectOfEvent                                        */
 /*==============================================================*/
-create table SubjectOfEvent (
+CREATE TABLE SubjectOfEvent (
    CongressNo           D_CONGRESSNO         NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
    Subject              D_SUBJECT            NOT NULL,
@@ -577,5 +570,5 @@ create table SubjectOfEvent (
 							ON UPDATE CASCADE
 							ON DELETE NO ACTION
 )
-go
+GO
 
