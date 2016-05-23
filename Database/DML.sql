@@ -35,7 +35,7 @@ INSERT INTO PersonType (TypeName) VALUES ('Algemene beheerder'),
 							  ('Reviewboard')
 
 INSERT INTO Person (FirstName, LastName, MailAddress, PhoneNumber) VALUES ('Erik', 'Evers', 'erikevers1996@gmail.com', '0613334002'),
-																					('Daniël', 'de Jong', 'danieldejong@hotmail.com', '0612345678'),
+																					('Daniï¿½l', 'de Jong', 'danieldejong@hotmail.com', '0612345678'),
 																					('Niels', 'Bergervoet', 'nielsbergervoet@hotmail.com', '0654897852'),
 																					('Enzo', 'van Arum', 'enzovanarum@hotmail.com', '0678945236'),
 																					('Onno', 'Hols', 'onnohols@hotmail.com', '0694858595'),
