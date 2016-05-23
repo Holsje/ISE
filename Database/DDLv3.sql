@@ -185,14 +185,14 @@ GO
 /* Table: Congress                                              */
 /*==============================================================*/
 CREATE TABLE Congress (
-   CongressNo           D_CONGRESSNO         NOT NULL,
+   CongressNo           D_CONGRESSNO IDENTITY NOT NULL,
    LocationName         D_NAME               NULL,
    City                 D_LOCATION           NULL,
    CName                D_NAME               NOT NULL,
    Startdate            D_DATE               NULL,
    Enddate              D_DATE               NULL,
    Price                D_PRICE              NULL,
-   [Public]             D_BOOLEAN            NOT NULL,
+   [Public]             D_BOOLEAN            NOT NULL DEFAULT 0,
    CONSTRAINT PK_CONGRESS PRIMARY KEY (CongressNo),
    CONSTRAINT FK_CONGRESS_RT_CONGRE_LOCATION FOREIGN KEY (LocationName, City)
       REFERENCES Location (LocationName, City)
@@ -205,7 +205,7 @@ GO
 /* Table: Person                                                */
 /*==============================================================*/
 CREATE TABLE Person (
-   PersonNo             D_PERSONNO           NOT NULL,
+   PersonNo             D_PERSONNO IDENTITY  NOT NULL,
    FirstName            D_NAME               NOT NULL,
    LastName             D_NAME               NOT NULL,
    MailAddress          D_MAIL               NOT NULL,
@@ -271,7 +271,7 @@ GO
 /*==============================================================*/
 CREATE TABLE Track (
    CongressNo           D_CONGRESSNO         NOT NULL,
-   TrackNo              D_TRACKNO            NOT NULL,
+   TrackNo              D_TRACKNO		     NOT NULL,
    Description          D_DESCRIPTION        NULL,
    TName                D_NAME               NOT NULL,
    CONSTRAINT PK_TRACK PRIMARY KEY (CongressNo, TrackNo),
