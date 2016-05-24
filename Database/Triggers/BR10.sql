@@ -1,4 +1,17 @@
 --BR10. De start- en eindtijden van een evenement moeten binnen de start- en einddatum van het congres vallen.
+
+/*
+	Uitgaande van standaard transaction isolation level: Read committed.
+	Bij de select in de if exists komt er een s-lock op de gelezen data uit de tabel EventInTrack en Congres.
+	Deze s-lock blijft staan tot de data gelezen is, daarna wordt de s-lock gereleased. 
+	Voordat de error geraist kan worden is het dus mogelijk om iets aan te passen. Zoals het veranderen de start of eind datum van het congres.
+	Daardoor zou de melding onterecht op het scherm kunnen komen bij het isolation level read committed. 
+	Het isolation level repeatable read zal hier dan wel voldoende zijn. Die houdt namelijk de s-lock vast tot het einde van de transactie.
+	Het einde van de transactie is na dat de trigger is uitgevoerd door de auto commit.
+	Daardoor kan niet voor het raisen van de error eventueel iets aangepast worden waardoor de melding onterecht is.
+
+*/
+
 ALTER TRIGGER trEventDateNotInBetweenCongressDate_BR10
 ON EventInTrack
 AFTER INSERT, UPDATE

@@ -1,4 +1,17 @@
 --BR8. Evenementen in een track mogen elkaar qua tijd niet overlappen.
+
+/*
+	Uitgaande van standaard transaction isolation level: Read committed.
+	Bij de select in de if exists komt er een s-lock op de gelezen data uit de tabel EventInTrack.
+	Deze s-lock blijft staan tot de data gelezen is, daarna wordt de s-lock gereleased. 
+	Voordat de error geraist kan worden is het dus mogelijk om iets aan te passen. Zoals het veranderen van een room van een event.
+	Daardoor zou de melding onterecht op het scherm kunnen komen bij het isolation level read committed. 
+	Het isolation level repeatable read zal hier dan wel voldoende zijn. Die houdt namelijk de s-lock vast tot het einde van de transactie.
+	Het einde van de transactie is na dat de trigger is uitgevoerd door de auto commit.
+	Daardoor kan niet voor het raisen van de error eventueel iets aangepast worden waardoor de melding onterecht is.
+
+*/
+
 CREATE TRIGGER trEventInTrackOverlap_BR8
 ON EventInTrack
 AFTER INSERT, UPDATE
