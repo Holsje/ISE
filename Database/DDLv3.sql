@@ -212,7 +212,15 @@ CREATE TABLE Person (
    LastName             D_NAME               NOT NULL,
    MailAddress          D_MAIL               NOT NULL,
    PhoneNumber          D_TELNR              NOT NULL,
-   CONSTRAINT PK_PERSON PRIMARY KEY (PersonNo)
+   CONSTRAINT PK_PERSON PRIMARY KEY (PersonNo),
+   CONSTRAINT AK_MAILADDRES UNIQUE(MailAddress),
+   CONSTRAINT CK_MAILADDRESS CHECK (MailAddress LIKE '_%[@]_%[.][a-z][a-z]%'
+				AND CHARINDEX('.@', MailAddress) = 0
+				AND	CHARINDEX('..', MailAddress) = 0
+				AND CHARINDEX(',', MailAddress) = 0
+				AND CHARINDEX('{', MailAddress) = 0
+				AND CHARINDEX('}', MailAddress) = 0
+				AND RIGHT(MailAddress, 1) BETWEEN 'a' AND 'Z')
 )
 GO
 
@@ -301,7 +309,7 @@ CREATE TABLE EventInTrack (
 							ON DELETE NO ACTION,
    CONSTRAINT FK_EVENTINT_RT_EVENT__EVENT FOREIGN KEY (CongressNo, EventNo)
       REFERENCES Event (CongressNo, EventNo)
-							ON UPDATE CASCADE -- DEZE EVENTUEEL ANDERS	
+							ON UPDATE CASCADE 
 							ON DELETE CASCADE
 )
 GO
@@ -343,7 +351,7 @@ CREATE TABLE EventInRoom (
 							ON DELETE CASCADE,
    CONSTRAINT FK_EVENTINR_RT_EVENT__ROOM FOREIGN KEY (LocationName, City, BName, RName)
       REFERENCES Room (LocationName, City, BName, RName)
-							ON UPDATE CASCADE -- DEZE EVENTUEEL ANDERS
+							ON UPDATE CASCADE 
 							ON DELETE NO ACTION
 )
 GO
@@ -398,7 +406,7 @@ CREATE TABLE EventOfVisitorOfCongress (
 							ON DELETE CASCADE,
    CONSTRAINT FK_EVENTOFV_RT_EVENT__EVENTINT FOREIGN KEY (TRA_CongressNo, EVE_CongressNo, TrackNo, EventNo)
       REFERENCES EventInTrack (TRA_CongressNo, CongressNo, TrackNo, EventNo)
-							ON UPDATE CASCADE --DEZE EVENTUEEL ANDERS
+							ON UPDATE CASCADE 
 							ON DELETE NO ACTION
 )
 GO
@@ -422,7 +430,8 @@ GO
 /*==============================================================*/
 CREATE TABLE PersonType (
    TypeName             D_TYPE               NOT NULL,
-   CONSTRAINT PK_PERSONTYPE PRIMARY KEY (TypeName)
+   CONSTRAINT PK_PERSONTYPE PRIMARY KEY (TypeName),
+   CONSTRAINT CK_TYPENAME CHECK (TypeName IN ('Algemene beheerder', 'Congresbeheerder', 'Bezoeker', 'Spreker', 'Reviewboard'))
 )
 GO
 
