@@ -29,19 +29,32 @@ BEGIN
  END
 
 --Testdata BR4.
+--Goede insert
+BEGIN TRAN
+	INSERT INTO Event (CongressNo, EventNo, EName, Type, MaxVisitors, Price, FileDirectory, Description) VALUES (2, 100, 'Test Event', 'Lezing', 40, NULL, 'img/', 'Omschrijving'),
+																												(2, 101, 'Test Event2', 'Lezing', 40, NuLL, 'img/', 'Omschrijving');
+
+	INSERT INTO EventInTrack (TRA_CongressNo, TrackNo, CongressNo, EventNo, Start, [End]) VALUES (2, 1, 2, 100, '2013-04-04 07:00:00', '2013-04-04 08:00:00'),
+																								 (2, 2, 2, 101, '2013-04-04 08:00:00', '2013-04-04 09:00:00');
+
+	INSERT INTO EventInRoom (CongressNo, TrackNo, EventNo, LocationName, City, BName, RName, TRA_CongressNo) VALUES (2, 1, 100, 'HAN', 'Nijmegen', 'PABO', '201', 2),
+																													(2, 2, 101, 'HAN', 'Nijmegen', 'PABO', '201', 2); 
+ROLLBACK TRAN
+
 --Deze gaat fout, omdat event 5 van track 2 van congres 1 in room 101 zou overlappen met:
 -- - Event 3 van congres 1 uit track 1 in room 101
 BEGIN TRAN
-UPDATE EventInRoom
-SET RName = 101 WHERE EVENTNO = 5 AND TrackNo = 2 AND CongressNo = 1
+	UPDATE EventInRoom
+	SET RName = 101 WHERE EVENTNO = 5 AND TrackNo = 2 AND CongressNo = 1
 ROLLBACK TRAN
 
---Multiple insert test. We weten dat Event 5 niet naar 101 kan worden gezet (zie boven)
+--Multiple insert test. 
 BEGIN TRAN
-UPDATE EventInRoom
-SET RName = 101
-WHERE EventNo > 6 AND CongressNo = 1
+	UPDATE EventInRoom 
+	SET RName = 203
+	WHERE CongressNo = 2 AND ((TrackNo = 1 AND EventNo = 1) OR (TrackNo = 2 AND EventNo = 4))
 ROLLBACK TRAN
+
 
 --Voorbeeld van de query resultaat in de trigger wanneer de volgende query wordt uitgevoerd 
 --(eerst trigger uitzetten en dan onderstaande update uitvoeren):
