@@ -1,5 +1,5 @@
 --BR10. De start- en eindtijden van een evenement moeten binnen de start- en einddatum van het congres vallen.
-CREATE TRIGGER trEventDateNotInBetweenCongressDate_BR10
+ALTER TRIGGER trEventDateNotInBetweenCongressDate_BR10
 ON EventInTrack
 AFTER INSERT, UPDATE
 AS 
@@ -13,7 +13,7 @@ BEGIN
 			FROM EVENTINTRACK ET INNER JOIN Inserted I 
 				ON ET.EventNo = I.EventNo AND ET.TrackNo = I.TrackNo AND ET.CongressNo = I.CongressNo INNER JOIN Congress C 
 				ON I.CongressNo = C.CongressNo
-			WHERE I.[End] > C.Enddate OR I.Start < C.Startdate
+			WHERE CAST(I.[End] AS Date) > C.Enddate OR CAST(I.Start AS Date) < C.Startdate
 		)
 	BEGIN
 		RAISERROR('De start- en eindtijden van een evenement moeten binnen de start- en einddatum van het congres vallen.', 16, 1)
