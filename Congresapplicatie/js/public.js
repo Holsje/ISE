@@ -18,7 +18,6 @@ function getEventInfo(eventNo) {
             eventNo: eventNo
         },
         success: function (data) {
-			console.log(data);
             data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['ENAME']);
             $('#thumbnail').attr('src', data['FILEDIRECTORY'] + 'thumbnail.png');

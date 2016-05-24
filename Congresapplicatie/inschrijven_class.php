@@ -3,7 +3,7 @@
 	require_once('ScreenCreator/CreateScreen.php');
 	require_once('connectDatabase.php');
 	require_once('pageConfig.php');
-	
+	//@TODO: Make show empty tracks
 	
 	class Inschrijven {
 		protected $dataBase;
@@ -14,6 +14,7 @@
 			$this->CreateScreen = new CreateScreen();
 		}
 		
+
 	
 		public function createSchedule() {
 		
@@ -23,13 +24,24 @@
 			$tracks = array();
 			if($result) {
 				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
-					$tracks[$row['TRACKNO']] = array("DESCRIPTION" => $row['DESCRIPTION'], "TRACKNAME" => $row['TNAME']);
+					$tracks[$row['TRACKNO']] = $row;
 				}
 			}else {
 				return;
 			}
 			
-
+			$dates;
+			$result  = $this->dataBase->sendQuery("SELECT STARTDATE,ENDDATE FROM Congress WHERE CONGRESSNO = ?",array(1));
+			if($result) {
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					$dates['STARTDATE'] = $row['STARTDATE']->format('Y-m-d');
+					$dates['ENDDATE'] = $row['ENDDATE']->format('Y-m-d');
+				}
+			}else {
+				return;
+			}
+			
+			
 			$result  = $this->dataBase->sendQuery("SELECT T.TRACKNO,E.EVENTNO,T.CONGRESSNO,E.ENAME,E.TYPE,EIT.START,EIT.[END],E.PRICE,E.FILEDIRECTORY " .
 													"FROM TRACK T " .
 													"INNER JOIN EVENTINTRACK EIT " .
@@ -70,18 +82,24 @@
 				return;
 			}
 			
-			$hourHeight = 75;
+			$hourHeight = 150;
 			$firstTrack = true;
 			
 			echo"<script>var json = JSON.parse('". json_encode($congress) ."'); console.log(json);</script>";
-			foreach($congress as $trackKey => $tracks) {
-				if($trackKey=="TIMES") {
-					continue;
-				}
-					echo"<script>var json = JSON.parse('". json_encode($tracks) ."'); console.log(json);</script>";
-					$day = 0;
-					foreach($tracks["DAYS"] AS $dayKey => $eventDates) {
-						$day++;
+			echo"<script>var json = JSON.parse('". json_encode($tracks) ."'); console.log(json);</script>";
+			$day = 0;
+			
+			foreach($dates as $dayKey) {
+				$day++;
+				//$tracks = $congress[$track['TRACKNO']];
+				echo '<div id="day' . $day . '">';
+				foreach($tracks as $track) {						
+						$trackKey = $track['TRACKNO'];
+						if($trackKey=="TIMES") {
+							continue;
+						}
+						
+						echo '<div class="day' . $day . '">';
 						if($firstTrack) {
 							echo '<div id="timeBar' . $day . '" style="height:' . (($congress['TIMES'][$dayKey]['ENDTIME']-$congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight) . 'px; top:100px;" class="col-sm-1 col-md-1 col-xs-1">';
 							for($i = 0;$i<($congress['TIMES'][$dayKey]['ENDTIME']-$congress['TIMES'][$dayKey]['STARTTIME'])+1;$i++) {
@@ -95,13 +113,22 @@
 								echo ':00</div>';
 							}
 							echo '</div>';
+							$firstTrack = false;
 						}
 						
 						echo '<div class="col-sm-3 col-md-3 col-xs-3">';
-						echo '<div class="col-sm-12 col-md-12 col-xs-12" style="height:100px"><h1>' . $tracks['INFO']['TRACKNAME'] . '</h1></div>';
+						echo '<div class="col-sm-12 col-md-12 col-xs-12" style="height:100px"><h1>' . $track['TNAME'] . '</h1></div>';
 						echo '<div class="col-sm-12 col-md-12 col-xs-12" style="margin-left:10px; margin-top:0px; border-style:solid; border-width:1px; background-color:#F0F0F0; height:' . (($congress['TIMES'][$dayKey]['ENDTIME']-$congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight) . ';">';
 						
-						
+						if(!isset($congress[$track['TRACKNO']]["DAYS"][$dayKey])) {
+							echo '</div>';
+							echo '</div>';
+							echo '</div>';
+							continue;
+						}					
+						$eventDates = $congress[$track['TRACKNO']]["DAYS"][$dayKey];
+						//foreach($tracks["DAYS"] AS $dayKey => $eventDates) {
+						echo"<script>var json = JSON.parse('". json_encode($eventDates) ."'); console.log(json);</script>";
 						foreach($eventDates["EVENTS"] AS $event) {
 							$time = split(':',$event['START']);
 							$startTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
@@ -114,46 +141,12 @@
 						}
 						echo '</div>';
 						echo '</div>';
+						echo '</div>';
+						
 					}
-				$firstTrack = false;
+				$firstTrack = true;
+				echo '</div>';
 			}
-			
-			
-			//$event[0][0][0][0];
-			//$event[0][0][0][1];
-			
-			//foreach($events = $event)//
-//				$event['START'];
-//			}
-			
-			
-			//var_dump($tracks[0][0][4]);
-
-			
-		
-		
-			//$result = $this->dataBase->sendQuery("SELECT DESCRIPTION,TRACKNAME FROM TRACK WHERE CongressNo = ?",array(1));
-			
-			//$result = $this->dataBase->sendQuery("SELECT ENAME,TYPE,START,[END],Subject,Price,filedirectory,description FROM EVENT WHERE CongressNo=? AND START IS NOT NULL AND [END] IS NOT NULL ORDER BY START",array(1));
-			//$eventInformation = array();
-			 
-//			 if ($result){
-                ///while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
-                //{
-//					array_push($eventInformation,$row);
-                //}
-            //}
-			
-			
-			//$oldDay = 0;
-			//foreach($eventInformation as $event) {
-				
-				//strtotime($event["START"]->format("d"));
-			//	var_dump($event["START"]->format("d"));
-			
-			//}
-						//DAY 0 TRACK 0 EVENT 0 Starttime
-			
 			
 		}
 		
