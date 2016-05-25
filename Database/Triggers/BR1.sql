@@ -1,5 +1,5 @@
 ALTER TABLE Congress
-ADD CONSTRAINT CHK_StartBeforeEndCongress CHECK (StartDate < EndDate) 
+ADD CONSTRAINT CHK_StartBeforeEndCongress CHECK (StartDate <= EndDate) 
 
 --Goede insert
 BEGIN TRAN
