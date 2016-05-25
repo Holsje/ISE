@@ -3,22 +3,15 @@
     require_once('database.php');
     require_once('ScreenCreator/CreateScreen.php');
     require_once('connectDatabase.php');
-    //if(session_status() === PHP_SESSION_NONE){
-    //    session_start();
-    //}
-    
-    if(isset($_GET['congresNo'])){
-        $_SESSION['congresNo'] = $_GET['congresNo'];
-    }
 
     class Index{
         protected $createScreen;
         protected $database;
         
         public function __construct(){
-            global $server, $databaseName, $uid, $password;
+            global $server, $databaseName, $uid, $password,$databaseHeader;
             $this->createScreen = new CreateScreen();
-            $this->database = new Database($server, $databaseName, $uid, $password);
+            $this->database = $databaseHeader;
         }
         
         public function getEventInfo($eventNo,$congresNo){
@@ -58,6 +51,21 @@
             }
         }
         
+        public function getSpeakerInfo($personId){
+            $sqlSpeaker = ' SELECT P.FirstName, P.LastName, S.PicturePath, S.Description
+                            FROM Speaker S INNER JOIN Person P
+                                ON S.PersonNo = P.PersonNo
+                            WHERE P.PersonNo = ?';
+            
+            $param = array($personId);
+            $result = $this->database->sendQuery($sqlSpeaker,$param);
+            if($result){
+                if($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
+                    return json_encode($row,JSON_FORCE_OBJECT);
+                }
+            }
+        }
+        
         public function createCongresOverzicht(){
             $sqlCongress = 'SELECT LocationName, City, CName, Startdate, Enddate,Price, Description
                         FROM Congress
@@ -65,16 +73,29 @@
             $params = array($_SESSION['congresNo']);
             $resultCongress = $this->database->sendQuery($sqlCongress,$params);
             
-            $sqlEvents = 'SELECT EVENTNO, ENAME, FILEDIRECTORY, DESCRIPTION
+            $sqlEvents = 'SELECT EVENTNO, ENAME, FILEDIRECTORY, DESCRIPTION, Price,Type
                              FROM EVENT
                              WHERE CONGRESSNO = ?';
             $resultEvents = $this->database->sendQuery($sqlEvents,$params);
             if($resultCongress){
                 if($congressResults = sqlsrv_fetch_array($resultCongress, SQLSRV_FETCH_ASSOC)){
                     if($resultEvents){
-                        echo '<div class="col-md-9" >';
+                        echo '<h1 class="col-md-9 col-sm-12 col-xs-12">' . $congressResults['CName'] . '</h1>';
+                        echo '<div class="col-md-9 eventContent" >';
                         while($row = sqlsrv_fetch_array($resultEvents,SQLSRV_FETCH_ASSOC)){
-                            $this->createScreen->createEventInfo($row['ENAME'],$row['DESCRIPTION'],$row['EVENTNO'],'#popUpeventInfo','col-sm-2 col-md-3 col-xs-2','margin-right:50px; margin-bottom:50px; ',$row['FILEDIRECTORY'] . 'thumbnail.png','');
+                            
+                            $sqlSubjectEvents = 'SELECT Subject 
+                                 FROM SubjectOfEvent
+                                 WHERE EventNO = ? AND CongressNo = ?';
+                            $paramEvents = array($row['EVENTNO'],$_SESSION['congresNo']);
+                            $resultSubjectEvents = $this->database->sendQuery($sqlSubjectEvents,$paramEvents);
+                            $subjectsEvent = array();
+                            if($resultSubjectEvents){
+                                while($rowSub = sqlsrv_fetch_array($resultSubjectEvents,SQLSRV_FETCH_ASSOC)){
+                                    array_push($subjectsEvent,$rowSub['Subject']);
+                                }
+                            }
+                            $this->createScreen->createEventInfo($row['ENAME'],$subjectsEvent,number_format($row['Price'],2,',','.'),$row['Type'],$row['EVENTNO'],'#popUpeventInfo','col-sm-2 col-md-3 col-xs-2','margin-right:50px; margin-bottom:50px; ',$row['FILEDIRECTORY'] . 'thumbnail.png','');
                         }
                         echo '</div>';
                     }
@@ -121,11 +142,16 @@
         }
         
         public function createEventInfoPopup(){
-            $image = new Img('','','thumbnail','col-md-3 col-sm-4',true,false);
-            $spanDescription = new Span('','Over evenement','eventDescription','col-md-8 col-sm-6',false,true);
+            $image = new Img('','','thumbnail','col-md-3 col-sm-4 col-xs-8',true,false);
+            $spanDescription = new Span('','Over evenement','eventDescription','col-md-8 col-sm-6 col-xs-12',false,true);
             $spanSubjects = new Span('','Onderwerp(en)','subjects','col-md-12 col-sm-12',true,true);
             $spanSpeakers = new Span('','Spreker(s)','speakers','',true,true);
-            $this->createScreen->createPopup(array($image,$spanDescription,$spanSubjects,$spanSpeakers),"","eventInfo",'bigPop');
+            $this->createScreen->createPopup(array($image,$spanDescription,$spanSubjects,$spanSpeakers),"col-xs-10","eventInfo",'bigPop','first');
+        }
+        public function createSpeakerInfoPopup(){
+            $image = new Img('','','thumbnail','col-md-3',true,false);
+            $spanDescription = new Span('','Over spreker','speakerDescription','col-md-8 col-sm-6 col-xs-12',false,true);
+            $this->createScreen->createPopup(array($image,$spanDescription),"","speaker","smallPop",'');
         }
     }
 ?>

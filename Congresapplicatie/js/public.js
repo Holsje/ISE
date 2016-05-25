@@ -28,13 +28,17 @@ function getEventInfo(eventNo) {
             }
 
             for (i = 0; i < size; i++) {
-                var formGroup = document.createElement('DIV');
-                formGroup.className += 'form-group';
-                formGroup.className += ' speaker';
+                var formGroup = document.createElement('button');
+                formGroup.type = 'button';
+                formGroup.className += 'speaker';
                 formGroup.className += ' col-md-2';
+                formGroup.className += ' popupButton';
+                formGroup.onclick = speakerPopup;
+                formGroup.setAttribute("data-file", '#popUpspeaker');
                 var img = document.createElement('IMG');
                 img.className += 'col-md-12';
                 img.src = data['speakers'][i]['PICTUREPATH'];
+                img.setAttribute('id', data['speakers'][i]['PERSONNO']);
                 formGroup.appendChild(img);
                 var name = document.createElement('SPAN');
                 name.innerHTML = data['speakers'][i]['FIRSTNAME'] + ' ' + data['speakers'][i]['LASTNAME'];
@@ -64,4 +68,24 @@ function getEventInfo(eventNo) {
 
 function createSpeakerElement(index) {
     console.log(index);
+}
+var test;
+
+function speakerPopup(event) {
+    $.ajax({
+        url: 'index.php',
+        type: 'POST',
+        data: {
+            speakerPop: 'GO',
+            personID: event.target.attributes.getNamedItem('id').value
+        },
+        success: function (data) {
+            console.log(data);
+            data = JSON.parse(data);
+            $('#popUpspeaker .popupTitle h1').html(data['FirstName'] + ' ' + data['LastName']);
+            $('#thumbnail').attr('src', data['PicturePath']);
+            $('#speakerDescription').html(data['Description']);
+            $('#popUpspeaker').fadeToggle();
+        }
+    });
 }
