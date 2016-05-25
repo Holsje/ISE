@@ -4,7 +4,7 @@
 	require_once('Index_Class.php');
     $indexClass = new Index();
     require_once('index_Submit.php');
-
+echo'<div id="wrapper">';
     topLayout('Index','','');
 ?>
     <div class="row">
@@ -16,8 +16,10 @@
             </div>
         </div>
     </div>
+    </div>
 
     <?php	
 	bottomLayout();
+$indexClass->createSpeakerInfoPopup();
 $indexClass->createEventInfoPopup();
 ?>

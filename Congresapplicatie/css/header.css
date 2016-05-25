@@ -1,45 +1,40 @@
-
-@media (min-width: 768px) {
-	.mobileMenu {
-		display: none;
-	}
-}
-
-@media (max-width: 768px) {
-	.largeMenu {
-		display: none;
-	}	
-}
-
 .header1 {
-	background-color: #FFFFFF;
+    background-color: #FFFFFF;
 }
-
 nav {
-	float:left;
+    float: left;
 }
-
 .navbar-toggle {
-	float:left;
+    float: left;
 }
-
 .nav>li>a {
-	padding: 15px 0px;
+    padding: 15px 0px;
 }
-
 .nav>li:hover {
-	background-color: white !important;
+    background-color: white !important;
 }
-
 #navbarCollapse ul li a {
-	margin-left: 20px;
+    margin-left: 20px;
 }
-
 .input-group {
-	margin: 8px 0px;
-	float:right;
+    margin: 8px 0px;
+    float: right;
 }
-
 .logo {
-	height: 150px;
+    height: 150px;
+}
+.navbar {
+    margin: 0px;
+}
+.header1,
+.logo {
+    padding: 0px;
+}
+.navbar-header .plan {
+    margin : 0px;
+    float: left;
+}
+.login, .logout {
+    float: right;
+    margin: 0px;
 }

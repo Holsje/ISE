@@ -1,13 +1,3 @@
-@media screen and (min-width: 767px) {
-    .mobileMenu {
-        display: none;
-    }
-}
-@media screen and (max-width: 767px) {
-    .largeMenu {
-        display: none;
-    }
-}
 nav {
     float: left;
 }
@@ -29,13 +19,11 @@ nav {
 .largeMenu {
     margin-bottom: 0;
 }
-
 .logoutForm {
     color: #777777;
     padding-top: 15px;
     margin-left: 330px;
 }
-
 .welcomeText {
     padding-right: 20px;
 }

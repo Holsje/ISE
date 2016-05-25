@@ -1,13 +1,26 @@
 <?php
-	//require_once('query_congres.php');
     require_once('connectDatabase.php');
-	
-	//$CongressApplicationDB = new Congres($server,
-	//				   $database,
-	//				   $uid,
-	//				   $password);
+	require_once('database.php');
 
+    if(isset($_GET['congresNo'])){
+        $_SESSION['congresNo'] = $_GET['congresNo'];
+    }
+    $databaseHeader = new Database($server, $databaseName, $uid, $password);
+    if(isset($_SESSION['congresNo'])){
+        $sqlBanner = 'SELECT banner
+                      FROM Congress
+                      WHERE CongressNo = ?';
+        $bannerPath = '';
+        $param = array($_SESSION['congresNo']);
+        $result = $databaseHeader->sendQuery($sqlBanner,$param);
+        if($result){
+            if($banner = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
+                $bannerPath = $banner['banner'];
+            }
+        }
+    }
 	function topLayout($pageName,$css,$javaScript) {
+    global $bannerPath;
 ?>
 
     <head>
@@ -15,6 +28,7 @@
             <?php echo $pageName; ?>
         </title>
         <meta name="viewport" content="width=device-width,initial-skill=1.0">
+        <meta name="viewport" content="width=device-width, height=device-height">
         <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/header.css" rel="stylesheet">
         <link href="css/public.css" rel="stylesheet">
@@ -31,7 +45,7 @@
     <body>
         <header>
             <div class="header1 col-xs-12 col-sm-12 col-md-12">
-                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="img/logo template.png" alt="logo">
+                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src=<?php echo '"' . $bannerPath . '"'; ?> alt="logo">
             </div>
             <?php include 'menu.php'; ?>
         </header>
