@@ -101,8 +101,8 @@ INSERT INTO Room (LocationName, City, BName, RName, Description, MaxNumberOfPart
 																								 ('Van der Valk Hotel Arnhem', 'Arnhem', 'Hotel', 'Zaal 1', 'Met geluidsinstallatie', 100),
 																								 ('Hotel Papendal', 'Arnhem', 'Congresgebouw', 'Zaal 2', 'Met geluidsinstallatie', 750);
 
-INSERT INTO Congress (CName, LocationName, City, Startdate, Enddate, Price, Description, Banner, [Public]) VALUES ('Data Modeling Zone', 'Abion Spreebogen', 'Berlijn', '2016-10-10', '2016-10-11', 950, 'Omschrijving', 'img/Congresses/Congress1', 0),
-																										  ('HAN NIOC 2013', 'HAN', 'Nijmegen', '2013-04-04', '2013-04-06', 500, 'Omschrijving', 'img/Congresses/Congress2', 0);  
+INSERT INTO Congress (CName, LocationName, City, Startdate, Enddate, Price, Description, Banner, [Public]) VALUES ('Data Modeling Zone', 'Abion Spreebogen', 'Berlijn', '2016-10-10', '2016-10-11', 950, 'Omschrijving', 'img/Banners/Congress1.png', 0),
+																										  ('HAN NIOC 2013', 'HAN', 'Nijmegen', '2013-04-04', '2013-04-06', 500, 'Omschrijving', 'img/Banners/Congress2.png', 0);  
 
 INSERT INTO CongressManagerOfCongress (PersonNo, CongressNo) VALUES (5, 1),
 																	(3, 2);
@@ -124,9 +124,9 @@ INSERT INTO Event (CongressNo, EventNo, EName, Type, MaxVisitors, Price, FileDir
 																											(1, 7, 'Data Vault to Star', 'Lezing', 60, NULL, 'img/', 'Evenement over Data Vault naar Ster..'),
 																											(1, 8, 'Raw Data', 'Lezing', 50, NULL, 'img/', 'Dit evenement leert je alles over..'),
 																											(1, 9, 'Meta Data', 'Lezing', 50, NULL, 'img/', 'Dit evenement leert je alles over..'),
-																											(2, 1, 'Hadoop', 'Lezing', 40, 50, 'img/', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere finibus accumsan. Nulla facilisi. Praesent ullamcorper quam sed lacus gravida, id commodo nunc fringilla. Maecenas non blandit velit, lacinia mollis ipsum. Integer interdum a tellus sed sollicitudin. Nullam varius tellus et lorem fermentum porta non quis sapien. Nunc a dictum erat. Nunc accumsan bibendum suscipit. Morbi dignissim tellus at erat pellentesque imperdiet. Phasellus interdum risus vel lectus consectetur elementum. Morbi sit amet lectus vitae odio efficitur tempus non eget neque. Aenean lacinia justo quam, vitae malesuada nibh volutpat id. Cras ut fermentum nulla, eget sodales lectus. Aenean sit amet consequat enim. Aliquam lectus arcu, molestie in arcu eu, vulputate vulputate velit. Pellentesque interdum lacus id mi rhoncus vulputate. Aliquam in viverra mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur quis finibus nisi. Maecenas sit amet sapien maximus magna lacinia posuere'),
-																											(2, 2, 'NoSQL vs. Relationele Database', 'Lezing', 40, 50, 'img/', 'Leer alles over betalingssystemen!'),
-																											(2, 3, 'NoTables', 'Lezing', 40, 50, 'img/', 'Leer alles over betalingssystemen!'),
+																											(2, 1, 'Hadoop', 'Lezing', 40, NULL, 'img/', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere finibus accumsan. Nulla facilisi. Praesent ullamcorper quam sed lacus gravida, id commodo nunc fringilla. Maecenas non blandit velit, lacinia mollis ipsum. Integer interdum a tellus sed sollicitudin. Nullam varius tellus et lorem fermentum porta non quis sapien. Nunc a dictum erat. Nunc accumsan bibendum suscipit. Morbi dignissim tellus at erat pellentesque imperdiet. Phasellus interdum risus vel lectus consectetur elementum. Morbi sit amet lectus vitae odio efficitur tempus non eget neque. Aenean lacinia justo quam, vitae malesuada nibh volutpat id. Cras ut fermentum nulla, eget sodales lectus. Aenean sit amet consequat enim. Aliquam lectus arcu, molestie in arcu eu, vulputate vulputate velit. Pellentesque interdum lacus id mi rhoncus vulputate. Aliquam in viverra mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur quis finibus nisi. Maecenas sit amet sapien maximus magna lacinia posuere'),
+																											(2, 2, 'NoSQL vs. Relationele Database', 'Lezing', 40, NULL, 'img/', 'Leer alles over betalingssystemen!'),
+																											(2, 3, 'NoTables', 'Lezing', 40, NULL, 'img/', 'Leer alles over betalingssystemen!'),
 																											(2, 4, 'Power-BI', 'Workshop', 20, 100, 'img/', 'Dit evenement over Power-BI...'),
 																											(2, 5, '360 graden BI', 'Lezing', 30, NULL, 'img/', 'Algemene informatie over BI..'),
 																											(2, 6, 'Analyse en Rapportage', 'Lezing', 40, NULL, 'img/', 'Dit evenement leert je alles over..'),
