@@ -17,10 +17,9 @@ ON EventInTrack
 AFTER INSERT, UPDATE
 AS 
 BEGIN
-	SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 	IF @@ROWCOUNT = 0 RETURN;
 	SET NOCOUNT ON;
-
+	SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 	BEGIN TRY
 		IF EXISTS(
 			SELECT 1
@@ -42,18 +41,18 @@ BEGIN
  --BR10 Testdata
 -- fout, het event is eerder dan startdatum van het congres
 BEGIN TRANSACTION
-INSERT INTO EVENT VALUES(1, 2, 'Een overlappend event', 'lezing', 50, NULL, 'img/', 'test')
-INSERT INTO EVENTINTRACK VALUES(1, 1, 1, 2, '2015-04-10 11:00:00', '2015-04-10 11:50:00') 
+INSERT INTO EVENT VALUES(1, 100, 'Een overlappend event', 'lezing', 50, NULL, 'img/', 'test')
+INSERT INTO EVENTINTRACK VALUES(1, 1, 1, 100, '2015-04-10 11:00:00', '2015-04-10 11:50:00') 
 ROLLBACK TRANSACTION
 
 -- fout, het event is later dan einddatum van het congres
 BEGIN TRANSACTION
-INSERT INTO EVENT VALUES(1, 2, 'Een overlappend event', 'lezing', 50, NULL, 'img/', 'test')
-INSERT INTO EVENTINTRACK VALUES(1, 1, 1, 2, '2017-10-10 11:00:00', '2017-10-10 11:50:00') 
+INSERT INTO EVENT VALUES(1, 100, 'Een overlappend event', 'lezing', 50, NULL, 'img/', 'test')
+INSERT INTO EVENTINTRACK VALUES(1, 1, 1, 100, '2017-10-10 11:00:00', '2017-10-10 11:50:00') 
 ROLLBACK TRANSACTION
 
 -- goed, event start en end date(time) ligt tussen congres start en end date
 BEGIN TRANSACTION
-INSERT INTO EVENT VALUES(1, 2, 'Een overlappend event', 'lezing', 50, NULL, 'img/', 'test')
-INSERT INTO EVENTINTRACK VALUES(1, 1, 1, 2, '2016-10-10 18:05:00', '2016-10-10 18:30:00') 
+INSERT INTO EVENT VALUES(1, 100, 'Een overlappend event', 'lezing', 50, NULL, 'img/', 'test')
+INSERT INTO EVENTINTRACK VALUES(1, 1, 1, 100, '2016-10-10 18:05:00', '2016-10-10 18:30:00') 
 ROLLBACK TRANSACTION
