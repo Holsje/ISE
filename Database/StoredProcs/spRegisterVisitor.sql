@@ -17,13 +17,6 @@ BEGIN
 		BEGIN TRANSACTION;
 
 	BEGIN TRY
-		IF EXISTS(
-			SELECT 1 
-			FROM Person 
-			WHERE FIRSTNAME = @firstname AND LASTNAME = @lastname AND MAILADDRESS = @mailAddress AND PHONENUMBER = @phonenum
-		)
-		RAISERROR('Er is al een persoon die zich met deze gegevens heeft geregistreerd.', 16, 1);
-		ELSE
 			INSERT INTO PERSON VALUES(@firstname, @lastname, @mailAddress, @phonenum)
 			DECLARE @personNo INT = (SELECT PersonNo 
 									 FROM PERSON 
