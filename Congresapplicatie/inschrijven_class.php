@@ -109,7 +109,7 @@
 				}
 				
 				echo '<div class="col-sm-3 col-md-3 col-xs-3 event">';
-				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventTitle"><h1>' . $track['TNAME'] . '</h1></div>';
+				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventTitle"><h2>' . $track['TNAME'] . '</h2></div>';
 				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventBox" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight) . ';">';
 				
 				if(!isset($this->congress[$track['TRACKNO']]["DAYS"][$dayKey])) {

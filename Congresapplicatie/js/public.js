@@ -8,7 +8,7 @@ $(document).ready(function () {
         $('.speaker').remove();
     });
 	
-	$(".eventInfoBox").on("click", function (event) {
+	$(".eventBox .eventInfoBox").on("click", function (event) {
 		if ($(this).hasClass("selected")) {
 			$(this).removeClass("selected");
 			$(this).find("input")[0].name = "eventNo[]";
@@ -79,8 +79,7 @@ function getEventInfo(eventNo) {
         },
         success: function (data) {
             data = JSON.parse(data);
-			alert(data);
-            $('#popUpeventInfo .popupTitle h1').html(data['ENAME']);
+            $('#popUpeventInfo .popupTitle h1').html(data['EName']);
             $('#thumbnail').attr('src', data['FileDirectory'] + 'thumbnail.png');
             $('#eventDescription').html(data['Description']);
             var size = 0;

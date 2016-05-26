@@ -11,11 +11,13 @@ $(document).ready(function () {
     $(".closePopup").on("click", function (event) {
         eventTest = event;
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
+        if(event.target.attributes.getNamedItem("data-file").value == '#popUpLogin'){
+            window.location.href = window.location;
+        }
         if(document.getElementById(eventTest.target.attributes.getNamedItem('data-file').value.substring(1)).classList.contains('show')){
             $(event.target.attributes.getNamedItem("data-file").value).removeClass('show');
             
         }
-        window.location.href = window.location.href;
 
     });
     $(".first").on("click", function (event) {

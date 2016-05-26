@@ -4,14 +4,13 @@
 			echo 'ingelogd en op laatste knop gedrukt';
 		}
 	}
-	if (isset($_GET['congressNo'])) {
-		$_SESSION['congressNo'] = $_GET['congressNo'];
+	if (isset($_SESSION['congressNo'])) {
 		$_SESSION['pageCount'] = 0;
 		$_SESSION['runningFormData'] = array();
 		$_SESSION['lastPage'] = null;
 	}
 	else if (!isset($_SESSION['congressNo'])) {
-		die("COngressnummer niet meegegeven ");
+		die("Congressnummer niet meegegeven ");
 	}
 	
 	if(isset($_SESSION['pageCount'])) {
