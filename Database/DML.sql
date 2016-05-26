@@ -24,23 +24,23 @@ DELETE FROM PersonType
 GO
 
 
-DBCC CHECKIDENT ('Person', RESEED, 0);
-DBCC CHECKIDENT ('Congress', RESEED, 0);
+--DBCC CHECKIDENT ('Person', RESEED, 0);
+--DBCC CHECKIDENT ('Congress', RESEED, 0);
 
 
 INSERT INTO PersonType (TypeName) VALUES ('Algemene beheerder'),
-							  ('Congresbeheerder'),
-							  ('Bezoeker'),
-							  ('Spreker'),
-							  ('Reviewboard')
+										 ('Congresbeheerder'),
+										 ('Bezoeker'),
+										 ('Spreker'),
+										 ('Reviewboard')
 
 INSERT INTO Person (FirstName, LastName, MailAddress, PhoneNumber) VALUES ('Erik', 'Evers', 'erikevers1996@gmail.com', '0613334002'),
-																					('Dani�l', 'de Jong', 'danieldejong@hotmail.com', '0612345678'),
-																					('Niels', 'Bergervoet', 'nielsbergervoet@hotmail.com', '0654897852'),
-																					('Enzo', 'van Arum', 'enzovanarum@hotmail.com', '0678945236'),
-																					('Onno', 'Hols', 'onnohols@hotmail.com', '0694858595'),
-																					('Dave', 'Snowden', 'davesnowden@gmail.com', '0610493923'),
-																					('Barry', 'Devlin', 'barrydevlin@gmail.com', '0645785126');
+																		  ('Daniël', 'de Jong', 'danieldejong@hotmail.com', '0612345678'),
+																		  ('Niels', 'Bergervoet', 'nielsbergervoet@hotmail.com', '0654897852'),
+																		  ('Enzo', 'van Arum', 'enzovanarum@hotmail.com', '0678945236'),
+																		  ('Onno', 'Hols', 'onnohols@hotmail.com', '0694858595'),
+																		  ('Dave', 'Snowden', 'davesnowden@gmail.com', '0610493923'),
+																		  ('Barry', 'Devlin', 'barrydevlin@gmail.com', '0645785126');
 
 INSERT INTO PersonTypeOfPerson (PersonNo, TypeName) VALUES (1, 'Algemene beheerder'),
 														   (2, 'Algemene beheerder'),
@@ -77,7 +77,14 @@ INSERT INTO Visitor (PersonNo, Password) VALUES (1, 'dc00c903852bb19eb250aeba05e
 INSERT INTO CongressManager (PersonNo, Password) VALUES (5, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937'),
 														(3, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937');
 
-INSERT INTO [Subject]([Subject]) VALUES ('DataModeling'),('ICT'),('BusinessIntelligence'),('BigData'),('Data'),('Database'),('Javascript'),('Programeren');
+INSERT INTO [Subject]([Subject]) VALUES ('DataModeling'),
+										('ICT'),
+										('BusinessIntelligence'),
+										('BigData'),
+										('Data'),
+										('Database'),
+										('Javascript'),
+										('Programmeren');
 
 INSERT INTO Location (LocationName, City) VALUES ('Abion Spreebogen', 'Berlijn'),
 											     ('HAN', 'Nijmegen'),
@@ -102,7 +109,7 @@ INSERT INTO Room (LocationName, City, BName, RName, Description, MaxNumberOfPart
 																								 ('Hotel Papendal', 'Arnhem', 'Congresgebouw', 'Zaal 2', 'Met geluidsinstallatie', 750);
 
 INSERT INTO Congress (CName, LocationName, City, Startdate, Enddate, Price, Description, Banner, [Public]) VALUES ('Data Modeling Zone', 'Abion Spreebogen', 'Berlijn', '2016-10-10', '2016-10-11', 950, 'Omschrijving', 'img/Banners/Congress1.png', 0),
-																										  ('HAN NIOC 2013', 'HAN', 'Nijmegen', '2013-04-04', '2013-04-06', 500, 'Omschrijving', 'img/Banners/Congress2.png', 0);  
+																												  ('HAN NIOC 2013', 'HAN', 'Nijmegen', '2013-04-04', '2013-04-06', 500, 'Omschrijving', 'img/Banners/Congress2.png', 0);  
 
 INSERT INTO CongressManagerOfCongress (PersonNo, CongressNo) VALUES (5, 1),
 																	(3, 2);
@@ -224,7 +231,7 @@ INSERT INTO SubjectOfCongress ([Subject], CongressNo) VALUES ('DataModeling', 1)
 															 ('ICT', 2);
 
 INSERT INTO SubjectOfEvent (CongressNo, [Subject], EventNo) VALUES (1, 'Javascript', 1),
-																   (1, 'Programeren', 1),
+																   (1, 'Programmeren', 1),
 																   (1, 'Javascript', 2),
 																   (1, 'Javascript', 3),
 																   (1, 'BusinessIntelligence', 4),
@@ -247,3 +254,6 @@ INSERT INTO SubjectOfEvent (CongressNo, [Subject], EventNo) VALUES (1, 'Javascri
 																   (2, 'BusinessIntelligence', 7),
 																   (2, 'BusinessIntelligence', 8),
 																   (2, 'ICT', 9);
+
+
+									
