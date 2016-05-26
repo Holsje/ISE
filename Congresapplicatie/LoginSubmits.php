@@ -6,7 +6,7 @@
 				//setcookie('user', $_POST['input-username'], time() + (14*24*60*60));
 				$_SESSION['userWeb'] = $_POST['input-username'];
 				echo "Ingevulde inloggegevens zijn juist!";
-				header('Location: index.php');
+				header('Location: ' . $_SERVER['HTTP_REFERER'] . '');
 			}
 			else{
 				$errorstring = "Ingevulde inloggegevens zijn onjuist!";
@@ -17,8 +17,13 @@
             if (isset($_COOKIE['userWeb'])){
                 setcookie('userWeb', '', 1);
             }
-            header('Location: index.php');
-        }
+			if (isset($_SESSION['congressNo'])) {
+				header('Location: index.php?congresNo=' . $_SESSION['congressNo']);
+			}
+			else {
+				header('Location: index.php?' . $_SERVER['QUERY_STRING']);
+			}
+		}
 	}
 
 	

@@ -110,6 +110,10 @@ class Database
         
         return $err;
     }
+	
+	public function getConn() {
+		return $this->conn;
+	}
     
 }
 

@@ -49,9 +49,9 @@ require_once('ScreenObjects/Img.php');
             echo '</div>';
         }
 		
-		public function createEventInfo($eventName,$subjects,$price,$type,$eventId,$dataFile,$classes,$extraStyle,$image,$timeString) {
+		public function createEventInfo($eventName,$subjects,$price,$type,$eventId, $trackno, $dataFile,$classes,$extraStyle,$image,$timeString) {
 			if($classes != null) {
-				echo '<div value="' . $eventId . '" class="' . $classes . ' eventInfoBox"';
+				echo '<div value="'.$eventId.'" class="' . $classes . ' eventInfoBox"';
 			}else {
 				echo '<div class="col-sm-3 col-md-3 col-xs-3 eventInfoBox"';
 			}
@@ -59,6 +59,7 @@ require_once('ScreenObjects/Img.php');
 				echo "style='" . $extraStyle . "'";
 			}
 			echo ">";
+				echo '<input type="hidden" value="'. $trackno . '-'. $eventId . '" name="eventno[]">';
 				echo '<h3>' . $eventName ;
 				if($image != null) {
 					echo '<img class="eventImage" src="' . $image . '">';

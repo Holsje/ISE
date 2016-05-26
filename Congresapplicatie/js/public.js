@@ -6,8 +6,50 @@ $(document).ready(function () {
     $("#popUpeventInfo .closePopup").on("click", function (event) {
         $('.speaker').remove();
     });
+	
+	$(".eventInfoBox").on("click", function (event) {
+		if ($(this).hasClass("selected")) {
+			$(this).removeClass("selected");
+			$(this).find("input")[0].name = "eventNo[]";
+		}
+		else {
+			$(this).addClass("selected");
+			$(this).find("input")[0].name = "eventNoSelected[]";
+		}
+	});
+	
+	$(".signUpForCongressButton").on("click", function (event){
+		editRunningFormData();
+	});
 });
 
+
+function editRunningFormData() {
+	var selectedEventsOnLastPage = $("[name='eventNoSelected[]']");
+	var resultArray = [];
+
+	for(i = 0; i < selectedEventsOnLastPage.length; i++) {
+		resultArray.push(selectedEventsOnLastPage[i].value);
+	}
+	$.ajax({
+		url: window.location.href,
+		type: 'POST',
+		data: {
+			eventNoSelected: resultArray,
+			ajaxRequest: 'inschrijven'
+		},
+		success: function (data) {
+			console.log(data);
+			if (data == 'logged in') {
+				location.reload();
+			}
+			
+		},
+		error: function (request, status, error) {
+			console.log(status);
+		}
+	});
+}
 
 function getEventInfo(eventNo) {
     $.ajax({
@@ -19,6 +61,7 @@ function getEventInfo(eventNo) {
         },
         success: function (data) {
             data = JSON.parse(data);
+			alert(data);
             $('#popUpeventInfo .popupTitle h1').html(data['ENAME']);
             $('#thumbnail').attr('src', data['FILEDIRECTORY'] + 'thumbnail.png');
             $('#eventDescription').html(data['DESCRIPTION']);
