@@ -35,8 +35,8 @@ function getEventInfo(eventNo) {
         success: function (data) {
             data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['ENAME']);
-            $('#thumbnail').attr('src', data['FILEDIRECTORY'] + 'thumbnail.png');
-            $('#eventDescription').html(data['DESCRIPTION']);
+            $('#thumbnail').attr('src', data['FileDirectory'] + 'thumbnail.png');
+            $('#eventDescription').html(data['Description']);
             var size = 0;
             for (var value in data['speakers']) {
                 size++;
@@ -52,11 +52,11 @@ function getEventInfo(eventNo) {
                 formGroup.setAttribute("data-file", '#popUpspeaker');
                 var img = document.createElement('IMG');
                 img.className += 'col-md-12';
-                img.src = data['speakers'][i]['PICTUREPATH'];
-                img.setAttribute('id', data['speakers'][i]['PERSONNO']);
+                img.src = data['speakers'][i]['PicturePath'];
+                img.setAttribute('id', data['speakers'][i]['PersonNo']);
                 formGroup.appendChild(img);
                 var name = document.createElement('SPAN');
-                name.innerHTML = data['speakers'][i]['FIRSTNAME'] + ' ' + data['speakers'][i]['LASTNAME'];
+                name.innerHTML = data['speakers'][i]['FirstName'] + ' ' + data['speakers'][i]['LastName'];
                 name.className += 'col-md-10';
                 formGroup.appendChild(name);
                 document.forms['formeventInfo'].appendChild(formGroup);
