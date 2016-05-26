@@ -7,5 +7,10 @@
         echo $indexClass->getSpeakerInfo($_POST['personID']);
         die();
     }
+    if(isset($_POST['subjectClick'])){
+        
+        echo $indexClass->getEventsBySubject($_POST['subject']);
+        die();
+    }
 
 ?>

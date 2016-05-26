@@ -9,7 +9,9 @@
 					 array(1, SQLSRV_PARAM_IN), //haspaid
 					 array(1, SQLSRV_PARAM_IN) //congressno
 				   );
-		$registration->addRecord("spRegisterVisitor",$params);
+        echo '<br>';
+		echo $registration->addRecord("spRegisterVisitor",$params);
+        die();
 	}
 
 ?>

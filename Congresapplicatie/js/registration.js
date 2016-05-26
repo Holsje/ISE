@@ -1,11 +1,13 @@
 $(document).ready(function () {
-	document.forms["formRegistration"]["registrationSubmit"].onclick = isValidInput;
+    if(typeof document.forms['formRegistration'] !== 'undefined'){
+	   document.forms["formRegistration"]["registrationSubmit"].onclick = isValidInput;
+    }
 });
 
 function sendFormData() {
 	var form = document.forms["formRegistration"];
 	$.ajax({
-		url: window.location.href,
+		url: 'Registration.php',
 		type: 'POST',
 		data: {
 			validInput: 'valid',
@@ -14,9 +16,13 @@ function sendFormData() {
 			mailAddress: form['mailAddress'].value,
 			phoneNum: form['phoneNum'].value,
 			password: form['password'].value
-		}
+		},
+        success: function(data){
+            console.log(data);
+            alert('Registreren is gelukt, Login met u email en wachtwoord.');
+            $('#popUpRegistration').find('.closePopup').trigger("click");
+        }
 	});
-	alert('Registreren gelukt');
 }
 
 function isValidInput() {
