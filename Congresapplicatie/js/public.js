@@ -1,3 +1,4 @@
+var lastEvent;
 $(document).ready(function () {
     $(".moreInfoButton").on("click", function (event) {
         getEventInfo($(this).closest("div").attr("value"));
@@ -5,6 +6,20 @@ $(document).ready(function () {
 
     $("#popUpeventInfo .closePopup").on("click", function (event) {
         $('.speaker').remove();
+    });
+    $(".subjectClick").on("click", function (event){
+        if(lastEvent != null){
+            if(event.target == lastEvent.target){
+                lastEvent = null;
+            }else{
+                selectEventOnSubject(event.target.innerHTML);
+                lastEvent = event;
+            }
+        }else{
+            selectEventOnSubject(event.target.innerHTML);
+            lastEvent = event;
+        }
+        $('.selectedSubject').removeClass('selectedSubject');
     });
 });
 
@@ -86,6 +101,29 @@ function speakerPopup(event) {
             $('#thumbnail').attr('src', data['PicturePath']);
             $('#speakerDescription').html(data['Description']);
             $('#popUpspeaker').fadeToggle();
+        }
+    });
+}
+
+function selectEventOnSubject(subject){
+    $.ajax({
+        url: 'index.php',
+        type: 'POST',
+        data: {
+            subjectClick: 'go',
+            subject: subject
+        },
+        success: function(data){
+            data = JSON.parse(data);
+            for(var i = 0; i < data.length; i++){
+                for(var x = 0; x<document.getElementsByClassName('eventInfoBox').length; x++){
+                    if(document.getElementsByClassName('eventInfoBox')[x].getAttribute('value') ==data[i]){
+                        if(!document.getElementsByClassName('eventInfoBox')[x].classList.contains('selectedSubject')){
+                            document.getElementsByClassName('eventInfoBox')[x].classList +=' selectedSubject';
+                        }
+                    }
+                }
+            }
         }
     });
 }

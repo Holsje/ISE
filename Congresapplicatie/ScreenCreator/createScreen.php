@@ -74,8 +74,8 @@ require_once('ScreenObjects/Img.php');
 				echo'</p>';
 				echo '<p>' . $type . '</p>';
 				echo '<p class="eventTime">' . $timeString . '</p>';
-				if($price!=null) {
-					echo '<p class="eventPrice">Price:' . $price . '</p>';
+				if($price!=null or $price != 0) {
+					echo '<p class="eventPrice">Prijs:' . number_format($price,2,',','.') . '</p>';
 				}
 				$button = new Button("Meer Info", null, null, "btn btn-default moreInfoButton popupButton", true, true, $dataFile);
 				echo $button->getObjectCode();
