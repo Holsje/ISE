@@ -15,17 +15,17 @@
         }
         
         public function getEventInfo($eventNo,$congresNo){
-            $sqlEvent = 'SELECT ENAME, FILEDIRECTORY, DESCRIPTION
-                             FROM EVENT
-                             WHERE EVENTNO = ? AND CONGRESSNO = ?';
-            $sqlSpeakers = 'SELECT P.PERSONNO, S.PICTUREPATH, P.FIRSTNAME, P.LASTNAME
-                                     FROM SPEAKEROFEVENT SE INNER JOIN SPEAKER S 
-                                         ON SE.PERSONNO = S.PERSONNO INNER JOIN PERSON P 
-                                             ON P.PERSONNO = S.PERSONNO
-                                     WHERE SE.EVENTNO = ? AND SE.CONGRESSNO = ?';
+            $sqlEvent = 'SELECT EName, FileDirectory, Description
+                             FROM Event
+                             WHERE EventNo = ? AND CongressNo = ?';
+            $sqlSpeakers = 'SELECT P.PersonNo, S.PicturePath, P.FirstName, P.LastName
+                                     FROM SpeakerOfEvent SE INNER JOIN Speaker S 
+                                         ON SE.PersonNo = S.PersonNo INNER JOIN Person P 
+                                             ON P.PersonNo = S.PersonNo
+                                     WHERE SE.EventNo = ? AND SE.CongressNo = ?';
             $sqlSubjects = 'SELECT Subject 
                             FROM SubjectOfEvent
-                            WHERE EventNO = ? AND CongressNo = ?';
+                            WHERE EventNo = ? AND CongressNo = ?';
             $params = array($eventNo,$congresNo);
             $resultSpeakers = $this->database->sendQuery($sqlSpeakers, $params);
             $arraySpeakers = array();
@@ -67,32 +67,32 @@
         }
         
         public function getEventsBySubject($subject){
-            $paramsEvent = array($subject,$_SESSION['congresNo']);
-            $sqlEvents ='SELECT E.EVENTNO
-                     FROM EVENT E INNER JOIN SubjectOfEvent SOE
-                        ON E.EVENTNO = SOE.EVENTNO AND E.CONGRESSNO = SOE.CONGRESSNO AND SOE.Subject = ?
-                     WHERE E.CONGRESSNO = ?';
+            $paramsEvent = array($subject,$_SESSION['congressNo']);
+            $sqlEvents ='SELECT E.EventNo
+                     FROM Event E INNER JOIN SubjectOfEvent SOE
+                        ON E.EventNo = SOE.EventNo AND E.CongressNo = SOE.CongressNo AND SOE.Subject = ?
+                     WHERE E.CongressNo = ?';
             $result = $this->database->sendQuery($sqlEvents,$paramsEvent);
             $returnArray = array();
             if($result){
                 while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
-                    array_push($returnArray,$row['EVENTNO']);
+                    array_push($returnArray,$row['EventNo']);
                 }
                 return json_encode($returnArray);
             }
         }
         
-        public function createCongresOverzicht(){
+        public function createCongressOverview(){
             $sqlCongress = 'SELECT LocationName, City, CName, Startdate, Enddate,Price, Description
                         FROM Congress
                         WHERE CongressNo = ? ';
-            $params = array($_SESSION['congresNo']);
+            $params = array($_SESSION['congressNo']);
             $resultCongress = $this->database->sendQuery($sqlCongress,$params);
             
-            $paramsEvent = array($_SESSION['congresNo']);
-            $sqlEvents = 'SELECT EVENTNO, ENAME, FILEDIRECTORY, DESCRIPTION, Price,Type
-                             FROM EVENT
-                             WHERE CONGRESSNO = ?';
+            $paramsEvent = array($_SESSION['congressNo']);
+            $sqlEvents = 'SELECT EventNo, EName, FileDirectory, Description, Price,Type
+                             FROM Event
+                             WHERE CongressNo = ?';
             $resultEvents = $this->database->sendQuery($sqlEvents,$paramsEvent);
             if($resultCongress){
                 if($congressResults = sqlsrv_fetch_array($resultCongress, SQLSRV_FETCH_ASSOC)){
@@ -103,8 +103,8 @@
                             
                             $sqlSubjectEvents = 'SELECT Subject 
                                  FROM SubjectOfEvent
-                                 WHERE EventNO = ? AND CongressNo = ?';
-                            $paramEvents = array($row['EVENTNO'],$_SESSION['congresNo']);
+                                 WHERE EventNo = ? AND CongressNo = ?';
+                            $paramEvents = array($row['EventNo'],$_SESSION['congressNo']);
                             $resultSubjectEvents = $this->database->sendQuery($sqlSubjectEvents,$paramEvents);
                             $subjectsEvent = array();
                             if($resultSubjectEvents){
@@ -112,7 +112,7 @@
                                     array_push($subjectsEvent,$rowSub['Subject']);
                                 }
                             }
-                            $this->createScreen->createEventInfo($row['ENAME'],$subjectsEvent,$row['Price'],$row['Type'],$row['EVENTNO'],'#popUpeventInfo','col-sm-2 col-md-3 col-xs-2','margin-right:50px; margin-bottom:50px; ',$row['FILEDIRECTORY'] . 'thumbnail.png','');
+                            $this->createScreen->createEventInfo($row['EName'],$subjectsEvent,$row['Price'],$row['Type'],$row['EventNo'],'#popUpeventInfo','col-sm-2 col-md-3 col-xs-2','margin-right:50px; margin-bottom:50px; ',$row['FileDirectory'] . 'thumbnail.png','');
                         }
                         echo '</div>';
                     }
