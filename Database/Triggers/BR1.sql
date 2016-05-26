@@ -17,10 +17,10 @@ ADD CONSTRAINT CHK_StartBeforeEndEventInTrack CHECK (Start < [End])
 
 --Goede insert
 BEGIN TRAN
-	INSERT INTO EventInTrack (TRA_CongressNo, TrackNo, CongressNo, EventNo, Start, [End]) VALUES (1, 2, 1, 1, '2016-10-10 09:00:00', '2016-10-10 10:00:00');
+	INSERT INTO EventInTrack (TrackNo, CongressNo, EventNo, Start, [End]) VALUES (2, 1, 1, '2016-10-10 09:00:00', '2016-10-10 10:00:00');
 ROLLBACK TRAN
 
 --Foute insert
 BEGIN TRAN
-	INSERT INTO EventInTrack (TRA_CongressNo, TrackNo, CongressNo, EventNo, Start, [End]) VALUES (1, 2, 1, 1, '2016-10-10 10:00:00', '2016-10-10 09:00:00');
+	INSERT INTO EventInTrack (TrackNo, CongressNo, EventNo, Start, [End]) VALUES (2, 1, 1, '2016-10-10 10:00:00', '2016-10-10 09:00:00');
 ROLLBACK TRAN
