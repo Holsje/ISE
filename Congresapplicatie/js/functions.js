@@ -1,3 +1,5 @@
+var eventTest;
+
 $(document).ready(function () {
     $(".popupButton").on('click', function (event) {
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
@@ -7,7 +9,13 @@ $(document).ready(function () {
     });
 
     $(".closePopup").on("click", function (event) {
+        eventTest = event;
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
+        if(document.getElementById(eventTest.target.attributes.getNamedItem('data-file').value.substring(1)).classList.contains('show')){
+            $(event.target.attributes.getNamedItem("data-file").value).removeClass('show');
+            
+        }
+        window.location.href = window.location.href;
 
     });
     $(".first").on("click", function (event) {

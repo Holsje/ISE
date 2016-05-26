@@ -37,8 +37,8 @@ require_once('ScreenObjects/Img.php');
             echo '</form>';
         }
 
-        public function createPopup($screenObjects,$title,$popupId,$extraCssClasses,$firstWindow){
-            echo '<div id="popUp' . $popupId . '"  class="popup col-sm-12 col-md-12 col-xs-12">';
+        public function createPopup($screenObjects,$title,$popupId,$extraCssClasses,$firstWindow,$forceShow){
+            echo '<div id="popUp' . $popupId . '"  class="popup col-sm-12 col-md-12 col-xs-12 '. $forceShow .'">';
 				echo '<div class="popupWindow col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-10 ' . $extraCssClasses. '">';
 					echo '<div class="popupTitle col-md-6 col-xs-10">';
 						echo '<h1 class="col-md-8 col-xs-8 col-sm-8">' . $title . '</h1>';

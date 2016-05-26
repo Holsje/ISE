@@ -4,11 +4,10 @@
 		if (isset($_POST['submitLogin'])) {
 			if ($login->checkLogin($_POST['input-username'], $_POST['input-password'])){
 				//setcookie('user', $_POST['input-username'], time() + (14*24*60*60));
-				echo "Ingevulde inloggegevens zijn juist!";
-				header('Location: ' . $_SERVER['HTTP_REFERER'] . '');
+				header('Location: index.php');
 			}
 			else{
-				$errorstring = "Ingevulde inloggegevens zijn onjuist!";
+                $_SESSION['loginFail'] = "Gebruikersnaam en/of wachtwoord zijn onjuist";
 			}
 		}
         else if (isset($_POST['logout'])){
