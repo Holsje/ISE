@@ -243,7 +243,12 @@
 		
 		public function createNextDayButton() {
 			if ($_SESSION['pageCount'] + 1 >= sizeof($this->daysOfCongress)) {
-				echo '<button value="confirmation" type="button" name="signUpForCongressButton" class="btn btn-default signUpForCongressButton popUpButton" data-file="#popUpLogin">Inschrijven</button>';
+				if (empty($_SESSION['runningFormData'])) {
+					echo '<button value="confirmation" disabled type="button" name="signUpForCongressButton" class="btn btn-default signUpForCongressButton popUpButton" data-file="#popUpLogin">Inschrijven</button>';
+				} 
+				else {
+					echo '<button value="confirmation" type="button" name="signUpForCongressButton" class="btn btn-default signUpForCongressButton popUpButton" data-file="#popUpLogin">Inschrijven</button>';
+				}
 			}
 			else {
 				echo '<button value="'. $this->currentDay . '" type="submit" name="nextDayButton" class="btn btn-default nextDayButton">Volgende dag</button>';

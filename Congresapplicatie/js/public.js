@@ -15,8 +15,11 @@ $(document).ready(function () {
 		else {
 			$(this).addClass("selected");
 			$(this).find("input")[0].name = "eventNoSelected[]";
+			$(".signUpForCongressButton").prop("disabled", false);
 		}
 	});
+	
+	
 	
 	$(".signUpForCongressButton").on("click", function (event){
 		editRunningFormData();

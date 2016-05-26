@@ -1,6 +1,9 @@
 <?php
-	
-	
+	if (isset($_SESSION['userWeb'])) {
+		if (isset($_POST['signUpForCongressButton'])) {
+			echo 'ingelogd en op laatste knop gedrukt';
+		}
+	}
 	if (isset($_GET['congressNo'])) {
 		$_SESSION['congressNo'] = $_GET['congressNo'];
 		$_SESSION['pageCount'] = 0;
@@ -20,6 +23,14 @@
 		}
 	}
 	
+	if (isset($_POST['ajaxRequest'])) {
+			$_SESSION['lastPage'] = 'lastpage';
+			if (isset($_SESSION['userWeb'])) {
+				echo 'logged in';
+			}
+			die();
+	}
+	
 	if (isset($_POST['eventNoSelected'])) {
 		foreach($_POST['eventNoSelected'] as $eventAndTrack) {
 			$trackNo = (integer) substr($eventAndTrack, 0, 1);
@@ -27,13 +38,5 @@
 			array_push($_SESSION['runningFormData'], $trackNo);
 			array_push($_SESSION['runningFormData'], $eventNo);
 		}
-		
-		if (isset($_POST['ajaxRequest'])) {
-			$_SESSION['lastPage'] = 'lastpage';
-			if (isset($_SESSION['userWeb'])) {
-				echo 'logged in';
-			}
-			die();
-		}
-	}	
+	}
 ?>

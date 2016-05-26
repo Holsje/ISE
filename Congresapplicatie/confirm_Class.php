@@ -40,33 +40,35 @@
 		}
 		
 		public function getEventData() {
-			$query = "SELECT E.EName, E.Type, E.Price, T.TName, E.EventNo, T.TrackNo
-					  FROM EVENTINTRACK ET INNER JOIN EVENT E 
-						  ON ET.EventNo = E.EventNo AND ET.CongressNo = E.CongressNo INNER JOIN Track T
-						  ON T.TrackNo = ET.TrackNo AND ET.CongressNo = T.CongressNo
-					  WHERE ET.CongressNo = ? AND (";
-			$params = array($this->congressNo);		  
-			for($i = 0; $i < sizeof($_SESSION['runningFormData']); $i++) {
-				if ($i % 2 == 0) {
-					$query .= '(ET.TRACKNO = ? '; ;
-					array_push($params, $_SESSION['runningFormData'][$i]);
+			if (!empty($_SESSION['runningFormData'])) {
+				$query = "SELECT E.EName, E.Type, E.Price, T.TName, E.EventNo, T.TrackNo
+						  FROM EVENTINTRACK ET INNER JOIN EVENT E 
+							  ON ET.EventNo = E.EventNo AND ET.CongressNo = E.CongressNo INNER JOIN Track T
+							  ON T.TrackNo = ET.TrackNo AND ET.CongressNo = T.CongressNo
+						  WHERE ET.CongressNo = ? AND (";
+				$params = array($this->congressNo);		  
+				for($i = 0; $i < sizeof($_SESSION['runningFormData']); $i++) {
+					if ($i % 2 == 0) {
+						$query .= '(ET.TRACKNO = ? '; ;
+						array_push($params, $_SESSION['runningFormData'][$i]);
+					}
+					else {
+						$query .= 'AND ET.EVENTNO = ?)';
+						$query .= " OR ";
+						array_push($params, $_SESSION['runningFormData'][$i]);
+					}
 				}
-				else {
-					$query .= 'AND ET.EVENTNO = ?)';
-					$query .= " OR ";
-					array_push($params, $_SESSION['runningFormData'][$i]);
-				}
-			}
-			$query = substr($query, 0, sizeof($query) - 5);
-			$query .= ')';
-
-			$result = $this->dataBase->sendQuery($query, $params);
-			if ($result) {
-				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
-					array_push($this->events['eventNames'], $row['EName']);
-					array_push($this->tracks['trackNames'], $row['TName']);
-					array_push($this->events['eventNos'], $row['EventNo']);
-					array_push($this->tracks['trackNos'], $row['TrackNo']);
+				$query = substr($query, 0, sizeof($query) - 5);
+				$query .= ')';
+				
+				$result = $this->dataBase->sendQuery($query, $params);
+				if ($result) {
+					while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+						array_push($this->events['eventNames'], $row['EName']);
+						array_push($this->tracks['trackNames'], $row['TName']);
+						array_push($this->events['eventNos'], $row['EventNo']);
+						array_push($this->tracks['trackNos'], $row['TrackNo']);
+					}
 				}
 			}
 		}
