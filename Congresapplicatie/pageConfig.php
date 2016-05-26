@@ -35,6 +35,7 @@
         <?php echo $css; ?>
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
             <script src="css/bootstrap/js/bootstrap.min.js"></script>
+            <script src="js/registration.js"></script>
             <script src="js/public.js"></script>
             <script src="js/functions.js"></script>
             <script src="js/headerfunctions.js"></script>
@@ -51,6 +52,7 @@
         </header>
         <?php
             include 'Login.php';
+            include 'Registration.php';
 	}
 	
 	
