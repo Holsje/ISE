@@ -4,7 +4,6 @@
 		if (isset($_POST['submitLogin'])) {
 			if ($login->checkLogin($_POST['input-username'], $_POST['input-password'])){
 				//setcookie('user', $_POST['input-username'], time() + (14*24*60*60));
-				$_SESSION['userWeb'] = $_POST['input-username'];
 				echo "Ingevulde inloggegevens zijn juist!";
 				header('Location: ' . $_SERVER['HTTP_REFERER'] . '');
 			}

@@ -1,8 +1,15 @@
 h1 {
     font-size: 36px;
 }
+.navbar-fixed-top {
+    z-index: 2;
+}
 .container {
     padding: 0px;
+    background-color: beige;
+}
+.content {
+    background-color: #FFFFFF;
 }
 .row {
     margin: 0px;
@@ -25,6 +32,9 @@ h1 {
 }
 .closePopup:hover {
     color: #afaeae;
+}
+#popUpspeaker {
+    z-index: 4;
 }
 .popup {
     z-index: 3;
@@ -67,7 +77,16 @@ h1 {
     font-weight: bold;
     font-family: "Trebuchet MS";
 }
-
+.eventInfoBox {
+    box-shadow: 0px 0px 3px 1px #888888;
+    border-radius: 7px;
+    border-style: solid;
+    border-width: 1px;
+    min-width: 200px;
+    height: 250px;
+    overflow: auto;
+    margin-top: 5px;
+}
 .moreInfoButton {
     position: absolute;
     bottom: 2px;
@@ -85,7 +104,9 @@ h1 {
     position: absolute;
 }
 .eventPrice {
-	
+    position: absolute;
+    right: 100px;
+    bottom: 0px;
 }
 .bigPop {
     width: 80%;
@@ -104,7 +125,7 @@ h1 {
 /*SpeakerInfo*/
 
 .speaker {
-    height: 200px;
+    height: 250px;
     margin: 2px !important;
 }
 .speaker img {
@@ -121,6 +142,8 @@ h1 {
 }
 .welcomeText {
     padding-right: 20px;
+    display: block;
+    margin: 8px !important;
 }
 .congresInfo {
     box-shadow: 0px 0px 2px 1px #888888;
@@ -134,7 +157,7 @@ h1 {
     margin: 5px;
 }
 .plan {
-    margin: 100px 10px;
+    margin: 100px 10px 0px 10px;
     float: right;
     background-color: #f06d0c;
     color: #ffffff;
@@ -142,6 +165,92 @@ h1 {
 .plan:hover {
     border-color: #000000;
     background-color: #efab2c;
+}
+.eventContent {
+    overflow-y: scroll;
+    height: 70%;
+    margin-top: 20px;
+}
+.eventContent::-webkit-scrollbar {
+    background-color: rgba(255, 255, 255, 0);
+    width: 10px;
+}
+.eventContent::-webkit-scrollbar-thumb {
+    background-color: #bebfc1;
+    border-radius: 7px;
+}
+.subjectText{
+    word-break: break-all;
+    display: inline-block;
+}
+.subjectText a:hover{
+    cursor: pointer;
+    text-decoration: none;
+}
+.selectedSubject{
+    box-shadow: 0px 0px 5px 5px #f09a25;
+}
+@media(max-width:460px) {
+    .eventInfoBox {
+        width: 100%;
+        height: 200px;
+    }
+    .popupTitle h1 {
+        width: 70%;
+        margin-right: 10px;
+        font-size: 24px;
+    }
+    .closePopup {
+        float: right;
+    }
+    .eventContent {
+        overflow: hidden;
+        height: auto;
+    }
+    .content {
+        width: 100%;
+        margin: 0px;
+    }
+    .popupWindow {
+        min-width: 100%;
+        margin: 3px;
+        top: 0px;
+        height: 99%;
+    }
+    .popupWindow img {
+        max-height: 100px;
+    }
+    .popupWindow label,
+    .congresInfo label {
+        width: 90%;
+        padding: 0px;
+    }
+    .form-horizontal {
+        margin-top: 120px;
+    }
+    .popupTitle,
+    .bigPop .popupTitle,
+    .smallPop .popupTitle {
+        top: 4px;
+        width: 83%;
+        position: fixed;
+    }
+    .speaker {
+        height: auto;
+        width: auto;
+    }
+    .speaker img {
+        width: 50px;
+    }
+    .speaker span {
+        display: none;
+    }
+    .plan {
+        margin: 0px;
+    }
+    .welcomeText{
+        display: none;
+    }
 }
 
 .event {
