@@ -1,5 +1,4 @@
 <?php
-	require_once('database.php');
 	require_once('ScreenCreator/CreateScreen.php');
 	require_once('connectDatabase.php');
 	require_once('pageConfig.php');
@@ -128,7 +127,7 @@
 					
 					$distanceFromTop = ($startTimeInHours - ($this->congress['TIMES'][$dayKey]['STARTTIME']))*$hourHeight;
 					$height = ($endTimeInHours-$startTimeInHours)*$hourHeight;
-					echo $this->CreateScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","col-sm-12 col-md-12 col-xs-12","position:absolute; top:" . $distanceFromTop . "px; height:" . $height . "px; width:90%; left:5%;",$event['FILEDIRECTORY'],$event['START'] . " -  " . $event['END']);
+					echo $this->CreateScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","col-sm-12 col-md-12 col-xs-12 eventBoxSignUp","position:absolute; top:" . $distanceFromTop . "px; height:" . $height . "px; width:90%; left:5%;",$event['FILEDIRECTORY'],$event['START'] . " -  " . $event['END']);
 				}
 				echo '</div>';
 				echo '</div>';
@@ -217,7 +216,7 @@
 		
 		public function getCongressName() {
 			$result = $this->dataBase->sendQuery("SELECT CName FROM Congress WHERE CongressNo = ?", array($this->congressNo));
-			$congressName;
+			$congressName = '';
 			if ($result) {
 				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
 					$congressName = $row['CName'];

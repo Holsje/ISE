@@ -93,6 +93,9 @@ h1 {
 .eventContent .eventInfoBox{
    height: 200px; 
 }
+.eventBoxSignUp {
+	background-color:#FFFFFF;
+}
 .moreInfoButton {
     position: absolute;
     bottom: 2px;

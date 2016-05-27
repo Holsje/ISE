@@ -1,25 +1,19 @@
 <?php
 	include('admin/sessionHandler.php');
 	sessionHandlerWeb(false);
-	include('inschrijven_Submit.php');
-	require_once('Index_Class.php');
-	require_once('inschrijven_class.php');
-	if (isset($_SESSION['congressNo'])) {
-		$congressNo = $_SESSION['congressNo'];
-	}
-	else {
-		$congressNo = $_GET['congressNo'];
-	}
 	require_once('database.php');
+	require_once('Index_Class.php');
+
 	global $server, $databaseName, $uid, $password;
 	$dataBase = new Database($server,$databaseName,$uid,$password);
-	$inschrijven = new Inschrijven($congressNo, $dataBase);
-	$indexClass = new Index();
-	topLayout('Inschrijven',null,null);
-	if (isset($_SESSION['lastPage'])) {
-		header("Location: confirm.php");
+	include('inschrijven_Submit.php');
+	require_once('inschrijven_class.php');
+	if (!isset($_SESSION['congressNo'])) {
+		die("congressNo is niet meegegeven");
 	}
-	
+	$inschrijven = new Inschrijven($_SESSION['congressNo'], $dataBase);
+	$indexClass = new Index();
+	topLayout('Inschrijven',null,null);	
 ?>
 	 <div class="row">
         <div class="container col-sm-12 col-md-12 col-xs-12">
@@ -50,13 +44,11 @@
 	    				<span class="glyphicon glyphicon-arrow-right carouselIcon" aria-hidden="true"></span>
 	    				<span class="sr-only">Next</span>
 	  				</a>
-                    
+                    <?php
+						$inschrijven->createPreviousDayButton();
+						$inschrijven->createNextDayButton();
+					?>
 				</div>
-				<?php
-                    
-					$inschrijven->createPreviousDayButton();
-					$inschrijven->createNextDayButton();
-				?>
 				</form>
               </div>
             </div>

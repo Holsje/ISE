@@ -1,4 +1,5 @@
 <?php
+	
 	if (!isset($_SESSION['userWeb'])) {
 		session_unset();
 		die("<script>location.href = 'inschrijven.php'</script>");
@@ -8,13 +9,17 @@
 			header('Location: inschrijven.php?congressNo=' . $_SESSION['congressNo']);
 		}
 		if (isset($_POST['confirmSignUp'])) {
-			
-			$queryPersonNoCheck = "SELECT 1 FROM VisitorOfCongress WHERE PersonNo = ? AND CongressNo = ?";
+			$queryPersonNoCheck = "SELECT PersonNo FROM VisitorOfCongress WHERE PersonNo = ? AND CongressNo = ?";
 			$paramsPersonNoCheck = array($_SESSION['userPersonNo'], $_SESSION['congressNo']);
 			$result = $dataBase->sendQuery($queryPersonNoCheck, $paramsPersonNoCheck);
-			
 			if ($result) {
-				die("U bent al ingeschreven voor dit congres.");
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					$personNo = $row['PersonNo'];
+				}
+				if (!empty($personNo)) {
+					header("refresh:5;url='index.php?congressNo=". $_SESSION['congressNo'] . '');
+					die("U bent al ingeschreven voor dit congres. U wordt in 5 seconden doorverwezen naar de homepagina.");
+				}
 			}
 			
 			if (sqlsrv_begin_transaction($dataBase->getConn()) == false) { //BEGIN TRANSACTION
@@ -32,7 +37,7 @@
 			if (isset($_SESSION['runningFormData'])) {
 				for($i = 0; $i < sizeof($_SESSION['runningFormData']); $i+= 2) {
 					if ($i != 0){
-					$query1 .= ", (?,?,?,?)";
+					$queryInsertEventOfVisitorOfCongress .= ", (?,?,?,?)";
 					}
 					array_push($params, $_SESSION['userPersonNo']);
 					array_push($params, $_SESSION['congressNo']);
@@ -53,11 +58,14 @@
 			
 				if (!$queryFailed) {
 					sqlsrv_commit($dataBase->getConn());
-					echo 'Gegevens zijn opgeslagen';
+					unset($_SESSION['lastPage']);
+					echo 'Gegevens zijn opgeslagen. U wordt binnen 5 seconden doorverwezen naar de homepagina.';
+					header("refresh:5;url='index.php?congressNo=". $_SESSION['congressNo'] . '');
 					
 				}
 				else {
-					echo $result . ' De gegevens zijn niet opgeslagen.';
+					echo 'Het inschrijven is mislukt. U wordt binnen 5 seconden doorverwezen naar de homepagina.';
+					header("refresh:5;url='index.php?congressNo=". $_SESSION['congressNo'] . '');
 				}
 			}
 		}
