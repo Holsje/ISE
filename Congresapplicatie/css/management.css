@@ -115,3 +115,16 @@ h1 {
     font-weight: bold;
     font-family: "Trebuchet MS";
 }
+.ui-widget-header {
+	border:0px;
+	background: none;
+}
+
+.ui-widget-content {
+	border: 0;
+}
+
+.ui-tabs .ui-tabs-panel {
+	border: 1px solid #aaaaaa;
+	border-radius:2px;
+}
