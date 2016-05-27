@@ -1,3 +1,4 @@
+var lastEvent;
 $(document).ready(function () {
     $(".moreInfoButton").on("click", function (event) {
         getEventInfo($(this).closest("div").attr("value"));
@@ -5,6 +6,20 @@ $(document).ready(function () {
 
     $("#popUpeventInfo .closePopup").on("click", function (event) {
         $('.speaker').remove();
+    });
+    $(".subjectClick").on("click", function (event){
+        if(lastEvent != null){
+            if(event.target == lastEvent.target){
+                lastEvent = null;
+            }else{
+                selectEventOnSubject(event.target.innerHTML);
+                lastEvent = event;
+            }
+        }else{
+            selectEventOnSubject(event.target.innerHTML);
+            lastEvent = event;
+        }
+        $('.selectedSubject').removeClass('selectedSubject');
     });
 });
 
@@ -20,8 +35,8 @@ function getEventInfo(eventNo) {
         success: function (data) {
             data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['ENAME']);
-            $('#thumbnail').attr('src', data['FILEDIRECTORY'] + 'thumbnail.png');
-            $('#eventDescription').html(data['DESCRIPTION']);
+            $('#thumbnail').attr('src', data['FileDirectory'] + 'thumbnail.png');
+            $('#eventDescription').html(data['Description']);
             var size = 0;
             for (var value in data['speakers']) {
                 size++;
@@ -37,11 +52,11 @@ function getEventInfo(eventNo) {
                 formGroup.setAttribute("data-file", '#popUpspeaker');
                 var img = document.createElement('IMG');
                 img.className += 'col-md-12';
-                img.src = data['speakers'][i]['PICTUREPATH'];
-                img.setAttribute('id', data['speakers'][i]['PERSONNO']);
+                img.src = data['speakers'][i]['PicturePath'];
+                img.setAttribute('id', data['speakers'][i]['PersonNo']);
                 formGroup.appendChild(img);
                 var name = document.createElement('SPAN');
-                name.innerHTML = data['speakers'][i]['FIRSTNAME'] + ' ' + data['speakers'][i]['LASTNAME'];
+                name.innerHTML = data['speakers'][i]['FirstName'] + ' ' + data['speakers'][i]['LastName'];
                 name.className += 'col-md-10';
                 formGroup.appendChild(name);
                 document.forms['formeventInfo'].appendChild(formGroup);
@@ -86,6 +101,29 @@ function speakerPopup(event) {
             $('#thumbnail').attr('src', data['PicturePath']);
             $('#speakerDescription').html(data['Description']);
             $('#popUpspeaker').fadeToggle();
+        }
+    });
+}
+
+function selectEventOnSubject(subject){
+    $.ajax({
+        url: 'index.php',
+        type: 'POST',
+        data: {
+            subjectClick: 'go',
+            subject: subject
+        },
+        success: function(data){
+            data = JSON.parse(data);
+            for(var i = 0; i < data.length; i++){
+                for(var x = 0; x<document.getElementsByClassName('eventInfoBox').length; x++){
+                    if(document.getElementsByClassName('eventInfoBox')[x].getAttribute('value') ==data[i]){
+                        if(!document.getElementsByClassName('eventInfoBox')[x].classList.contains('selectedSubject')){
+                            document.getElementsByClassName('eventInfoBox')[x].classList +=' selectedSubject';
+                        }
+                    }
+                }
+            }
         }
     });
 }

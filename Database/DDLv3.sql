@@ -1,16 +1,16 @@
 USE master
 GO
 
-IF db_id('CongressDB') IS NOT NULL
+IF db_id('CongressDB2') IS NOT NULL
 BEGIN
-	DROP DATABASE CongressDB
+	DROP DATABASE CongressDB2
 END
 GO
 
-CREATE DATABASE CongressDB
+CREATE DATABASE CongressDB2
 GO
 
-USE CongressDB
+USE CongressDB2
 GO
 
 /*==============================================================*/
@@ -296,14 +296,13 @@ GO
 /* Table: EventInTrack                                          */
 /*==============================================================*/
 CREATE TABLE EventInTrack (
-   TRA_CongressNo       D_CONGRESSNO         NOT NULL,
    TrackNo              D_TRACKNO            NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
    Start                D_DATETIME           NULL,
    [End]                D_DATETIME           NULL,
-   CONSTRAINT PK_EVENTINTRACK PRIMARY KEY (TRA_CongressNo, CongressNo, TrackNo, EventNo),
-   CONSTRAINT FK_EVENTINT_RT_TRACK__TRACK FOREIGN KEY (TRA_CongressNo, TrackNo)
+   CONSTRAINT PK_EVENTINTRACK PRIMARY KEY (CongressNo, TrackNo, EventNo),
+   CONSTRAINT FK_EVENTINT_RT_TRACK__TRACK FOREIGN KEY (CongressNo, TrackNo)
       REFERENCES Track (CongressNo, TrackNo)
 							ON UPDATE CASCADE
 							ON DELETE NO ACTION,
@@ -343,10 +342,9 @@ CREATE TABLE EventInRoom (
    City                 D_LOCATION           NOT NULL,
    BName                D_NAME               NOT NULL,
    RName                D_NAME               NOT NULL,
-   TRA_CongressNo       D_CONGRESSNO         NOT NULL,
-   CONSTRAINT PK_EVENTINROOM PRIMARY KEY (LocationName, TrackNo, City, BName, CongressNo, EventNo, RName, TRA_CongressNo),
-   CONSTRAINT FK_EVENTINR_RT_EVENT__EVENTINT FOREIGN KEY (TRA_CongressNo, CongressNo, TrackNo, EventNo)
-      REFERENCES EventInTrack (TRA_CongressNo, CongressNo, TrackNo, EventNo)
+   CONSTRAINT PK_EVENTINROOM PRIMARY KEY (LocationName, TrackNo, City, BName, CongressNo, EventNo, RName),
+   CONSTRAINT FK_EVENTINR_RT_EVENT__EVENTINT FOREIGN KEY (CongressNo, TrackNo, EventNo)
+      REFERENCES EventInTrack (CongressNo, TrackNo, EventNo)
 							ON UPDATE CASCADE
 							ON DELETE CASCADE,
    CONSTRAINT FK_EVENTINR_RT_EVENT__ROOM FOREIGN KEY (LocationName, City, BName, RName)
@@ -395,17 +393,15 @@ GO
 CREATE TABLE EventOfVisitorOfCongress (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
-   EVE_CongressNo       D_CONGRESSNO         NOT NULL,
    TrackNo              D_TRACKNO            NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
-   TRA_CongressNo       D_CONGRESSNO         NOT NULL,
-   CONSTRAINT PK_EVENTOFVISITOROFCONGRESS PRIMARY KEY (PersonNo, CongressNo, EVE_CongressNo, TrackNo, EventNo, TRA_CongressNo),
+   CONSTRAINT PK_EVENTOFVISITOROFCONGRESS PRIMARY KEY (PersonNo, CongressNo, TrackNo, EventNo),
    CONSTRAINT FK_EVENTOFV_RT_EVENT__VISITORO FOREIGN KEY (PersonNo, CongressNo)
       REFERENCES VisitorOfCongress (PersonNo, CongressNo)
 							ON UPDATE CASCADE
 							ON DELETE CASCADE,
-   CONSTRAINT FK_EVENTOFV_RT_EVENT__EVENTINT FOREIGN KEY (TRA_CongressNo, EVE_CongressNo, TrackNo, EventNo)
-      REFERENCES EventInTrack (TRA_CongressNo, CongressNo, TrackNo, EventNo)
+   CONSTRAINT FK_EVENTOFV_RT_EVENT__EVENTINT FOREIGN KEY (CongressNo, TrackNo, EventNo)
+      REFERENCES EventInTrack (CongressNo, TrackNo, EventNo)
 							ON UPDATE CASCADE 
 							ON DELETE NO ACTION
 )

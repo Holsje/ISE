@@ -24,18 +24,22 @@ require_once('pageConfig.php');
         public function createLoginScreen() {
             $inputUsername = new Text(null, "Gebruikersnaam", "input-username", null, true, true, true);
             $inputPassword = new Password(null, "Wachtwoord", "input-password", null, true, true);
-            $submitLogin = new Submit("Inloggen", null, "submitLogin", null, true, true);
-            $loginScreenObjects = array($inputUsername, $inputPassword, $submitLogin);
-            $this->createScreen->createPopup($loginScreenObjects, "Inloggen", "Login", 'smallPop','');
+            $submitLogin = new Submit("Inloggen", null, "submitLogin", null, false, true);
+            //public function __construct($value, $label, $name, $classes, $startRow, $endRow, $datafile){
+            $openRegistration = new Button('Registreren',null,"Registreren",'col-md-4 btn btn-default popupButton',true,false,'#popUpRegistration');
+            $loginScreenObjects = array($inputUsername, $inputPassword,$openRegistration, $submitLogin);
+            $this->createScreen->createPopup($loginScreenObjects, "Inloggen", "Login", 'smallPop','first');
         }
 
         public function checkLogin($username, $password){
 
-            $result = $this->database->sendQuery("SELECT 1 FROM Visitor V INNER JOIN Person P ON V.PersonNo = P.PersonNo WHERE P.MailAddress = ? AND V.Password = ?", array($username, hash('sha256', $password)));
+            $result = $this->database->sendQuery("SELECT P.PersonNo P.FirstName, P.LastName FROM Visitor V INNER JOIN Person P ON V.PersonNo = P.PersonNo WHERE P.MailAddress = ? AND V.Password = ?", array($username, hash('sha256', $password)));
 
             if ($result){
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
                 {
+                    $_SESSION['userWeb'] = $row['FirstName'] . ' '. $row['LastName'];
+                    $_SESSION['userPersonNo'] = $row['PersonNo'];
                     return true;
                 }
                 return false;

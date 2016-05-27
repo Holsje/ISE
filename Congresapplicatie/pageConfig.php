@@ -2,16 +2,16 @@
     require_once('connectDatabase.php');
 	require_once('database.php');
 
-    if(isset($_GET['congresNo'])){
-        $_SESSION['congresNo'] = $_GET['congresNo'];
+    if(isset($_GET['congressNo'])){
+        $_SESSION['congressNo'] = $_GET['congressNo'];
     }
     $databaseHeader = new Database($server, $databaseName, $uid, $password);
-    if(isset($_SESSION['congresNo'])){
+    if(isset($_SESSION['congressNo'])){
         $sqlBanner = 'SELECT banner
                       FROM Congress
                       WHERE CongressNo = ?';
         $bannerPath = '';
-        $param = array($_SESSION['congresNo']);
+        $param = array($_SESSION['congressNo']);
         $result = $databaseHeader->sendQuery($sqlBanner,$param);
         if($result){
             if($banner = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
@@ -35,6 +35,7 @@
         <?php echo $css; ?>
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
             <script src="css/bootstrap/js/bootstrap.min.js"></script>
+            <script src="js/registration.js"></script>
             <script src="js/public.js"></script>
             <script src="js/functions.js"></script>
             <script src="js/headerfunctions.js"></script>
@@ -51,6 +52,7 @@
         </header>
         <?php
             include 'Login.php';
+            include 'Registration.php';
 	}
 	
 	
