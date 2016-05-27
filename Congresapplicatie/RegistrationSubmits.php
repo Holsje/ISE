@@ -6,10 +6,8 @@
 					 array($_POST['mailAddress'], SQLSRV_PARAM_IN),
 					 array($_POST['phoneNum'], SQLSRV_PARAM_IN),
 					 array(hash("sha256", $_POST['password']), SQLSRV_PARAM_IN),
-					 array(1, SQLSRV_PARAM_IN), //haspaid
-					 array(1, SQLSRV_PARAM_IN) //congressno
+					 array(0, SQLSRV_PARAM_IN), //haspaid
 				   );
-        echo '<br>';
 		echo $registration->addRecord("spRegisterVisitor",$params);
         die();
 	}
