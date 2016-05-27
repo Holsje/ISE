@@ -16,6 +16,8 @@ require_once('ScreenObjects/Listbox.php');
 require_once('ScreenObjects/Date.php');
 require_once('ScreenObjects/Span.php');
 require_once('ScreenObjects/Img.php');
+require_once('ScreenObjects/TableRow.php');
+require_once('ScreenObjects/TableData.php');
 
     class CreateScreen{
 
@@ -80,6 +82,45 @@ require_once('ScreenObjects/Img.php');
 				$button = new Button("Meer Info", null, null, "btn btn-default moreInfoButton popupButton", true, true, $dataFile);
 				echo $button->getObjectCode();
 			echo '</div>';
+		}
+		
+		public function createDataSwapList($tableLeft,$tableRight,$keepRight) {
+			if($keepRight == true) {
+				echo '<script> var keepRight = true; </script>';
+			} else {
+				echo '<script> var keepRight = false; </script>';
+			}
+				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
+				echo $tableLeft->getObjectCode();
+				echo '</div>';
+				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
+					$buttonLeft = new Button("<","<","<",'form-control btn btn-default goToLeftButton dataSwapButton',true,true,'');
+					$buttonRight = new Button(">",">",">",'form-control btn btn-default goToRightButton dataSwapButton',true,true,'');
+					echo $buttonLeft->getObjectCode();
+					echo $buttonRight->getObjectCode();
+				echo '</div>';
+				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
+				echo $tableRight->getObjectCode();
+				echo '</div>';
+			
+			/*echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
+				echo '<table id="tableLeft" class="dataSwapTable">';
+					foreach($trsLeft as $tr) {
+						echo $tr->getObjectCode();
+					}
+				echo '</table>';
+			echo '</div>';
+			echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
+				echo '<button onclick="goLeft()"><</button>';
+				echo '<button onclick="goRight()">></button>';
+			echo '</div>';
+			echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
+				echo '<table id="tableRight" class="dataSwapTable">';
+					foreach($trsRight as $tr) {
+						echo $tr->getObjectCode();
+					}
+				echo '</table>';
+			echo '</div>';*/
 		}
     }
 
