@@ -24,6 +24,7 @@
 					$this->getEventData();
 					echo 'U heeft gekozen voor de volgende evenementen: <br>';
 					echo '<br>';
+
 					echo '<ul id="eventList">';
 						for($i = 0; $i < sizeof($this->events['eventNames']); $i++) {
 							echo '<li>' .  $this->events['eventNames'][$i] .' in track ' . $this->tracks['trackNames'][$i] .'</li>';

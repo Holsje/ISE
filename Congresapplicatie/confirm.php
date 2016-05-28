@@ -1,7 +1,6 @@
 <?php
 	include('admin/sessionHandler.php');
 	sessionHandlerWeb(false);
-	var_dump($_SESSION['congressNo']);
 	require_once('pageConfig.php');	
 	require_once('database.php');
 	require_once('connectDatabase.php');
@@ -9,7 +8,7 @@
 	global $server, $databaseName, $uid, $password;
 	$dataBase = new Database($server,$databaseName,$uid,$password);
 	$confirm = new Confirmation($_SESSION['congressNo'], $dataBase);
-	topLayout('Bevestiging',"css/confirm.css", "js/confirm.js");
+	topLayout('Bevestiging',"css/confirm.css", null);
 ?>
 
 <div class="row">

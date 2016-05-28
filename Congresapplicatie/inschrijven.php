@@ -3,16 +3,16 @@
 	sessionHandlerWeb(false);
 	require_once('database.php');
 	require_once('Index_Class.php');
-
+	$indexClass = new Index();
 	global $server, $databaseName, $uid, $password;
 	$dataBase = new Database($server,$databaseName,$uid,$password);
+	$createScreen = new CreateScreen();
 	include('inschrijven_Submit.php');
+	require_once('ScreenCreator/CreateScreen.php');
+	require_once('connectDatabase.php');
+	require_once('pageConfig.php');
 	require_once('inschrijven_class.php');
-	if (!isset($_SESSION['congressNo'])) {
-		die("congressNo is niet meegegeven");
-	}
-	$inschrijven = new Inschrijven($_SESSION['congressNo'], $dataBase);
-	$indexClass = new Index();
+	$inschrijven = new Inschrijven($_SESSION['congressNo'], $dataBase, $createScreen);
 	topLayout('Inschrijven',null,null);	
 ?>
 	 <div class="row">
@@ -21,12 +21,9 @@
 		      <div class="row">
 				<h1>
 				<?php 
-					if ((integer)substr($inschrijven->dates['STARTDATE'], 8) < 10) { 
-						echo $inschrijven->congressName . '<br>' . substr($inschrijven->dates['STARTDATE'],0, 8) . '0' . $inschrijven->currentDay;
-					}
-					else {
-						echo $inschrijven->congressName . '<br>' . substr($inschrijven->dates['STARTDATE'],0, 8) . $inschrijven->currentDay;
-					}
+					echo $inschrijven->congressName;
+					echo "<br>";
+					echo $inschrijven->writeOutCurrentDate();
 				?>
 				</h1>
 				<form name="formSignUpForCongress" method="POST" action="/ISE/Congresapplicatie/inschrijven.php">
@@ -56,5 +53,6 @@
     </div>
 <?php
 	bottomLayout();
-$indexClass->createEventInfoPopup();
+	$indexClass->createSpeakerInfoPopup();
+	$indexClass->createEventInfoPopup();
 ?>

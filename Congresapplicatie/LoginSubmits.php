@@ -3,8 +3,7 @@
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['submitLogin'])) {
 			if ($login->checkLogin($_POST['input-username'], $_POST['input-password'])){
-				//setcookie('user', $_POST['input-username'], time() + (14*24*60*60));
-				if (!empty($_SESSION['runningFormData'])) {
+				if (!empty($_SESSION['runningFormData']) && !isset($_POST['signUpForCongressButton'])) {
 					header('Location: inschrijven.php');
 				}
 				else {

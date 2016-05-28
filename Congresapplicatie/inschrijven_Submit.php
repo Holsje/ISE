@@ -8,11 +8,22 @@
 				$personNo = $row['PersonNo'];
 			}
 			if (!empty($personNo)) {
+				echo '<h1>U kunt zich niet inschrijven.</h1>';
+				echo '<p class="errText">U bent al ingeschreven voor dit congres. U wordt doorverwezen naar de homepagina.</p>';
 				header("refresh:5;url='index.php?congressNo=". $_SESSION['congressNo'] . '');
-				die("U bent al ingeschreven voor dit congres. U wordt in 5 seconden doorverwezen naar de homepagina.");
+				die();
 			}
 		}
 	}
+	
+	if(isset($_POST['getInfo'])){
+        echo $indexClass->getEventInfo($_POST['eventNo'],$_SESSION['congressNo']);
+		die();
+    }
+    if(isset($_POST['speakerPop'])){
+        echo $indexClass->getSpeakerInfo($_POST['personID']);
+		die();
+    }
 	
 	if (isset($_SESSION['lastPage'])) {
 		header('Location: confirm.php');
@@ -21,6 +32,9 @@
 		$_SESSION['pageCount'] = 0;
 		$_SESSION['runningFormData'] = array();
 		$_SESSION['lastPage'] = null;
+		$_SESSION['monthIncrements'] = 0;
+		$_SESSION['yearIncrements'] = 0;
+		$_SESSION['oldMonthIncrements'] = 0;
 	}
 	else if (!isset($_SESSION['congressNo'])) {
 		die("Congresnummer niet meegegeven ");
