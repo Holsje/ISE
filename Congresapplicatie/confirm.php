@@ -1,6 +1,6 @@
 <?php
 	include('admin/sessionHandler.php');
-	sessionHandlerWeb(false);
+	sessionHandlerWeb(true);
 	require_once('pageConfig.php');	
 	require_once('database.php');
 	require_once('connectDatabase.php');

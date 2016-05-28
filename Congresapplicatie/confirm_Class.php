@@ -20,7 +20,7 @@
 					echo 'Bevestiging inschrijven voor congres:';
 				echo '<h1>';
 			echo '</div>';
-			echo '<form name="formConfirm" method="POST" action="/ISE/Congresapplicatie/confirm.php" class="col-sm-12 col-md-12 col-xs-12 eventBox">';
+			echo '<form name="formConfirm" method="POST" action="'. $_SERVER['PHP_SELF'].'" class="col-sm-12 col-md-12 col-xs-12 eventBox">';
 					$this->getEventData();
 					echo 'U heeft gekozen voor de volgende evenementen: <br>';
 					echo '<br>';

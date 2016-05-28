@@ -3,14 +3,9 @@
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['submitLogin'])) {
 			if ($login->checkLogin($_POST['input-username'], $_POST['input-password'])){
-				if (!empty($_SESSION['runningFormData']) && !isset($_POST['signUpForCongressButton'])) {
-					header('Location: inschrijven.php');
-				}
-				else {
 					header('Location: '. $_SERVER['HTTP_REFERER']);
-				}
 			}
-			else{
+			else {
                 $_SESSION['loginFail'] = "Gebruikersnaam en/of wachtwoord zijn onjuist";
 			}
 		}

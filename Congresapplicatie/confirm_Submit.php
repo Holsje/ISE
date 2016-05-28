@@ -5,8 +5,7 @@
 		header('Location: index.php?congressNo=' . $_SESSION['congressNo']);
 	}
 	if (!isset($_SESSION['userPersonNo'])) {
-		session_unset();
-		die("<script>location.href = 'inschrijven.php'</script>");
+		header('Location: inschrijven.php');
 	}
 	else if (isset($_POST['confirmSignUp'])) {
 		$queryPersonNoCheck = "SELECT PersonNo FROM VisitorOfCongress WHERE PersonNo = ? AND CongressNo = ?";

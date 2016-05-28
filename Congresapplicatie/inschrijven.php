@@ -26,7 +26,7 @@
 					echo $inschrijven->writeOutCurrentDate();
 				?>
 				</h1>
-				<form name="formSignUpForCongress" method="POST" action="/ISE/Congresapplicatie/inschrijven.php">
+				<form name="formSignUpForCongress" method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">
 				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 				    <div id = "carousel" class="carousel-inner" role="listbox">
 						<?php
