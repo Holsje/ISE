@@ -86,7 +86,7 @@ require_once('ScreenObjects/TableData.php');
 		}
 		
 		public function createDataSwapList($tableLeft,$tableLeftId,$titleLeft,$tableRight,$tableRightId,$titleRight,$keepRight,$removeLeft,$buttons) {
-			echo '<div class="row col-sm-12 col-xs-12 col-md-12">';
+			echo '<form class="row col-sm-12 col-xs-12 col-md-12">';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
 				echo '<h2>' . $titleLeft . '</h2>';
 				echo $tableLeft->getObjectCode();
@@ -99,13 +99,12 @@ require_once('ScreenObjects/TableData.php');
 				echo '<h2>' . $titleRight . '</h2>';
 				echo $tableRight->getObjectCode();
 				echo '</div>';
-			echo '</div>';
-			echo '<div class="row col-sm-12 col-xs-12 col-md-12">';
+			
 				$size = sizeof($buttons);
 				 for($i=0; $i < $size; $i++){
 					echo  $buttons[$i]->getObjectCode();
 				}
-			echo '</div>';
+			echo '</form>';
 		}
     }
 
