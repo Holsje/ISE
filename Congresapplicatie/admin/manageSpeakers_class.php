@@ -14,7 +14,7 @@
 			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueList, "listBoxSpeakerLeft", "listBoxSpeakerLeft");
 			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueList, "listBoxSpeakerRight", "listBoxSpeakerRight");
 
-			$this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","listBoxSpeakerRight",$tableRight,false,false);
+			$this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft",$tableRight,"listBoxSpeakerRight",false,false);
             //parent::createManagementScreen($columnList, $valueList, "speaker",null);
         }
         
