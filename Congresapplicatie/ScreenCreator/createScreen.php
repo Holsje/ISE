@@ -91,6 +91,12 @@ require_once('ScreenObjects/TableData.php');
 				echo '<h2>' . $titleLeft . '</h2>';
 				echo $tableLeft->getObjectCode();
 				echo '</div>';
+				echo '<div class="form-group">';
+					$size = sizeof($buttons);
+					 for($i=0; $i < $size; $i++){
+						echo  $buttons[$i]->getObjectCode();
+					}
+				echo '</div>';
 				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
 					echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
 					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
