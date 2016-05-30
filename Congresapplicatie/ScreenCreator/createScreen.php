@@ -95,7 +95,7 @@ require_once('ScreenObjects/TableData.php');
 				echo $tableLeft->getObjectCode();
 				echo '</div>';
 				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
-					$buttonLeft = new Button("<","<","<",'form-control btn btn-default goToLeftButton dataSwapButton',true,true,'');
+					$buttonLeft = new Button("<","<","<",'form-control btn btn-default goToLeftButton dataSwapButton',true,true,'listBoxLeft');
 					$buttonRight = new Button(">",">",">",'form-control btn btn-default goToRightButton dataSwapButton',true,true,'');
 					echo $buttonLeft->getObjectCode();
 					echo $buttonRight->getObjectCode();

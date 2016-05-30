@@ -9,12 +9,12 @@ $(document).ready(function () {
 		goRight();
 	});
 
-	tableLeft = $('#listBoxLeft').DataTable( {
+	tableLeft = $('.listBoxLeft').DataTable( {
 		"sScrollY": "500px",
 		"bPaginate": false
 	});
 	
-	tableRight = $('#listBoxRight').DataTable( {
+	tableRight = $('.listBoxRight').DataTable( {
 		"sScrollY": "500px",
 		"bPaginate": false
 	});

@@ -1,28 +1,8 @@
 var speakerTable;
 $(document).ready(function () {
 
-	speakerTable = $('#speakerListBox').DataTable( {
-		"sScrollY": "500px",
-		"bPaginate": false
-	});
-    $('.onSelected').prop('disabled', true);
-    $('#dataTables_length').css('display', 'none');
-    $('#speakerListBox_length').css('display', 'none');
-    //$('#congresListBox_paginate').css('display', 'none');
-    $('#speakerListBox_info').css('display', 'none');
-	
-    $('.dataTable tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
-        } else {
-            speakerTable.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
-        }
-    });
 	   
-	document.forms["formCreatespeaker"]["buttonEditspeaker"].onclick = getSpeakerInfo;
+	//document.forms["formCreatespeaker"]["buttonEditspeaker"].onclick = getSpeakerInfo;
 	//document.forms["formCreatespeaker"]["buttonAddspeaker"].onclick = getSpeakerInfo;
 });
 
