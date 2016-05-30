@@ -1,13 +1,26 @@
 <?php
-	//require_once('query_congres.php');
     require_once('connectDatabase.php');
-	
-	//$CongressApplicationDB = new Congres($server,
-	//				   $database,
-	//				   $uid,
-	//				   $password);
+	require_once('database.php');
 
+    if(isset($_GET['congressNo'])){
+        $_SESSION['congressNo'] = $_GET['congressNo'];
+    }
+    $databaseHeader = new Database($server, $databaseName, $uid, $password);
+    if(isset($_SESSION['congressNo'])){
+        $sqlBanner = 'SELECT banner
+                      FROM Congress
+                      WHERE CongressNo = ?';
+        $bannerPath = '';
+        $param = array($_SESSION['congressNo']);
+        $result = $databaseHeader->sendQuery($sqlBanner,$param);
+        if($result){
+            if($banner = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
+                $bannerPath = $banner['banner'];
+            }
+        }
+    }
 	function topLayout($pageName,$css,$javaScript) {
+    global $bannerPath;
 ?>
 
     <head>
@@ -15,28 +28,31 @@
             <?php echo $pageName; ?>
         </title>
         <meta name="viewport" content="width=device-width,initial-skill=1.0">
+        <meta name="viewport" content="width=device-width, height=device-height">
         <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/header.css" rel="stylesheet">
         <link href="css/public.css" rel="stylesheet">
-        <?php echo $css; ?>
+        <link href=<?php echo $css; ?> rel="stylesheet">
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
             <script src="css/bootstrap/js/bootstrap.min.js"></script>
+            <script src="js/registration.js"></script>
             <script src="js/public.js"></script>
             <script src="js/functions.js"></script>
             <script src="js/headerfunctions.js"></script>
             <script src="js/regex.js"></script>
-            <?php echo $javaScript; ?>
+            <script src=<?php echo $javaScript; ?>></script>
     </head>
 
     <body>
         <header>
             <div class="header1 col-xs-12 col-sm-12 col-md-12">
-                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="img/logo template.png" alt="logo">
+                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src=<?php echo '"' . $bannerPath . '"'; ?> alt="logo">
             </div>
             <?php include 'menu.php'; ?>
         </header>
         <?php
             include 'Login.php';
+            include 'Registration.php';
 	}
 	
 	

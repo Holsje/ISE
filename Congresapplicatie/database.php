@@ -33,7 +33,7 @@ class Database
     
     public function createConnection($server, $database, $uid, $password)
     {
-        $connectionInfo = array("Database" => $database, "UID" => $uid, "PWD" => $password);
+        $connectionInfo = array("Database" => $database, "UID" => $uid, "PWD" => $password, "CharacterSet" => "UTF-8");
         $this->conn = sqlsrv_connect($server, $connectionInfo);
         
         if($this->checkConnection())
@@ -110,6 +110,10 @@ class Database
         
         return $err;
     }
+	
+	public function getConn() {
+		return $this->conn;
+	}
     
 }
 

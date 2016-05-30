@@ -1,3 +1,5 @@
+/*Moet geupdatet worden*/
+
 CREATE PROC spInsertCongress
 	@name D_Name,
 	@subject D_Subject,

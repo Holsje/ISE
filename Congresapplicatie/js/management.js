@@ -30,6 +30,10 @@ $(document).ready(function () {
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
         $("body").css("overflow", "auto");
     });
+	
+	 $(function() {
+		$( "#tabs" ).tabs();
+	  });
 });
 
 function parseDate(dateString) {

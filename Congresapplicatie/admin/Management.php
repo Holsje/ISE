@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: erike
- * Date: 25-4-2016
- * Time: 13:30
- */
-
 require_once('../database.php');
 require_once('../ScreenCreator/CreateScreen.php');
 require_once('../connectDatabase.php');
