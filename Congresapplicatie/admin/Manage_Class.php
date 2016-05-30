@@ -16,7 +16,7 @@
 			echo '<div id="tabs">';
 			  echo '<ul>';
 				echo '<li><a href="#tabs-CongressDetails">Congresgegevens</a></li>';
-				echo '<li><a href="#tabs-Location">Locate</a></li>';
+				echo '<li><a href="#tabs-Location">Locatie</a></li>';
 				echo '<li><a href="#tabs-Tracks">Tracks</a></li>';
 				echo '<li><a href="#tabs-Events">Evenementen</a></li>';
 				echo '<li><a href="#tabs-Speakers">Sprekers</a></li>';
