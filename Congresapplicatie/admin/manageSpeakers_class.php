@@ -20,7 +20,7 @@
 			
 			$this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","Sprekers Congres",$tableRight,"listBoxSpeakerRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeaker,$buttonRemoveSpeaker),array($buttonAddSpeaker,$buttonEditSpeaker,$buttonRemoveSpeaker));
 			
-			
+			echo new Button("Toevoegen", null, "buttonDeleteSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", true, true, "#popUpDeleteSpeaker").getObjectCode();
         }
         
         public function getSpeakersOfCongress($congressNo) {
