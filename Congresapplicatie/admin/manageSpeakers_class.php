@@ -56,9 +56,6 @@
 				return $array;
 			}
 			return false;	
-			
-		
-	)
 		}
 		
 		public function createCreateSpeakerScreen() {
