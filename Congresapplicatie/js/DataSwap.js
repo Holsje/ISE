@@ -1,4 +1,4 @@
-var tableLeft,tableRight;
+var dataSwapTables = new Array();
 
 $(document).ready(function () {
 
@@ -8,17 +8,16 @@ $(document).ready(function () {
 	$(".goToRightButton").click(function() {
 		goRight();
 	});
-
-	tableLeft = $('.listBoxLeft').DataTable( {
-		"sScrollY": "500px",
-		"bPaginate": false
-	});
 	
-	tableRight = $('.listBoxRight').DataTable( {
+	var numDataListBoxes =  $('.listBox').length;
+	for(var i = 0;i<numDataListBoxes;i++) {
+		dataSwapTables[$('.listBox')[i].id] =  $('#' + $('.listBox')[i].id).DataTable( {
 		"sScrollY": "500px",
 		"bPaginate": false
 	});
-
+	}
+	tableLeft =
+	
     $('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
     $('#congresListBox_length').css('display', 'none');

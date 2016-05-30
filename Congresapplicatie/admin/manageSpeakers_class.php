@@ -11,8 +11,8 @@
 			$columnList = array("Nummer","Voornaam","Achternaam","Email");
 			$valueList = $this->getSpeakers($this->congressNo);
 			
-			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxLeft", false, false, $columnList, $valueList, "listBoxLeftSpeaker", "listBoxLeftSpeaker");
-			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxRight", false, false, $columnList, $valueList, "listBoxRightSpeaker", "listBoxRightSpeaker");
+			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueList, "listBoxLeftSpeaker", "listBoxLeftSpeaker");
+			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueList, "listBoxRightSpeaker", "listBoxRightSpeaker");
 
 			$this->createScreen->createDataSwapList($tableLeft,$tableRight,false);
             //parent::createManagementScreen($columnList, $valueList, "speaker",null);
