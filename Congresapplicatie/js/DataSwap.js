@@ -18,7 +18,7 @@ $(document).ready(function () {
 		});
 		console.log(listBoxes[i].id);
 	}
-	tableLeft =
+	//tableLeft =
 	
     $('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
