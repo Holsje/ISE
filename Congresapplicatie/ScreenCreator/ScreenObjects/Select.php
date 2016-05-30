@@ -32,7 +32,7 @@
         public function getObjectCode(){
             $string = "";
             if ($this->label != null) {
-                $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
+                $string .= '<label class="control-label col-xs-2 col-sm-2 col-md-2">' . $this->label . ':</label>';
             }
             $string .= '<select value="' . $this->value . '" name="' . $this->name .'" class="';
 			
