@@ -33,12 +33,12 @@ $(document).ready(function () {
 
 function goRight(event) {
 	//console.log(event.target.attributes.getNamedItem("data-file").value + "left");
-	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("data-file").value + "left"].rows(".selected");
+	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("data-file").value + "Left"].rows(".selected");
 	if(event.target.attributes.getNamedItem("remove").value == true) {
 		selectedRows.remove().draw(false);
 	}else {
 		for(var i = 0;i<selectedRows.data().length;i++) {
-			dataSwapTables[event.target.attributes.getNamedItem("data-file").value + "left"].row.add(selectedRows.data()[i]).draw(false);
+			dataSwapTables[event.target.attributes.getNamedItem("data-file").value + "Right"].row.add(selectedRows.data()[i]).draw(false);
 		}
 		selectedRows.remove().draw(false);
 	}
