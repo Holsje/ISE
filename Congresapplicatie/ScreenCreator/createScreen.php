@@ -99,11 +99,12 @@ require_once('ScreenObjects/TableData.php');
 				echo '<h2>' . $titleRight . '</h2>';
 				echo $tableRight->getObjectCode();
 				echo '</div>';
-			
-				$size = sizeof($buttons);
-				 for($i=0; $i < $size; $i++){
-					echo  $buttons[$i]->getObjectCode();
-				}
+				echo '<div class="form-group">';
+					$size = sizeof($buttons);
+					 for($i=0; $i < $size; $i++){
+						echo  $buttons[$i]->getObjectCode();
+					}
+				echo '</div>';
 			echo '</form>';
 		}
     }
