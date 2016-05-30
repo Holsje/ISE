@@ -1,47 +1,16 @@
 <?php
     require_once('Management.php');
-    class ManageCongress extends Management{
+    class ManageSpeakers extends Management{
 
         public function __construct(){
             parent::__construct();
         }
 
-        public function getCongresses() {
-
-            $result = parent::getDatabase()->sendQuery("SELECT * FROM Congress", null);
-
-            if ($result){
-                $array = array();
-                while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
-                {
-
-                    $array[$row['CongressNo']] = array($row['CongressNo'], $row['Name'], $row['Subject'], $row['LOCATION'], $row['StartDate']->format('Y-m-d'), $row['EndDate']->format('Y-m-d'));
-                }
-                return $array;
-            }
-            return false;
-        }
-
         public function createManagementScreen($columnList, $valueList) {
             $button = new Submit("Test", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "DATAFILE");
-            $buttonArray = array($button);
-            parent::createManagementScreen($columnList, $valueList, $buttonArray);
+            //$buttonArray = array($button);
+            parent::createManagementScreen($columnList, $valueList, null);
         }
-		
-		public function getSubjects() {
-
-            $result = parent::getDatabase()->sendQuery("SELECT Subject FROM Subject",null);
-
-            if ($result){
-				$array = array();
-				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
-                {
-					array_push($array,$row['Subject']);
-                }
-				return $array;
-            }
-			return false;
-		}		
         
         public function changeRecord($storedProcName,$params){
             $sqlStmt = 'SELECT CongressNo, Subject, Name, Location, StartDate,EndDate
@@ -59,7 +28,8 @@
             }
         }
 		
-		public function createCreateCongressScreen() {
+		public function createCreateSpeakersScreen() {
+			
 			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
 			$locationObject = new Text(null,"Locatie","congressLocation",null, true, true, true);
 			
@@ -98,4 +68,6 @@
 			$buttonAddSubjectObject = new Button("Bewerken","Bewerken","Bewerken","form-control col-md-4 pull-right btn btn-default", true, true,null);
 			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubjectFromEdit",null);
 		}
-    }
+    } 
+	
+?>
