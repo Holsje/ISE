@@ -12,21 +12,12 @@
             parent::createManagementScreen($columnList, $valueList, null);
         }
         
-        public function changeRecord($storedProcName,$params){
-            $sqlStmt = 'SELECT CongressNo, Subject, Name, Location, StartDate,EndDate
-                        FROM Congress
-                        WHERE CongressNo = ?';
-            $result = parent::changeRecord($storedProcName,$params);
-            if($result != null){  
-                $selectedResult = $this->database->sendQuery($sqlStmt,array($params[0][0]));
-                if($selectedResult){
-                    if($row = sqlsrv_fetch_array($selectedResult,SQLSRV_FETCH_ASSOC)){
-                        $row['err']= $result;
-                        return json_encode($row);
-                    }
-                }
-            }
-        }
+        public function getSpeakers() {
+			 $result = parent::getDatabase()->sendQuery("SELECT P.FirstName, P.LastName, P.MailAddress FROM SpeakerOfCongress SOC " .
+														"INNER JOIN Person P ON P.PersonNo = SOC.PersonNo " .
+														"WHERE SOC.CongressNo = ?",array(1));
+		
+		}
 		
 		public function createCreateSpeakersScreen() {
 			
