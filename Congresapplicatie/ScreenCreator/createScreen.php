@@ -86,17 +86,19 @@ require_once('ScreenObjects/TableData.php');
 		}
 		
 		public function createDataSwapList($tableLeft,$tableLeftId,$tableRight,$tableRightId,$keepRight,$removeLeft,$buttons) {
-			echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
-			echo $tableLeft->getObjectCode();
+			echo '<div class="form-group">';
+				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
+				echo $tableLeft->getObjectCode();
+				echo '</div>';
+				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
+					echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
+					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
+				echo '</div>';
+				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
+				echo $tableRight->getObjectCode();
+				echo '</div>';
 			echo '</div>';
-			echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
-				echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
-				echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
-			echo '</div>';
-			echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
-			echo $tableRight->getObjectCode();
-			echo '</div>';
-			
+				
 			$size = sizeof($buttons);
 			 for($i=0; $i < $size; $i++){
 				if ($buttons[$i]->getStartRow()) {
