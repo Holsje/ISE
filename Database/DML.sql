@@ -24,8 +24,8 @@ DELETE FROM PersonType
 GO
 
 
---DBCC CHECKIDENT ('Person', RESEED, 0);
---DBCC CHECKIDENT ('Congress', RESEED, 0);
+DBCC CHECKIDENT ('Person', RESEED, 0);
+DBCC CHECKIDENT ('Congress', RESEED, 0);
 
 
 INSERT INTO PersonType (TypeName) VALUES ('Algemene beheerder'),
@@ -228,6 +228,7 @@ INSERT INTO SpeakerOfEvent (PersonNo, CongressNo, EventNo) VALUES (1, 1, 1),
 																  (7, 2, 9);
 
 INSERT INTO SubjectOfCongress ([Subject], CongressNo) VALUES ('DataModeling', 1),
+															 ('ICT', 1),
 															 ('ICT', 2);
 
 INSERT INTO SubjectOfEvent (CongressNo, [Subject], EventNo) VALUES (1, 'Javascript', 1),

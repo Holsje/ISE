@@ -12,7 +12,7 @@ topLayoutManagement('Beheren Congres',null,$js);
         <div class="container   col-md-12 col-xs-12">
             <div class="content col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
                 <?php
-                $manageCongress->createManagementScreen(array("Congresnummer", "Naam", "Onderwerp", "Locatie", "Startdatum", "Einddatum"), $manageCongress->getCongresses());
+                $manageCongress->createManagementScreen(array("Congresnummer", "Naam", "Startdatum", "Einddatum", "Publiek"), $manageCongress->getCongresses());
             ?>
             </div>
         </div>
