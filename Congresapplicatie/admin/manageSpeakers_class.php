@@ -49,7 +49,7 @@
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
 			$submitObject = new Submit("toevoegen","createSpeaker","toevoegen",null, true, true);			
 
-			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$submitObject),"Spreker aanmaken","Addspeaker",null,null,false,"#spreker");
+			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$submitObject),"Spreker aanmaken","pAddSpeaker",null,null,false,"#spreker");
 		}
 		
 		public function createEditSpeakerScreen() {
@@ -60,7 +60,7 @@
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
 			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);			
 
-			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$submitObject),"Spreker aanpassen","Updatespeaker",null,null,false,"#spreker");
+			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$submitObject),"Spreker aanpassen","UpdateSpeaker",null,null,false,"#spreker");
 
 		}
 		
