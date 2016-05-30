@@ -1,8 +1,17 @@
---BR 3
+--BR 3 Alle velden moeten ingevuld zijn.
+
+/*
+	Isolation level: Serializable
+	Uitgaande van repeatable read:
+	Wanneer alle waardes gecontroleerd worden en er wordt een nieuwe 
+	bijvoorbeeld track toegevoegd die leeg is dan zit er geen range lock op.
+
+*/
 ALTER PROC spPublishCongress
 	@congressno D_CONGRESSNO
 AS
 BEGIN
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 	SET NOCOUNT ON;
 	DECLARE @TranCounter INT;
 	SET @TranCounter = @@TRANCOUNT;
@@ -124,6 +133,12 @@ BEGIN
 		BEGIN
 			RAISERROR(@test,16,1);
 		END
+		ELSE
+		BEGIN
+			UPDATE Congress SET [Public] = 1 WHERE CongressNo = 1
+		END
+
+
 		IF @TranCounter = 0 AND XACT_STATE() = 1
 			COMMIT TRANSACTION;
 	END TRY
@@ -284,5 +299,12 @@ BEGIN TRAN
 	DELETE FROM SpeakerOfEvent WHERE PersonNo = 6
 	EXEC spPublishCongress 1
 	GO
+ROLLBACK TRAN
+
+--Check working
+BEGIN TRAN
+	SELECT * FROM Congress WHERE CongressNo = 1
+	EXEC spPublishCongress 1
+	SELECT * FROM Congress WHERE CongressNo = 1
 ROLLBACK TRAN
 
