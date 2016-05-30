@@ -1,4 +1,4 @@
---BR 8
+--BR 3
 ALTER PROC spPublishCongress
 	@congressno D_CONGRESSNO
 AS
