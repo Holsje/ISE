@@ -41,12 +41,12 @@
 		}
 		
 		public function getSpeakersNotInCongress($congressNo) {
-			 $result = parent::getDatabase()->sendQuery("SELECT  P.personNo,P.FirstName, P.LastName, P.MailAddress ".
+			 $result = parent::getDatabase()->sendQuery("SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress ".
 														"FROM Speaker S ".
 														"INNER JOIN Person P ON P.PersonNo = S.PersonNo ".
 														"WHERE NOT EXISTS(SELECT 1 " .
 														"FROM SpeakerOfCongress SOC " .
-														"WHERE SOC.PersonNo = S.PersonNo AND SOC.CongressNo = ?",array($congressNo));																											
+														"WHERE SOC.PersonNo = S.PersonNo AND SOC.CongressNo = ?)",array($congressNo));																											
 			 if ($result){
 				$array = array();
 				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
