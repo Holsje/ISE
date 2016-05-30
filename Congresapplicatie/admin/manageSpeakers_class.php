@@ -9,20 +9,21 @@
 
         public function createManagementScreen() {
 			$columnList = array("Nummer","Voornaam","Achternaam","Email");
-			$valueList = $this->getSpeakers($this->congressNo);
+			$valueListLeft = $this->getSpeakersOfCongress($this->congressNo);
+			$valueListRight = $this->getSpeakersNotInCongress($this->congressNo);
 			
-			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueList, "listBoxSpeakerLeft", "listBoxSpeakerLeft");
-			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueList, "listBoxSpeakerRight", "listBoxSpeakerRight");
+			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueListLeft, "listBoxSpeakerLeft", "listBoxSpeakerLeft");
+			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueListRight, "listBoxSpeakerRight", "listBoxSpeakerRight");
 			$buttonAddSpeaker = new Button("Toevoegen", null, "buttonAddSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAddSpeaker");
 			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdateSpeaker");
 			$buttonRemoveSpeaker = new Button("Verwijderen", null, "buttonDeleteSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpDeleteSpeaker");
 			
-			$this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","Sprekers Congres",$tableRight,"listBoxSpeakerRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeaker,$buttonRemoveSpeaker));
+			$this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","Sprekers Congres",$tableRight,"listBoxSpeakerRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeaker,$buttonRemoveSpeaker),array($buttonAddSpeaker,$buttonEditSpeaker,$buttonRemoveSpeaker));
 			
 			
         }
         
-        public function getSpeakers($congressNo) {
+        public function getSpeakersOfCongress($congressNo) {
 			 $result = parent::getDatabase()->sendQuery("SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress ".
 														"FROM SpeakerOfCongress SOC " .
 														"INNER JOIN Person P ON P.PersonNo = SOC.PersonNo " .
@@ -36,8 +37,28 @@
 				}
 				return $array;
 			}
-			return false;
+			return false;		
+		}
 		
+		public function getSpeakersNotInCongress($congressNo) {
+			 $result = parent::getDatabase()->sendQuery("SELECT  P.personNo,P.FirstName, P.LastName, P.MailAddress ".
+														"FROM Speaker S ".
+														"INNER JOIN Person P ON P.PersonNo = S.PersonNo ".
+														"WHERE NOT EXISTS(SELECT 1 " .
+														"FROM SpeakerOfCongress SOC " .
+														"WHERE SOC.PersonNo = S.PersonNo AND SOC.CongressNo = ?",array($congressNo));																											
+			 if ($result){
+				$array = array();
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
+				{
+					array_push($array,array($row['personNo'],$row['FirstName'],$row['LastName'],$row['MailAddress']));
+				}
+				return $array;
+			}
+			return false;	
+			
+		
+	)
 		}
 		
 		public function createCreateSpeakerScreen() {
