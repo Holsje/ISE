@@ -90,9 +90,9 @@ require_once('ScreenObjects/TableData.php');
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
 				echo '<h2>' . $titleLeft . '</h2>';
 				echo $tableLeft->getObjectCode();
-					$size = sizeof($buttons);
+					$size = sizeof($buttonsLeft);
 					 for($i=0; $i < $size; $i++){
-						echo  $buttons[$i]->getObjectCode();
+						echo  $buttonsLeft[$i]->getObjectCode();
 					}
 				echo '</div>';
 				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
@@ -102,9 +102,9 @@ require_once('ScreenObjects/TableData.php');
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
 				echo '<h2>' . $titleRight . '</h2>';
 				echo $tableRight->getObjectCode();
-					$size = sizeof($buttons);
+					$size = sizeof($buttonsRight);
 					 for($i=0; $i < $size; $i++){
-						echo  $buttons[$i]->getObjectCode();
+						echo  $buttonsRight[$i]->getObjectCode();
 					}
 				echo '</div>';
 			echo '</form>';
