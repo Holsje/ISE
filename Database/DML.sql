@@ -57,11 +57,11 @@ INSERT INTO PersonTypeOfPerson (PersonNo, TypeName) VALUES (1, 'Algemene beheerd
 														   (6, 'Spreker'),
 														   (7, 'Spreker');
 
-INSERT INTO Speaker (PersonNo, Description, PicturePath) VALUES(1, 'Erik Evers is een ervaren PHP en JavaScript developer en komt vertellen over shit.', 'img/Speakers/Speaker1.jpg'),
+INSERT INTO Speaker (PersonNo, Description, PicturePath) VALUES(1, 'Erik Evers is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker1.jpg'),
 															   (2, 'Daniel de Jong is een ervaren projectleider die veel projecten tot een goed einde heeft gebracht.', 'img/Speakers/Speaker2.jpg'),
-															   (3, 'Niels Bergervoet is een ervaren conflictoplosser met zijn best practice enz enz enz.', 'img/Speakers/Speaker3.jpg'),
-															   (4, 'Enzo van Arum is de informatieanalist die alles regelt', 'img/Speakers/Speaker4.jpg'),
-															   (5, 'Onno Hols is een ervaren PHP en JavaScript developer en houdt van vakantie', 'img/Speakers/Speaker5.jpg'),
+															   (3, 'Niels Bergervoet is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker3.jpg'),
+															   (4, 'Enzo van Arum is een informatieanalist die veel kennis heeft van BPMN.', 'img/Speakers/Speaker4.jpg'),
+															   (5, 'Onno Hols is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker5.jpg'),
 															   (6, 'Dave Snowden is the founder and chief scientific officer...', 'img/Speakers/Speaker6.jpg'),
 															   (7, 'Dr. Barry Devlin is among the foremost authorities on...', 'img/Speakers/Speaker7.jpg');
 
