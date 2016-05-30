@@ -7,11 +7,19 @@
  */
     require_once('Management.php');
     class Manage extends Management{
-
+		private $congressNo;
+		
         public function __construct(){
             parent::__construct();
         }
 		
+		public function getCongressNo() {
+			return $this->congressNo;
+		}
+		
+		public function setCongressNo($congressNo) {
+			$this->congressNo = $congressNo;
+		}
 		public function createManageScreen() {
 			echo '<div id="tabs">';
 			  echo '<ul>';
