@@ -96,7 +96,7 @@ require_once('ScreenObjects/TableData.php');
 				echo '</div>';
 				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
 					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" data-file="listBoxSpeaker" remove=false>></button>';
-					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" data-file="listBoxSpeaker" keep=false><</button>';
+					echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" data-file="listBoxSpeaker" keep=false><</button>';
 				echo '</div>';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
 				echo $tableRight->getObjectCode();
