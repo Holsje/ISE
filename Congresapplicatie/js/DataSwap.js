@@ -10,11 +10,13 @@ $(document).ready(function () {
 	});
 	
 	var numDataListBoxes =  $('.listBox').length;
+	var listBoxes = $('.listBox');
 	for(var i = 0;i<numDataListBoxes;i++) {
-		dataSwapTables[$('.listBox')[i].id] =  $('#' + $('.listBox')[i].id).DataTable( {
-		"sScrollY": "500px",
-		"bPaginate": false
-	});
+		dataSwapTables[listBoxes[i].id] =  $('#' + listBoxes[i].id).DataTable( {
+			"sScrollY": "500px",
+			"bPaginate": false
+		});
+		console.log(listBoxes[i].id);
 	}
 	tableLeft =
 	
