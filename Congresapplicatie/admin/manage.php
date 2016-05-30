@@ -11,7 +11,8 @@ if(isset($_SESSION['congressNo'])) {
 }else {
 	$manage->setCongressNo(1);
 }
-topLayoutManagement('Beheren Congres',null,null);
+
+topLayoutManagement('Beheren Congres','<link rel="stylesheet" href="../css/manage.css">"','"<script src="../js/manage.js"></script>');
 ?>
 
     <div class="row">
