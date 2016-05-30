@@ -85,36 +85,28 @@ require_once('ScreenObjects/TableData.php');
 			echo '</div>';
 		}
 		
-		public function createDataSwapList($tableLeft,$tableLeftId,$tableRight,$tableRightId,$keepRight,$removeLeft) {
-				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
-				echo $tableLeft->getObjectCode();
-				echo '</div>';
-				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
-					echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
-					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
-				echo '</div>';
-				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
-				echo $tableRight->getObjectCode();
-				echo '</div>';
-			
-			/*echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
-				echo '<table id="tableLeft" class="dataSwapTable">';
-					foreach($trsLeft as $tr) {
-						echo $tr->getObjectCode();
-					}
-				echo '</table>';
+		public function createDataSwapList($tableLeft,$tableLeftId,$tableRight,$tableRightId,$keepRight,$removeLeft,$buttons) {
+			echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
+			echo $tableLeft->getObjectCode();
 			echo '</div>';
 			echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
-				echo '<button onclick="goLeft()"><</button>';
-				echo '<button onclick="goRight()">></button>';
+				echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
+				echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
 			echo '</div>';
 			echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
-				echo '<table id="tableRight" class="dataSwapTable">';
-					foreach($trsRight as $tr) {
-						echo $tr->getObjectCode();
-					}
-				echo '</table>';
-			echo '</div>';*/
+			echo $tableRight->getObjectCode();
+			echo '</div>';
+			
+			$size = sizeof($buttons);
+			 for($i=0; $i < $size; $i++){
+				if ($buttons[$i]->getStartRow()) {
+					echo '<div class="form-group"> ';
+				}
+				echo  $buttons[$i]->getObjectCode();
+				if ($buttons[$i]->getEndRow()) {
+					echo '</div>';
+				}
+			}
 		}
     }
 
