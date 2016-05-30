@@ -85,9 +85,10 @@ require_once('ScreenObjects/TableData.php');
 			echo '</div>';
 		}
 		
-		public function createDataSwapList($tableLeft,$tableLeftId,$tableRight,$tableRightId,$keepRight,$removeLeft,$buttons) {
+		public function createDataSwapList($tableLeft,$tableLeftId,$titleLeft,$tableRight,$tableRightId,$titleRight,$keepRight,$removeLeft,$buttons) {
 			echo '<div class="form-group">';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
+				echo '<h2>' . $titleLeft . '</h2>';
 				echo $tableLeft->getObjectCode();
 				echo '</div>';
 				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
@@ -95,6 +96,7 @@ require_once('ScreenObjects/TableData.php');
 					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
 				echo '</div>';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
+				echo '<h2>' . $titleRight . '</h2>';
 				echo $tableRight->getObjectCode();
 				echo '</div>';
 			echo '</div>';
