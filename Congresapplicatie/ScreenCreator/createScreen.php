@@ -100,7 +100,6 @@ require_once('ScreenObjects/TableData.php');
 				echo $tableRight->getObjectCode();
 				echo '</div>';
 			echo '</div>';
-			echo
 			echo '<div class="row">';
 				$size = sizeof($buttons);
 				 for($i=0; $i < $size; $i++){
