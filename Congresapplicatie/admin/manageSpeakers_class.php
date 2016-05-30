@@ -1,63 +1,58 @@
 <?php
     require_once('Management.php');
     class ManageSpeakers extends Management{
-
-        public function __construct(){
+		private $congressNo;
+        public function __construct($congressNo){
+			$this->congressNo = $congressNo;
             parent::__construct();
         }
 
-        public function createManagementScreen($columnList, $valueList) {
-            $button = new Submit("Test", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "DATAFILE");
-            //$buttonArray = array($button);
+        public function createManagementScreen() {
+			$columnList = array("Nummer","Voornaam","Achternaam","Email");
+			$valueList = $this->getSpeakers($this->congressNo);
+			
             parent::createManagementScreen($columnList, $valueList, null);
         }
         
-        public function getSpeakers() {
-			 $result = parent::getDatabase()->sendQuery("SELECT P.FirstName, P.LastName, P.MailAddress FROM SpeakerOfCongress SOC " .
+        public function getSpeakers($congressNo) {
+			 $result = parent::getDatabase()->sendQuery("SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress FROM SpeakerOfCongress SOC " .
 														"INNER JOIN Person P ON P.PersonNo = SOC.PersonNo " .
-														"WHERE SOC.CongressNo = ?",array(1));
+														"WHERE SOC.CongressNo = ?",array($congressNo));
+														
+			 if ($result){
+				$array = array();
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
+				{
+					array_push($array,array($row['personNo'],$row['FirstName'],$row['LastName'],$row['MailAddress']));
+				}
+				return $array;
+			}
+			return false;
 		
 		}
 		
-		public function createCreateSpeakersScreen() {
+		public function createCreateSpeakerScreen() {
 			
-			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
-			$locationObject = new Text(null,"Locatie","congressLocation",null, true, true, true);
-			
-			$addSubjectObject = new ListAddButton("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubject");
-			$subjectList = $this->getSubjects();
-			$subjectObject = new Select(null,"Onderwerp","congressSubject",null, true, true, $subjectList,$addSubjectObject);
-			
-			
-			$startDateObject = new Date(null,"Startdatum","startDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
-			$endDateObject = new Date(null,"Einddatum","endDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
-			$submitObject = new Submit("toevoegen","createCongress","toevoegen",null, true, true);			
-			$this->createScreen->createPopup(array($congressNameObject,$locationObject,$subjectObject,$startDateObject,$endDateObject,$submitObject),"Congres aanmaken","Add",null);
-			
-			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
-			$buttonAddSubjectObject = new Button("toevoegen","toevoegen","toevoegen","form-control col-md-4 pull-right btn btn-default", true, true,null);
-			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubject",null);
+			$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
+			$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
+			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
+			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
+			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
+			$submitObject = new Submit("toevoegen","createSpeaker","toevoegen",null, true, true);			
+
+			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$submitObject),"Spreker aanmaken","Add",null,null,false);
 		}
 		
-		public function createEditCongressScreen() {
-			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
-			$locationObject = new Text(null,"Locatie","congressLocation",null, true, true, true);
-			
-			$addSubjectObject = new ListAddButton("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubjectFromEdit");
-			$subjectList = $this->getSubjects();
-			$subjectObject = new Select(null,"Onderwerp","congressSubject",null, true, true, $subjectList,$addSubjectObject);
-			
-			
-			$startDateObject = new Date(null,"Startdatum","congressStartDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
-			$endDateObject = new Date(null,"Einddatum","congressEndDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
-            //($value, $label, $name, $classes, $startRow, $endRow, $datafile){
-            $errMsg = new Span('',null,'errMsgBewerken','errorMsg',true,true,null);
-			$submitObject = new Button("Bewerken","Bewerken","updateCongress","form-control col-md-4 pull-right btn btn-default",true, true, '#popUpUpdate');			
-			$this->createScreen->createPopup(array($congressNameObject,$locationObject,$subjectObject,$startDateObject,$endDateObject,$errMsg,$submitObject),"Congres bewerken","Update",null);
-			
-			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
-			$buttonAddSubjectObject = new Button("Bewerken","Bewerken","Bewerken","form-control col-md-4 pull-right btn btn-default", true, true,null);
-			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubjectFromEdit",null);
+		public function createEditSpeakerScreen() {
+			$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
+			$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
+			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
+			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
+			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
+			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);			
+
+			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$submitObject),"Spreker aanpassen","Update",null,null,false);
+
 		}
     } 
 	

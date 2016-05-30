@@ -1,6 +1,9 @@
 <?php
 	require_once('ManageSpeakers_class.php');
-	$manageSpeakers = new ManageSpeakers();
+	$manageSpeakers = new ManageSpeakers($this->getCongressNo());
 	
-	$manageSpeakers->createManagementScreen(array("Voornaam","Achternaam","Email"),$manageSpeakers->getSpeakers());
+	$manageSpeakers->createManagementScreen();
+	
+	$manageSpeakers->createCreateSpeakerScreen();
+	$manageSpeakers->createEditSpeakerScreen();
 ?>
