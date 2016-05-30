@@ -3,10 +3,10 @@ var dataSwapTables = new Array();
 $(document).ready(function () {
 
 	$(".goToLeftButton").click(function() { 
-		goLeft();
+		goLeft(event);
 	});
 	$(".goToRightButton").click(function() {
-		goRight();
+		goRight(event);
 	});
 	
 	var numDataListBoxes =  $('.listBox').length;
@@ -18,7 +18,6 @@ $(document).ready(function () {
 		});
 		console.log(listBoxes[i].id);
 	}
-	//tableLeft =
 	
     $('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
@@ -32,8 +31,9 @@ $(document).ready(function () {
 
 
 
-function goRight() {
-	var selectedRows = tableLeft.rows(".selected");
+function goRight(event) {
+	
+	var selectedRows = dataSwapTables[].rows(".selected");
 	if(keepRight == true) {
 		selectedRows.remove().draw(false);
 	}else {
@@ -45,7 +45,7 @@ function goRight() {
 }
 
 
-function goLeft() {
+function goLeft(event) {
 	var selectedRows = tableRight.rows(".selected");
 	if(keepRight == true) {
 		for(var i = 0;i<selectedRows.data().length;i++) {
