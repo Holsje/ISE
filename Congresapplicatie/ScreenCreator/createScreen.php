@@ -100,17 +100,18 @@ require_once('ScreenObjects/TableData.php');
 				echo $tableRight->getObjectCode();
 				echo '</div>';
 			echo '</div>';
-				
-			$size = sizeof($buttons);
-			 for($i=0; $i < $size; $i++){
-				if ($buttons[$i]->getStartRow()) {
-					echo '<div class="form-group"> ';
+			echo '<div class="form-group">';
+				$size = sizeof($buttons);
+				 for($i=0; $i < $size; $i++){
+					if ($buttons[$i]->getStartRow()) {
+						echo '<div class="form-group"> ';
+					}
+					echo  $buttons[$i]->getObjectCode();
+					if ($buttons[$i]->getEndRow()) {
+						echo '</div>';
+					}
 				}
-				echo  $buttons[$i]->getObjectCode();
-				if ($buttons[$i]->getEndRow()) {
-					echo '</div>';
-				}
-			}
+			echo '</div>';
 		}
     }
 
