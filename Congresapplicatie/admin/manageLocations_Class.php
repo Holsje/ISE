@@ -29,7 +29,10 @@ class ManageLocations extends Management {
 		for($i = 0; $i < sizeof($allLocations); $i++) {
 			array_push($locationNamesWithCity, $allLocations[$i][0] . ' - ' . $allLocations[$i][1]);
 		}
-		$selectLocations = new Select($_SESSION['selectedLocation'], "Locatie", null, "form-control col-xs-10 col-sm-10 col-md-10 locationSelect", true, true, $locationNamesWithCity, null);
+		if (!isset($_SESSION['selectedLocation'])) {
+			$_SESSION['selectedLocation'] = 1;
+		}
+		$selectLocations = new Select($_SESSION['selectedLocation'], "Locatie", null, "form-control col-xs-10 col-sm-10 col-md-10 locationSelect", true, true, $locationNamesWithCity, null, null, null);
 		echo '<div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10">';
 			echo $selectLocations->getObjectCode();
 		echo '</div>';
