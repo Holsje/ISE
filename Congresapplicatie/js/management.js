@@ -31,8 +31,27 @@ $(document).ready(function () {
         $("body").css("overflow", "auto");
     });
 	
+	
+	switch(window.location.hash) {
+		case "#Locatie":
+			var activeTab = 1;
+		break;
+		case "#Tracks":
+			var activeTab = 2;
+		break;
+		case "#Evenementen":
+			var activeTab = 3;
+		break;
+		case "#spreker":
+			var activeTab = 4;
+		break;		
+		case "#Congresgegevens":
+		default:
+			var activeTab = 0;
+		break;
+	}
 	 $(function() {
-		$( "#tabs" ).tabs();
+		$( "#tabs" ).tabs({active:activeTab});
 	  });
 });
 
