@@ -108,7 +108,7 @@ require_once('ScreenObjects/TableData.php');
 					}
 				echo '</div>';
 				
-				$buttonSave = new Submit("Opslaan", null, "buttonSave", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", true, true, "");
+				$buttonSave = new Button("Opslaan", null, "buttonSaveSwapList", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 buttonSaveSwapList", false, false, null);
 				echo $buttonSave->getObjectCode();
 			echo '</form>';
 		}
