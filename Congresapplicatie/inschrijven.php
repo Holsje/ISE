@@ -1,22 +1,58 @@
 <?php
+	include('admin/sessionHandler.php');
+	sessionHandlerWeb(false);
+	require_once('database.php');
+	require_once('Index_Class.php');
+	$indexClass = new Index();
+	global $server, $databaseName, $uid, $password;
+	$dataBase = new Database($server,$databaseName,$uid,$password);
+	$createScreen = new CreateScreen();
+	include('inschrijven_Submit.php');
+	require_once('ScreenCreator/CreateScreen.php');
+	require_once('connectDatabase.php');
+	require_once('pageConfig.php');
 	require_once('inschrijven_class.php');
-	topLayout('Inschrijven',null,null);
-	$inschrijven = new Inschrijven();
+	$inschrijven = new Inschrijven($_SESSION['congressNo'], $dataBase, $createScreen);
+	topLayout('Inschrijven',null,null);	
 ?>
 	 <div class="row">
-        <div class="container   col-md-12 col-xs-12">
-            <div class="content col-sm-9 col-sm-offset-1 col-md-9 col-md-offset-1 col-xs-9 col-xs-offset-1">
-				<div class="row">
-					<div id="Content" style="background-color:#FFF;" class="col-sm-12 col-md-12 col-xs-12">
+        <div class="container col-sm-12 col-md-12 col-xs-12">
+            <div class="content col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+		      <div class="row">
+				<h1>
+				<?php 
+					echo $inschrijven->congressName;
+					echo "<br>";
+					echo $inschrijven->writeOutCurrentDate();
+				?>
+				</h1>
+				<form name="formSignUpForCongress" method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+				    <div id = "carousel" class="carousel-inner" role="listbox">
 						<?php
 							$inschrijven->createSchedule();
 						?>
+					</div>
+					<a id="carouselButtonLeft" class="carouselButton left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+	    				<span class="glyphicon glyphicon-arrow-left carouselIcon" aria-hidden="true"></span>
+	    				<span class="sr-only">Previous</span>
+	  				</a>
+	  				<a class="carouselButton right carousel-control" href="#myCarousel" role="button" data-slide="next">
+	    				<span class="glyphicon glyphicon-arrow-right carouselIcon" aria-hidden="true"></span>
+	    				<span class="sr-only">Next</span>
+	  				</a>
+                    <?php
+						$inschrijven->createPreviousDayButton();
+						$inschrijven->createNextDayButton();
+					?>
 				</div>
-			</div>
-		</div>
-	</div>
-
+				</form>
+              </div>
+            </div>
+         </div>
+    </div>
 <?php
 	bottomLayout();
-
+	$indexClass->createSpeakerInfoPopup();
+	$indexClass->createEventInfoPopup();
 ?>
