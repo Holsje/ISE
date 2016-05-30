@@ -26,9 +26,17 @@ $(document).ready(function () {
     $('.dataTable tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
+	
+	//$(".buttonSaveSwapList").click(function() {
+//		saveDataSwap(event);
+//	});
 });
 
 
+
+function buttonSaveSwapList(event) {
+	console.log(event);
+}
 
 function goRight(event) {
 	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("left").value].rows(".selected");
@@ -55,5 +63,10 @@ function goLeft(event) {
 		}
 		selectedRows.remove().draw(false);
 	}
+	
+}
+
+
+function saveDataSwap(event) {
 	
 }

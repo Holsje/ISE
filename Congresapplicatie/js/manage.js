@@ -1,9 +1,10 @@
 var speakerTable;
 $(document).ready(function () {
 
-	//$(".buttonSaveSwapList")
+	
 	//document.forms["formCreatespeaker"]["buttonEditspeaker"].onclick = getSpeakerInfo;
 	//document.forms["formCreatespeaker"]["buttonAddspeaker"].onclick = getSpeakerInfo;
+	
 });
 
 
@@ -40,3 +41,5 @@ function getSpeakerInfo() {
         return false;
     }
 }
+
+
