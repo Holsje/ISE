@@ -32,8 +32,8 @@ $(document).ready(function () {
 
 
 function goRight(event) {
-	
-	var selectedRows = dataSwapTables[].rows(".selected");
+	 
+	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("data-file").value].rows(".selected");
 	if(keepRight == true) {
 		selectedRows.remove().draw(false);
 	}else {
