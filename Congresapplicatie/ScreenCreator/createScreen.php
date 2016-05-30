@@ -86,7 +86,7 @@ require_once('ScreenObjects/TableData.php');
 		}
 		
 		public function createDataSwapList($tableLeft,$tableLeftId,$titleLeft,$tableRight,$tableRightId,$titleRight,$keepRight,$removeLeft,$buttonsLeft,$buttonsRight) {
-			echo '<form class="row col-sm-12 col-xs-12 col-md-12">';
+			echo '<form method="get" class="row col-sm-12 col-xs-12 col-md-12">';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
 				echo '<h2>' . $titleLeft . '</h2>';
 				echo $tableLeft->getObjectCode();
