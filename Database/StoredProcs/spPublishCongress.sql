@@ -1,3 +1,4 @@
+--BR 8
 ALTER PROC spPublishCongress
 	@congressno D_CONGRESSNO
 AS
@@ -13,7 +14,7 @@ BEGIN
 
 	BEGIN TRY
 		DECLARE @test VARCHAR(1000);
-		SET @test = 'ERROR [NR]';
+		SET @test = 'ERROR';
 		--Check if congress has all mandatory fields
 		IF EXISTS(SELECT 1 FROM Congress 
 					WHERE CongressNo = @congressno AND (LocationName IS NULL OR City IS NULL 
@@ -105,11 +106,11 @@ BEGIN
 		END
 
 		--Check if every event have atleast one room
-		IF EXISTS(SELECT 1 FROM EVENT E
+		IF EXISTS(SELECT 1 FROM EventInTrack E
 					LEFT JOIN EventInRoom EIR ON E.CongressNo = EIR.CongressNo AND E.EventNo = EIR.EventNo
 					WHERE E.CongressNo = @congressno AND EIR.RName IS NULL)
 		BEGIN
-			SET @test+= 'Een evenement heeft geen lokaal';
+			SET @test+= 'Een evenement heeft geen zaal';
 		END
 
 		--Check if every speaker of congress are a speaker of an event
@@ -176,74 +177,112 @@ BEGIN TRAN
 	EXEC spPublishCongress 1
 	GO
 ROLLBACK TRAN
+--Check if it still works with a double null value
 BEGIN TRAN
-	print 'Check double null';
 	UPDATE Congress SET Description = NULL WHERE CongressNo = 1
 	UPDATE Congress SET Banner = NULL WHERE CongressNo = 1
 	EXEC spPublishCongress 1
 	GO
 ROLLBACK TRAN
-
+--Check if track has all mandatory fields
 BEGIN TRAN
 	UPDATE Track SET Description = NULL WHERE CongressNo = 1
 	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
-
+--Check if EventInTrack  has all mandatory fields
 BEGIN TRAN
 	UPDATE EventInTrack SET Start = NULL WHERE CongressNo = 1
 	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
 BEGIN TRAN
 	UPDATE EventInTrack SET [END] = NULL WHERE CongressNo = 1
 	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
+
+--Check if event has all mandatory fields
 BEGIN TRAN
 	UPDATE Event SET Description = NULL WHERE CongressNo = 1
 	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if speaker has all mandatory fields
 BEGIN TRAN
 	UPDATE Speaker SET Description = NULL
 	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
 BEGIN TRAN
 	UPDATE Speaker SET PicturePath = NULL
 	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if SpeakerOfCongress has all mandatory fields
 BEGIN TRAN
 	UPDATE SpeakerOfCongress SET Agreement = NULL WHERE CongressNo = 1
 	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if all events must have a tracl
 BEGIN TRAN
+	DELETE FROM EventOfVisitorOfCongress WHERE CongressNo = 1 AND EventNo = 1
 	DELETE FROM EventInTrack WHERE CongressNo = 1 AND EventNo = 1
 	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if congress must have a track
 BEGIN TRAN
-
+	DELETE FROM EventInRoom WHERE CongressNo = 1
+	DELETE FROM EventOfVisitorOfCongress WHERE CongressNo = 1
+	DELETE FROM EventInTrack WHERE CongressNo = 1
+	DELETE FROM Event WHERE CongressNo = 1
+	DELETE FROM SpeakerOfCongress WHERE CongressNo = 1
+	DELETE FROM Track WHERE CongressNo = 1
+	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if a track must have an event
 BEGIN TRAN
-
+	DELETE FROM EventOfVisitorOfCongress WHERE CongressNo = 1
+	DELETE FROM EventInTrack WHERE CongressNo = 1 AND Trackno = 1
+	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if an event must have a subject
 BEGIN TRAN
-
+	DELETE FROM SubjectOfEvent WHERE CongressNo = 1 AND EventNo =1
+	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if congress must have a subject
 BEGIN TRAN
-
+	DELETE FROM SubjectOfCongress WHERE CongressNo = 1
+	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if event must be in a room
 BEGIN TRAN
-
+	DELETE FROM EventInRoom WHERE EventNo = 1
+	EXEC spPublishCongress 1
+	GO
 ROLLBACK TRAN
 
+--Check if all speakers in the congress must speak
 BEGIN TRAN
+	DELETE FROM SpeakerOfEvent WHERE PersonNo = 6
+	EXEC spPublishCongress 1
+	GO
+ROLLBACK TRAN
 
-ROLLBACK TRAN
-ROLLBACK TRAN
