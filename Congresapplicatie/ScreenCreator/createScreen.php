@@ -85,18 +85,13 @@ require_once('ScreenObjects/TableData.php');
 			echo '</div>';
 		}
 		
-		public function createDataSwapList($tableLeft,$tableRight,$keepRight) {
-			if($keepRight == true) {
-				echo '<script> var keepRight = true; </script>';
-			} else {
-				echo '<script> var keepRight = false; </script>';
-			}
+		public function createDataSwapList($tableLeft,$tableLeftId,$tableRight,$tableRightId,$keepRight,$removeLeft) {
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
 				echo $tableLeft->getObjectCode();
 				echo '</div>';
 				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
-					echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" left="listBoxSpeakerLeft" right="listBoxSpeakerRight" keep=false><</button>';
-					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="listBoxSpeakerLeft" right="listBoxSpeakerRight" remove=false>></button>';
+					echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
+					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
 				echo '</div>';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
 				echo $tableRight->getObjectCode();
