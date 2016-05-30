@@ -44,7 +44,7 @@ function goRight(event) {
 
 
 function goLeft(event) {
-	var dataSwapTables[event.target.attributes.getNamedItem("right").value] = tableRight.rows(".selected");
+	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("right").value].rows(".selected");
 	if(event.target.attributes.getNamedItem("keep").value == true) {
 		for(var i = 0;i<selectedRows.data().length;i++) {
 			dataSwapTables[event.target.attributes.getNamedItem("left").value].row.add(selectedRows.data()[i]).draw(false);
