@@ -95,6 +95,9 @@ class Database
         return $result;
     }
 
+    public function getConn(){
+        return $this->conn;
+    }
 
     public function getError()
     {
@@ -110,6 +113,10 @@ class Database
         
         return $err;
     }
+	
+	public function getConn() {
+		return $this->conn;
+	}
     
 }
 

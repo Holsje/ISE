@@ -112,7 +112,7 @@
                                     array_push($subjectsEvent,$rowSub['Subject']);
                                 }
                             }
-                            $this->createScreen->createEventInfo($row['EName'],$subjectsEvent,$row['Price'],$row['Type'],$row['EventNo'],'#popUpeventInfo','col-sm-2 col-md-3 col-xs-2','margin-right:50px; margin-bottom:50px; ',$row['FileDirectory'] . 'thumbnail.png','');
+                            $this->createScreen->createEventInfo($row['EName'],$subjectsEvent,$row['Price'],$row['Type'],$row['EventNo'],'','#popUpeventInfo','col-sm-2 col-md-3 col-xs-2','margin-right:50px; margin-bottom:50px; ',$row['FileDirectory'] . 'thumbnail.png','');
                         }
                         echo '</div>';
                     }
@@ -171,12 +171,12 @@
             $spanDescription = new Span('','Over evenement','eventDescription','col-md-8 col-sm-6 col-xs-12',false,true);
             $spanSubjects = new Span('','Onderwerp(en)','subjects','col-md-12 col-sm-12',true,true);
             $spanSpeakers = new Span('','Spreker(s)','speakers','',true,true);
-            $this->createScreen->createPopup(array($image,$spanDescription,$spanSubjects,$spanSpeakers),"","eventInfo",'bigPop','first');
+            $this->createScreen->createPopup(array($image,$spanDescription,$spanSubjects,$spanSpeakers),"","eventInfo",'bigPop','first','');
         }
         public function createSpeakerInfoPopup(){
             $image = new Img('','','thumbnail','col-md-3',true,false);
             $spanDescription = new Span('','Over spreker','speakerDescription','col-md-8 col-sm-6 col-xs-12',false,true);
-            $this->createScreen->createPopup(array($image,$spanDescription),"","speaker","smallPop",'');
+            $this->createScreen->createPopup(array($image,$spanDescription),"","speaker","smallPop",'','');
         }
     }
 ?>

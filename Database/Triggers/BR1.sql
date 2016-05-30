@@ -1,6 +1,9 @@
 ALTER TABLE Congress
 ADD CONSTRAINT CHK_StartBeforeEndCongress CHECK (StartDate <= EndDate) 
 
+ALTER TABLE EventInTrack
+ADD CONSTRAINT CHK_StartBeforeEndEventInTrack CHECK (Start < [End]) 
+
 --Goede insert
 BEGIN TRAN
 	INSERT INTO Congress (LocationName, City, CName, Startdate, Enddate, Price, Description, Banner, [Public]) VALUES ('HAN', 'Arnhem', 'Test Congres', GETDATE(), DATEADD(DAY, 1, GETDATE()), 80, 'Omschrijving', 'img/banners/CongressBanner.png', 0);
@@ -10,10 +13,6 @@ ROLLBACK TRAN
 BEGIN TRAN
 	INSERT INTO Congress (LocationName, City, CName, Startdate, Enddate, Price, Description, Banner, [Public]) VALUES ('HAN', 'Arnhem', 'Test Congres', GETDATE(), DATEADD(DAY, -1, GETDATE()), 80, 'Omschrijving', 'img/banners/CongressBanner.png', 0);
 ROLLBACK TRAN
-
-
-ALTER TABLE EventInTrack
-ADD CONSTRAINT CHK_StartBeforeEndEventInTrack CHECK (Start < [End]) 
 
 --Goede insert
 BEGIN TRAN

@@ -3,12 +3,10 @@
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['submitLogin'])) {
 			if ($login->checkLogin($_POST['input-username'], $_POST['input-password'])){
-				//setcookie('user', $_POST['input-username'], time() + (14*24*60*60));
-				echo "Ingevulde inloggegevens zijn juist!";
-				header('Location: index.php');
+					header('Location: '. $_SERVER['HTTP_REFERER']);
 			}
-			else{
-				$errorstring = "Ingevulde inloggegevens zijn onjuist!";
+			else {
+                $_SESSION['loginFail'] = "Gebruikersnaam en/of wachtwoord zijn onjuist";
 			}
 		}
         else if (isset($_POST['logout'])){
@@ -16,8 +14,15 @@
             if (isset($_COOKIE['userWeb'])){
                 setcookie('userWeb', '', 1);
             }
-            header('Location: index.php');
-        }
+			if (isset($_SESSION['pageCount'])) {
+				$congressNo = $_SESSION['congressNo'];
+				session_unset();
+				header('Location: index.php?congressNo=' . $congressNo);
+			}
+			else {
+				header('Location: index.php?' . $_SERVER['QUERY_STRING']);
+			}
+		}
 	}
 
 	
