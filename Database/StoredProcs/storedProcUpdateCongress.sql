@@ -3,16 +3,16 @@
 CREATE PROC spUpdateCongress
 	@congressNo D_CongressNo,
 	@name D_Name,
-	@subject D_Subject,
-	@location D_Location,
 	@startDate D_Date,
 	@endDate D_Date,
+	@price D_Price,
+	@banner D_File,
 
 	@oldName D_Name,
-	@oldSubject D_Subject,
-	@oldLocation D_Location,
 	@oldstartDate D_Date,
-	@oldEndDate D_Date
+	@oldEndDate D_Date,
+	@oldprice D_Price,
+	@oldBanner D_File
 AS
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
@@ -26,36 +26,15 @@ BEGIN
 		BEGIN TRANSACTION;
 
 	BEGIN TRY
-		IF NOT EXISTS(SELECT 1 FROM Congress WHERE CongressNo = @congressNo)
-		BEGIN
-			RAISERROR('Congress does not exist',16,2);
-		END
-
 		IF NOT EXISTS(	SELECT 1 
 						FROM Congress
-						WHERE congressNo = @congressNo AND name = @oldName AND [subject] = @oldSubject AND location = @oldLocation AND startDate = @oldstartDate AND endDate = @oldEndDate)
+						WHERE congressNo = @congressNo AND CName = @oldName AND Price = @oldprice AND Banner = @oldBanner AND startDate = @oldstartDate AND endDate = @oldEndDate)
 		BEGIN
 			RAISERROR('Tijdens het opslaan zijn er nog wijzigingen doorgevoerd',16,2);
 		END
-
-		IF NOT EXISTS(SELECT 1 FROM [Subject] WHERE [Subject] = @subject) 
-		BEGIN			
-			INSERT INTO [Subject] 
-			VALUES(@subject)
-		END
 	
-		UPDATE Congress SET Name = @name,LOCATION = @location, [Subject] = @subject,StartDate = @startDate, EndDate = @endDate WHERE CongressNo = @congressNo	
+		UPDATE Congress SET CName = @name,Banner = @oldBanner, Price = @oldprice, StartDate = @startDate, EndDate = @endDate WHERE CongressNo = @congressNo	
 	
-		IF NOT EXISTS(SELECT 1 FROM Congress WHERE CongressNo = @congressNo AND [Subject] = @subject)
-		BEGIN
-			IF NOT EXISTS(SELECT 1 FROM Congress WHERE [Subject] = @oldSubject)
-			BEGIN
-				DELETE FROM [Subject] WHERE [Subject] = @oldSubject
-			END
-		END
-	
-	
-		
 		IF @TranCounter = 0 AND XACT_STATE() = 1
 			COMMIT TRANSACTION;
 	END TRY
@@ -71,3 +50,37 @@ BEGIN
 		THROW;
 	END CATCH
 END
+
+--Goed
+BEGIN TRAN
+EXEC spUpdateCongress
+	@congressNo = 1,
+	@name = 'test' ,
+	@location ='HAN',
+	@city= 'Nijmegen',
+	@startDate = '11-11-11',
+	@endDate = '12-12-12',
+
+	@oldName = 'Data Modeling Zone',
+	@oldLocation = 'Abion Spreebogen',
+	@oldCity = 'Berlijn',
+	@oldstartDate = '2016-10-10',
+	@oldEndDate = '2016-10-11'
+ROLLBACK
+
+--Fout Oude waardes komen niet overeen met de waardes in congres.
+BEGIN TRAN
+EXEC spUpdateCongress
+	@congressNo = 2,
+	@name = 'test' ,
+	@location ='HAN',
+	@city= 'Nijmegen',
+	@startDate = '11-11-11',
+	@endDate = '12-12-12',
+
+	@oldName = 'Data Modeling Zone',
+	@oldLocation = 'Abion Spreebogen',
+	@oldCity = 'Berlijn',
+	@oldstartDate = '2016-10-10',
+	@oldEndDate = '2016-10-11'
+ROLLBACK

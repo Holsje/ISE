@@ -846,7 +846,7 @@ go
 create table SPEAKER (
    PERSONNO             D_PERSONNO           not null,
    DESCRIPTION          D_DESCRIPTION        not null,
-   PICTUREPATH          D_FILE               not null,
+   PICTUREPATH          D_FILE               null,
    constraint PK_SPEAKER primary key (PERSONNO),
    constraint FK_SPEAKER_INHERITAN_PERSON foreign key (PERSONNO)
       references PERSON (PERSONNO)
@@ -859,7 +859,7 @@ go
 create table SPEAKEROFCONGRESS (
    PERSONNO             D_PERSONNO           not null,
    CONGRESSNO           D_CONGRESSNO         not null,
-   AGREEMENT            D_DESCRIPTION        not null,
+   AGREEMENT            D_DESCRIPTION        null,
    constraint PK_SPEAKEROFCONGRESS primary key (PERSONNO, CONGRESSNO),
    constraint FK_SPEAKERO_RT_SPEAKE_SPEAKER foreign key (PERSONNO)
       references SPEAKER (PERSONNO),
