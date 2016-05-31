@@ -211,7 +211,7 @@ CREATE TABLE Person (
    FirstName            D_NAME               NOT NULL,
    LastName             D_NAME               NOT NULL,
    MailAddress          D_MAIL               NOT NULL,
-   PhoneNumber          D_TELNR              NOT,
+   PhoneNumber          D_TELNR              	 NULL,
    CONSTRAINT PK_PERSON PRIMARY KEY (PersonNo),
    CONSTRAINT AK_MAILADDRES UNIQUE(MailAddress),
    CONSTRAINT CK_MAILADDRESS CHECK (MailAddress LIKE '_%[@]_%[.][a-z][a-z]%'
