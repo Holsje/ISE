@@ -27,7 +27,7 @@
             //$value, $label, $name, $classes, $startRow, $endRow $classesInput)
             $buttonArray=array();
             parent::createManagementScreen($columnList, $valueList, $buttonArray);
-            $upload = new Upload('','','eventPic','',true,true,'');
+            $upload = new Upload('','','eventPic','',true,true,'',"image");
             echo '<form method="POST" action="/ISE/ISE/Congresapplicatie/admin/fileUploadHandler.php" enctype="multipart/form-data">';
             echo $upload->getObjectCode();
             echo '<input type="submit" >';
