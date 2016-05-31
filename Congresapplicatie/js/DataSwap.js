@@ -29,6 +29,8 @@ $(document).ready(function () {
 
 function goRight(event) {
 	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("left").value].rows(".selected");
+	
+	$("." + event.target.attributes.getNamedItem("left").value + " .onSelected").attr("disabled",true);
 	if(event.target.attributes.getNamedItem("remove").value == true) {
 		selectedRows.remove().draw(false);
 	}else {
@@ -42,6 +44,8 @@ function goRight(event) {
 
 function goLeft(event) {
 	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("right").value].rows(".selected");
+
+	$("." + event.target.attributes.getNamedItem("right").value + " .onSelected").attr("disabled",true);
 	if(event.target.attributes.getNamedItem("keep").value == true) {
 		for(var i = 0;i<selectedRows.data().length;i++) {
 			dataSwapTables[event.target.attributes.getNamedItem("left").value].row.add(selectedRows.data()[i]).draw(false);

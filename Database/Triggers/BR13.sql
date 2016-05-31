@@ -33,3 +33,5 @@ BEGIN TRAN
 	DELETE FROM Speaker WHERE PersonNo = 1 OR PersonNo = 3 OR PersonNo = 4
 	SELECT * FROM PersonTypeOfPerson
 ROLLBACK TRAN
+
+SELECT * FROM SPEAKER

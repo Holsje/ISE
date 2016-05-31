@@ -501,7 +501,7 @@ GO
 CREATE TABLE SpeakerOfCongress (
    PersonNo             D_PERSONNO          NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
-   Agreement            D_DESCRIPTION        NOT NULL,
+   Agreement            D_DESCRIPTION        NULL,
    CONSTRAINT PK_SPEAKEROFCONGRESS PRIMARY KEY (PersonNo, CongressNo),
    CONSTRAINT FK_SPEAKERO_RT_SPEAKE_SPEAKER FOREIGN KEY (PersonNo)
       REFERENCES Speaker (PersonNo)

@@ -1,8 +1,5 @@
 <?php
-	require_once('ManageSpeakers_class.php');
-	$manageSpeakers = new ManageSpeakers($this->getCongressNo());
-	include('manageSpeakersSubmits.php');
-	
+	global $manageSpeakers;
 	$manageSpeakers->createManagementScreen();
 	
 	$manageSpeakers->createCreateSpeakerScreen();

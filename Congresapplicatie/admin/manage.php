@@ -2,15 +2,19 @@
 
 require_once('SessionHandler.php');
 require_once('Manage_Class.php');
+require_once('ManageSpeakers_class.php');
 
 sessionHandler(false, false);
 
 $manage = new Manage();
+
 if(isset($_SESSION['congressNo'])) {
 	$manage->setCongressNo($_SESSION['congressNo']);
 }else {
 	$manage->setCongressNo(1);
 }
+
+include('manageSpeakersSubmits.php');
 
 topLayoutManagement('Beheren Congres','<link rel="stylesheet" href="../css/manage.css">"','"<script src="../js/manage.js"></script>');
 ?>

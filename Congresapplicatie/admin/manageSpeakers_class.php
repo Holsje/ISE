@@ -58,12 +58,41 @@
 			return false;	
 		}
 		
-		public function createNewSpeaker() {
-			//$sqlString = ""
+		public function addRecord($storedProcName, $params) {
+			parent::addRecord($storedProcName, $params);
+			echo $this->database->getError();   
 		}
 		
-		public function updateSpeakers($oldSpeakers,$newSpeakers) {
+		public function updateSpeakers($speakersToDelete,$speakersToAdd) {
+		
+			if(sizeof($speakersToDelete) >= 1) {
 			
+				$sqlStmnt = 'DELETE FROM SpeakerOfCongress ' . 
+							'WHERE personNo = ? ';
+				for($i = 1;$i<sizeof($speakersToDelete);$i++) {
+					$sqlStmnt .= 'OR personNo = ? ';
+				}
+				$result = parent::getDatabase()->sendQuery($sqlStmnt,$speakersToDelete);
+
+			}
+				
+			$numSpeakersToAdd = sizeof($speakersToAdd);
+			if($numSpeakersToAdd >= 1) {
+				$sqlStmnt = 'INSERT INTO SpeakerOfCongress ' . 
+							'VALUES(?,?,null)';
+				for($i = 0;$i<$numSpeakersToAdd;$i++) {
+					if($i == 0) {
+						array_splice($speakersToAdd, (($i*2)+1),0,$this->congressNo);
+					}else {
+						$sqlStmnt .= ",(?,?,null)";
+						array_splice($speakersToAdd, (($i*2)+1),0,$this->congressNo);
+					}
+					
+					
+				}
+				$result = parent::getDatabase()->sendQuery($sqlStmnt,$speakersToAdd);
+			
+			}
 		}
 		
 		public function createCreateSpeakerScreen() {
@@ -73,9 +102,10 @@
 			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
 			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
+			$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
 			$submitObject = new Submit("toevoegen","createSpeaker","toevoegen",null, true, true);			
 
-			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$submitObject),"Spreker aanmaken","AddSpeaker",null,null,false,"#spreker");
+			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$submitObject),"Spreker aanmaken","AddSpeaker",null,null,false,"#spreker");
 		}
 		
 		public function createEditSpeakerScreen() {
@@ -84,39 +114,34 @@
 			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
 			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
-			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);			
+			$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
+			$errMsg = new Span('',null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
+			$submitObject = new Button("aanpassen","updateSpeaker","aanpassen",'form-control btn btn-default', true, true,null);			
 
-			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$submitObject),"Spreker aanpassen","UpdateSpeaker",null,null,false,"#spreker");
+			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$submitObject),"Spreker aanpassen","UpdateSpeaker",null,null,false,"#spreker");
 
 		}
 		
 		public function getSpeakerInfo($personNo) {
-			$sqlSpeakers = "SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, P.phonenumber,SOC.description ".
+			$sqlSpeakers = "SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, P.phonenumber,SOC.agreement,s.Description ".
 														"FROM SpeakerOfCongress SOC " .
 														"INNER JOIN Person P ON P.PersonNo = SOC.PersonNo " .
-														"WHERE SOC.CongressNo = ?";
-            $sqlCongress = 'SELECT *
-                            FROM Congress
-                            WHERE CongressNo = ?';
-            $sqlCongressSubjects = 'SELECT Subject
-                                    FROM SubjectOfCongress
-                                    WHERE CongressNo = ?';
-            $params = array($congressNo);
-            $resultCongressSubjects = $this->database->sendQuery($sqlCongressSubjects, $params);
-            $arrayCongressSubjects = array();
-            if ($resultCongressSubjects){
-                while($row = sqlsrv_fetch_array($resultCongressSubjects, SQLSRV_FETCH_ASSOC)){
-                    array_push($arrayCongressSubjects,$row);
+														"INNER JOIN Speaker S ON S.PersonNo = SOC.PersonNo ".
+														"WHERE SOC.PersonNo = ?";														
+            $params = array($personNo);
+            $resultSpeakersObject = $this->database->sendQuery($sqlSpeakers, $params);
+            $arraySpeakers = array();
+            if ($resultSpeakersObject){
+                while($row = sqlsrv_fetch_array($resultSpeakersObject, SQLSRV_FETCH_ASSOC)){
+                    array_push($arraySpeakers,$row);
                 }
-            }
-
-            $resultCongress = $this->database->sendQuery($sqlCongress, $params);
-            if ($resultCongress){
-                if ($row = sqlsrv_fetch_array($resultCongress, SQLSRV_FETCH_ASSOC)){
-                    $row['subjects'] = $arrayCongressSubjects;
-                    return json_encode($row, JSON_FORCE_OBJECT);
-                }
-            }
+				
+            }else {
+				$arraySpeakers = $this->database->getError();
+			}
+			
+            return json_encode($arraySpeakers, JSON_FORCE_OBJECT);
+         
         }
     } 
 	
