@@ -22,7 +22,6 @@ include('manageLocationsSubmits.php');
 
 $js = "<script src='../js/manage.js'></script>";
 $js .= "<script src='../js/locationManagement.js'></script>";
-$js .= "<script src='../js/management.js'></script>";
 $css = '<link rel="stylesheet" href="../css/manage.css">"';
 topLayoutManagement('Beheren Congres', $css, $js);
 ?>

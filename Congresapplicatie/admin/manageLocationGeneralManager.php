@@ -10,6 +10,7 @@
 
 	$js = "<script src='../js/locationManagementGM.js'></script>";
 	$css = '<link rel="stylesheet" href="../css/manage.css">"';
+	$css .= '<link rel="stylesheet" href="../css/locationManagement.css">"';
 	topLayoutManagement('Beheren Locatie', $css, $js);
 ?>
     <div class="row">
