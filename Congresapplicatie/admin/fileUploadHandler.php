@@ -1,9 +1,6 @@
 <?php
 
-echo handleFile('','eventPic','test1');
-
 function handleFile($targetFileDir, $inputName, $fileName){
-    echo 'Ik ben hier';
     if(isset($_FILES[$inputName]['error'])){
         if($_FILES[$inputName]['error'] == UPLOAD_ERR_OK){
             $uploadOk = 1;
@@ -27,7 +24,6 @@ function handleFile($targetFileDir, $inputName, $fileName){
 
 function uploadTheFile($fileToUpload, $targetFile){
     if (move_uploaded_file($fileToUpload,$targetFile)) {
-        echo $targetFile;
         return true;
     } 
     else {
