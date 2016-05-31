@@ -1,33 +1,95 @@
-var table;
+var locationTable;
+var locationGMTable;
 $(document).ready(function () {
-    table = $('#congresListBox').DataTable( {
-		"sScrollY": "500px",
-		"bPaginate": false
-	});
-	$('.onSelected').length;
-    //$('.onSelected').prop('disabled', true);
-    $('#dataTables_length').css('display', 'none');
-    $('#congresListBox_length').css('display', 'none');
-    //$('#congresListBox_paginate').css('display', 'none');
-    $('#congresListBox_info').css('display', 'none');
+	locationTable =  $('#LocatieListBox').DataTable();
+	locationGMTable = $('#LocatieGMListBox').DataTable();
+	$(".dataTables_scrollBody").removeAttr("style");
+	$(".dataTables_scrollBody").addClass("scrollBody");
 	
-    $('.dataTable tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
-        } else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
-        }
-    });
-
-    $(".popupButton").on("click", function (event) {
-        $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
-        $("body").css("overflow", "hidden");
-    });
-    $(".closePopup").on("click", function (event) {
-        $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
-        $("body").css("overflow", "auto");
-    });
+	 $('#LocatieListBox_info').css('display', 'none');
+	
+	$(".locationSelect").change(function() {
+		var selectedValue = $(this).val();
+		$.ajax({
+		url: window.location.href,
+        type: 'POST',
+        data: {
+			SelectedValue: selectedValue,
+			LocationName: getLocationName(selectedValue),
+			City: getLocationCity(selectedValue)
+        },
+		success: function(data) {
+			location.reload();
+			window.location.href = 'manage.php#Locatie';
+		},
+		error: function (request, status, error) {
+            alert(request.responseText);
+        }});
+	})
+	$("[name=buttonDeleteLocatie]").on("click", function(event) {
+		var dataArray = locationTable.rows(".selected");
+		var result = [];
+		for(var i = 0; i < dataArray.data().length; i++) {
+			result.push(dataArray.data()[i][0]);
+		}
+		console.log(result);
+		
+		$.ajax({
+			url: 'manage.php#Locatie',
+			type: 'POST',
+			data: {
+				selectedBuildingValues: result
+			},
+			success: function(data) {
+				console.log(data);
+			},
+			error: function (request, status, error) {
+				alert(request.responseText);
+			}
+		})
+	})
+	$("[name=buttonDeleteLocatieGM]").on("click", function(event) {
+		var dataArray = locationGMTable.rows(".selected");
+		console.log(dataArray);
+		var result = [];
+		for(var i = 0; i < dataArray.data().length; i++) {
+			result.push(dataArray.data()[i][0]);
+			result.push(dataArray.data()[i][1]);
+		}
+		$.ajax({
+			url: window.location.href,
+			type: 'POST',
+			data: {
+				selectedLocationValues: result
+			},
+			success: function(data) {
+				console.log(data);
+			},
+			error: function (request, status, error) {
+				alert(request.responseText);
+			}
+		})
+	})
 });
+
+
+function getLocationName(value) {
+	locationArray = value.split(" ");
+	locationArray.pop();
+	locationArray.pop();
+	returnString = '';
+	for(var i = 0; i < locationArray.length; i++) {
+		if (i == 0) {
+			returnString += locationArray[i];
+		}
+		else {
+			returnString += ' ' + locationArray[i];
+		}
+	}
+	return returnString;
+}
+
+function getLocationCity(value) {
+	locationArray = value.split(" ");
+	return locationArray[locationArray.length - 1];
+}

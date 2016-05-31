@@ -8,11 +8,19 @@ class ManageLocations extends Management {
 	private $buttonArray;
 	private $currentLocationName;
 	private $currentLocationCity;
+	private $allLocations;
 	
 	public function __construct($currentLocationName, $currentLocationCity, $columnList, $buttonArray){
 		parent::__construct();
-		$this->currentLocationName = $currentLocationName;
-		$this->currentLocationCity = $currentLocationCity;
+		$this->allLocations = $this->getAllLocations();
+		if ($currentLocationName != null && $currentLocationCity != null) {
+			$this->currentLocationName = $currentLocationName;
+			$this->currentLocationCity = $currentLocationCity;
+		}
+		else {
+			$this->currentLocationName = $this->allLocations[0][0];
+			$this->currentLocationCity = $this->allLocations[0][1];
+		}
 		$this->columnList = $columnList;
 		$_SESSION['locationValueList'] = $this->getBuildingsByLocation($this->currentLocationName, $this->currentLocationCity);
 		$this->buttonArray = $buttonArray;
@@ -25,12 +33,8 @@ class ManageLocations extends Management {
 	public function createLocationScreen() {
 		echo '<div class="locationContent">';
 		$locationNamesWithCity = array();
-		$allLocations = $this->getAllLocations();
-		for($i = 0; $i < sizeof($allLocations); $i++) {
-			array_push($locationNamesWithCity, $allLocations[$i][0] . ' - ' . $allLocations[$i][1]);
-		}
-		if (!isset($_SESSION['selectedLocation'])) {
-			$_SESSION['selectedLocation'] = 1;
+		for($i = 0; $i < sizeof($this->allLocations); $i++) {
+			array_push($locationNamesWithCity, $this->allLocations[$i][0] . ' - ' . $this->allLocations[$i][1]);
 		}
 		$selectLocations = new Select($_SESSION['selectedLocation'], "Locatie", null, "form-control col-xs-10 col-sm-10 col-md-10 locationSelect", true, true, $locationNamesWithCity, null, null, null);
 		echo '<div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10">';
@@ -51,8 +55,8 @@ class ManageLocations extends Management {
 	
 	public function createDeleteBuildingPopUp() {
 		$text = new Span("Wilt u zeker dat u de selectie wilt verwijderen?" ,null, "confirmationText", null, true, true);
-		$cancelButton = new Button("Annuleren", "cancelDeleteBuilding", "cancelButton", null, true, false, "#popUpDeleteLocatie");
-		$confirmButton = new Submit("Bevestigen", "confirmDeleteBuilding", "confirmButton", null, false, true);
+		$cancelButton = new Button("Annuleren", "cancelDeleteBuilding", "cancelButton", "form-control btn btn-default popupButton col-xs-6 col-sm-6 col-md-6", true, false, "#popUpDeleteLocatie");
+		$confirmButton = new Submit("Bevestigen", "confirmDeleteBuilding", "confirmButton", "form-control btn btn-default popupButton col-xs-6 col-sm-6 col-md-6", false, true);
 		$this->getCreateScreen()->createPopUp(array($text, $cancelButton, $confirmButton), "Gebouw verwijderen", "DeleteLocatie", null, null, null, "#Locatie");
 	}
 	
