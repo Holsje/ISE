@@ -5,7 +5,7 @@ var oldCongressName,
     oldCongressPublic,
     oldCongressBanner,
     subjectTableUpdate,
-    congressNo = 1;
+    congressNo;
 
 $(document).ready(function () {
 
@@ -80,7 +80,6 @@ function updateCongressInfo(congressName, congressStartDate, congressEndDate, co
 
 //Edit
 function onUpdateCongress() {
-    alert("Test");
     $.ajax({
         url: window.location.href,
         type: 'POST',
@@ -100,13 +99,15 @@ function onUpdateCongress() {
 
             newCongressStartDate: document.forms['formUpdateCongress']["congressStartDate"].value,
             newCongressEndDate: document.forms['formUpdateCongress']["congressEndDate"].value,
-
+            newCongressPrice: document.forms['formUpdateCongress']["congressPrice"].value,
+            newCongressPublic: document.forms['formUpdateCongress']["congressPublic"].value,
+            newCongressBanner: document.forms['formUpdateCongress']["congressBanner"].value,
             selectedSubjects: getSelectedSubjects("Update")
 
 
         },
         success: function (data) {
-
+            alert("Test");
             if (data != null && data != '' &&  /\S/.test(data)) {
                 console.log(data);
                 data = JSON.parse(data);
@@ -115,9 +116,9 @@ function onUpdateCongress() {
                 if (confirmBox) {
 
                 } else {
-                    var startDate = parseDate(data['StartDate']['date']);
-                    var endDate = parseDate(data['EndDate']['date']);
-                    updateCongressInfo(data['Name'], data['Subject'], data['Location'], startDate, endDate);
+                    var startDate = parseDate(data['newCongressStartDate']['date']);
+                    var endDate = parseDate(data['newCongressEndDate']['date']);
+                    updateCongressInfo(data['newCongressName'], startDate, endDate, data['newCongressPrice'], data['newCongressBanner'], data['selectedSubjects']);
                     oldCongressName = data['Name'];
                     oldCongressStartDate = startDate;
                     oldCongressEndDate = endDate;

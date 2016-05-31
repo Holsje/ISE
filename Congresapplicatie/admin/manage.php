@@ -1,5 +1,7 @@
 <?php
 
+require_once('sessionHandler.php');
+sessionHandler(true, false);
 require_once('Manage_Class.php');
 $manage = new Manage();
 $js = '<script src="../js/manage.js"></script>';

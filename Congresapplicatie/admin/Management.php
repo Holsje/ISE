@@ -42,6 +42,9 @@ require_once('../pageConfig.php');
          */
         public function changeRecord($storedProcName, $params){
 			$result = $this->sendStoredProc($storedProcName, $params);
+            if ($result){
+                return $result;
+            }
 			return $this->database->getError();
         }
         
@@ -52,7 +55,6 @@ require_once('../pageConfig.php');
 			}
 			$execString .= "?)}";
 
-			
 			return $this->database->sendQuery($execString,$params);
             
         }

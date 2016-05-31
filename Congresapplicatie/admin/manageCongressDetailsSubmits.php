@@ -8,7 +8,7 @@
     require_once('ManageCongress_Class.php');
     $manageCongress = new ManageCongress();
     if(isset($_POST['getCongressInfo'])) {
-        echo $manageCongress->getCongressInfo($_POST['congressNo']);
+        echo $manageCongress->getCongressInfo($_SESSION['congressNo']);
         die();
     }
     else if(isset($_POST['bewerken'])) {
@@ -63,13 +63,15 @@
             array($_POST['newCongressName'], SQLSRV_PARAM_IN),
             array($_POST['newCongressStartDate'], SQLSRV_PARAM_IN),
             array($_POST['newCongressEndDate'], SQLSRV_PARAM_IN),
+            array($_POST['newCongressPrice'], SQLSRV_PARAM_IN),
+            array($_POST['newCongressBanner'], SQLSRV_PARAM_IN),
             array($_POST['oldCongressName'], SQLSRV_PARAM_IN),
             array($_POST['oldCongressStartDate'], SQLSRV_PARAM_IN),
-            array($_POST['oldCongressEndDate'], SQLSRV_PARAM_IN)
+            array($_POST['oldCongressEndDate'], SQLSRV_PARAM_IN),
+            array($_POST['oldCongressPrice'], SQLSRV_PARAM_IN),
+            array($_POST['oldCongressBanner'], SQLSRV_PARAM_IN)
         );
-
-
-        $manageCongress->changeRecord("spUpdateCongress",$params,$oldSubjects,$newSubjects);
+        $manageCongress->changeRecord("spUpdateCongress",$params,$subjectsToDelete,$subjectsToInsert);
         die();
     }
 ?>

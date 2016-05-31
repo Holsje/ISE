@@ -81,10 +81,7 @@
 			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
 			
 			$addSubjectObject = new Button("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubjectFromAdd");
-			/*
-            $subjectList = $this->getSubjects();
-			$subjectObject = new Select(null,"Onderwerp","congressSubject",null, true, true, $subjectList,$addSubjectObject, true, "selectSubject1");
-            */
+
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $subjectObject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", true, true, $columnList, $valueList, "subjectListBoxAdd");
@@ -108,10 +105,7 @@
 			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
 
 			$addSubjectObject = new Button("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubjectFromEdit");
-			/*
-            $subjectList = $this->getSubjects();
-			$subjectObject = new Select(null,"Onderwerp","congressSubject1",null, true, true, $subjectList,$addSubjectObject, false, "select");
-			*/
+
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $subjectObject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", true, true, $columnList, $valueList, "subjectListBoxUpdate");
@@ -202,7 +196,13 @@
 
         public function changeRecord($storedProcName,$params, $oldSubjects, $newSubjects){
             $insertNewSubjectsFailed = false;
-            $insertOldSubjectsFailed = false;
+            $deleteOldSubjectsFailed = false;
+
+            //BEGIN TRANSACTION
+
+            if (sqlsrv_begin_transaction($this->database->getConn()) === false) {
+                die(print_r(sqlsrv_errors(), true));
+            }
 
             $sqlStmt = 'SELECT CongressNo, CName, Startdate,Enddate, Price, Description, Banner, [Public]
                         FROM Congress
@@ -212,8 +212,8 @@
 
             $resultArrayNewSubjects = array();
             for($i = 0; $i < sizeof($newSubjects); $i++){
-                $result = parent::changeRecord("spAddSubjectToCongress", array(array($newSubjects[$i], SQLSRV_PARAM_IN), array($_SESSION['congressNo'], SQLSRV_PARAM_IN)));
-                array_push($resultArrayNewSubjects, $result);
+                $resultNewSubject = parent::changeRecord("spAddSubjectToCongress", array(array($newSubjects[$i], SQLSRV_PARAM_IN), array($_SESSION['congressNo'], SQLSRV_PARAM_IN)));
+                array_push($resultArrayNewSubjects, $resultNewSubject);
             }
 
             for ($i = 0; $i < sizeof($resultArrayNewSubjects); $i++){
@@ -225,14 +225,23 @@
             $resultArrayOldSubjects = array();
             $sqlDeleteSubject = "DELETE FROM SubjectOfCongress WHERE Subject = ? AND CongressNo = ?";
             for ($i = 0; $i < sizeof($oldSubjects); $i++){
-                $result = $this->database->sendQuery($sqlDeleteSubject, array($oldSubjects[$i], $_SESSION['congressNo']));
-                array_push($resultArrayOldSubjects, $result);
+                $resultOldSubject = $this->database->sendQuery($sqlDeleteSubject, array($oldSubjects[$i], $_SESSION['congressNo']));
+                array_push($resultArrayOldSubjects, $resultOldSubject);
             }
 
-            for ($i = 0; $i < $resultArrayOldSubjects; $i++){
-                if ($resultArrayOldSubjects[$i]){
-                    
+            for ($i = 0; $i < sizeof($resultArrayOldSubjects); $i++){
+                if ($resultArrayOldSubjects[$i]==false){
+                    $deleteOldSubjectsFailed = true;
                 }
+            }
+
+            //END TRANSACTION
+            if($result && !$insertNewSubjectsFailed && !$deleteOldSubjectsFailed) {
+                sqlsrv_commit($this->database->getConn());
+                return "Transaction committed.<br />";
+            } else {
+                sqlsrv_rollback($this->database->getConn());
+                return "Transaction rolled back.<br />";
             }
 
             if($result != null){
