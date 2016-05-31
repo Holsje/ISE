@@ -25,17 +25,7 @@ $(document).ready(function () {
     $('.listBoxDataSwap tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
-	
-	//$(".buttonSaveSwapList").click(function() {
-//		saveDataSwap(event);
-//	});
 });
-
-
-
-function buttonSaveSwapList(event) {
-	console.log(event);
-}
 
 function goRight(event) {
 	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("left").value].rows(".selected");
