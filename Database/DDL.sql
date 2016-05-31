@@ -859,7 +859,7 @@ go
 create table SPEAKEROFCONGRESS (
    PERSONNO             D_PERSONNO           not null,
    CONGRESSNO           D_CONGRESSNO         not null,
-   AGREEMENT            D_DESCRIPTION        not null,
+   AGREEMENT            D_DESCRIPTION        null,
    constraint PK_SPEAKEROFCONGRESS primary key (PERSONNO, CONGRESSNO),
    constraint FK_SPEAKERO_RT_SPEAKE_SPEAKER foreign key (PERSONNO)
       references SPEAKER (PERSONNO),
