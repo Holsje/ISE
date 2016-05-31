@@ -2,4 +2,7 @@
 	position: relative;
 	overflow:auto;
 	width: 100%;
+
+.tabs-content {
+	display:flex;
 }

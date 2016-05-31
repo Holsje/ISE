@@ -18,8 +18,8 @@ class ManageLocations extends Management {
 		$this->buttonArray = $buttonArray;
     }
 	
-	public function createManagementScreen($columnList, $valueList, $buttonArray) {
-		parent::createManagementScreen($columnList, $valueList, $buttonArray);
+	public function createManagementScreen($columnList, $valueList, $screenName, $buttonArray) {
+		parent::createManagementScreen($columnList, $valueList, $screenName, $buttonArray);
     }
 	
 	public function createLocationScreen() {
@@ -36,8 +36,24 @@ class ManageLocations extends Management {
 		echo '<div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10">';
 			echo $selectLocations->getObjectCode();
 		echo '</div>';
-		$this->createManagementScreen($this->columnList, $_SESSION['locationValueList'], null);
+		$this->createManagementScreen($this->columnList, $_SESSION['locationValueList'], "Locatie", null);
 		echo '</div>';
+	}
+	
+	public function createAddBuildingPopUp() {
+		$nameTextField = new Text(null, "Naam", "buildingName", null, true, true, true);
+		$street = new Text(null, "Straat + Huisnr", "streetName", "form-control col-xs-7 col-sm-7 col-md-7", true, false, false);
+		$houseNo = new Text(null, null, "houseNo", "form-control col-xs-1 col-sm-1 col-md-1", false, true, false);
+		$postalCode = new Text(null, "Postcode", "postalCode", null, true, true, false);
+		$saveButton = new Submit("Opslaan", null, "saveBuildingButton", null, true, true);
+		$this->getCreateScreen()->createPopUp(array($nameTextField, $street, $houseNo, $postalCode, $saveButton),"Gebouw toevoegen","AddLocatie",null,null,null, "#Locatie");
+	}
+	
+	public function createDeleteBuildingPopUp() {
+		$text = new Span("Wilt u zeker dat u de selectie wilt verwijderen?" ,null, "confirmationText", null, true, true);
+		$cancelButton = new Button("Annuleren", "cancelDeleteBuilding", "cancelButton", null, true, false, "#popUpDeleteLocatie");
+		$confirmButton = new Submit("Bevestigen", "confirmDeleteBuilding", "confirmButton", null, false, true);
+		$this->getCreateScreen()->createPopUp(array($text, $cancelButton, $confirmButton), "Gebouw verwijderen", "DeleteLocatie", null, null, null, "#Locatie");
 	}
 	
 	private function getAllLocations() {
