@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: erike
- * Date: 26-4-2016
- * Time: 14:29
- */
     require_once('Management.php');
     class ManageCongress extends Management{
 
