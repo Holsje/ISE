@@ -1,10 +1,4 @@
-<?php
-	require_once("manageLocations_Class.php");
-	require_once("manageLocationsSubmits.php");
-	
-	$currentLocationName = 'default';
-	$currentLocationCity = 'default';
-	
+<?php	
 	if (isset($_SESSION['currentLocationName']) && isset($_SESSION['currentLocationCity'])) {
 		$manageLocations = new ManageLocations($_SESSION['currentLocationName'], $_SESSION['currentLocationCity'], array("Gebouw", "Straat", "Huisnummer", "Postcode"), null);
 	}

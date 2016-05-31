@@ -20,7 +20,7 @@
 			array_push($paramsDeleteSelection, $_SESSION['selectedBuildingValues'][$i]);
 			array_push($paramsDeleteSelection, $_SESSION['currentLocationCity']);
 		}
-		$result = $this->database->sendQuery($queryDeleteSelection, $paramsDeleteSelection);
+		$result = $database->sendQuery($queryDeleteSelection, $paramsDeleteSelection);
 		
 		if (!is_string($result)) {
 			echo 'De selectie is succesvol verwijderd';
@@ -44,7 +44,7 @@
 										 $_POST['streetName'], 
 										 $_POST['houseNo'], 
 										 $_POST['postalCode']);
-		$result = $this->database->sendQuery($queryInsertNewBuilding, $paramsInsertNewBuilding);
+		$result = $database->sendQuery($queryInsertNewBuilding, $paramsInsertNewBuilding);
 		if (!is_string($result)) {
 			echo 'Het gebouw is opgeslagen';
 		}

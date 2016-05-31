@@ -1,6 +1,4 @@
 <?php
-
-require_once('Management.php');
 class ManageLocations extends Management {
 	
 	private $columnList;

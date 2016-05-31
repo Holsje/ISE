@@ -3,11 +3,8 @@
 	overflow:auto;
 	width: 100%;
 }
-.tabs-content {
+.tabs-content, #tabs-Location {
 	display:flex;
-}
-#tabs-Location {
-	height:100%;
 }
 
 .file-Holder{

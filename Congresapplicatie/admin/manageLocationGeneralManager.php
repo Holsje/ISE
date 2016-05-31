@@ -8,7 +8,7 @@
 	require_once('manageLocationGeneralManager_Submit.php');
 	$manageLocationGeneralManager = new ManageLocationGeneralManager(array("Locatie", "Plaats"));
 
-	$js = "<script src='../js/locationManagement.js'></script>";
+	$js = "<script src='../js/locationManagementGM.js'></script>";
 	$css = '<link rel="stylesheet" href="../css/manage.css">"';
 	topLayoutManagement('Beheren Locatie', $css, $js);
 ?>
