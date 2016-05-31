@@ -9,22 +9,23 @@ $(document).ready(function () {
     });
 	
 	$(".eventBox .eventInfoBox").on("click", function (event) {
-		if ($(this).hasClass("selected")) {
-			$(this).removeClass("selected");
-			$(this).find("input")[0].name = "eventNo[]";
-		}
-		else {
-			$(this).addClass("selected");
-			$(this).find("input")[0].name = "eventNoSelected[]";
-			$(".signUpForCongressButton").prop("disabled", false);
+		if (!$(event.target).hasClass("moreInfoButton")) {
+			if ($(this).hasClass("selected")) {
+				$(this).removeClass("selected");
+				$(this).find("input")[0].name = "eventNo[]";
+			}
+			else {
+				$(this).addClass("selected");
+				$(this).find("input")[0].name = "eventNoSelected[]";
+				$(".signUpForCongressButton").prop("disabled", false);
+			}
 		}
 	});
-	
-	
 	
 	$(".signUpForCongressButton").on("click", function (event){
 		editRunningFormData();
 	});
+	
     $(".subjectClick").on("click", function (event){
         if(lastEvent != null){
             if(event.target == lastEvent.target){
@@ -78,7 +79,7 @@ function getEventInfo(eventNo) {
             eventNo: eventNo
         },
         success: function (data) {
-            data = JSON.parse(data);
+			data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['EName']);
             $('#thumbnail').attr('src', data['FileDirectory'] + 'thumbnail.png');
             $('#eventDescription').html(data['Description']);

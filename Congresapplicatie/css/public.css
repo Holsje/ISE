@@ -93,6 +93,9 @@ h1 {
 .eventContent .eventInfoBox{
    height: 200px; 
 }
+.eventBoxSignUp {
+	background-color:#FFFFFF;
+}
 .moreInfoButton {
     position: absolute;
     bottom: 2px;
@@ -283,10 +286,6 @@ h1 {
 
 .selected {
 	background-color: #3676AD;
-}
-
-.nextDayButton {
-	margin-top: 20px;
 }
 
 .carouselButton {

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: erike
- * Date: 25-4-2016
- * Time: 13:30
- */
-
 require_once('../database.php');
 require_once('../ScreenCreator/CreateScreen.php');
 require_once('../connectDatabase.php');
@@ -38,7 +31,7 @@ require_once('../pageConfig.php');
         public function addRecord($storedProcName, $params){
 			$result = $this->sendStoredProc($storedProcName, $params);
             if ($result){
-				return $this->database->getError();
+				return $result;
             }
 			return $this->database->getError();
         }
@@ -58,6 +51,7 @@ require_once('../pageConfig.php');
 				$execString .= " ?,";
 			}
 			$execString .= "?)}";
+
 			
 			return $this->database->sendQuery($execString,$params);
             

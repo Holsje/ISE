@@ -1,4 +1,6 @@
-ALTER PROC spUpdateCongress
+/*Moet geupdatet worden*/
+
+CREATE PROC spUpdateCongress
 	@congressNo D_CongressNo,
 	@name D_Name,
 	@startDate D_Date,

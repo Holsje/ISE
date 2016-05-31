@@ -10,6 +10,8 @@
 
         private $list;
         private $button;
+        private $firstRowEmpty;
+        private $id;
 
         /**
          * Select constructor.
@@ -20,10 +22,12 @@
          * @param $list
          * @param $button
          */
-        public function __construct($value, $label, $name, $classes, $startRow, $endRow, $list, $button){
+        public function __construct($value, $label, $name, $classes, $startRow, $endRow, $list, $button, $firstRowEmpty, $id){
             parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
             $this->list = $list;
             $this->button = $button;
+            $this->firstRowEmpty = $firstRowEmpty;
+            $this->id = $id;
         }
 
         /**
@@ -32,9 +36,9 @@
         public function getObjectCode(){
             $string = "";
             if ($this->label != null) {
-                $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
+                $string .= '<label class="control-label col-xs-2 col-sm-2 col-md-2">' . $this->label . ':</label>';
             }
-            $string .= '<select value="' . $this->value . '" name="' . $this->name .'" class="';
+            $string .= '<select id="' . $this->id . '" value="' . $this->value . '" name="' . $this->name .'" class="';
 			
 			if($this->classes != null) {
 				$string.= $this->classes;
@@ -46,6 +50,9 @@
 				$string.= $this->classDictionary["SelectWithoutButton"];
 			}
 			$string .= '">';
+            if($this->firstRowEmpty){
+                $string .= '<option disabled selected value>Selecteer een onderwerp</option>';
+            }
             for ($i = 0; $i < sizeof($this->list); $i++){
                 if ($this->list[$i] == $this->value){
                     $string .= '<option value="' . $this->list[$i] . '" selected>' . $this->list[$i] .'</option>';

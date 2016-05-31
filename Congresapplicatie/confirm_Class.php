@@ -15,16 +15,16 @@
 		}
 		
 		public function createConfirmationScreen() {
-			echo '<div class="col-sm-6 col-sm-offset-2 col-md-6 col-md-offset-2 col-xs-6 col-xs-offset-2 event">';
+			echo '<div class="col-sm-12 col-md-12 col-xs-12 event">';
 				echo '<h1>';
 					echo 'Bevestiging inschrijven voor congres:';
 				echo '<h1>';
 			echo '</div>';
-			echo '<form name="formConfirm" method="POST" action="/ISE/Congresapplicatie/confirm.php" class="col-sm-6 col-sm-offset-2 col-md-6 col-md-offset-2 col-xs-6 col-xs-offset-2 eventBox">';
-				//echo '<div class="col-sm-6 col-sm-offset-2 col-md-6 col-md-offset-2 col-xs-6 col-xs-offset-2 eventBox">';
+			echo '<form name="formConfirm" method="POST" action="'. $_SERVER['PHP_SELF'].'" class="col-sm-12 col-md-12 col-xs-12 eventBox">';
 					$this->getEventData();
 					echo 'U heeft gekozen voor de volgende evenementen: <br>';
 					echo '<br>';
+
 					echo '<ul id="eventList">';
 						for($i = 0; $i < sizeof($this->events['eventNames']); $i++) {
 							echo '<li>' .  $this->events['eventNames'][$i] .' in track ' . $this->tracks['trackNames'][$i] .'</li>';
@@ -60,7 +60,6 @@
 				}
 				$query = substr($query, 0, sizeof($query) - 5);
 				$query .= ')';
-				
 				$result = $this->dataBase->sendQuery($query, $params);
 				if ($result) {
 					while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {

@@ -1,25 +1,19 @@
 <?php
 	include('admin/sessionHandler.php');
 	sessionHandlerWeb(false);
-	include('inschrijven_Submit.php');
-	require_once('Index_Class.php');
-	require_once('inschrijven_class.php');
-	if (isset($_SESSION['congressNo'])) {
-		$congressNo = $_SESSION['congressNo'];
-	}
-	else {
-		$congressNo = $_GET['congressNo'];
-	}
 	require_once('database.php');
+	require_once('Index_Class.php');
+	$indexClass = new Index();
 	global $server, $databaseName, $uid, $password;
 	$dataBase = new Database($server,$databaseName,$uid,$password);
-	$inschrijven = new Inschrijven($congressNo, $dataBase);
-	$indexClass = new Index();
-	topLayout('Inschrijven',null,null);
-	if (isset($_SESSION['lastPage'])) {
-		header("Location: confirm.php");
-	}
-	
+	$createScreen = new CreateScreen();
+	include('inschrijven_Submit.php');
+	require_once('ScreenCreator/CreateScreen.php');
+	require_once('connectDatabase.php');
+	require_once('pageConfig.php');
+	require_once('inschrijven_class.php');
+	$inschrijven = new Inschrijven($_SESSION['congressNo'], $dataBase, $createScreen);
+	topLayout('Inschrijven',null,null);	
 ?>
 	 <div class="row">
         <div class="container col-sm-12 col-md-12 col-xs-12">
@@ -27,15 +21,12 @@
 		      <div class="row">
 				<h1>
 				<?php 
-					if ((integer)substr($inschrijven->dates['STARTDATE'], 8) < 10) { 
-						echo $inschrijven->congressName . '<br>' . substr($inschrijven->dates['STARTDATE'],0, 8) . '0' . $inschrijven->currentDay;
-					}
-					else {
-						echo $inschrijven->congressName . '<br>' . substr($inschrijven->dates['STARTDATE'],0, 8) . $inschrijven->currentDay;
-					}
+					echo $inschrijven->congressName;
+					echo "<br>";
+					echo $inschrijven->writeOutCurrentDate();
 				?>
 				</h1>
-				<form name="formSignUpForCongress" method="POST" action="/ISE/Congresapplicatie/inschrijven.php">
+				<form name="formSignUpForCongress" method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">
 				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 				    <div id = "carousel" class="carousel-inner" role="listbox">
 						<?php
@@ -50,13 +41,11 @@
 	    				<span class="glyphicon glyphicon-arrow-right carouselIcon" aria-hidden="true"></span>
 	    				<span class="sr-only">Next</span>
 	  				</a>
-                    
+                    <?php
+						$inschrijven->createPreviousDayButton();
+						$inschrijven->createNextDayButton();
+					?>
 				</div>
-				<?php
-                    
-					$inschrijven->createPreviousDayButton();
-					$inschrijven->createNextDayButton();
-				?>
 				</form>
               </div>
             </div>
@@ -64,5 +53,6 @@
     </div>
 <?php
 	bottomLayout();
-$indexClass->createEventInfoPopup();
+	$indexClass->createSpeakerInfoPopup();
+	$indexClass->createEventInfoPopup();
 ?>
