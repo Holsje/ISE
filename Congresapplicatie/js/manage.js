@@ -1,4 +1,6 @@
 $(document).ready(function () {
-	
-	alert('javascript aangeroepen');
+	$('.file-Caller').on("click",function(event){
+        $(event.target.attributes.getNamedItem('data-file').value).trigger('click');
+        console.log('test?');
+    });
 });
