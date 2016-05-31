@@ -25,7 +25,7 @@ $(document).ready(function () {
     document.forms["formCreateCongress"]["buttonDelete"].onclick = deleteCongress;
     document.forms["formCreateCongress"]["buttonEdit"].onclick = goToEditCongress;
     document.forms['formAddSubjectFromAdd']['Toevoegen'].onclick = submitAddSubjectAdd;
-    document.forms['formAdd']['Toevoegen'].onclick = onCreateCongress;
+    document.forms['formAdd']['Toevoegen'].onclick = isValidInput;
 
 
     //Create
@@ -137,4 +137,39 @@ function goToEditCongress(){
         alert("Er is geen selectie gemaakt");
         return false;
     }
+}
+
+function isValidInput() {
+    var form = document.forms["formAdd"];
+    if (!isValidName(form['congressName'].value)) {
+        alert('Congresnaam is niet geldig');
+        return;
+    }
+    else if (!isValidDate(form['congressStartDate'].value)) {
+        alert('Startdatum is niet geldig');
+        return;
+    }
+    else if (!isValidDate(form['congressEndDate'].value)) {
+        alert('Einddatum is niet geldig');
+        return;
+    }
+    else if (!isValidPrice(form['congressPrice'].value)) {
+        alert('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
+        return;
+    }
+    else {
+        onCreateCongress();
+    }
+}
+
+function isValidName(name) {
+    return /^[a-zA-Z ]{3,50}$/.test(name);
+}
+
+function isValidDate(date){
+    return /^(\d{4})-(\d{2})-(\d{2})$/.test(date);
+}
+
+function isValidPrice(price){
+    return (/^(\d{1,})[.](\d{1,})$/.test(price) || /^([0-9]{1,})$/.test(price));
 }

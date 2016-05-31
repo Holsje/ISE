@@ -194,6 +194,9 @@
                 while ($row = sqlsrv_fetch_array($resultGetCurrentSubjects, SQLSRV_FETCH_ASSOC)){
                     array_push($arrayCurrentSubjects, $row['Subject']);
                 }
+                if ($arrayCurrentSubjects == null){
+                    $arrayCurrentSubjects = null;
+                }
             }
 
             if ($arrayCurrentSubjects !== $subjectsFromDatabase){

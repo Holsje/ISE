@@ -12,8 +12,18 @@
         die();
     }
     else if(isset($_POST['bewerken'])) {
-        $oldSubjects = $_POST['oldCongressSubjects'];
-        $newSubjects = $_POST['selectedSubjects'];
+
+        if (isset($_POST['oldCongressSubjects'])) {
+            $oldSubjects = $_POST['oldCongressSubjects'];
+        }else{
+            $oldSubjects = null;
+        }
+
+        if (isset($_POST['selectedSubjects'])) {
+            $newSubjects = $_POST['selectedSubjects'];
+        }else{
+            $newSubjects = null;
+        }
         /*
         echo "Oud:";
         var_dump($oldSubjects);
