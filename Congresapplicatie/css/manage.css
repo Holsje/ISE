@@ -1,3 +1,26 @@
 #tabs-Location {
 	height:100%;
 }
+
+.file-Holder{
+    display: none !important; 
+}
+.file-Caller{
+    border-color: #e2e2e2;
+    background-color: #FFFFFF;
+    color: #e2e2e2;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    border-style: solid;
+    font-size: 28px !important;
+    font-weight: bold;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.file-Caller:hover{
+    color: #4a4a4a;
+    border-color: #5a5a5a;
+    opacity: 0.9;  
+}
