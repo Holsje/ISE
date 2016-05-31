@@ -19,6 +19,7 @@ require_once('ScreenObjects/Span.php');
 require_once('ScreenObjects/Img.php');
 require_once('ScreenObjects/TableRow.php');
 require_once('ScreenObjects/TableData.php');
+require_once('ScreenObjects/Upload.php');
 
     class CreateScreen{
 
