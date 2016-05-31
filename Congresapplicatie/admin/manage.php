@@ -2,7 +2,9 @@
 
 require_once('Manage_Class.php');
 $manage = new Manage();
-topLayoutManagement('Beheren Congres','<link rel="stylesheet" href="../css/manage.css">"','"<script src="../js/manage.js"></script>');
+$js = '<script src="../js/manage.js"></script>';
+$js .= '<script src="../js/editCongressManagement.js"></script>';
+topLayoutManagement('Beheren Congres','<link rel="stylesheet" href="../css/manage.css">',$js);
 ?>
 
     <div class="row">

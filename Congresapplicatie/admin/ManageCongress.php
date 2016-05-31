@@ -20,7 +20,7 @@ topLayoutManagement('Beheren Congres',null,$js);
 
     <?php 
     $manageCongress->createCreateCongressScreen(); 
-    $manageCongress->createEditCongressScreen(); 
+    //$manageCongress->createEditCongressScreen();
     
     bottomLayout();
 

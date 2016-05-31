@@ -75,7 +75,6 @@ require_once('../pageConfig.php');
             $listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", false, false, $columnList, $valueList, "congresListBox");
             $buttonAdd = new Button("Toevoegen", null, "buttonAdd", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAdd");
             $buttonChange = new Button("Aanpassen", null, "buttonEdit", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdate");
-
             $array = array($listBox, $buttonAdd, $buttonChange);
 
             if ($buttonArray != null) {
