@@ -32,7 +32,7 @@
         <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/header.css" rel="stylesheet">
         <link href="css/public.css" rel="stylesheet">
-        <link href=<?php echo $css; ?> rel="stylesheet">
+		<?php echo $css; ?>
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
             <script src="css/bootstrap/js/bootstrap.min.js"></script>
             <script src="js/registration.js"></script>
@@ -40,7 +40,7 @@
             <script src="js/functions.js"></script>
             <script src="js/headerfunctions.js"></script>
             <script src="js/regex.js"></script>
-            <script src=<?php echo $javaScript; ?>></script>
+            <?php echo $javaScript; ?>
     </head>
 
     <body>

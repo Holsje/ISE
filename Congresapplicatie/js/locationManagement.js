@@ -1,5 +1,6 @@
 var locationTable;
 var locationGMTable;
+var buildingGMTable;
 $(document).ready(function () {
 	locationTable =  $('#LocatieListBox').DataTable();
 	locationGMTable = $('#LocatieGMListBox').DataTable();
@@ -7,7 +8,7 @@ $(document).ready(function () {
 	$(".dataTables_scrollBody").addClass("scrollBody");
 	
 	 $('#LocatieListBox_info').css('display', 'none');
-	
+
 	$(".locationSelect").change(function() {
 		var selectedValue = $(this).val();
 		$.ajax({
@@ -26,6 +27,15 @@ $(document).ready(function () {
             alert(request.responseText);
         }});
 	})
+	$('#LocatieGMListBox tbody').on("click", "tr", function(event) {
+		if (locationGMTable.rows(".selected").data().length > 1) {
+			$("[name=buttonEditLocatieGM]").prop("disabled", true);
+		}
+		else if (locationGMTable.rows(".selected").data().length == 1) {
+			$("[name=buttonEditLocatieGM]").prop("disabled", false);
+		}
+	})
+
 	$("[name=buttonDeleteLocatie]").on("click", function(event) {
 		var dataArray = locationTable.rows(".selected");
 		var result = [];
@@ -42,6 +52,28 @@ $(document).ready(function () {
 			},
 			success: function(data) {
 				console.log(data);
+			},
+			error: function (request, status, error) {
+				alert(request.responseText);
+			}
+		})
+	})
+	$("[name=buttonEditLocatieGM]").on("click", function(event) {
+		var dataArray = locationGMTable.rows(".selected");
+		var result = [];
+		for(var i = 0; i < dataArray.data().length; i++) {
+			result.push(dataArray.data()[i][0]);
+			result.push(dataArray.data()[i][1]);
+		}
+		console.log(result);
+		$.ajax({
+			url: 'manageBuildingGeneralManager.php',
+			type: 'POST',
+			data: {
+				selectedLocationValue: result
+			},
+			success: function(data) {
+				window.location.href = 'manageBuildingGeneralManager.php';
 			},
 			error: function (request, status, error) {
 				alert(request.responseText);
