@@ -34,7 +34,7 @@
             parent::createManagementScreen($columnList, $valueList, $buttonArray);
         }
 
-    
+
 
 		public function getSubjects() {
 
@@ -75,70 +75,58 @@
                 }
             }
         }
-        public function changeRecord($storedProcName,$params){
-            $sqlStmt = 'SELECT CongressNo, Subject, Name, Location, StartDate,EndDate
-                        FROM Congress
-                        WHERE CongressNo = ?';
-            $result = parent::changeRecord($storedProcName,$params);
-            if($result != null){  
-                $selectedResult = $this->database->sendQuery($sqlStmt,array($params[0][0]));
-                if($selectedResult){
-                    if($row = sqlsrv_fetch_array($selectedResult,SQLSRV_FETCH_ASSOC)){
-                        $row['err']= $result;
-                        return json_encode($row);
-                    }
-                }
-            }
-        }
+
 		
 		public function createCreateCongressScreen() {
 			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
 			
-			$addSubjectObject = new ListAddButton("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubject");
-			/*
-            $subjectList = $this->getSubjects();
-			$subjectObject = new Select(null,"Onderwerp","congressSubject",null, true, true, $subjectList,$addSubjectObject, true, "selectSubject1");
-            */
+			$addSubjectObject = new Button("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubjectFromAdd");
+
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $subjectObject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", true, true, $columnList, $valueList, "subjectListBoxAdd");
 
 
-            $startDateObject = new Date(null,"Startdatum","startDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
-			$endDateObject = new Date(null,"Einddatum","endDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
+            $startDateObject = new Date(null,"Startdatum","congressStartDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
+			$endDateObject = new Date(null,"Einddatum","congressEndDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
+            $priceObject = new Text(null,"Prijs","congressPrice","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
+            $publicObject = new Text(null,"Publiek","congressPublic","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
+            $bannerObject = new File(null,"Banner","congressBanner","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
+
 			$submitObject = new Button("Toevoegen","createCongress","Toevoegen","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAdd');
-			$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$submitObject),"Congres aanmaken","Add", "",true);
+			$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$bannerObject,$subjectObject,$addSubjectObject,$submitObject),"Congres aanmaken","Add", "",true, false);
 			
 			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
-			$buttonAddSubjectObject = new Button("toevoegen","toevoegen","toevoegen","form-control col-md-4 pull-right btn btn-default", true, true,null,"", true);
-			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubject",null, "", true);
+			$buttonAddSubjectObject = new Button("Toevoegen","Toevoegen","Toevoegen","form-control col-md-4 pull-right btn btn-default", true, true,'');
+			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubjectFromAdd",null, true, true);
 		}
-		
+
 		public function createEditCongressScreen() {
 			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
-			
-			$addSubjectObject = new ListAddButton("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubjectFromEdit");
-			/*
-            $subjectList = $this->getSubjects();
-			$subjectObject = new Select(null,"Onderwerp","congressSubject1",null, true, true, $subjectList,$addSubjectObject, false, "select");
-			*/
+
+			$addSubjectObject = new Button("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubjectFromEdit");
+
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $subjectObject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", true, true, $columnList, $valueList, "subjectListBoxUpdate");
-			
+
 			$startDateObject = new Date(null,"Startdatum","congressStartDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
 			$endDateObject = new Date(null,"Einddatum","congressEndDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
-            //($value, $label, $name, $classes, $startRow, $endRow, $datafile){
+            $priceObject = new Text(null,"Prijs","congressPrice","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
+            $publicObject = new Text(null,"Publiek","congressPublic","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
+            $bannerObject = new Text(null,"Banner","congressBanner","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
+
             $errMsg = new Span('',null,'errMsgBewerken','errorMsg',true,true,null);
-			$submitObject = new Button("Bewerken","Bewerken","updateCongress","form-control col-md-4 pull-right btn btn-default",true, true, '#popUpUpdate');			
-			$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$errMsg,$submitObject),"Congres bewerken","Update",null, "", true);
-			
+			$submitObject = new Button("Bewerken","Bewerken","updateCongress","form-control col-md-4 pull-right btn btn-default",true, true, '#popUpUpdate');
+			//$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$addSubjectObject,$errMsg,$submitObject),"Congres bewerken","Update",null, "", true, false);
+			$this->createScreen->createForm(array($congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$bannerObject,$subjectObject,$addSubjectObject,$errMsg,$submitObject),"UpdateCongress", null);
+
 			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
-			$buttonAddSubjectObject = new Button("Bewerken","Bewerken","Bewerken","form-control col-md-4 pull-right btn btn-default", true, true,null);
-			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubjectFromEdit",null, "", true);
+			$buttonAddSubjectObject = new Button("Bewerken","Bewerken","Bewerken","form-control col-md-4 pull-right btn btn-default", true, true, '');
+			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubjectFromEdit",null, "", true, false);
 		}
 
-        public function addRecord($paramsCongress, $paramsSubjects)
+        public function addRecord($paramsCongress, $paramsSubjects,$congressBanner)
         {
             $sqlInsertCongress = "INSERT INTO Congress (CName, Startdate, Enddate, Price, [Public], Banner) VALUES (?, ?, ?, ?, ?, ?)";
             $sqlGetCongressNo = "SELECT @@IDENTITY AS CongressNo";
@@ -175,9 +163,6 @@
                 }
             }
 
-
-
-            var_dump($resultCongressSubjects);
             if($resultCongress && $resultCongressSubjects && $resultCongressNo) {
                 sqlsrv_commit($this->database->getConn());
                 return "Transaction committed.<br />";
@@ -185,5 +170,89 @@
                 sqlsrv_rollback($this->database->getConn());
                 return "Transaction rolled back.<br />";
             }
+
+            //Upload Banner
+            $target_file =  basename($_FILES["Banner"]["name"]);
+            $uploadOk = true;
+            $imageFileType = pathinfo($target_file,PATHINFO_EXTENSTION);
+
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif"){
+                $uploadOk = false;
+            }
+
+            if ($uploadOk){
+                $filename = "img/Banners/Congress".$congressNo;
+                switch($imageFileType){
+                    case "jpg": $filename .= ".jpg";
+                    case "png": $filename .= ".png";
+                    case "jpeg": $filename .= ".jpeg";
+                    case "gif": $filename .= ".gif";
+                }
+                if (rename($target_file, $filename )){
+                    echo "Succesfull";
+                }
+            }
         }
+
+        public function changeRecord($storedProcName,$params, $oldSubjects, $newSubjects){
+            $insertNewSubjectsFailed = false;
+            $deleteOldSubjectsFailed = false;
+
+            //BEGIN TRANSACTION
+
+            if (sqlsrv_begin_transaction($this->database->getConn()) === false) {
+                die(print_r(sqlsrv_errors(), true));
+            }
+
+            $sqlStmt = 'SELECT CongressNo, CName, Startdate,Enddate, Price, Description, Banner, [Public]
+                        FROM Congress
+                        WHERE CongressNo = ?';
+            $result = parent::changeRecord($storedProcName,$params);
+
+
+            $resultArrayNewSubjects = array();
+            for($i = 0; $i < sizeof($newSubjects); $i++){
+                $resultNewSubject = parent::changeRecord("spAddSubjectToCongress", array(array($newSubjects[$i], SQLSRV_PARAM_IN), array($_SESSION['congressNo'], SQLSRV_PARAM_IN)));
+                array_push($resultArrayNewSubjects, $resultNewSubject);
+            }
+
+            for ($i = 0; $i < sizeof($resultArrayNewSubjects); $i++){
+                if ($resultArrayNewSubjects[$i]==false){
+                    $insertNewSubjectsFailed = true;
+                }
+            }
+
+            $resultArrayOldSubjects = array();
+            $sqlDeleteSubject = "DELETE FROM SubjectOfCongress WHERE Subject = ? AND CongressNo = ?";
+            for ($i = 0; $i < sizeof($oldSubjects); $i++){
+                $resultOldSubject = $this->database->sendQuery($sqlDeleteSubject, array($oldSubjects[$i], $_SESSION['congressNo']));
+                array_push($resultArrayOldSubjects, $resultOldSubject);
+            }
+
+            for ($i = 0; $i < sizeof($resultArrayOldSubjects); $i++){
+                if ($resultArrayOldSubjects[$i]==false){
+                    $deleteOldSubjectsFailed = true;
+                }
+            }
+
+            //END TRANSACTION
+            if($result && !$insertNewSubjectsFailed && !$deleteOldSubjectsFailed) {
+                sqlsrv_commit($this->database->getConn());
+                return "Transaction committed.<br />";
+            } else {
+                sqlsrv_rollback($this->database->getConn());
+                return "Transaction rolled back.<br />";
+            }
+
+            if($result != null){
+                $selectedResult = $this->database->sendQuery($sqlStmt,array($params[0][0]));
+                if($selectedResult){
+                    if($row = sqlsrv_fetch_array($selectedResult,SQLSRV_FETCH_ASSOC)){
+                        $row['err']= $result;
+                        return json_encode($row);
+                    }
+                }
+            }
+        }
+
     }

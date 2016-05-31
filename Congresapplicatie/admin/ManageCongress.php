@@ -1,5 +1,7 @@
 <?php
 
+require_once('sessionHandler.php');
+sessionHandler(true, false);
 require_once('ManageCongress_Class.php');
 $manageCongress = new ManageCongress();
 include('ManageCongressSubmits.php');
@@ -20,7 +22,7 @@ topLayoutManagement('Beheren Congres',null,$js);
 
     <?php 
     $manageCongress->createCreateCongressScreen(); 
-    $manageCongress->createEditCongressScreen(); 
+    //$manageCongress->createEditCongressScreen();
     
     bottomLayout();
 

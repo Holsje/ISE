@@ -6,6 +6,7 @@
  * Time: 14:29
  */
     require_once('Management.php');
+	require_once('ManageCongressDetailsSubmits.php');
     class Manage extends Management{
 
         public function __construct(){
@@ -38,4 +39,6 @@
 			  echo '</div>';
 			echo '</div>';
 		}
+
+
 	}
