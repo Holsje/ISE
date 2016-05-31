@@ -16,6 +16,9 @@ $(document).ready(function () {
         "bInfo": false
     });
 
+
+
+
 //Edit
     document.forms['formAddSubjectFromEdit']['Bewerken'].onclick = submitAddSubjectEdit;
     document.forms['formUpdateCongress']['updateCongress'].onclick = onUpdateCongress;
@@ -34,6 +37,7 @@ $(document).ready(function () {
 
 
     getCongressInfo();
+
 });
 
 //Edit mag weg
@@ -56,7 +60,7 @@ function updateCongressInfo(congressName, congressStartDate, congressEndDate, co
     document.forms["formUpdateCongress"]["congressStartDate"].value = congressStartDate;
     document.forms["formUpdateCongress"]["congressEndDate"].value = congressEndDate;
     document.forms["formUpdateCongress"]["congressPrice"].value = congressPrice;
-    document.forms["formUpdateCongress"]["congressBanner"].value = congressBanner;
+
     if (congressPublic == 0) {
         document.forms["formUpdateCongress"]["congressPublic"].value = "Nee";
     }
@@ -85,14 +89,12 @@ function onUpdateCongress() {
         type: 'POST',
         data: {
             bewerken: 'action',
-            congressNo: 1,
 
             oldCongressName: oldCongressName,
             oldCongressStartDate: oldCongressStartDate,
             oldCongressEndDate: oldCongressEndDate,
             oldCongressPrice: oldCongressPrice,
             oldCongressPublic: oldCongressPublic,
-            oldCongressBanner: oldCongressBanner,
             oldCongressSubjects: oldCongressSubjects,
 
             newCongressName: document.forms['formUpdateCongress']["congressName"].value,
@@ -101,13 +103,11 @@ function onUpdateCongress() {
             newCongressEndDate: document.forms['formUpdateCongress']["congressEndDate"].value,
             newCongressPrice: document.forms['formUpdateCongress']["congressPrice"].value,
             newCongressPublic: document.forms['formUpdateCongress']["congressPublic"].value,
-            newCongressBanner: document.forms['formUpdateCongress']["congressBanner"].value,
             selectedSubjects: getSelectedSubjects("Update")
 
 
         },
         success: function (data) {
-            alert("Test");
             if (data != null && data != '' &&  /\S/.test(data)) {
                 console.log(data);
                 data = JSON.parse(data);
@@ -158,8 +158,6 @@ function getCongressInfo(){
             type: 'POST',
             data: {
                 getCongressInfo: 'GetCongressInfo',
-                //Hier komt het meegegeven congresnummer
-                congressNo: 1
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -171,6 +169,7 @@ function getCongressInfo(){
                 oldCongressBanner = data['Banner'];
                 oldCongressPublic = data['Public'];
                 oldCongressSubjects = data['subjects']
+                $('#bannerPicBtn').css("background-image", 'url(' + oldCongressBanner + ')')
                 updateCongressInfo(oldCongressName, oldCongressStartDate, oldCongressEndDate, oldCongressPrice, oldCongressBanner, oldCongressPublic, oldCongressSubjects);
             },
             error: function (request, status, error) {

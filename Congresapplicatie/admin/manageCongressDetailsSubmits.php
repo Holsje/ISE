@@ -12,7 +12,6 @@
         die();
     }
     else if(isset($_POST['bewerken'])) {
-
         $oldSubjects = $_POST['oldCongressSubjects'];
         $newSubjects = $_POST['selectedSubjects'];
         /*
@@ -59,19 +58,25 @@
 
 
         $params = array(
-            array($_POST['congressNo'], SQLSRV_PARAM_IN),
+            array($_SESSION['congressNo'], SQLSRV_PARAM_IN),
             array($_POST['newCongressName'], SQLSRV_PARAM_IN),
             array($_POST['newCongressStartDate'], SQLSRV_PARAM_IN),
             array($_POST['newCongressEndDate'], SQLSRV_PARAM_IN),
             array($_POST['newCongressPrice'], SQLSRV_PARAM_IN),
-            array($_POST['newCongressBanner'], SQLSRV_PARAM_IN),
             array($_POST['oldCongressName'], SQLSRV_PARAM_IN),
             array($_POST['oldCongressStartDate'], SQLSRV_PARAM_IN),
             array($_POST['oldCongressEndDate'], SQLSRV_PARAM_IN),
-            array($_POST['oldCongressPrice'], SQLSRV_PARAM_IN),
-            array($_POST['oldCongressBanner'], SQLSRV_PARAM_IN)
+            array($_POST['oldCongressPrice'], SQLSRV_PARAM_IN)
         );
-        $manageCongress->changeRecord("spUpdateCongress",$params,$subjectsToDelete,$subjectsToInsert);
+        $manageCongress->changeRecord("spUpdateCongress",$params,$subjectsToDelete,$subjectsToInsert,$oldSubjects);
         die();
+    }
+    elseif (isset($_POST['saveBanner'])){
+        $filename = handleFile('Banners/', 'bannerPic', 'Congress'.$_SESSION['congressNo']);
+        var_dump($filename);
+        $sqlStmt = "UPDATE Congress SET Banner = ? WHERE CongressNo = ?";
+        $params = array($filename, $_SESSION['congressNo']);
+
+        $result = $manageCongress->getDatabase()->sendQuery($sqlStmt, $params);
     }
 ?>

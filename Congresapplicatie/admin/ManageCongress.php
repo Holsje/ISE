@@ -2,6 +2,7 @@
 
 require_once('sessionHandler.php');
 sessionHandler(true, false);
+unset($_SESSION['congressNo']);
 require_once('ManageCongress_Class.php');
 $manageCongress = new ManageCongress();
 include('ManageCongressSubmits.php');

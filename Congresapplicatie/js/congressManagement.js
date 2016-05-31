@@ -6,7 +6,8 @@ var congressNo,
     oldCongressBanner,
     oldCongressPublic,
     oldCongressSubjects,
-    subjectTableAdd;
+    subjectTableAdd,
+    file;
 
 
 $(document).ready(function () {
@@ -95,12 +96,10 @@ function onCreateCongress() {
             Price: document.forms['formAdd']["congressPrice"].value,
             Public: "0",
             selectedSubjects: getSelectedSubjects("Add")
-
         },
         success: function (data) {
             console.log(data);
-            alert("Uw congres is succesvol toegevoegd.");
-
+            window.location.href = 'manage.php';
         }
 
     });
@@ -120,7 +119,6 @@ function goToEditCongress(){
     var congressNo = selectedRow.data()[0];
 
     if (selectedRow.data()) {
-        alert("Test");
         $.ajax({
             url: window.location.href,
             type: 'POST',
@@ -129,7 +127,6 @@ function goToEditCongress(){
                 congressNo: congressNo
             },
             success: function (data) {
-                alert("Hoi");
                 window.location.href = "manage.php";
             },
             error: function (request, status, error) {
