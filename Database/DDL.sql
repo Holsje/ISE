@@ -846,7 +846,7 @@ go
 create table SPEAKER (
    PERSONNO             D_PERSONNO           not null,
    DESCRIPTION          D_DESCRIPTION        not null,
-   PICTUREPATH          D_FILE               not null,
+   PICTUREPATH          D_FILE               null,
    constraint PK_SPEAKER primary key (PERSONNO),
    constraint FK_SPEAKER_INHERITAN_PERSON foreign key (PERSONNO)
       references PERSON (PERSONNO)
