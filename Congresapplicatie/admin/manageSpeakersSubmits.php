@@ -20,12 +20,7 @@
 		
 			$oldSpeakers = $_POST['oldPersons'];
 			$newSpeakers = $_POST['newPersons'];
-			/*
-			echo "Oud:";
-			var_dump($oldSpeakers);
-			echo "Nieuw:";
-			var_dump($newSpeakers);
-			*/
+			
 			$speakersToInsert = array();
 			$speakersToDelete = array();
 			for ($i = 0; $i < sizeof($oldSpeakers); $i++){
