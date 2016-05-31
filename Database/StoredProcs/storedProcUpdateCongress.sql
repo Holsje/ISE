@@ -1,16 +1,16 @@
 ALTER PROC spUpdateCongress
 	@congressNo D_CongressNo,
 	@name D_Name,
-	@location D_Location,
-	@city D_Location,
 	@startDate D_Date,
 	@endDate D_Date,
+	@price D_Price,
+	@banner D_File,
 
 	@oldName D_Name,
-	@oldLocation D_Location,
-	@oldCity D_Location,
 	@oldstartDate D_Date,
-	@oldEndDate D_Date
+	@oldEndDate D_Date,
+	@oldprice D_Price,
+	@oldBanner D_File
 AS
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
@@ -26,12 +26,12 @@ BEGIN
 	BEGIN TRY
 		IF NOT EXISTS(	SELECT 1 
 						FROM Congress
-						WHERE congressNo = @congressNo AND CName = @oldName AND LocationName = @oldLocation AND City = @oldCity AND startDate = @oldstartDate AND endDate = @oldEndDate)
+						WHERE congressNo = @congressNo AND CName = @oldName AND Price = @oldprice AND Banner = @oldBanner AND startDate = @oldstartDate AND endDate = @oldEndDate)
 		BEGIN
 			RAISERROR('Tijdens het opslaan zijn er nog wijzigingen doorgevoerd',16,2);
 		END
 	
-		UPDATE Congress SET CName = @name,LocationName = @location, city = @city, StartDate = @startDate, EndDate = @endDate WHERE CongressNo = @congressNo	
+		UPDATE Congress SET CName = @name,Banner = @oldBanner, Price = @oldprice, StartDate = @startDate, EndDate = @endDate WHERE CongressNo = @congressNo	
 	
 		IF @TranCounter = 0 AND XACT_STATE() = 1
 			COMMIT TRANSACTION;
