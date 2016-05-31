@@ -41,7 +41,8 @@
 									"SelectWithoutButton"=>"form-control col-xs-10 col-sm-8 col-md-8 subjectInput",
 									"Submit"=>"form-control col-md-4 pull-right btn btn-default",
 									"Text"=>"form-control col-xs-12 col-sm-8 col-md-8",
-									"Date"=>"form-control col-xs-12 col-sm-8 col-md-8");
+									"Date"=>"form-control col-xs-12 col-sm-8 col-md-8",
+                                    "File"=>"form-control col-xs-12 col-sm-8 col-md-8");
         /**
          * ScreenObject constructor.
          * @param $value

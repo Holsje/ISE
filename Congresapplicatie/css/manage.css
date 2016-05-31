@@ -22,5 +22,10 @@
 .file-Caller:hover{
     color: #4a4a4a;
     border-color: #5a5a5a;
-    opacity: 0.9;  
+    opacity: 0.9;
+
+}
+
+.bannerPic {
+    width: 100%;
 }

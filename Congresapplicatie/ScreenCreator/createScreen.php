@@ -8,6 +8,7 @@
 require_once('ScreenObjects/ScreenObject.php');
 require_once('ScreenObjects/Text.php');
 require_once('ScreenObjects/Button.php');
+require_once('ScreenObjects/File.php');
 require_once('ScreenObjects/Submit.php');
 require_once('ScreenObjects/Select.php');
 require_once('ScreenObjects/Password.php');
@@ -26,7 +27,7 @@ require_once('ScreenObjects/Upload.php');
         }
 
         public function createForm($screenObjects,$formName, $extraCssClasses){
-            echo '<form name="form'. $formName . '" class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 ' . $extraCssClasses . '" method="POST" action="'.$_SERVER['PHP_SELF']. '">';
+            echo '<form name="form'. $formName . '" class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 ' . $extraCssClasses . '" method="POST" action="'.$_SERVER['PHP_SELF']. '" enctype="multipart/form-data">';
             $size = sizeof($screenObjects);
             for($i=0; $i < $size; $i++){
                 if ($screenObjects[$i]->getStartRow()) {

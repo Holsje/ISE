@@ -5,17 +5,20 @@
     if(isset($_GET['congressNo'])){
         $_SESSION['congressNo'] = $_GET['congressNo'];
     }
-    $databaseHeader = new Database($server, $databaseName, $uid, $password);
-    if(isset($_SESSION['congressNo'])){
-        $sqlBanner = 'SELECT banner
+
+    if (isset($_SESSION['congressNo'])) {
+        $databaseHeader = new Database($server, $databaseName, $uid, $password);
+        if (isset($_SESSION['congressNo'])) {
+            $sqlBanner = 'SELECT banner
                       FROM Congress
                       WHERE CongressNo = ?';
-        $bannerPath = '';
-        $param = array($_SESSION['congressNo']);
-        $result = $databaseHeader->sendQuery($sqlBanner,$param);
-        if($result){
-            if($banner = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
-                $bannerPath = $banner['banner'];
+            $bannerPath = '';
+            $param = array($_SESSION['congressNo']);
+            $result = $databaseHeader->sendQuery($sqlBanner, $param);
+            if ($result) {
+                if ($banner = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                    $bannerPath = $banner['banner'];
+                }
             }
         }
     }
@@ -57,6 +60,7 @@
 	
 	
 	function topLayoutManagement($pageName,$css,$javaScript) {
+        global $bannerPath;
 		?>
 
             <head>
@@ -82,13 +86,24 @@
                     <script src="../js/dataTables/js/dataTables.bootstrap.min.js"></script>
 
 
+
                     <?php echo $javaScript; ?>
             </head>
 
             <body>
                 <div class="row">
                     <div class="header1 col-xs-12 col-sm-12 col-md-12">
-                        <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="../img/logo template.png" alt="logo">
+                        <?php
+                            if (isset($bannerPath)) {
+                        ?>
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src=<?php echo '"../' . $bannerPath . '"'; ?>  alt="logo">
+                        <?php
+                            }else{
+                        ?>
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="../img/logo%20template.PNG"  alt="logo">
+                        <?php
+                            }
+                        ?>
                     </div>
                     <?php include 'admin/menu.php'; ?>
                 </div>
