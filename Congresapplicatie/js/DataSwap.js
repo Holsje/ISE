@@ -9,8 +9,8 @@ $(document).ready(function () {
 		goRight(event);
 	});
 	
-	var numDataListBoxes =  $('.listBox').length;
-	var listBoxes = $('.listBox');
+	var numDataListBoxes =  $('.listBoxDataSwap').length;
+	var listBoxes = $('.listBoxDataSwap');
 	for(var i = 0;i<numDataListBoxes;i++) {
 		dataSwapTables[listBoxes[i].id] =  $('#' + listBoxes[i].id).DataTable( {
 			"sScrollY": "500px",
@@ -18,12 +18,11 @@ $(document).ready(function () {
 		});
 	}
 	
-    $('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
     $('#congresListBox_length').css('display', 'none');
     $('#congresListBox_info').css('display', 'none');
 	
-    $('.dataTable tbody').on('click', 'tr', function () {
+    $('.listBoxDataSwap tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
 	

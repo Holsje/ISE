@@ -12,13 +12,14 @@
 			$valueListLeft = $this->getSpeakersOfCongress($this->congressNo);
 			$valueListRight = $this->getSpeakersNotInCongress($this->congressNo);
 			
-			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueListLeft, "listBoxSpeakerLeft", "listBoxSpeakerLeft");
-			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBox", false, false, $columnList, $valueListRight, "listBoxSpeakerRight", "listBoxSpeakerRight");
-			$buttonAddSpeaker = new Button("Toevoegen", null, "buttonAddSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAddSpeaker");
+			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", false, false, $columnList, $valueListLeft, "listBoxSpeakerLeft", "listBoxSpeakerLeft");
+			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", false, false, $columnList, $valueListRight, "listBoxSpeakerRight", "listBoxSpeakerRight");
+			$buttonAddSpeaker = new Button("Toevoegen", null, "buttonAddSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAddSpeaker");
+			$buttonEditSpeakerOfCongress = new Button("Aanpassen", null, "buttonEditSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdateSpeaker");
+			
 			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdateSpeaker");
 			$buttonRemoveSpeaker = new Button("Verwijderen", null, "buttonDeleteSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpDeleteSpeaker");
-			
-			$this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","Sprekers Congres",$tableRight,"listBoxSpeakerRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeaker,$buttonRemoveSpeaker),array($buttonAddSpeaker,$buttonEditSpeaker,$buttonRemoveSpeaker));
+			$this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","Sprekers Congres",$tableRight,"listBoxSpeakerRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeakerOfCongress),array($buttonRemoveSpeaker,$buttonEditSpeaker),"spreker");
 
         }
         
@@ -55,6 +56,14 @@
 				return $array;
 			}
 			return false;	
+		}
+		
+		public function createNewSpeaker() {
+			//$sqlString = ""
+		}
+		
+		public function updateSpeakers($oldSpeakers,$newSpeakers) {
+			
 		}
 		
 		public function createCreateSpeakerScreen() {

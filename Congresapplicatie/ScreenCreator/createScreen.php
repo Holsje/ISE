@@ -85,8 +85,8 @@ require_once('ScreenObjects/TableData.php');
 			echo '</div>';
 		}
 		
-		public function createDataSwapList($tableLeft,$tableLeftId,$titleLeft,$tableRight,$tableRightId,$titleRight,$keepRight,$removeLeft,$buttonsLeft,$buttonsRight) {
-			echo '<form method="get" class="row col-sm-12 col-xs-12 col-md-12">';
+		public function createDataSwapList($tableLeft,$tableLeftId,$titleLeft,$tableRight,$tableRightId,$titleRight,$keepRight,$removeLeft,$buttonsLeft,$buttonsRight,$pageName) {
+			echo '<form name="form' . $pageName . '" method="post"  class="row col-sm-12 col-xs-12 col-md-12"  action="'.$_SERVER['PHP_SELF']. '#' . $pageName . '">';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
 				echo '<h2>' . $titleLeft . '</h2>';
 				echo $tableLeft->getObjectCode();
@@ -96,8 +96,8 @@ require_once('ScreenObjects/TableData.php');
 					}
 				echo '</div>';
 				echo '<div class="col-sm-2 col-xs-2 col-md-2 dataSwapListMiddle"> ';
-					echo '<button class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
-					echo '<button class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
+					echo '<button type="button" class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
+					echo '<button type="button" class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
 				echo '</div>';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
 				echo '<h2>' . $titleRight . '</h2>';
@@ -108,7 +108,7 @@ require_once('ScreenObjects/TableData.php');
 					}
 				echo '</div>';
 				
-				$buttonSave = new Button("Opslaan", null, "buttonSaveSwapList", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 buttonSaveSwapList", false, false, null);
+				$buttonSave = new Button("Opslaan", $pageName, "buttonSaveSwapList" . $pageName, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 buttonSaveSwapList", false, false, null);
 				echo $buttonSave->getObjectCode();
 			echo '</form>';
 		}
