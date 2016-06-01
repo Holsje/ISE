@@ -9,6 +9,17 @@ $(document).ready(function () {
     $('#LocatieGMListBox_paginate').css('display', 'none');
     $('#LocatieGMListBox_info').css('display', 'none');
 	
+	$('.dataTable tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            $('.onSelected').prop('disabled', true);
+        } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $('.onSelected').prop('disabled', false);
+        }
+    });
+	
 	$('#LocatieGMListBox tbody').on("click", "tr", function(event) {
 		if (locationGMTable.rows(".selected").data().length > 1) {
 			$("[name=buttonEditLocatieGM]").prop("disabled", true);

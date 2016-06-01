@@ -29,3 +29,7 @@
     border-color: #5a5a5a;
     opacity: 0.9;  
 }
+
+.locationSelect, .buttonLinkToCongress {
+	margin-bottom: 20px;
+}

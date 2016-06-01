@@ -8,7 +8,7 @@ class ManageLocations extends Management {
 	private $currentLocationCity;
 	private $allLocations;
 	
-	public function __construct($currentLocationName, $currentLocationCity, $columnList, $buttonArray){
+	public function __construct($currentLocationName, $currentLocationCity, $columnList){
 		parent::__construct();
 		$this->allLocations = $this->getAllLocations();
 		if ($currentLocationName != null && $currentLocationCity != null) {
@@ -21,7 +21,6 @@ class ManageLocations extends Management {
 		}
 		$this->columnList = $columnList;
 		$_SESSION['locationValueList'] = $this->getBuildingsByLocation($this->currentLocationName, $this->currentLocationCity);
-		$this->buttonArray = $buttonArray;
     }
 	
 	public function createManagementScreen($columnList, $valueList, $screenName, $buttonArray) {
@@ -30,6 +29,7 @@ class ManageLocations extends Management {
 	
 	public function createLocationScreen() {
 		echo '<div class="locationContent">';
+		$buttonLinkToCongress = new Submit("Deze locatie koppelen aan dit congres", null, "buttonLinkToCongress" ,"btn btn-default pull-right buttonLinkToCongress", false, false, null);
 		$locationNamesWithCity = array();
 		for($i = 0; $i < sizeof($this->allLocations); $i++) {
 			array_push($locationNamesWithCity, $this->allLocations[$i][0] . ' - ' . $this->allLocations[$i][1]);
@@ -42,6 +42,9 @@ class ManageLocations extends Management {
 		}
 		echo '<div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10">';
 			echo $selectLocations->getObjectCode();
+			echo '<form name="formCreateLocatie" method="POST" action="'. $_SERVER['PHP_SELF'] . '#Locatie">';
+				echo $buttonLinkToCongress->getObjectCode();
+			echo '</form>';
 		echo '</div>';
 		$this->createManagementScreen($this->columnList, $_SESSION['locationValueList'], "Locatie", null);
 		echo '</div>';

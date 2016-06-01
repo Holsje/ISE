@@ -2,6 +2,22 @@ var buildingGMTable;
 $(document).ready(function () {
 	buildingGMTable = $('#BuildingGMListBox').DataTable();
 	
+	$('#dataTables_length').css('display', 'none');
+    $('#BuildingGMListBox_length').css('display', 'none');
+    $('#BuildingGMListBox_paginate').css('display', 'none');
+    $('#BuildingGMListBox_info').css('display', 'none');
+	
+	$('.dataTable tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            $('.onSelected').prop('disabled', true);
+        } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $('.onSelected').prop('disabled', false);
+        }
+    });
+	
 	$("[name=previousScreenButton]").on("click", function(event) {
 		window.location.href = 'manageLocationGeneralManager.php';
 	})

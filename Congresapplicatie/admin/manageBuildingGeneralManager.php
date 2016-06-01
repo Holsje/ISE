@@ -10,9 +10,7 @@
 																	 $_SESSION['chosenLocationName'], 
 																	 $_SESSION['chosenLocationCity']);
 
-	
-	$js = "<script src='../js/locationManagement.js'></script>";
-	$js .= "<script src='../js/manage.js'></script>";
+	$js = "<script src='../js/manage.js'></script>";
 	$js .= "<script src='../js/buildingManagement.js'></script>";
 	$css = '<link rel="stylesheet" href="../css/manage.css">"';
 	$css .= '<link rel="stylesheet" href="../css/buildingManagement.css">';
