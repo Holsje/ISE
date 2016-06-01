@@ -13,7 +13,7 @@ function handleFile($targetFileDir, $inputName, $fileName){
             if($check !== false){
                 $uploadOk = 1;
             }
-            if(uploadTheFile($temp_name,'img/' . $targetFile)){
+            if(uploadTheFile($temp_name,'../img/' . $targetFile)){
                 return 'img/' . $targetFile;
             }else{
                 return false;

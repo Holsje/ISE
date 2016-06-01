@@ -49,7 +49,7 @@
     <body>
         <header>
             <div class="header1 col-xs-12 col-sm-12 col-md-12">
-                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src=<?php echo '"http://groep1.ise.icaprojecten.nl/' . $bannerPath . '"'; ?> alt="logo">
+                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo 'http://groep1.ise.icaprojecten.nl/' . $bannerPath ; ?>" alt="logo">
             </div>
             <?php include 'menu.php'; ?>
         </header>
@@ -96,7 +96,7 @@
                         <?php
                             if (isset($bannerPath)) {
                         ?>
-                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src=<?php echo 'http://groep1.ise.icaprojecten.nl/"' . $bannerPath . '"'; ?>  alt="logo">
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo 'http://groep1.ise.icaprojecten.nl/' . $bannerPath ; ?>"  alt="logo">
                         <?php
                             }else{
                         ?>
