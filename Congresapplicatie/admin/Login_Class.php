@@ -17,7 +17,7 @@
 
             $submitButtonLogout = new Submit("Uitloggen", null, "logout", "form-control col-md-4 col-md-offset-4 btn btn-default", true, true);
             $screenObjectsLoggedIn = array($submitButtonLogout);
-            $this->getCreateScreen()->createForm($screenObjects, "Login", null);
+            $this->getCreateScreen()->createForm($screenObjects, "Login", null,"");
             if (!empty($errorstring)){
                 echo $errorstring;
             }
@@ -27,7 +27,7 @@
             $submitButtonLogout = new Submit("Uitloggen", null, "logout", "form-control col-md-4 col-md-offset-4 btn btn-default", true, true);
             $screenObjects = array($submitButtonLogout);
 
-            $this->getCreateScreen()->createForm($screenObjects, "Logout", null);
+            $this->getCreateScreen()->createForm($screenObjects, "Logout", null,"");
         }
 
         public function checkLogin($username, $password){

@@ -8,6 +8,7 @@
 require_once('ScreenObjects/ScreenObject.php');
 require_once('ScreenObjects/Text.php');
 require_once('ScreenObjects/Button.php');
+require_once('ScreenObjects/File.php');
 require_once('ScreenObjects/Submit.php');
 require_once('ScreenObjects/Select.php');
 require_once('ScreenObjects/Password.php');
@@ -19,14 +20,15 @@ require_once('ScreenObjects/Img.php');
 require_once('ScreenObjects/TableRow.php');
 require_once('ScreenObjects/TableData.php');
 require_once('ScreenObjects/Upload.php');
+require_once('ScreenObjects/Identifier.php');
 
     class CreateScreen{
 
         public function __construct(){
         }
-
+	
         public function createForm($screenObjects,$formName, $extraCssClasses, $extraLocation){
-            echo '<form name="form'. $formName . '" class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 ' . $extraCssClasses . '" method="POST" action="'.$_SERVER['PHP_SELF']. $extraLocation . '">';
+            echo '<form name="form'. $formName . '" class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 ' . $extraCssClasses . '" method="POST" action="'.$_SERVER['PHP_SELF']. $extraLocation . '" enctype="multipart/form-data" >';
             $size = sizeof($screenObjects);
             for($i=0; $i < $size; $i++){
                 if ($screenObjects[$i]->getStartRow()) {
@@ -88,7 +90,7 @@ require_once('ScreenObjects/Upload.php');
 		
 		public function createDataSwapList($tableLeft,$tableLeftId,$titleLeft,$tableRight,$tableRightId,$titleRight,$keepRight,$removeLeft,$buttonsLeft,$buttonsRight,$pageName) {
 			echo '<form name="form' . $pageName . '" method="post"  class="row col-sm-12 col-xs-12 col-md-12"  action="'.$_SERVER['PHP_SELF']. '#' . $pageName . '">';
-				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList"> ';
+				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList ' . $tableLeftId . '"> ';
 				echo '<h2>' . $titleLeft . '</h2>';
 				echo $tableLeft->getObjectCode();
 					$size = sizeof($buttonsLeft);
@@ -100,7 +102,7 @@ require_once('ScreenObjects/Upload.php');
 					echo '<button type="button" class="form-control btn btn-default goToLeftButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" keep=' . $keepRight . '><</button>';
 					echo '<button type="button" class="form-control btn btn-default goToRightButton dataSwapButton" left="' . $tableLeftId . '" right="' . $tableRightId . '" remove=' . $removeLeft . '>></button>';
 				echo '</div>';
-				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList">';
+				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList ' . $tableRightId . '">';
 				echo '<h2>' . $titleRight . '</h2>';
 				echo $tableRight->getObjectCode();
 					$size = sizeof($buttonsRight);

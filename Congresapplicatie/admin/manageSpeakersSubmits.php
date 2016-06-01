@@ -1,25 +1,42 @@
 <?php
-	if(isset($_POST['getSpeakerInfo'])){
-		echo $manageSpeakers->getSpeakerInfo($_POST['personNo']);
-		die();
-	}	
+	$manageSpeakers = new ManageSpeakers($manage->getCongressNo());
+	
 	if(isset($_POST['toevoegen'])){
 		if($_POST['toevoegen'] == 'createSpeaker') {
-			/*
-			
-			$_POST['Voornaam'];
-			$_POST['Achternaam'];
-			$_POST['Mailadres'];
-			$_POST['Telefoonnr'];
-			$_POST['Description'];*/
+			require_once('fileUploadHandler.php');
+			$params = array(
+				array($_POST['speakerName'],SQLSRV_PARAM_IN),
+				array($_POST['LastName'],SQLSRV_PARAM_IN),
+				array($_POST['mailAddress'],SQLSRV_PARAM_IN),
+				array($_POST['phoneNumber'],SQLSRV_PARAM_IN),
+				array($manage->getCongressNo(), SQLSRV_PARAM_IN),
+				array($_POST['agreement'],SQLSRV_PARAM_IN),
+				array($_POST['description'],SQLSRV_PARAM_IN),
+				array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN)
+			);
+			$personNo = $manageSpeakers->createSpeaker('spRegisterSpeakerFromCongress',$params,$_POST['mailAddress']);
+			if($personNo) {
+				handleFile("speakers/","uploadCreateSpeaker","speaker" . $personNo);
+			}
+			else{
+				echo "error";
+			}
+		
 		}
 	}
 	if(isset($_POST['buttonSaveSwapList'])) {
 		if($_POST['buttonSaveSwapList'] == 'spreker') {
 		
-		
-			$oldSpeakers = $_POST['oldPersons'];
-			$newSpeakers = $_POST['newPersons'];
+			if(isset($_POST['oldPersons'])) {
+				$oldSpeakers = $_POST['oldPersons'];
+			}else {
+				$oldSpeakers = null;
+			}
+			if(isset($_POST['newPersons'])) {
+				$newSpeakers = $_POST['newPersons'];
+			}else {
+				$newSpeakers = null;
+			}
 			
 			$speakersToInsert = array();
 			$speakersToDelete = array();
@@ -47,26 +64,59 @@
 					array_push($speakersToInsert, $newSpeakers[$i]);
 				}
 			}
-			/*
-			echo "Insert:";
-			var_dump($speakersToInsert);
-			echo "Delete:";
-			var_dump($speakersToDelete);
-			*/
-			/*$params = array(
-				array($_POST['congressNo'], SQLSRV_PARAM_IN),
-				array($_POST['newCongressName'], SQLSRV_PARAM_IN),
-				array($_POST['newCongressStartDate'], SQLSRV_PARAM_IN),
-				array($_POST['newCongressEndDate'], SQLSRV_PARAM_IN),
-				array($_POST['oldCongressName'], SQLSRV_PARAM_IN),
-				array($_POST['oldCongressStartDate'], SQLSRV_PARAM_IN),
-				array($_POST['oldCongressEndDate'], SQLSRV_PARAM_IN)
-			);*/
-			//$manageCongress->changeRecord("spUpdateCongress",$params,$oldSpeakers,$newSpeakers);
 			
-			
+			$manageSpeakers->updateSpeakers($speakersToDelete,$speakersToInsert);	
 		
 			die();
 		}
+	}
+	if(isset($_POST['getSpeakerInfo'])) {	
+		if($_POST['getSpeakerInfo'] == "speakerOfCongress") {
+			echo $manageSpeakers->getSpeakerOfCongressInfo($_POST['personNo']);
+			DIE();
+		}else {
+			echo $manageSpeakers->getSpeakerInfo($_POST['personNo']);
+			DIE();
+		}
+	}
+	if(isset($_POST['updateSpeakerOfCongress'])) {
+		
+					
+					
+		
+					
+		
+		$params = array(
+			/*
+				Mogelijk later voor lost updates
+				
+				$_POST["oldFirstName"],
+				$_POST["oldLastName"],
+				$_POST["oldMailAddress"],
+				$_POST["oldPhoneNumber"],
+				$_POST["oldDescription"],
+				$_POST["oldAgreement"],				
+			*/
+			array($_POST["personNo"],SQLSRV_PARAM_IN),
+			array($_POST["newFirstName"],SQLSRV_PARAM_IN),
+			array($_POST["newLastName"],SQLSRV_PARAM_IN),
+			array($_POST["newMailAddress"],SQLSRV_PARAM_IN),
+			array($_POST["newPhoneNumber"],SQLSRV_PARAM_IN),
+			array($_POST["newAgreement"],SQLSRV_PARAM_IN),
+			array($_POST["newDescription"],SQLSRV_PARAM_IN),
+			array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name'])),PATHINFO_EXTENSION,SQLSRV_PARAM_IN),
+			array($manage->getCongressNo(),SQLSRV_PARAM_IN)		
+		);
+		
+		handleFile("speakers/","uploadCreateSpeaker","speaker" . $personNo);
+		echo $manageSpeakers->addRecord("spUpdateSpeaker",$params);		
+		
+		
+		die();
+	}
+	if(isset($_POST['deleteSpeaker'])) {
+		$manageSpeakers->deleteRecord("DELETE FROM SpeakerOfCongress WHERE personNo = ?",array($_POST['personNo']));
+		$manageSpeakers->deleteRecord("DELETE FROM SPEAKER WHERE personNo = ?",array($_POST['personNo']));
+		die();
 	}
 ?>
