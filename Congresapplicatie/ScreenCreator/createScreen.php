@@ -8,6 +8,7 @@
 require_once('ScreenObjects/ScreenObject.php');
 require_once('ScreenObjects/Text.php');
 require_once('ScreenObjects/Button.php');
+require_once('ScreenObjects/File.php');
 require_once('ScreenObjects/Submit.php');
 require_once('ScreenObjects/Select.php');
 require_once('ScreenObjects/Password.php');

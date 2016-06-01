@@ -42,6 +42,9 @@ require_once('../pageConfig.php');
          */
         public function changeRecord($storedProcName, $params){
 			$result = $this->sendStoredProc($storedProcName, $params);
+            if ($result){
+                return $result;
+            }
 			return $this->database->getError();
         }
         
@@ -52,7 +55,6 @@ require_once('../pageConfig.php');
 			}
 			$execString .= "?)}";
 
-			
 			return $this->database->sendQuery($execString,$params);
             
         }
@@ -75,7 +77,6 @@ require_once('../pageConfig.php');
             $listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", false, false, $columnList, $valueList, $screenName . "ListBox");
             $buttonAdd = new Button("Toevoegen", null, "buttonAdd" . $screenName , "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAdd" . $screenName);
             $buttonChange = new Button("Aanpassen", null, "buttonEdit" . $screenName, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdate" . $screenName);
-
             $array = array($listBox, $buttonAdd, $buttonChange);
 
             if ($buttonArray != null) {

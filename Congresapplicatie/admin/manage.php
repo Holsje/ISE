@@ -1,13 +1,11 @@
 <?php
 
 require_once('SessionHandler.php');
+sessionHandler(true, false);
 require_once('Manage_Class.php');
 require_once('ManageSpeakers_class.php');
 
-sessionHandler(false, false);
-
 $manage = new Manage();
-
 if(isset($_SESSION['congressNo'])) {
 	$manage->setCongressNo($_SESSION['congressNo']);
 }else {
@@ -16,7 +14,9 @@ if(isset($_SESSION['congressNo'])) {
 
 include('manageSpeakersSubmits.php');
 
-topLayoutManagement('Beheren Congres','<link rel="stylesheet" href="../css/manage.css">"','"<script src="../js/manage.js"></script>');
+$js = '<script src="../js/manage.js"></script>';
+$js .= '<script src="../js/editCongressManagement.js"></script>';
+topLayoutManagement('Beheren Congres','<link rel="stylesheet" href="../css/manage.css">',$js);
 ?>
 
     <div class="row">

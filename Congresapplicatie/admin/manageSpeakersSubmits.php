@@ -83,7 +83,7 @@
 		
 					
 					
-		handleFile("speakers/","uploadCreateSpeaker","speaker" . $personNo);
+		
 					
 		
 		$params = array(
@@ -108,6 +108,7 @@
 			array($manage->getCongressNo(),SQLSRV_PARAM_IN)		
 		);
 		
+		handleFile("speakers/","uploadCreateSpeaker","speaker" . $personNo);
 		echo $manageSpeakers->addRecord("spUpdateSpeaker",$params);		
 		
 		

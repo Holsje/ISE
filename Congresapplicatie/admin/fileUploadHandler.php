@@ -12,7 +12,7 @@ function handleFile($targetFileDir, $inputName, $fileName){
             $targetFile = $targetFileDir . $fileName . '.' .  $extension;
 			
             if(uploadTheFile($temp_name,'../img/' . $targetFile)){
-                return '../img/' . $targetFile;
+                return 'img/' . $targetFile;
             }else{
                 return false;
             }

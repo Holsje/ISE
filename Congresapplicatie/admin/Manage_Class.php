@@ -6,6 +6,7 @@
  * Time: 14:29
  */
     require_once('Management.php');
+	require_once('ManageCongressDetailsSubmits.php');
     class Manage extends Management{
 		private $congressNo;
 		
@@ -56,4 +57,6 @@
 			  echo '</div>';
 			echo '</div>';
 		}
+
+
 	}
