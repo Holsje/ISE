@@ -95,6 +95,7 @@ class Database
         return $result;
     }
 
+
     public function getError()
     {
         $err = "";

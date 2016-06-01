@@ -4,7 +4,8 @@ $(document).ready(function () {
 		"sScrollY": "500px",
 		"bPaginate": false
 	});
-    $('.onSelected').prop('disabled', true);
+	$('.onSelected').length;
+    //$('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
     $('#congresListBox_length').css('display', 'none');
     //$('#congresListBox_paginate').css('display', 'none');
