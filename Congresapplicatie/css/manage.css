@@ -1,5 +1,10 @@
-#tabs-Location {
-	height:100%;
+.scrollBody {
+	position: relative;
+	overflow:auto;
+	width: 100%;
+}
+.tabs-content, #tabs-Location {
+	display:flex;
 }
 
 .file-Holder{
@@ -22,10 +27,13 @@
 .file-Caller:hover{
     color: #4a4a4a;
     border-color: #5a5a5a;
-    opacity: 0.9;
-
+    opacity: 0.9;  
 }
 
 .bannerPic {
     width: 100%;
+}
+
+.locationSelect, .buttonLinkToCongress {
+	margin-bottom: 20px;
 }

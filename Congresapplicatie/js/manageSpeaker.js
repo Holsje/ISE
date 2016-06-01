@@ -14,7 +14,8 @@ $(document).ready(function () {
 			}
 		});	
 	}
-	
+		
+
 	if($('#listBoxSpeakerRight')) {
 		$('#listBoxSpeakerRight').on('click', 'tr', function () {
 		   if ($('#listBoxSpeakerRight .selected')[0] == null) {
@@ -44,6 +45,13 @@ $(document).ready(function () {
 		document.forms["formUpdateSpeakerOfCongress"]["aanpassen"].onclick = editSpeakerOfCongress;
 		//document.forms["formUpdateSpeaker"]["aanpassen"].onclick = editSpeaker;
 		document.forms["formspreker"]["buttonDeleteSpeaker"].onclick = deleteSpeakers;
+	}
+	
+	if(document.forms["formAddSpeaker"]) {
+		document.forms["formAddSpeaker"].onsubmit = function() {
+			alert("test");
+			return false;
+		}
 	}
 });
 

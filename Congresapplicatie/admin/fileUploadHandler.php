@@ -11,8 +11,8 @@ function handleFile($targetFileDir, $inputName, $fileName){
             $extension = pathinfo(basename($_FILES[$inputName]['name']),PATHINFO_EXTENSION);
             $targetFile = $targetFileDir . $fileName . '.' .  $extension;
 			
-            if(uploadTheFile($temp_name,'../img/' . $targetFile)){
-                return 'img/' . $targetFile;
+            if(uploadTheFile($temp_name,'../' . $targetFile)){
+                return '' . $targetFile;
             }else{
                 return false;
             }

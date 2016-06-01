@@ -35,7 +35,7 @@
         <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/header.css" rel="stylesheet">
         <link href="css/public.css" rel="stylesheet">
-        <link href=<?php echo $css; ?> rel="stylesheet">
+		<?php echo $css; ?>
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
             <script src="css/bootstrap/js/bootstrap.min.js"></script>
             <script src="js/registration.js"></script>
@@ -43,13 +43,13 @@
             <script src="js/functions.js"></script>
             <script src="js/headerfunctions.js"></script>
             <script src="js/regex.js"></script>
-            <script src=<?php echo $javaScript; ?>></script>
+            <?php echo $javaScript; ?>
     </head>
 
     <body>
         <header>
             <div class="header1 col-xs-12 col-sm-12 col-md-12">
-                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo 'http://groep1.ise.icaprojecten.nl/' . $bannerPath ; ?>" alt="logo">
+                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo $bannerPath ; ?>" alt="logo">
             </div>
             <?php include 'menu.php'; ?>
         </header>
@@ -80,13 +80,13 @@
                     <script src="../css/bootstrap/js/bootstrap.min.js"></script>
                     <script src="../js/headerfunctions.js"></script>
                     <script src="../js/regex.js"></script>
-                    <script src="../js/management.js"></script>
                     <script src="../js/DataSwap.js"></script>
+                    <script src="../js/evenement.js"></script>
+                    <script src="../js/management.js"></script>
                     <script src="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.js"></script>
                     <script src="../js/dataTables/js/jquery.dataTables.min.js"></script>
                     <script src="../js/dataTables/js/dataTables.bootstrap.min.js"></script>
-					<script src="../js/manageSpeaker.js"></script>
-
+					
 
 
                     <?php echo $javaScript; ?>
@@ -98,11 +98,11 @@
                         <?php
                             if (isset($bannerPath)) {
                         ?>
-                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo 'http://groep1.ise.icaprojecten.nl/' . $bannerPath ; ?>"  alt="logo">
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo '../' . $bannerPath ; ?>"  alt="logo">
                         <?php
                             }else{
                         ?>
-                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="http://groep1.ise.icaprojecten.nl/img/logo%20template.PNG"  alt="logo">
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="../img/logo%20template.PNG"  alt="logo">
                         <?php
                             }
                         ?>

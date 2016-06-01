@@ -8,6 +8,9 @@ $(document).ready(function () {
 	$(".goToRightButton").click(function() {
 		goRight(event);
 	});
+
+	var numDataListBoxes =  $('.listBox').length;
+	var listBoxes = $('.listBox');
 	
 	var numDataListBoxes =  $('.listBoxDataSwap').length;
 	var listBoxes = $('.listBoxDataSwap');
