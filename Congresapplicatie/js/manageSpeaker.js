@@ -35,8 +35,10 @@ $(document).ready(function () {
 		updateSpeakersOfCongress();
 	});
 	
-	document.forms["formspreker"]["buttonEditSpeakerOfCongress"].onclick = getSpeakerInfo;
-	document.forms["formUpdateSpeaker"]["aanpassen"].onclick = editSpeaker;
+	document.forms["formspreker"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0)};
+	document.forms["formspreker"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1)};
+	document.forms["formUpdateSpeakerOfCongress"]["aanpassen"].onclick = editSpeakerOfCongress;
+	//document.forms["formUpdateSpeaker"]["aanpassen"].onclick = editSpeaker;
 	document.forms["formspreker"]["buttonDeleteSpeaker"].onclick = deleteSpeakers;
 });
 
@@ -78,14 +80,23 @@ function getSpeakersOfCongress() {
 }
 
 	
-function getSpeakerInfo() {
-   var selectedRow = dataSwapTables['listBoxSpeakerLeft'].row('.selected');
+function getSpeakerInfo(speakerType) {
+	if(speakerType == 0) {
+		var selectedRow = dataSwapTables['listBoxSpeakerLeft'].row('.selected');
+	}else {
+		var selectedRow = dataSwapTables['listBoxSpeakerRight'].row('.selected');
+	}
     if(selectedRow.data()) {
+		if(speakerType == 0) {
+			speakerName = "speakerOfCongress";
+		}else {
+			speakerName = "speaker";
+		}
         $.ajax({
             url: window.location.href,
             type: 'POST',
             data: {
-                getSpeakerInfo: 'GetSpeakerInfo',
+                getSpeakerInfo: speakerName,
                 personNo: selectedRow.data()[0]
             },
             success: function (data) {
@@ -97,7 +108,8 @@ function getSpeakerInfo() {
 				oldPhoneNumber = data[0]['phonenumber'];
 				oldDescription = data[0]['Description'];
 				oldAgreement = data[0]['agreement'];
-                updateSpeakerInfo();
+				document.getElementById("uploadEditSpeakerOfCongressBtn").style.backgroundImage= "url('../" + data[0]['PicturePath'] + "')";
+                updateSpeakerInfo(speakerType);
             },
             error: function (request, status, error) {
                 alert(request.responseText);
@@ -110,16 +122,27 @@ function getSpeakerInfo() {
     }
 }
 
-function updateSpeakerInfo(){
-	document.forms["formUpdateSpeaker"]["speakerName"].value = oldFirstName;
-    document.forms["formUpdateSpeaker"]["LastName"].value = oldLastName;
-    document.forms["formUpdateSpeaker"]["mailAddress"].value = oldMailAddress;
-    document.forms["formUpdateSpeaker"]["phoneNumber"].value = oldPhoneNumber;
-    document.forms["formUpdateSpeaker"]["description"].value = oldDescription;
-    document.forms["formUpdateSpeaker"]["agreement"].value = oldAgreement;
+function updateSpeakerInfo(speakerType){
+	if(speakerType == 0) {
+		document.forms["formUpdateSpeakerOfCongress"]["personNo"].value = personNo;
+		document.forms["formUpdateSpeakerOfCongress"]["speakerName"].value = oldFirstName;
+		document.forms["formUpdateSpeakerOfCongress"]["LastName"].value = oldLastName;
+		document.forms["formUpdateSpeakerOfCongress"]["mailAddress"].value = oldMailAddress;
+		document.forms["formUpdateSpeakerOfCongress"]["phoneNumber"].value = oldPhoneNumber;
+		document.forms["formUpdateSpeakerOfCongress"]["description"].value = oldDescription;
+		document.forms["formUpdateSpeakerOfCongress"]["agreement"].value = oldAgreement;
+	}else {
+		document.forms["formUpdateSpeaker"]["personNo"].value = personNo;
+		document.forms["formUpdateSpeaker"]["speakerName"].value = oldFirstName;
+		document.forms["formUpdateSpeaker"]["LastName"].value = oldLastName;
+		document.forms["formUpdateSpeaker"]["mailAddress"].value = oldMailAddress;
+		document.forms["formUpdateSpeaker"]["phoneNumber"].value = oldPhoneNumber;
+		document.forms["formUpdateSpeaker"]["description"].value = oldDescription;
+		document.forms["formUpdateSpeaker"]["agreement"].value = oldAgreement;	
+	}
 }
 
-function editSpeaker(){
+function editSpeakerOfCongress(){
 	$.ajax({
 		url: window.location.href,
 		type: 'POST',
@@ -134,12 +157,12 @@ function editSpeaker(){
 			oldDescription: oldDescription,
 			oldAgreement: oldAgreement,
 			
-			newFirstName: document.forms["formUpdateSpeaker"]["speakerName"].value,
-			newLastName: document.forms["formUpdateSpeaker"]["LastName"].value,
-			newMailAddress: document.forms["formUpdateSpeaker"]["mailAddress"].value,
-			newPhoneNumber: document.forms["formUpdateSpeaker"]["phoneNumber"].value,
-			newDescription: document.forms["formUpdateSpeaker"]["description"].value,
-			newAgreement: document.forms["formUpdateSpeaker"]["agreement"].value
+			newFirstName: document.forms["formUpdateSpeakerOfCongress"]["speakerName"].value,
+			newLastName: document.forms["formUpdateSpeakerOfCongress"]["LastName"].value,
+			newMailAddress: document.forms["formUpdateSpeakerOfCongress"]["mailAddress"].value,
+			newPhoneNumber: document.forms["formUpdateSpeakerOfCongress"]["phoneNumber"].value,
+			newDescription: document.forms["formUpdateSpeakerOfCongress"]["description"].value,
+			newAgreement: document.forms["formUpdateSpeakerOfCongress"]["agreement"].value
 			
 		},
 		success: function (data) {

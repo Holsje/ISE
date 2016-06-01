@@ -1,4 +1,4 @@
-CREATE PROC spRegisterSpeaker 
+ALTER PROC spRegisterSpeakerFromCongress 
 	@firstname D_Name, 
 	@lastname D_Name, 
 	@mailAddress D_Mail, 
@@ -6,7 +6,7 @@ CREATE PROC spRegisterSpeaker
 	@congressno D_CongressNo,
 	@agreement D_DESCRIPTION,
 	@description D_DESCRIPTION,
-	@picturePath D_FILE
+	@fileExtension varchar(5)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -23,7 +23,7 @@ BEGIN
 									 FROM PERSON 
 									 WHERE FIRSTNAME = @firstname AND LASTNAME = @lastname AND MAILADDRESS = @mailAddress AND PHONENUMBER = @phonenum)
 			INSERT INTO PERSONTYPEOFPERSON VALUES(@personNo, 'Spreker')
-			INSERT INTO Speaker VALUES(@personNo,@description,@picturePath)
+			INSERT INTO Speaker VALUES(@personNo,@description,'../img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension)
 			INSERT INTO SpeakerOfCongress VALUES(@personNo, @congressno,@agreement)
 			IF @TranCounter = 0 AND XACT_STATE() = 1
 				COMMIT TRANSACTION;
@@ -40,3 +40,5 @@ BEGIN
 		THROW;
 	END CATCH
 END
+
+SELECT * FROM Speaker

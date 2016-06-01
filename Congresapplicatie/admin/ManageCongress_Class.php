@@ -100,8 +100,11 @@
 
             $startDateObject = new Date(null,"Startdatum","startDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
 			$endDateObject = new Date(null,"Einddatum","endDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
+			$uploadFile = new Upload(null,null,"uploadCreateSpeaker",null,true,true,null,"image");
+			  
+
 			$submitObject = new Button("Toevoegen","createCongress","Toevoegen","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAdd');
-			$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$submitObject),"Congres aanmaken","Add", "",true);
+			$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$uploadFile,$submitObject),"Congres aanmaken","Add", "",true);
 			
 			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
 			$buttonAddSubjectObject = new Button("toevoegen","toevoegen","toevoegen","form-control col-md-4 pull-right btn btn-default", true, true,null,"", true);

@@ -1,13 +1,9 @@
 <?php
 	$manageSpeakers = new ManageSpeakers($manage->getCongressNo());
 	
-	if(isset($_POST['getSpeakerInfo'])){
-		echo $manageSpeakers->getSpeakerInfo($_POST['personNo']);
-		die();
-	}	
 	if(isset($_POST['toevoegen'])){
 		if($_POST['toevoegen'] == 'createSpeaker') {
-		
+			require_once('fileUploadHandler.php');
 			$params = array(
 				array($_POST['speakerName'],SQLSRV_PARAM_IN),
 				array($_POST['LastName'],SQLSRV_PARAM_IN),
@@ -16,10 +12,16 @@
 				array($manage->getCongressNo(), SQLSRV_PARAM_IN),
 				array($_POST['agreement'],SQLSRV_PARAM_IN),
 				array($_POST['description'],SQLSRV_PARAM_IN),
-				array(null,SQLSRV_PARAM_IN)		
+				array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN)
 			);
-			
-			echo $manageSpeakers->addRecord('spRegisterSpeakerFromCongress',$params);
+			$personNo = $manageSpeakers->createSpeaker('spRegisterSpeakerFromCongress',$params,$_POST['mailAddress']);
+			if($personNo) {
+				handleFile("speakers/","uploadCreateSpeaker","speaker" . $personNo);
+			}
+			else{
+				echo "error";
+			}
+		
 		}
 	}
 	if(isset($_POST['buttonSaveSwapList'])) {
@@ -69,13 +71,19 @@
 		}
 	}
 	if(isset($_POST['getSpeakerInfo'])) {	
-		return $manageSpeakers->getSpeakerInfo();
+		if($_POST['getSpeakerInfo'] == "speakerOfCongress") {
+			echo $manageSpeakers->getSpeakerOfCongressInfo($_POST['personNo']);
+			DIE();
+		}else {
+			echo $manageSpeakers->getSpeakerInfo($_POST['personNo']);
+			DIE();
+		}
 	}
-	if(isset($_POST['updateSpeakerInfo'])) {
+	if(isset($_POST['updateSpeakerOfCongress'])) {
 		
 					
 					
-					
+		handleFile("speakers/","uploadCreateSpeaker","speaker" . $personNo);
 					
 		
 		$params = array(
@@ -96,7 +104,7 @@
 			array($_POST["newPhoneNumber"],SQLSRV_PARAM_IN),
 			array($_POST["newAgreement"],SQLSRV_PARAM_IN),
 			array($_POST["newDescription"],SQLSRV_PARAM_IN),
-			array(null,SQLSRV_PARAM_IN),
+			array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name']),PATHINFO_EXTENSION,SQLSRV_PARAM_IN),
 			array($manage->getCongressNo(),SQLSRV_PARAM_IN)		
 		);
 		
