@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('#LocatieGMListBox_length').css('display', 'none');
     $('#LocatieGMListBox_paginate').css('display', 'none');
     $('#LocatieGMListBox_info').css('display', 'none');
-	
+	/*
 	$('.dataTable tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -18,7 +18,7 @@ $(document).ready(function () {
             $(this).addClass('selected');
             $('.onSelected').prop('disabled', false);
         }
-    });
+    });*/
 	
 	$('#LocatieGMListBox tbody').on("click", "tr", function(event) {
 		if (locationGMTable.rows(".selected").data().length > 1) {

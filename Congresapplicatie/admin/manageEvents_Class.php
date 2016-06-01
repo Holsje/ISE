@@ -82,7 +82,7 @@
             $eventPrice = new Text('', 'Prijs', 'eventPrice','',true,true,true);
             $eventMaxVis = new Text('', 'Max bezoekers','eventMaxVis','',true,true,true);
             //$value, $label, $name, $classes, $startRow, $endRow, $classesInput
-            $eventFileUpload = new Upload('','Afbeelding','eventPicture','form-control col-xs-12 col-sm-8 col-md-8','true',true,'');
+            $eventFileUpload = new Upload('','Afbeelding','eventPicture','form-control col-xs-12 col-sm-8 col-md-8','true',true,'','image');
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $eventSubject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", true, true, $columnList, $valueList, "EvenementenSubjectListBoxAdd");
