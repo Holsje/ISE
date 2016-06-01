@@ -21,6 +21,23 @@ function handleFile($targetFileDir, $inputName, $fileName){
 }
 
 function uploadTheFile($fileToUpload, $targetFile){
+    $fileName = explode(".", $targetFile);
+    if (file_exists("..".$fileName[2].".jpg")){
+        unlink("..".$fileName[2].".jpg");
+    }
+    else if (file_exists("..".$fileName[2].".jpeg")){
+        unlink("..".$fileName[2].".jpeg");
+    }
+    else if (file_exists("..".$fileName[2].".png")){
+        unlink("..".$fileName[2].".png");
+    }
+    else if (file_exists("..".$fileName[2].".bmp")){
+        unlink("..".$fileName[2].".bmp");
+    }
+    else if (file_exists("..".$fileName[2].".gif")){
+        unlink("..".$fileName[2].".gif");
+    }
+
     if (move_uploaded_file($fileToUpload,$targetFile)) {
 		return true;
     } 

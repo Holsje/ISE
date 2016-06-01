@@ -86,7 +86,7 @@
         var_dump($filename);
         $sqlStmt = "UPDATE Congress SET Banner = ? WHERE CongressNo = ?";
         $params = array($filename, $_SESSION['congressNo']);
-
         $result = $manageCongress->getDatabase()->sendQuery($sqlStmt, $params);
+        header("Refresh:0");
     }
 ?>
