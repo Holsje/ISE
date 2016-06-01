@@ -141,7 +141,7 @@ function goToEditCongress(){
 
 function isValidInput() {
     var form = document.forms["formAdd"];
-    if (!isValidName(form['congressName'].value)) {
+    if (!isValidCongressName(form['congressName'].value)) {
         alert('Congresnaam is niet geldig');
         return;
     }
@@ -162,14 +162,3 @@ function isValidInput() {
     }
 }
 
-function isValidName(name) {
-    return /^[a-zA-Z ]{3,50}$/.test(name);
-}
-
-function isValidDate(date){
-    return /^(\d{4})-(\d{2})-(\d{2})$/.test(date);
-}
-
-function isValidPrice(price){
-    return (/^(\d{1,})[.](\d{1,})$/.test(price) || /^([0-9]{1,})$/.test(price));
-}

@@ -21,7 +21,7 @@ $(document).ready(function () {
 
 //Edit
     document.forms['formAddSubjectFromEdit']['Bewerken'].onclick = submitAddSubjectEdit;
-    document.forms['formUpdateCongress']['updateCongress'].onclick = onUpdateCongress;
+    document.forms['formUpdateCongress']['updateCongress'].onclick = isValidInput;
 
     //Edit
     $('#subjectListBoxUpdate tbody').on('click', 'tr', function () {
@@ -168,12 +168,35 @@ function getCongressInfo(){
                 oldCongressPrice = data['Price'];
                 oldCongressBanner = data['Banner'];
                 oldCongressPublic = data['Public'];
-                oldCongressSubjects = data['subjects']
-                $('#bannerPicBtn').css("background-image", 'url(' + oldCongressBanner + ')')
+                oldCongressSubjects = data['subjects'];
+                $('#bannerPicBtn').css("background-image", 'url(http://groep1.ise.icaprojecten.nl/' + oldCongressBanner + ')');
                 updateCongressInfo(oldCongressName, oldCongressStartDate, oldCongressEndDate, oldCongressPrice, oldCongressBanner, oldCongressPublic, oldCongressSubjects);
             },
             error: function (request, status, error) {
                 alert(request.responseText);
             }
         });
+}
+
+function isValidInput(){
+    var form = document.forms["formUpdateCongress"];
+    if (!isValidCongressName(form['congressName'].value)) {
+        alert('Congresnaam is niet geldig');
+        return;
+    }
+    else if (!isValidDate(form['congressStartDate'].value)) {
+        alert('Startdatum is niet geldig');
+        return;
+    }
+    else if (!isValidDate(form['congressEndDate'].value)) {
+        alert('Einddatum is niet geldig');
+        return;
+    }
+    else if (!isValidPrice(form['congressPrice'].value)) {
+        alert('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
+        return;
+    }
+    else {
+        onUpdateCongress();
+    }
 }
