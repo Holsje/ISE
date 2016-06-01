@@ -110,9 +110,9 @@
 				$eventDates = $this->congress[$track['TRACKNO']]["DAYS"][$dayKey];
 	
 				foreach($eventDates["EVENTS"] AS $event) {
-					$time = split(':',$event['START']);
+					$time = explode(':',$event['START']);
 					$startTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
-					$time = split(':',$event['END']);
+					$time = explode(':',$event['END']);
 					$endTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
 					
 					$distanceFromTop = ($startTimeInHours - ($this->congress['TIMES'][$dayKey]['STARTTIME']))*$hourHeight;
