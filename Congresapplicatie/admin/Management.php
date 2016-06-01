@@ -72,7 +72,7 @@ require_once('../pageConfig.php');
         public function createManagementScreen($columnList, $valueList,$screenName, $buttonArray){
 
 
-            $listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", false, false, $columnList, $valueList, $screenName . "ListBox");
+            $listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 singleSelect", false, false, $columnList, $valueList, $screenName . "ListBox");
             $buttonAdd = new Button("Toevoegen", null, "buttonAdd" . $screenName , "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAdd" . $screenName);
             $buttonChange = new Button("Aanpassen", null, "buttonEdit" . $screenName, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdate" . $screenName);
 

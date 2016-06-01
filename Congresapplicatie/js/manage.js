@@ -1,13 +1,7 @@
-$(document).ready(function () {
-	$('.file-Caller').on("click",function(event){
-        $(event.target.attributes.getNamedItem('data-file').value).trigger('click');
-    });
-    $('.file-Holder').change(function(){
-        readURL(this);
-    });
 var speakerTable;
 var oldSpeakersOfCongress = new Array();
-$(document).ready(function () {	
+
+$(document).ready(function () {
 	$('#listBoxSpeakerLeft').on('click', 'tr', function () {
 	   if ($('#listBoxSpeakerLeft .selected')[0] == null) {
 			$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",true);
@@ -42,19 +36,6 @@ $(document).ready(function () {
 		updateSpeakersOfCongress();
 	});
 });
-
-
-function readURL(input) {
-    "use strict";
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $(input.attributes.getNamedItem("data-file").value).css("background-image", "url(" + e.target.result + ")");
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
 
 
 function updateSpeakersOfCongress() {
