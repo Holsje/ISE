@@ -131,8 +131,7 @@ h1 {
 }
 
 .dataSwapList {
-	border-width:2px;
-	height:100%;
+	border-width:1px;
 	border-style:solid;
 	padding:0;
 }

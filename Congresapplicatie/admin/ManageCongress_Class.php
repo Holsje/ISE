@@ -32,7 +32,7 @@
         public function createManagementScreen($columnList, $valueList) {
             $button = new Submit("Test", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "DATAFILE");
             $buttonArray = array($button);
-            parent::createManagementScreen($columnList, $valueList, $buttonArray);
+            parent::createManagementScreen($columnList, $valueList, "", $buttonArray);
         }
 
 
@@ -94,11 +94,11 @@
 
 
 			$submitObject = new Button("Toevoegen","createCongress","Toevoegen","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAdd');
-			$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$priceObject,$subjectObject,$addSubjectObject,$submitObject),"Congres aanmaken","Add", "",true, false);
+			$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$priceObject,$subjectObject,$addSubjectObject,$submitObject),"Congres aanmaken","Add", "",true, false,"");
 			
 			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
 			$buttonAddSubjectObject = new Button("Toevoegen","Toevoegen","Toevoegen","form-control col-md-4 pull-right btn btn-default", true, true,'');
-			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubjectFromAdd",null, true, true);
+			$this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","AddSubjectFromAdd",null, true, true,"");
 		}
 
 		public function createEditCongressScreen() {
@@ -118,7 +118,7 @@
             $bannerEditObject = new Button("Banner aanpassen",null,"editCongressBanner","form-control btn btn-default popupButton",true,false,'#popUpBanner');
 			$submitObject = new Button("Bewerken","Bewerken","updateCongress","form-control col-md-4 pull-right btn btn-default",false, true, '#popUpUpdate');
 			//$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$addSubjectObject,$errMsg,$submitObject),"Congres bewerken","Update",null, "", true, false);
-			$this->createScreen->createForm(array($congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$subjectObject,$addSubjectObject,$errMsg,$bannerEditObject,$submitObject),"UpdateCongress", null);
+			$this->createScreen->createForm(array($congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$subjectObject,$addSubjectObject,$errMsg,$bannerEditObject,$submitObject),"UpdateCongress", null,"");
 
 			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
 			$buttonAddSubjectObject = new Button("Bewerken","Bewerken","Bewerken","form-control col-md-4 pull-right btn btn-default", true, true, '');

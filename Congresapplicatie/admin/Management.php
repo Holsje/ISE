@@ -71,12 +71,12 @@ require_once('../pageConfig.php');
             return false;
         }
 
-        public function createManagementScreen($columnList, $valueList, $buttonArray){
+        public function createManagementScreen($columnList, $valueList,$screenName, $buttonArray){
 
 
-            $listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", false, false, $columnList, $valueList, "congresListBox");
-            $buttonAdd = new Button("Toevoegen", null, "buttonAdd", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAdd");
-            $buttonChange = new Button("Aanpassen", null, "buttonEdit", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdate");
+            $listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", false, false, $columnList, $valueList, $screenName . "ListBox");
+            $buttonAdd = new Button("Toevoegen", null, "buttonAdd" . $screenName , "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAdd" . $screenName);
+            $buttonChange = new Button("Aanpassen", null, "buttonEdit" . $screenName, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdate" . $screenName);
             $array = array($listBox, $buttonAdd, $buttonChange);
 
             if ($buttonArray != null) {
@@ -84,9 +84,9 @@ require_once('../pageConfig.php');
                     array_push($array, $button);
                 }
             }
-            array_push($array, $buttonDelete = new Button("Verwijderen", null, "buttonDelete", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpDelete"));
+            array_push($array, $buttonDelete = new Button("Verwijderen", null, "buttonDelete" . $screenName, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpDelete" . $screenName));
 
-            $this->createScreen->createForm($array, "CreateCongress", null);
+            $this->createScreen->createForm($array, "Create" . $screenName, null,"#" . $screenName);
         }
 
         /**

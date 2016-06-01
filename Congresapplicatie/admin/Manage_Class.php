@@ -8,11 +8,19 @@
     require_once('Management.php');
 	require_once('ManageCongressDetailsSubmits.php');
     class Manage extends Management{
-
+		private $congressNo;
+		
         public function __construct(){
             parent::__construct();
         }
 		
+		public function getCongressNo() {
+			return $this->congressNo;
+		}
+		
+		public function setCongressNo($congressNo) {
+			$this->congressNo = $congressNo;
+		}
 		public function createManageScreen() {
 			echo '<div id="tabs">';
 			  echo '<ul>';
@@ -23,19 +31,29 @@
 				echo '<li><a href="#tabs-Speakers">Sprekers</a></li>';
 			  echo '</ul>';
 			  echo '<div id="tabs-CongressDetails">';
-				include("manageCongressDetails.php");
+				echo '<div class="tabs-content">';
+					include("manageCongressDetails.php");
+				echo '</div>';
 			  echo '</div>';
 			  echo '<div id="tabs-Location">';
-				include("manageLocations.php");
+				echo '<div class="tabs-content">';
+					include("manageLocations.php");
+				echo '</div>';
 			  echo '</div>';
 			  echo '<div id="tabs-Tracks">';
-				include("manageTracks.php");
+				echo '<div class="tabs-content">';
+					include("manageTracks.php");
+				echo '</div>';
 			  echo '</div>';
 			  echo '<div id="tabs-Events">';
-				include("manageEvents.php");
+				echo '<div class="tabs-content">';
+					include("manageEvents.php");
+				echo '</div>';
 			  echo '</div>';
 			  echo '<div id="tabs-Speakers">';
-				include("manageSpeakers.php");
+				echo '<div class="tabs-content">';
+					include("manageSpeakers.php");
+				echo '</div>';
 			  echo '</div>';
 			echo '</div>';
 		}

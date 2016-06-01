@@ -9,7 +9,7 @@ var congressNo,
     subjectTableAdd,
     file;
 
-
+var table;
 $(document).ready(function () {
     //Create
     subjectTableAdd = $('#subjectListBoxAdd').DataTable( {
@@ -18,12 +18,26 @@ $(document).ready(function () {
         "bInfo": false
     });
 
+	table = $('#ListBox').DataTable( {
+        "sScrollY": "500px",
+        "bPaginate": false,
+        "bInfo": false
+    });
 
-
+	$('#ListBox tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            $('.onSelected').prop('disabled', true);
+        } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $('.onSelected').prop('disabled', false);
+        }
+    });
 
 //Create
-    document.forms["formCreateCongress"]["buttonDelete"].onclick = deleteCongress;
-    document.forms["formCreateCongress"]["buttonEdit"].onclick = goToEditCongress;
+    document.forms["formCreate"]["buttonDelete"].onclick = deleteCongress;
+    document.forms["formCreate"]["buttonEdit"].onclick = goToEditCongress;
     document.forms['formAddSubjectFromAdd']['Toevoegen'].onclick = submitAddSubjectAdd;
     document.forms['formAdd']['Toevoegen'].onclick = isValidInput;
 
