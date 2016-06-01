@@ -1,7 +1,7 @@
 <?php
 
 require_once('SessionHandler.php');
-sessionHandler(true, false);
+sessionHandler(false, false);
 require_once('Manage_Class.php');
 require_once('ManageSpeakers_class.php');
 

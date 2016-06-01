@@ -104,7 +104,7 @@
 			array($_POST["newPhoneNumber"],SQLSRV_PARAM_IN),
 			array($_POST["newAgreement"],SQLSRV_PARAM_IN),
 			array($_POST["newDescription"],SQLSRV_PARAM_IN),
-			array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name']),PATHINFO_EXTENSION,SQLSRV_PARAM_IN),
+			array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name'])),PATHINFO_EXTENSION,SQLSRV_PARAM_IN),
 			array($manage->getCongressNo(),SQLSRV_PARAM_IN)		
 		);
 		

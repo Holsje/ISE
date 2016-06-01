@@ -1,45 +1,50 @@
 var oldSpeakersOfCongress = new Array();
 var oldFirstName,oldLastName,oldMailAddress,oldPhoneNumber,oldDescription,oldAgreement,personNo;
 $(document).ready(function () {	
-	$('#listBoxSpeakerLeft').on('click', 'tr', function () {
-	   if ($('#listBoxSpeakerLeft .selected')[0] == null) {
-			$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",true);
-		}else {
-			if($('#listBoxSpeakerLeft .selected')[1] != null) {
+	if($('#listBoxSpeakerLeft')) {
+		$('#listBoxSpeakerLeft').on('click', 'tr', function () {
+		   if ($('#listBoxSpeakerLeft .selected')[0] == null) {
 				$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",true);
 			}else {
-				$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",false);
+				if($('#listBoxSpeakerLeft .selected')[1] != null) {
+					$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",true);
+				}else {
+					$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",false);
+				}
 			}
-		}
-    });	
-	
-	$('#listBoxSpeakerRight').on('click', 'tr', function () {
-	   if ($('#listBoxSpeakerRight .selected')[0] == null) {
-			$("button[name='buttonEditSpeaker']").prop("disabled",true);
-			$("button[name='buttonDeleteSpeaker']").prop("disabled",true);
-		}else {
-			if($('#listBoxSpeakerRight .selected')[1] != null) {
-				$("button[name='buttonEditSpeaker']").prop("disabled",true);
-			}else {
-				$("button[name='buttonEditSpeaker']").prop("disabled",false);
-				$("button[name='buttonDeleteSpeaker']").prop("disabled",false);
-			}
-		}
-    });
-	
-	for(var i = 0; i < dataSwapTables["listBoxSpeakerLeft"].rows().data().length;i++) {
-		oldSpeakersOfCongress[i] = dataSwapTables["listBoxSpeakerLeft"].rows().data()[i][0];
+		});	
 	}
 	
+	if($('#listBoxSpeakerRight')) {
+		$('#listBoxSpeakerRight').on('click', 'tr', function () {
+		   if ($('#listBoxSpeakerRight .selected')[0] == null) {
+				$("button[name='buttonEditSpeaker']").prop("disabled",true);
+				$("button[name='buttonDeleteSpeaker']").prop("disabled",true);
+			}else {
+				if($('#listBoxSpeakerRight .selected')[1] != null) {
+					$("button[name='buttonEditSpeaker']").prop("disabled",true);
+				}else {
+					$("button[name='buttonEditSpeaker']").prop("disabled",false);
+					$("button[name='buttonDeleteSpeaker']").prop("disabled",false);
+				}
+			}
+		});
+	}
+	if(dataSwapTables["listBoxSpeakerLeft"]) {
+		for(var i = 0; i < dataSwapTables["listBoxSpeakerLeft"].rows().data().length;i++) {
+			oldSpeakersOfCongress[i] = dataSwapTables["listBoxSpeakerLeft"].rows().data()[i][0];
+		}
+	}
 	$('button[name="buttonSaveSwapListspreker"]').on("click", function() {
 		updateSpeakersOfCongress();
 	});
-	
-	document.forms["formspreker"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0)};
-	document.forms["formspreker"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1)};
-	document.forms["formUpdateSpeakerOfCongress"]["aanpassen"].onclick = editSpeakerOfCongress;
-	//document.forms["formUpdateSpeaker"]["aanpassen"].onclick = editSpeaker;
-	document.forms["formspreker"]["buttonDeleteSpeaker"].onclick = deleteSpeakers;
+	if(document.forms["formspreker"]) {
+		document.forms["formspreker"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0)};
+		document.forms["formspreker"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1)};
+		document.forms["formUpdateSpeakerOfCongress"]["aanpassen"].onclick = editSpeakerOfCongress;
+		//document.forms["formUpdateSpeaker"]["aanpassen"].onclick = editSpeaker;
+		document.forms["formspreker"]["buttonDeleteSpeaker"].onclick = deleteSpeakers;
+	}
 });
 
 

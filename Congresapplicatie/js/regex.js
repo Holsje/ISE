@@ -13,6 +13,7 @@ function isValidTelephoneNumber(telnr) {
 
 function isValidPassword(password) {
 	return /^[a-zA-Z0-9-_\.@#$%^&*()]{8,64}$/.test(password);
+}
 
 function isValidCongressName(name) {
     return /^[a-zA-Z0-9 ]{3,50}$/.test(name);

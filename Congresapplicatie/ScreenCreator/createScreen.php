@@ -26,7 +26,7 @@ require_once('ScreenObjects/Identifier.php');
 
         public function __construct(){
         }
-
+	
         public function createForm($screenObjects,$formName, $extraCssClasses, $extraLocation){
             echo '<form name="form'. $formName . '" class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 ' . $extraCssClasses . '" method="POST" action="'.$_SERVER['PHP_SELF']. $extraLocation . '" enctype="multipart/form-data" >';
             $size = sizeof($screenObjects);
