@@ -2,10 +2,12 @@
 
     class Upload extends ScreenObject{
         protected $classesInput;
+        protected $acceptFile;
         
-        public function __construct($value, $label, $name, $classes, $startRow, $endRow, $classesInput){
+        public function __construct($value, $label, $name, $classes, $startRow, $endRow, $classesInput, $acceptFile){
             parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
             $this->classesInput  = $classesInput;
+            $this->acceptFile = $acceptFile;
         }
 
         public function getObjectCode(){
