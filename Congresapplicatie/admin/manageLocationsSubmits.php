@@ -44,6 +44,9 @@
 										 $_POST['streetName'], 
 										 $_POST['houseNo'], 
 										 $_POST['postalCode']);
+		echo var_dump($queryInsertNewBuilding);
+		echo '<br>';
+		echo var_dump($paramsInsertNewBuilding);
 		$result = $database->sendQuery($queryInsertNewBuilding, $paramsInsertNewBuilding);
 		if (!is_string($result)) {
 			echo 'Het gebouw is opgeslagen';
@@ -51,10 +54,24 @@
 		else {
 			echo 'Het gebouw is niet opgeslagen.';
 		}
+		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 	
 	if (isset($_POST['buttonLinkToCongress'])) {
-		
+		$queryCongressInfo = "SELECT LocationName, City FROM Congress WHERE CongressNo = ?";
+		$result = $database->sendQuery($queryCongressInfo, array($manage->getCongressNo()));
+		while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+			$congress['locationName'] = $row['LocationName'];
+			$congress['city'] = $row['City'];
+		}
+		if (!is_string($result)) {
+			$queryUpdateCongressLocation = "UPDATE Congress SET LocationName = ?, City = ? WHERE LocationName = ? AND City = ? AND CongressNo = ?";
+			$paramsUpdateCongressLocation = array($_SESSION['currentLocationName'], $_SESSION['currentLocationCity'], $congress['locationName'], $congress['city'], $manage->getCongressNo());
+			$result = $database->sendQuery($queryUpdateCongressLocation, $paramsUpdateCongressLocation);
+			if (!is_string($result)) {
+				echo 'De nieuwe locatie voor dit congres is opgeslagen';
+			}
+		}
 	}
 	
 	

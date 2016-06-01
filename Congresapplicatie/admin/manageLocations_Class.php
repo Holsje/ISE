@@ -18,6 +18,8 @@ class ManageLocations extends Management {
 		else {
 			$this->currentLocationName = $this->allLocations[0][0];
 			$this->currentLocationCity = $this->allLocations[0][1];
+			$_SESSION['currentLocationName'] = $this->currentLocationName;
+			$_SESSION['currentLocationCity'] = $this->currentLocationCity;
 		}
 		$this->columnList = $columnList;
 		$_SESSION['locationValueList'] = $this->getBuildingsByLocation($this->currentLocationName, $this->currentLocationCity);
