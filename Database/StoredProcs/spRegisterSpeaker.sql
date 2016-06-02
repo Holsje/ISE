@@ -1,10 +1,8 @@
-	ALTER PROC spRegisterSpeakerFromCongress 
+ALTER PROC spRegisterSpeaker 
 		@firstname D_Name, 
 		@lastname D_Name, 
 		@mailAddress D_Mail, 
 		@phonenum D_telnr,
-		@congressno D_CongressNo,
-		@agreement D_DESCRIPTION,
 		@description D_DESCRIPTION,
 		@fileExtension varchar(5)
 	AS
@@ -31,7 +29,6 @@
 				BEGIN
 					INSERT INTO Speaker VALUES(@personNo,@description,null)
 				END
-				INSERT INTO SpeakerOfCongress VALUES(@personNo, @congressno,@agreement)
 				IF @TranCounter = 0 AND XACT_STATE() = 1
 					COMMIT TRANSACTION;
 		END TRY
@@ -47,5 +44,3 @@
 			THROW;
 		END CATCH
 	END
-
-SELECT * FROM Speaker
