@@ -1,7 +1,7 @@
 <?php
 
 require_once('sessionHandler.php');
-sessionHandler(true, false);
+sessionHandler(true, true);
 require_once('ManageSpeakersGM_Class.php');
 
 $manageSpeakersGM = new ManageSpeakersGM();
