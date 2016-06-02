@@ -65,7 +65,7 @@ require_once('ScreenObjects/Img.php');
 					echo '<img class="eventImage" src="' . $image . '">';
 				}				
 				echo'</h3>';
-				echo '<p>';
+				echo '<p class="subjects">';
 				for($i = 0;$i<sizeof($subjects)-1;$i++) {
 					echo $subjects[$i] . " - ";
 				}

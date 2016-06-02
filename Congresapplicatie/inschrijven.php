@@ -1,6 +1,6 @@
 <?php
 	include('admin/sessionHandler.php');
-	sessionHandlerWeb(false);
+	sessionHandlerWeb(false, false);
 	require_once('database.php');
 	require_once('Index_Class.php');
 	$indexClass = new Index();
@@ -21,11 +21,19 @@
 		      <div class="row">
 				<h1>
 				<?php 
-					echo $inschrijven->congressName;
-					echo "<br>";
-					echo $inschrijven->writeOutCurrentDate();
+					echo '<div class="congressTitle">';
+						echo $inschrijven->getCongressName();
+					echo '</div>';
 				?>
 				</h1>
+				<?php
+					echo '<p class="congressDescription">';
+						echo $inschrijven->getCongressDescription();
+					echo '</p>';
+					echo '<h1 class="congressCurrentDate">';
+						echo $inschrijven->writeOutCurrentDate();
+					echo '</h1>';
+				?>
 				<form name="formSignUpForCongress" method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">
 				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 				    <div id = "carousel" class="carousel-inner" role="listbox">

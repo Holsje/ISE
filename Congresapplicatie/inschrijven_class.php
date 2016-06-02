@@ -80,9 +80,9 @@
 					continue;
 				}
 	
-				echo '<div class="event' . $dayKey . '">';
+				echo '<div class="event">';
 				if($firstTrack) {
-					echo '<div id="timeBar' . $dayKey . '" class="timeBar col-xs-1 col-sm-1 col-md-1" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME'] - $this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight + $hourHeight) . 'px; top:100px;" class="col-sm-1 col-md-1 col-xs-1">';
+					echo '<div id="timeBar" class="timeBar col-xs-1 col-sm-1 col-md-1" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME'] - $this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight + $hourHeight) . 'px; top:100px;" class="col-sm-1 col-md-1 col-xs-1">';
 					for($i = 0;$i < ($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])+1;$i++) {
 						echo '<div style="height:' . $hourHeight . ';">';
 						if($this->congress['TIMES'][$dayKey]['STARTTIME']+$i < 10) {
@@ -98,7 +98,7 @@
 				}
 				
 				echo '<div class="col-sm-3 col-md-3 col-xs-3 event">';
-				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventTitle"><h2>' . $track['TNAME'] . '</h2></div>';
+				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventTitle">' . $track['TNAME'] . '</div>';
 				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventBox" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight) . ';">';
 				
 				if(!isset($this->congress[$track['TRACKNO']]["DAYS"][$dayKey])) {
@@ -108,16 +108,17 @@
 					continue;
 				}					
 				$eventDates = $this->congress[$track['TRACKNO']]["DAYS"][$dayKey];
-	
+				
 				foreach($eventDates["EVENTS"] AS $event) {
-					$time = split(':',$event['START']);
+					$time = explode(':',$event['START']);
 					$startTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
-					$time = split(':',$event['END']);
+					$time = explode(':',$event['END']);
 					$endTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
-					
+
 					$distanceFromTop = ($startTimeInHours - ($this->congress['TIMES'][$dayKey]['STARTTIME']))*$hourHeight;
 					$height = ($endTimeInHours-$startTimeInHours)*$hourHeight;
-					echo $this->createScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","col-sm-12 col-md-12 col-xs-12 eventBoxSignUp","position:absolute; top:" . $distanceFromTop . "px; height:" . $height . "px; width:90%; left:5%;",$event['FILEDIRECTORY'] . 'thumbnail.png',$event['START'] . " -  " . $event['END']);
+					
+					echo $this->createScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","col-sm-12 col-md-12 col-xs-12 eventBoxSignUp","top:" . $distanceFromTop . "px; height:" . $height . "px;",$event['FILEDIRECTORY'] . 'thumbnail.png', substr($event['START'], 0, 5) . " -  " . substr($event['END'], 0, 5));
 				}
 				echo '</div>';
 				echo '</div>';
@@ -206,13 +207,22 @@
 		
 		public function getCongressName() {
 			$result = $this->dataBase->sendQuery("SELECT CName FROM Congress WHERE CongressNo = ?", array($this->congressNo));
-			$congressName = '';
 			if ($result) {
 				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
 					$congressName = $row['CName'];
 				}
 			}
 			return $congressName;
+		}
+		
+		public function getCongressDescription() {
+			$result = $this->dataBase->sendQuery("SELECT Description FROM Congress WHERE CongressNo = ?", array($this->congressNo));
+			if ($result) {
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					$congressDescription = $row['Description'];
+				}
+			}
+			return $congressDescription;
 		}
 		
 		public function getDaysOfCongressAsArray($congressNo) {
