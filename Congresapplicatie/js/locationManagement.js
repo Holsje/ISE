@@ -8,16 +8,22 @@ $(document).ready(function () {
     $('#LocatieListBox_paginate').css('display', 'none');
     $('#LocatieListBox_info').css('display', 'none');
 	
-	/*$('.dataTable tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
-        } else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
-        }
-    });*/
+	$('#LocatieListBox tbody').on('click', 'tr', function () {
+		$(this).toggleClass('selected');
+		var numSelectedRows = locationTable.rows(".selected").data().length;
+		if (numSelectedRows == 0) {
+			$("[name=buttonEditLocatie]").prop("disabled", true);
+			$("[name=buttonDeleteLocatie]").prop("disabled", true);
+		}
+		else if (numSelectedRows == 1) {
+			$("[name=buttonEditLocatie]").prop("disabled", false);
+			$("[name=buttonDeleteLocatie]").prop("disabled", false);
+		}
+		else {
+			$("[name=buttonEditLocatie]").prop("disabled", true);
+			$("[name=buttonDeleteLocatie]").prop("disabled", false);
+		}
+    });
 	
 	$(".locationSelect").change(function() {
 		var selectedValue = $(this).val();
