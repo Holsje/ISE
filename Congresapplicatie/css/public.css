@@ -1,3 +1,12 @@
+.eventTitle {
+	height: 100px;
+	padding: 0px;
+	font-weight: bold;
+	font-size: 25px;
+	text-align:center;
+	word-wrap: break-word;
+}
+
 @media(max-width:1024px) {
 	.congressCurrentDate {
 		text-align:center;
@@ -7,9 +16,14 @@
 		text-align:center;
 	}
 	
+	.eventTitle {
+		font-size: 15px;
+	}
+	
 	.event {
 		padding: 0px;
 	}
+
 	.eventBoxSignUp {
 		padding: 0px;
 		text-align: center;
@@ -25,15 +39,26 @@
 	.eventBoxSignUp p {
 		word-wrap: break-word;
 	}
+	.eventBox {
+		border-width: 0px;
+	}
+	.content {
+        width: 100%;
+        margin: 0px;
+    }
 }
 
 @media(min-width: 768px) {
-	.congressCurrentDate {
-		text-align:left;
+	.eventTitle {
+		font-size: 15px;
 	}
+}
 
-	.congressDescription {
-		text-align:left;
+@media(max-width: 768px) {
+	.infoGlyph {
+		border:none;
+		background-color: #FFFFFF;
+		float:right;
 	}
 }
 
@@ -135,6 +160,9 @@ h1 {
 .eventBoxSignUp {
 	background-color:#FFFFFF;
 }
+.eventBox {
+	
+}
 .moreInfoButton {
 }
 .eventImage {
@@ -229,13 +257,10 @@ h1 {
     box-shadow: 0px 0px 5px 5px #f09a25;
 }
 @media(max-width:460px) {
-    .eventInfoBox {
+	.eventInfoBox {
         width: 100%;
         height: 200px;
     }
-	.moreInfoButton {
-		
-	}
 
     .popupTitle h1 {
         width: 70%;
@@ -297,11 +322,7 @@ h1 {
 
 .timeBar {
 	padding: 0;
-}
-
-.eventTitle {
-	height: 100px;
-	padding: 0px;
+	width: 50px;
 }
 
 .eventBox { 

@@ -1,6 +1,23 @@
 var lastEvent;
 $(document).ready(function () {
-    $(".moreInfoButton").on("click", function (event) {
+    
+	window.onresize = resize;
+	
+	function resize() {
+		if ($(window).width() <= 768) {
+			$('.moreInfoButton').removeClass('btn btn-default');
+			$('.moreInfoButton').addClass('infoGlyph glyphicon glyphicon-info-sign');
+			$('.moreInfoButton').html('');
+		}
+		else {
+			$('.moreInfoButton').removeClass('infoGlyph glyphicon glyphicon-info-sign');
+			$('.moreInfoButton').addClass('btn btn-default');
+			$('.moreInfoButton').html('Meer info');
+		}
+	}
+	
+	
+	$(".moreInfoButton").on("click", function (event) {
         getEventInfo($(this).closest("div").attr("value"));
     });
 
