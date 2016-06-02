@@ -8,16 +8,23 @@ $(document).ready(function () {
     $('#LocatieListBox_paginate').css('display', 'none');
     $('#LocatieListBox_info').css('display', 'none');
 	
-	/*$('.dataTable tbody').on('click', 'tr', function () {
+	$('#LocatieListBox tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             $('.onSelected').prop('disabled', true);
-        } else {
+			if (locationTable.rows(".selected").data().length == 1) {
+				$("[name=buttonEditLocatie]").prop("disabled", false);
+			}
+        } 
+		else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
             $('.onSelected').prop('disabled', false);
+			if (locationTable.rows(".selected").data().length > 1) {
+				$("[name=buttonEditLocatie]").prop("disabled", true);
+			}
         }
-    });*/
+    });
 	
 	$(".locationSelect").change(function() {
 		var selectedValue = $(this).val();
