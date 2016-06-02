@@ -7,7 +7,7 @@ $(document).ready(function () {
     $('#BuildingGMListBox_paginate').css('display', 'none');
     $('#BuildingGMListBox_info').css('display', 'none');
 	
-	$('.dataTable tbody').on('click', 'tr', function () {
+	$('#BuildingGMListBox tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             $('.onSelected').prop('disabled', true);

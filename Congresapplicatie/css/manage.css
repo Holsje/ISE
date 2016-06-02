@@ -3,6 +3,13 @@
 	overflow:auto;
 	width: 100%;
 }
+
+.noScrollBody {
+	height:500px;
+	position: relative;
+	overflow:auto;
+	width: 100%;
+}
 .tabs-content, #tabs-Location {
 	display:flex;
 }
@@ -28,6 +35,10 @@
     color: #4a4a4a;
     border-color: #5a5a5a;
     opacity: 0.9;  
+}
+
+.bannerPic {
+    width: 100%;
 }
 
 .locationSelect, .buttonLinkToCongress {

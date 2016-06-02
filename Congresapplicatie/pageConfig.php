@@ -5,17 +5,20 @@
     if(isset($_GET['congressNo'])){
         $_SESSION['congressNo'] = $_GET['congressNo'];
     }
-    $databaseHeader = new Database($server, $databaseName, $uid, $password);
-    if(isset($_SESSION['congressNo'])){
-        $sqlBanner = 'SELECT banner
+
+    if (isset($_SESSION['congressNo'])) {
+        $databaseHeader = new Database($server, $databaseName, $uid, $password);
+        if (isset($_SESSION['congressNo'])) {
+            $sqlBanner = 'SELECT banner
                       FROM Congress
                       WHERE CongressNo = ?';
-        $bannerPath = '';
-        $param = array($_SESSION['congressNo']);
-        $result = $databaseHeader->sendQuery($sqlBanner,$param);
-        if($result){
-            if($banner = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
-                $bannerPath = $banner['banner'];
+            $bannerPath = '';
+            $param = array($_SESSION['congressNo']);
+            $result = $databaseHeader->sendQuery($sqlBanner, $param);
+            if ($result) {
+                if ($banner = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                    $bannerPath = $banner['banner'];
+                }
             }
         }
     }
@@ -46,7 +49,7 @@
     <body>
         <header>
             <div class="header1 col-xs-12 col-sm-12 col-md-12">
-                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src=<?php echo '"' . $bannerPath . '"'; ?> alt="logo">
+                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo 'http://groep1.ise.icaprojecten.nl/' . $bannerPath ; ?>" alt="logo">
             </div>
             <?php include 'menu.php'; ?>
         </header>
@@ -57,6 +60,7 @@
 	
 	
 	function topLayoutManagement($pageName,$css,$javaScript) {
+        global $bannerPath;
 		?>
 
             <head>
@@ -76,12 +80,14 @@
                     <script src="../css/bootstrap/js/bootstrap.min.js"></script>
                     <script src="../js/headerfunctions.js"></script>
                     <script src="../js/regex.js"></script>
-                    <script src="../js/management.js"></script>
                     <script src="../js/DataSwap.js"></script>
+                    <script src="../js/evenement.js"></script>
+                    <script src="../js/management.js"></script>
                     <script src="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.js"></script>
                     <script src="../js/dataTables/js/jquery.dataTables.min.js"></script>
                     <script src="../js/dataTables/js/dataTables.bootstrap.min.js"></script>
 					
+
 
                     <?php echo $javaScript; ?>
             </head>
@@ -89,7 +95,17 @@
             <body>
                 <div class="row">
                     <div class="header1 col-xs-12 col-sm-12 col-md-12">
-                        <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="../img/logo template.png" alt="logo">
+                        <?php
+                            if (isset($bannerPath)) {
+                        ?>
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo 'http://groep1.ise.icaprojecten.nl/' . $bannerPath ; ?>"  alt="logo">
+                        <?php
+                            }else{
+                        ?>
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="http://groep1.ise.icaprojecten.nl/img/logo%20template.PNG"  alt="logo">
+                        <?php
+                            }
+                        ?>
                     </div>
                     <?php include 'admin/menu.php'; ?>
                 </div>
