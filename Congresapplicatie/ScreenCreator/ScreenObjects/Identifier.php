@@ -30,7 +30,7 @@
             if ($this->label != null) {
                 $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
             }
-            $string .= '<input type="text" disabled value="' . $this->value . '" name="'. $this->name .'" class="';
+            $string .= '<input type="text" readonly value="' . $this->value . '" name="'. $this->name .'" class="';
 			if($this->classes != null) {
 				$string.= $this->classes;
 			}

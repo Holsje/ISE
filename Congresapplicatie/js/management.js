@@ -5,7 +5,7 @@ $(document).ready(function () {
 		"bPaginate": false
 	});
 	$('.onSelected').length;
-    //$('.onSelected').prop('disabled', true);
+    $('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
     $('#congresListBox_length').css('display', 'none');
     //$('#congresListBox_paginate').css('display', 'none');
