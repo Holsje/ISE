@@ -6,6 +6,10 @@
 	global $server, $databaseName, $uid, $password;
 	$dataBase = new Database($server,$databaseName,$uid,$password);
 	require_once('manageBuildingGeneralManager_Submit.php');
+	if (!isset($_SESSION['chosenLocationCity']) || !isset($_SESSION['chosenLocationName'])) {
+		header('Location: manageLocationGeneralManager.php');
+		die();
+	}
 	$manageBuildingGeneralManager = new ManageBuildingGeneralManager(array("Gebouw", "Straat", "Huisnummer", "Postcode"), 
 																	 $_SESSION['chosenLocationName'], 
 																	 $_SESSION['chosenLocationCity']);

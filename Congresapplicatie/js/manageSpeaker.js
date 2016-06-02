@@ -3,31 +3,33 @@ var oldFirstName,oldLastName,oldMailAddress,oldPhoneNumber,oldDescription,oldAgr
 $(document).ready(function () {	
 	if($('#listBoxSpeakerLeft')) {
 		$('#listBoxSpeakerLeft').on('click', 'tr', function () {
-		   if ($('#listBoxSpeakerLeft .selected')[0] == null) {
-				$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",true);
-			}else {
-				if($('#listBoxSpeakerLeft .selected')[1] != null) {
-					$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",true);
-				}else {
-					$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",false);
-				}
+			var numSelectedRows = dataSwapTables['listBoxSpeakerLeft'].rows(".selected").data().length;
+			if (numSelectedRows == 0) {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", true);
+			}
+			else if (numSelectedRows == 1) {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", false);
+			}
+			else {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", true);
 			}
 		});	
 	}
-		
 
 	if($('#listBoxSpeakerRight')) {
 		$('#listBoxSpeakerRight').on('click', 'tr', function () {
-		   if ($('#listBoxSpeakerRight .selected')[0] == null) {
-				$("button[name='buttonEditSpeaker']").prop("disabled",true);
-				$("button[name='buttonDeleteSpeaker']").prop("disabled",true);
-			}else {
-				if($('#listBoxSpeakerRight .selected')[1] != null) {
-					$("button[name='buttonEditSpeaker']").prop("disabled",true);
-				}else {
-					$("button[name='buttonEditSpeaker']").prop("disabled",false);
-					$("button[name='buttonDeleteSpeaker']").prop("disabled",false);
-				}
+			var numSelectedRows = dataSwapTables['listBoxSpeakerRight'].rows(".selected").data().length;
+			if (numSelectedRows == 0) {
+				$("[name=buttonEditSpeaker]").prop("disabled", true);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", true);
+			}
+			else if (numSelectedRows == 1) {
+				$("[name=buttonEditSpeaker]").prop("disabled", false);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", false);
+			}
+			else {
+				$("[name=buttonEditSpeaker]").prop("disabled", true);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", false);
 			}
 		});
 	}

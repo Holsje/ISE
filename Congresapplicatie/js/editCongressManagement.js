@@ -169,7 +169,7 @@ function getCongressInfo(){
                 oldCongressBanner = data['Banner'];
                 oldCongressPublic = data['Public'];
                 oldCongressSubjects = data['subjects'];
-                $('#bannerPicBtn').css("background-image", 'url(http://groep1.ise.icaprojecten.nl/' + oldCongressBanner + ')');
+                $('#bannerPicBtn').css("background-image", 'url(../' + oldCongressBanner + ')');
                 updateCongressInfo(oldCongressName, oldCongressStartDate, oldCongressEndDate, oldCongressPrice, oldCongressBanner, oldCongressPublic, oldCongressSubjects);
             },
             error: function (request, status, error) {

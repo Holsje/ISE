@@ -19,7 +19,7 @@
 			if(!is_int($personNo)){
 				$emailIsWrong = true;
 			}else if($personNo) {
-				handleFile("../img/speakers/","uploadCreateSpeaker","speaker" . $personNo);
+				handleFile("img/speakers/","uploadCreateSpeaker","speaker" . $personNo);
 			}
 
 		}
@@ -42,7 +42,7 @@
 			if($EditSpeakers != null){
 				echo "<script>alert('Email adres bestaat al Probeer opnieuw');</script>";
 			}else if($_POST["personNo"]) {
-				handleFile("../img/speakers/","uploadEditSpeakerOfCongress","speaker" . $_POST['personNo']);
+				handleFile("img/speakers/","uploadEditSpeakerOfCongress","speaker" . $_POST['personNo']);
 			}
 		}
 		if($_POST['aanpassen'] == "updateSpeaker") {
@@ -60,7 +60,7 @@
 			if($EditSpeakers != null){
 				echo "<script>alert('Email adres bestaat al Probeer opnieuw');</script>";
 			}else if($_POST["personNo"]) {
-				handleFile("../img/speakers/","uploadEditSpeaker","speaker" . $_POST['personNo']);
+				handleFile("img/speakers/","uploadEditSpeaker","speaker" . $_POST['personNo']);
 			}
 		}		
 	}
