@@ -9,7 +9,7 @@
         <?php
             if ($_SESSION['liberties']=="Algemene beheerder") {
         ?>
-            <li class="col-sm-2 col-md-2"><a href="#">Sprekers</a></li>
+            <li class="col-sm-2 col-md-2"><a href="ManageSpeakersGM.php">Sprekers</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Locaties</a></li>
             <li class="col-sm-2 col-md-2"><a href="#">Medewerkers beheren</a></li>
 

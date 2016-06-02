@@ -8,13 +8,21 @@ $(document).ready(function () {
 	$(".goToRightButton").click(function() {
 		goRight(event);
 	});
+
+	var numDataListBoxes =  $('.listBox').length;
+	var listBoxes = $('.listBox');
 	
 	var numDataListBoxes =  $('.listBoxDataSwap').length;
 	var listBoxes = $('.listBoxDataSwap');
 	for(var i = 0;i<numDataListBoxes;i++) {
 		dataSwapTables[listBoxes[i].id] =  $('#' + listBoxes[i].id).DataTable( {
 			"sScrollY": "500px",
-			"bPaginate": false
+			"bPaginate": false,
+			"columnDefs": [ {
+				"targets": [0],
+				"visible": false,
+				"searchable": false			
+			}]
 		});
 	}
 	

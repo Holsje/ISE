@@ -5,8 +5,9 @@ $(document).ready(function () {
     $('.file-Holder').change(function(){
         readURL(this);
     });
+	$(".dataTables_scrollBody").removeAttr("style");
+	$(".dataTables_scrollBody").addClass("scrollBody");
 });
-
 
 function readURL(input) {
     "use strict";
