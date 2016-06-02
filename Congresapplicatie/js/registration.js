@@ -18,9 +18,13 @@ function sendFormData() {
 			password: form['password'].value
 		},
         success: function(data){
-            console.log(data);
-            alert('Registreren is gelukt, Login met u email en wachtwoord.');
-            $('#popUpRegistration').find('.closePopup').trigger("click");
+			if ($.trim(data) == 'mailInUse') {
+				$("[name=formRegistration]").append('<p class="errText">Er is al iemand geregistreerd onder dit mailadres. Probeer het met een ander mailadres.</p>');
+			}
+			else {
+				$("[name=formRegistration]").append('<p class="successText">Registreren gelukt.</p>');
+				$('#popUpRegistration').find('.closePopup').trigger("click");
+			}
         }
 	});
 }
