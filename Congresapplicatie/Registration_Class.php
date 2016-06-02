@@ -33,5 +33,9 @@
 			$execString .= " ?)}";
 			return $this->database->sendQuery($execString,$params);
 		}
+		
+		public function getDatabase() {
+			return $this->database;
+		}
 	}
  ?>
