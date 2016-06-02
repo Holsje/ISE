@@ -3,7 +3,6 @@
 		$_SESSION['currentLocationName'] = $_POST['LocationName'];
 		$_SESSION['currentLocationCity'] = $_POST['City'];
 		$_SESSION['selectedLocation'] = $_POST['SelectedValue'];
-		echo 'gelukt';
 		die();
 	}
 	if (isset($_POST['confirmButton'])) {
@@ -21,18 +20,10 @@
 			array_push($paramsDeleteSelection, $_SESSION['currentLocationCity']);
 		}
 		$result = $database->sendQuery($queryDeleteSelection, $paramsDeleteSelection);
-		
-		if (!is_string($result)) {
-			echo 'De selectie is succesvol verwijderd';
-		}
-		else {
-			echo 'Er is iets misgegaan bij het verwijderen.';
-		}
 	}
 	
 	if (isset($_POST['selectedBuildingValues'])) {
 		$_SESSION['selectedBuildingValues'] = $_POST['selectedBuildingValues'];
-		echo 'gelukt';
 		die();
 	}
 	
@@ -44,16 +35,8 @@
 										 $_POST['streetName'], 
 										 $_POST['houseNo'], 
 										 $_POST['postalCode']);
-		echo var_dump($queryInsertNewBuilding);
-		echo '<br>';
-		echo var_dump($paramsInsertNewBuilding);
+
 		$result = $database->sendQuery($queryInsertNewBuilding, $paramsInsertNewBuilding);
-		if (!is_string($result)) {
-			echo 'Het gebouw is opgeslagen';
-		}
-		else {
-			echo 'Het gebouw is niet opgeslagen.';
-		}
 		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 	
@@ -68,9 +51,6 @@
 			$queryUpdateCongressLocation = "UPDATE Congress SET LocationName = ?, City = ? WHERE LocationName = ? AND City = ? AND CongressNo = ?";
 			$paramsUpdateCongressLocation = array($_SESSION['currentLocationName'], $_SESSION['currentLocationCity'], $congress['locationName'], $congress['city'], $manage->getCongressNo());
 			$result = $database->sendQuery($queryUpdateCongressLocation, $paramsUpdateCongressLocation);
-			if (!is_string($result)) {
-				echo 'De nieuwe locatie voor dit congres is opgeslagen';
-			}
 		}
 	}
 	

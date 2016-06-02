@@ -49,8 +49,6 @@ $(document).ready(function () {
 		for(var i = 0; i < dataArray.data().length; i++) {
 			result.push(dataArray.data()[i][0]);
 		}
-		console.log(result);
-		
 		$.ajax({
 			url: 'manage.php#Locatie',
 			type: 'POST',
@@ -58,7 +56,7 @@ $(document).ready(function () {
 				selectedBuildingValues: result
 			},
 			success: function(data) {
-				console.log(data);
+				
 			},
 			error: function (request, status, error) {
 				alert(request.responseText);
