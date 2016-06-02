@@ -18,7 +18,6 @@ function sendFormData() {
 			password: form['password'].value
 		},
         success: function(data){
-			console.log(data);
 			if ($.trim(data) == 'mailInUse') {
 				$("[name=formRegistration]").append('<p class="errText">Er is al iemand geregistreerd onder dit mailadres. Probeer het met een ander mailadres.</p>');
 			}
