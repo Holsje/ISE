@@ -40,20 +40,6 @@ $(document).ready(function () {
 
 });
 
-//Edit mag weg
-function fillUpdateCongressInfo() {
-    var selectedRow = table.row('.selected');
-    if (selectedRow.data()) {
-        congressNo = selectedRow.data()[0];
-        oldCongressName = selectedRow.data()[1];
-        oldCongressStartDate = selectedRow.data()[2];
-        oldCongressEndDate = selectedRow.data()[3];
-        updateCongressInfo(oldCongressName, oldCongressStartDate, oldCongressEndDate);
-    } else {
-        alert("Er is geen selectie gemaakt");
-        return false;
-    }
-}
 
 function updateCongressInfo(congressName, congressStartDate, congressEndDate, congressPrice, congressBanner, congressPublic, congressSubjects) {
     document.forms["formUpdateCongress"]["congressName"].value = congressName;
