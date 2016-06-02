@@ -92,6 +92,29 @@ $(document).ready(function () {
 	}
 	
 	
+	if(document.forms["formUpdateSpeaker"]) {
+		document.forms["formUpdateSpeaker"].onsubmit = function() {
+			if(!isValidName(document.forms["formUpdateSpeaker"]["speakerName"].value)) {
+				$("#errMsgBewerkenSpreker").text("Voornaam onjuist.");
+				return false;
+			}
+			if(!isValidName(document.forms["formUpdateSpeaker"]["LastName"].value)) {
+				$("#errMsgBewerkenSpreker").text("Achternaam onjuist.");
+				return false;
+			}			
+			if(!isValidEmailAddress(document.forms["formUpdateSpeaker"]["mailAddress"].value)) {
+				$("#errMsgBewerkenSpreker").text("Email onjuist.");
+				return false;
+			}			
+			if(!isValidTelephoneNumber(document.forms["formUpdateSpeaker"]["phoneNumber"].value)) {
+				$("#errMsgBewerkenSpreker").text("Telefoonnummer onjuist.");
+				return false;
+			}			
+			return true;
+		}
+	}
+	
+	
 	$(".listBoxSpeakerLeft .dataTables_scrollBody").removeAttr("style");
 	$(".listBoxSpeakerRight .dataTables_scrollBody").removeAttr("style");
 	$(".listBoxSpeakerRight .dataTables_scrollBody").addClass("noScrollBody");
@@ -239,27 +262,26 @@ function editSpeakerOfCongress(){
 }
 
 function deleteSpeakers() {
-	var selectedRows = dataSwapTables["listBoxSpeakerRight"].rows(".selected");
-	
-	for(var i = 0;i<selectedRows.data().length;i++) {
-		$.ajax({
-			url: window.location.href,
-			type: 'POST',
-			data: {
-				deleteSpeaker: 'deleteSpeaker',
-				personNo: selectedRows.data()[i][0]			
-			},
-			success: function (data) {
-				
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
-			}
-		});
+	if (confirm("Weet u zeker dat u deze rij(en) wilt verwijderen?")) {
+		var selectedRows = dataSwapTables["listBoxSpeakerRight"].rows(".selected");
+		
+		for(var i = 0;i<selectedRows.data().length;i++) {
+			$.ajax({
+				url: window.location.href,
+				type: 'POST',
+				data: {
+					deleteSpeaker: 'deleteSpeaker',
+					personNo: selectedRows.data()[i][0]			
+				},
+				success: function (data) {
+					
+				},
+				error: function (request, status, error) {
+					alert(request.responseText);
+				}
+			});
+		}
+		
+		selectedRows.remove().draw(false);
 	}
-	
-	selectedRows.remove().draw(false);
-	
-	
-
 }

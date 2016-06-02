@@ -24,7 +24,7 @@ topLayoutManagement('Beheren Sprekers',$css,$js);
 
     <?php 
     $manageSpeakersGM->createCreateSpeakerScreen(); 
-    //$manageCongress->createEditCongressScreen();
+    $manageSpeakersGM->createEditSpeakerScreen();
     
     bottomLayout();
 

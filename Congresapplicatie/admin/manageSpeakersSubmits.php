@@ -54,8 +54,7 @@
 				array($_POST['mailAddress'],SQLSRV_PARAM_IN),
 				array($_POST['phoneNumber'],SQLSRV_PARAM_IN),
 				array($_POST['description'],SQLSRV_PARAM_IN),
-				array(pathinfo(basename($_FILES['uploadEditSpeaker']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN),
-				array($manage->getCongressNo(), SQLSRV_PARAM_IN)
+				array(pathinfo(basename($_FILES['uploadEditSpeaker']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN)
 			);
 			$EditSpeakers = $manageSpeakers->editSpeaker('spUpdateSpeaker',$params);
 			if($EditSpeakers != null){

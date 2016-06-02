@@ -34,7 +34,7 @@
 			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
 			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
-			$uploadFile = new Upload(null,'Spreker',"uploadCreateSpeaker",null,true,true,null,"image");
+			$uploadFile = new Upload(null,'Foto',"uploadCreateSpeaker",null,true,true,null,"image");
 			$submitObject = new Submit("toevoegen","createSpeaker","toevoegen",null, true, true);			
 			$errMsg = new Span('',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
 			
@@ -70,6 +70,53 @@
                 }
 				
             }		
+		}
+		
+		
+		public function createEditSpeakerScreen() {
+			$speakerNumberObject = new Identifier(null,"ID","personNo",null, true, true, true);
+			$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
+			$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
+			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
+			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
+			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
+			$errMsg = new Span('',null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
+			$uploadFile = new Upload(null,'Foto',"uploadEditSpeaker",null,true,true,null,"image");
+			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);			
+
+			$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","Update",null,null,false,"#spreker");
+
+		}
+		
+		
+		public function getSpeakerInfo($personNo) {
+			$sqlSpeakers = "SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, P.phonenumber,s.Description,s.PicturePath ".
+														"FROM Person P " .
+														"INNER JOIN Speaker S ON S.PersonNo = P.PersonNo ".
+														"WHERE p.PersonNo = ?";														
+            $params = array($personNo);
+            $resultSpeakersObject = $this->database->sendQuery($sqlSpeakers, $params);
+            $arraySpeakers = array();
+            if ($resultSpeakersObject){
+                while($row = sqlsrv_fetch_array($resultSpeakersObject, SQLSRV_FETCH_ASSOC)){
+                    array_push($arraySpeakers,$row);
+                }
+				
+            }else {
+				$arraySpeakers = $this->database->getError();
+			}
+			
+            return json_encode($arraySpeakers, JSON_FORCE_OBJECT);
+         
+        }
+		
+		public function editSpeaker($storedProcName, $params) {
+			$this->addRecord($storedProcName, $params);
+			if($this->database->getError()) {
+				return $this->database->getError();	
+			}
+			
+			return null;
 		}
 	}
 ?>

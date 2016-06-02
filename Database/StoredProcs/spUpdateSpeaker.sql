@@ -5,8 +5,7 @@ ALTER PROC spUpdateSpeaker
 	@mailAddress D_Mail, 
 	@phonenum D_telnr,
 	@description D_DESCRIPTION,
-	@fileExtension varchar(5),
-	@congressno D_CongressNo
+	@fileExtension varchar(5)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -48,6 +47,3 @@ BEGIN
 		THROW;
 	END CATCH
 END
-
-
-SELECT * FROM Speaker

@@ -128,7 +128,7 @@
 			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
 			$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
-			$uploadFile = new Upload(null,'Spreker',"uploadCreateSpeaker",null,true,true,null,"image");
+			$uploadFile = new Upload(null,'Foto',"uploadCreateSpeaker",null,true,true,null,"image");
 			$submitObject = new Submit("toevoegen","createSpeaker","toevoegen",null, true, true);			
 			$errMsg = new Span('',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
 			
@@ -156,7 +156,7 @@
 			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
 			$errMsg = new Span('',null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
-			$uploadFile = new Upload(null,null,"uploadEditSpeaker",null,true,true,null,"image");
+			$uploadFile = new Upload(null,'Foto',"uploadEditSpeaker",null,true,true,null,"image");
 			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);			
 
 			$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeaker",null,null,false,"#spreker");
@@ -171,7 +171,7 @@
 			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
 			$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
-			$uploadFile = new Upload(null,null,"uploadEditSpeakerOfCongress",null,true,true,null,"image");
+			$uploadFile = new Upload(null,'Foto',"uploadEditSpeakerOfCongress",null,true,true,null,"image");
 			$errMsg = new Span('',null,'errMsgUpdateSpeakerOfCongress','errorMsg',true,true,null);
 			$submitObject = new Submit("aanpassen","updateSpeakerOfCongress","aanpassen",null, true, true);	
 
