@@ -13,7 +13,7 @@
 			
 			$personNo = $manageSpeakersGM->createSpeaker('spRegisterSpeaker',$params,$_POST['mailAddress']);
 			if(!is_int($personNo)){
-				$emailIsWrong = true;
+				$emailOfSpeakerIsWrong = true;
 			}else if($personNo) {
 				handleFile("../img/speakers/","uploadCreateSpeaker","speaker" . $personNo);
 			}
@@ -33,7 +33,7 @@
 		);
 		$EditSpeakers = $manageSpeakersGM->editSpeaker('spUpdateSpeaker',$params);
 		if($EditSpeakers != null){
-			echo "<script>alert('Email adres bestaat al Probeer opnieuw');</script>";
+			$editSpeakerError = $EditSpeakers;
 		}else if($_POST["personNo"]) {
 			handleFile("../img/speakers/","uploadEditSpeaker","speaker" . $_POST['personNo']);
 		}
