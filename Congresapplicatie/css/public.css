@@ -1,67 +1,6 @@
-.eventTitle {
-	height: 100px;
-	padding: 0px;
-	font-weight: bold;
-	font-size: 25px;
-	text-align:center;
-	word-wrap: break-word;
+.content {
+	padding: 0;
 }
-
-@media(max-width:1024px) {
-	.congressCurrentDate {
-		text-align:center;
-	}
-
-	.congressDescription {
-		text-align:center;
-	}
-	
-	.eventTitle {
-		font-size: 15px;
-	}
-	
-	.event {
-		padding: 0px;
-	}
-
-	.eventBoxSignUp {
-		padding: 0px;
-		text-align: center;
-	}
-	.eventBoxSignUp h3 {
-		font-size: 15px;
-		font-weight: bold;
-		word-wrap: break-word;
-	}
-	.eventBoxSignUp h3 img{
-		display: none;
-	}
-	.eventBoxSignUp p {
-		word-wrap: break-word;
-	}
-	.eventBox {
-		border-width: 0px;
-	}
-	.content {
-        width: 100%;
-        margin: 0px;
-    }
-}
-
-@media(min-width: 768px) {
-	.eventTitle {
-		font-size: 15px;
-	}
-}
-
-@media(max-width: 768px) {
-	.infoGlyph {
-		border:none;
-		background-color: #FFFFFF;
-		float:right;
-	}
-}
-
 h1 {
     font-size: 36px;
 }
@@ -146,34 +85,48 @@ h1 {
     font-weight: bold;
     font-family: "Trebuchet MS";
 }
-.eventInfoBox {
-    box-shadow: 0px 0px 3px 1px #888888;
-    border-radius: 7px;
-    border-style: solid;
-    border-width: 1px;
-    /*min-width: 200px;*/
-    margin-top: 5px;
-}
 .eventContent .eventInfoBox{
-   height: 200px; 
+   height: 250px; 
+}
+.eventName {
+	text-align: center;
+	margin-top: 10px;
 }
 .eventBoxSignUp {
 	background-color:#FFFFFF;
+	position:absolute;
 }
 .eventBox {
-	
-}
-.moreInfoButton {
+	border-style:solid;
+	border-width: 1px;
 }
 .eventImage {
-    float: right;
-    width: 30%;
     border-radius: 5px;
-    margin: 5px;
     box-shadow: 0px 0px 2px 1px #888888;
+	padding:0;
+	margin-bottom: 10px;
+	max-height: 100px;
 }
-.eventTime {
+
+.whiteSpace {
+	width: 10px;
 }
+
+.eventImageSignUp {
+	padding: 0;
+	width: 100%;
+	max-height: 100px;
+}
+
+.eventText {
+	word-wrap: break-word;
+	padding: 0px;
+	margin-right: 10px;
+}
+.event {
+	padding: 0px 5px;
+}
+
 .bigPop {
     width: 80%;
     margin: auto 10%;
@@ -210,6 +163,9 @@ h1 {
     padding-right: 20px;
     display: block;
     margin: 8px !important;
+}
+.track {
+	padding: 0px;
 }
 .congresInfo {
     box-shadow: 0px 0px 2px 1px #888888;
@@ -253,14 +209,128 @@ h1 {
     cursor: pointer;
     text-decoration: none;
 }
-.selectedSubject{
-    box-shadow: 0px 0px 5px 5px #f09a25;
+.eventInfoBox {
+    box-shadow: 0px 0px 3px 1px #888888;
+    border-radius: 7px;
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 5px;
+	padding: 0px 10px !important;
 }
-@media(max-width:460px) {
+
+.selectedSubject{
+    box-shadow: 0px 0px 25px 5px #f09a25;
+}
+.selected {
+	box-shadow: 0px 0px 25px 5px #378cd6;
+}
+.timeBar {
+	padding: 0;
+	padding-right: 20px;
+}
+
+.eventBox { 
+	margin-top:0px; 
+	border-style:solid; 
+	border-width:1px; 
+	background-color:#F0F0F0;
+	padding: 0px 5px;
+}
+.congressCurrentDate {
+	text-align:center;
+}
+
+.congressDescription {
+	text-align: left;
+}
+
+.day {
+	margin-bottom: 50px;
+}
+
+.carousel-control {
+	background-image: none;
+}
+
+.carouselButton {
+	height: 100px;
+	background-image: none !important;
+	width: 50px;
+}
+
+.carouselIcon {
+	font-size:50px !important;
+	color: black;
+}
+
+.previousDayButton {
+	margin-right: 20px;
+}
+
+.congressTitle {
+	text-align:center;
+}
+
+
+
+.eventTitle {
+	height: 100px;
+	padding: 0px;
+	font-weight: bold;
+	font-size: 25px;
+	text-align:center;
+	word-wrap: break-word;
+	position: relative;
+	top: 40px;
+}
+
+.noEventsText {
+	text-align:center;
+}
+
+@media(max-width: 460px) {
+	.eventName {
+		text-align: center;
+		padding: 0;
+		margin-top: 5px;
+	}
+	
+	.eventText {
+		font-size: 15px;
+	}
+}
+
+@media(min-width: 768px) {
+	.eventTitle {
+		font-size: 25px;
+	}
+}
+
+@media(max-width:768px) {
+
+	.infoGlyph {
+		border:none;
+		background-color: transparent;
+		font-size: 30px;
+		text-align: center;
+	}
+	
+	.subjects {
+		display: none;
+	}
+
 	.eventInfoBox {
         width: 100%;
-        height: 200px;
+        height: 250px;
     }
+	
+	.eventImage {
+		display:none;
+	}
+	
+	.eventTime {
+		margin-bottom: 0px;
+	}
 
     .popupTitle h1 {
         width: 70%;
@@ -320,50 +390,56 @@ h1 {
     }
 }
 
-.timeBar {
-	padding: 0;
-	width: 50px;
+
+
+@media(max-width:990px) {
+	.eventBoxSignUp {
+		padding: 0px;
+		text-align: center;
+	}
+	.eventBoxSignUp h3 {
+		font-size: 15px;
+		font-weight: bold;
+		word-wrap: break-word;
+	}
+	.eventImage {
+		display: none;
+	}
+	.eventBoxSignUp p {
+		word-wrap: break-word;
+	}
+	.content {
+        width: 100%;
+        margin: 0px;
+    }
+	.congressDescription {
+		text-align: center;
+	}
 }
 
-.eventBox { 
-	margin-top:0px; 
-	border-style:solid; 
-	border-width:1px; 
-	background-color:#F0F0F0;
-	padding: 0px 5px;
+@media(min-width: 990px) {
+	.eventImage {
+		display: block;
+	}
 }
 
-.day {
-	margin-bottom: 50px;
+@media(max-width: 1200px) {
+	.eventTitle {
+		word-wrap: break-word;
+		position: relative;
+		font-size: 20px;
+		top: 40px;
+	}
 }
 
-.carousel-control {
-	background-image: none;
+@media(max-width: 900px) {
+	.eventTitle {
+		word-wrap: break-word;
+		position: relative;
+		font-size: 17px;
+		top: 40px;
+	}
 }
-
-.selected {
-	background-color: #3676AD;
-}
-
-.carouselButton {
-	height: 100px;
-	background-image: none !important;
-	width: 50px;
-}
-
-.carouselIcon {
-	font-size:50px !important;
-	color: black;
-}
-
-.previousDayButton {
-	margin-right: 20px;
-}
-
-.congressTitle {
-	text-align:center;
-}
-
 
 
 

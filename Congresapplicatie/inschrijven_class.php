@@ -40,23 +40,34 @@
 		
 		public function createScheduleForOneDay($dayKey) {
 			$amountOfTracks = sizeof($this->tracks);
-			for($i = 1; $i <= $amountOfTracks; $i+= 3) {
+			if (isset($_SESSION['tracksPerCarouselSlide'])) {
+				$this->tracksPerCarouselSlide = $_SESSION['tracksPerCarouselSlide'];
+			}
+			else {
+				$this->tracksPerCarouselSlide = 3;
+			}
+			if (empty($this->congress[2]["DAYS"][$dayKey]["EVENTS"])) {
+				echo '<p class="noEventsText">Er zijn geen evenementen ingepland voor deze dag</p>';
+				return;
+			}
+			
+			for($i = 1; $i <= $amountOfTracks; $i+= $this->tracksPerCarouselSlide) {
 				if ($i == 1) {
-					$this->makeCarouselItem($this->getNextThreeTracks($i, $amountOfTracks), true, $dayKey);
+					$this->makeCarouselItem($this->getNextFewTracks($i, $amountOfTracks, $this->tracksPerCarouselSlide), true, $dayKey);
 				}
 				else {
-					$this->makeCarouselItem($this->getNextThreeTracks($i, $amountOfTracks), false, $dayKey);
+					$this->makeCarouselItem($this->getNextFewTracks($i, $amountOfTracks, $this->tracksPerCarouselSlide), false, $dayKey);
 				}
 			}
 		}
 		
-		private function getNextThreeTracks($currentIndex, $amountOfTracks) {
+		private function getNextFewTracks($currentIndex, $amountOfTracks, $tracksPerCarouselSlide) {
 			$tracksInItem = array();
-			if (($currentIndex + 2) > $amountOfTracks){
+			if (($currentIndex + $tracksPerCarouselSlide - 1) > $amountOfTracks){
 				$increment = $amountOfTracks;
 			}
-			else{
-				$increment = $currentIndex + 2;
+			else {
+				$increment = $currentIndex + $tracksPerCarouselSlide - 1;
 			}
 			for($i = $currentIndex; $i <= $increment; $i++) {
 				array_push($tracksInItem, $this->tracks[$i]);
@@ -65,7 +76,12 @@
 		}
 		
 		public function makeCarouselItem($tracksInItem, $active, $dayKey) {
-			$hourHeight = 150;
+			if ($this->tracksPerCarouselSlide == 3) {
+				$hourHeight = 200;
+			}
+			else {
+				$hourHeight = 250;
+			}
 			$firstTrack = true;	
 			if ($active) {
 				echo '<div class="item active">';
@@ -79,8 +95,7 @@
 				if($trackKey=="TIMES") {
 					continue;
 				}
-	
-				echo '<div class="event">';
+				
 				if($firstTrack) {
 					echo '<div id="timeBar" class="timeBar col-xs-1 col-sm-1 col-md-1" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME'] - $this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight + $hourHeight) . 'px; top:100px;" class="col-sm-1 col-md-1 col-xs-1">';
 					for($i = 0;$i < ($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])+1;$i++) {
@@ -94,12 +109,36 @@
 						echo ':00</div>';
 					}
 					echo '</div>';
+					echo '<div class="col-xs-1 col-sm-1 col-md-1 whiteSpace">';
+					echo '</div>';
 					$firstTrack = false;
 				}
 				
-				echo '<div class="col-sm-3 col-md-3 col-xs-3 event">';
-				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventTitle">' . $track['TNAME'] . '</div>';
-				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventBox" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight) . ';">';
+				if (isset($_SESSION['tracksPerCarouselSlide'])) {
+					if ($_SESSION['tracksPerCarouselSlide'] == 2) {
+						echo '<div class="track col-xs-5 col-sm-5 col-md-5">';
+					}
+					else {
+						echo '<div class="track col-xs-3 col-sm-3 col-md-3">';
+					}
+				}
+				else {
+					echo '<div class="track col-xs-3 col-sm-3 col-md-3">';
+				}
+				
+				if (isset($_SESSION['tracksPerCarouselSlide'])) {
+					if ($_SESSION['tracksPerCarouselSlide'] == 2) {
+						echo '<div class="col-xs-12 col-sm-12 col-md-12 event">';
+					}
+					else {
+						echo '<div class="col-xs-12 col-sm-12 col-md-12 event">';
+					}
+				}
+				else {
+					echo '<div class="col-xs-12 col-sm-12 col-md-12 event">';
+				}
+				echo '<div class="eventTitle">' . $track['TNAME'] . '</div>';
+				echo '<div class="eventBox" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight) . ';">';
 				
 				if(!isset($this->congress[$track['TRACKNO']]["DAYS"][$dayKey])) {
 					echo '</div>';
@@ -114,11 +153,11 @@
 					$startTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
 					$time = explode(':',$event['END']);
 					$endTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
-
+					
 					$distanceFromTop = ($startTimeInHours - ($this->congress['TIMES'][$dayKey]['STARTTIME']))*$hourHeight;
 					$height = ($endTimeInHours-$startTimeInHours)*$hourHeight;
-					
-					echo $this->createScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","col-sm-12 col-md-12 col-xs-12 eventBoxSignUp","top:" . $distanceFromTop . "px; height:" . $height . "px;",$event['FILEDIRECTORY'] . 'thumbnail.png', substr($event['START'], 0, 5) . " -  " . substr($event['END'], 0, 5));
+					$distanceFromTop += 100;
+					echo $this->createScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","eventBoxSignUp","top:" . $distanceFromTop ."px; height:" . $height . "px;overflow: auto;width: 87%;",$event['FILEDIRECTORY'] . 'thumbnail.png', substr($event['START'], 0, 5) . " -  " . substr($event['END'], 0, 5));
 				}
 				echo '</div>';
 				echo '</div>';
