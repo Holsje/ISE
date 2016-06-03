@@ -1,16 +1,16 @@
 USE master
 GO
 
-IF db_id('CongressDB2') IS NOT NULL
+IF db_id('CongressDB') IS NOT NULL
 BEGIN
-	DROP DATABASE CongressDB2
+	DROP DATABASE CongressDB
 END
 GO
 
-CREATE DATABASE CongressDB2
+CREATE DATABASE CongressDB
 GO
 
-USE CongressDB2
+USE CongressDB
 GO
 
 /*==============================================================*/
@@ -495,7 +495,7 @@ CREATE TABLE Speaker (
 							ON DELETE CASCADE,
    CONSTRAINT FK_SPEAKER_OF_PERSON FOREIGN KEY (Owner)
 	  REFERENCES Person (PersonNo)
-							ON UPDATE CASCADE
+							ON UPDATE NO ACTION
 							ON DELETE NO ACTION
 )
 GO
