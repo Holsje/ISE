@@ -32,6 +32,9 @@ class manageLocationGeneralManager extends Management {
 		$this->getCreateScreen()->createPopUp(array($text, $cancelButton, $confirmButton), "Locatie verwijderen", "DeleteLocatieGM", null, null, null, "#LocatieGM");
 	}
 	
+	
+	
+	
 	private function getAllLocations() {
 		$queryLocations = "SELECT L.LocationName, City FROM Location L";
 		$result = $this->database->sendQuery($queryLocations, array());

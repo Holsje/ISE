@@ -27,5 +27,7 @@
 <?php     
 	$manageLocationGeneralManager->createCreateLocationPopUp();
 	$manageLocationGeneralManager->createDeleteLocationPopUp();
+	
+
     bottomLayout();
 ?>

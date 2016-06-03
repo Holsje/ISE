@@ -64,8 +64,7 @@ $(document).ready(function () {
 			if(!isValidTelephoneNumber(document.forms["formAddSpeaker"]["phoneNumber"].value)) {
 				$("#errMsgAanmakenSpreker").text("Telefoonnummer onjuist.");
 				return false;
-			}			
-			
+			}						
 			return true;
 		}
 	}

@@ -26,3 +26,12 @@ function isValidDate(date){
 function isValidPrice(price){
     return (/^(\d{1,})[.](\d{1,})$/.test(price) || /^([0-9]{1,})$/.test(price));
 }
+
+function isValidSmallInt(capacity) {
+    if(capacity == parseInt(capacity)) {
+		if((capacity > -32768) && (capacity < 32767)) {
+			return true;
+		}
+	}
+		return false;
+}
