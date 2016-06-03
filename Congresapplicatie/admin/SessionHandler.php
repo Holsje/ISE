@@ -18,7 +18,7 @@
         }
 
         if ($onlyAdmin){
-            if ($_SESSION['liberties'] != "Algehele beheerder"){
+            if ($_SESSION['liberties'] != "Algemene beheerder"){
                 header('Location:noEntry.php');
             }
         }
