@@ -112,7 +112,7 @@
                                     array_push($subjectsEvent,$rowSub['Subject']);
                                 }
                             }
-                            $this->createScreen->createEventInfo($row['EName'],$subjectsEvent,$row['Price'],$row['Type'],$row['EventNo'],'','#popUpeventInfo','col-sm-2 col-md-3 col-xs-2','margin-right:50px; margin-bottom:50px; ',$row['FileDirectory'] . 'thumbnail.png','');
+                            $this->createScreen->createEventInfo($row['EName'],$subjectsEvent,$row['Price'],$row['Type'],$row['EventNo'],'','#popUpeventInfo','col-sm-3 col-md-3 col-xs-3','margin-right:50px; margin-bottom:50px; ',$row['FileDirectory'] . 'thumbnail.png','');
                         }
                         echo '</div>';
                     }

@@ -56,7 +56,7 @@ require_once('ScreenObjects/Identifier.php');
 		
 		public function createEventInfo($eventName,$subjects,$price,$type,$eventId, $trackno, $dataFile,$classes,$extraStyle,$image,$timeString) {
 			if($classes != null) {
-				echo '<div value="'.$eventId.'" class="' . $classes . ' eventInfoBox"';
+				echo '<div value="'.$eventId.'" class="' . $classes . ' eventInfoBox col-xs-12 col-sm-12 col-md-12"';
 			}else {
 				echo '<div class="col-sm-3 col-md-3 col-xs-3 eventInfoBox"';
 			}
@@ -65,25 +65,32 @@ require_once('ScreenObjects/Identifier.php');
 			}
 			echo ">";
 				echo '<input type="hidden" value="'. $trackno . '-'. $eventId . '" name="eventno[]">';
-				echo '<h3>' . $eventName ;
-				if($image != null) {
-					echo '<img class="eventImage" src="' . $image . '">';
-				}				
+				
+				echo '<h3 class="eventName col-xs-12 col-sm-12 col-md-12">' . $eventName ;
 				echo'</h3>';
-				echo '<p>';
-				for($i = 0;$i<sizeof($subjects)-1;$i++) {
-					echo $subjects[$i] . " - ";
-				}
-				if($subjects != null) {
-					echo $subjects[sizeof($subjects)-1];
-				}
-				echo'</p>';
-				echo '<p>' . $type . '</p>';
-				echo '<p class="eventTime">' . $timeString . '</p>';
-				if($price!=null or $price != 0) {
-					echo '<p class="eventPrice">Prijs:' . number_format($price,2,',','.') . '</p>';
-				}
-				$button = new Button("Meer Info", null, null, "btn btn-default moreInfoButton popupButton", true, true, $dataFile);
+				echo '<div class="row">';
+					echo '<div class="eventText col-md-7 col-xs-12 col-sm-12">';
+					echo '<p>';
+					for($i = 0;$i<sizeof($subjects)-1;$i++) {
+						echo $subjects[$i] . " - ";
+					}
+					if($subjects != null) {
+						echo $subjects[sizeof($subjects)-1];
+					}
+					echo'</p>';
+					echo '<p>' . $type . '</p>';
+					echo '<p>' . $timeString . '</p>';
+					if($price!=null or $price != 0) {
+						echo '<p class="eventPrice">Prijs:' . number_format($price,2,',','.') . '</p>';
+					}
+					echo '</div>';
+					if($image != null) {
+						echo '<div class="eventImage col-xs-6 col-sm-4 col-md-4">';
+							echo '<img class="eventImageSignUp img-responsive pull-right" src="' . $image . '">';
+						echo '</div>';
+					}
+				echo '</div>';
+				$button = new Button("Meer Info", null, null, "btn btn-default moreInfoButton popupButton pull-right", true, true, $dataFile);
 				echo $button->getObjectCode();
 			echo '</div>';
 		}
