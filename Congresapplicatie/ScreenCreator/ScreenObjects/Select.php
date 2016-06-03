@@ -51,7 +51,7 @@
 			}
 			$string .= '">';
             if($this->firstRowEmpty){
-                $string .= '<option disabled selected value>Selecteer een onderwerp</option>';
+                $string .= '<option disabled selected value>Selecteer een rij</option>';
             }
             for ($i = 0; $i < sizeof($this->list); $i++){
                 if ($this->list[$i] == $this->value){
