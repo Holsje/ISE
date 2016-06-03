@@ -2,6 +2,7 @@
 <nav role="navigation" class="navbar navbar-default largeMenu col-xs-12 col-sm-12 col-md-12">
     <div class="navbar-header col-xs-12 col-sm-12 col-md-12">
         <?php
+            require_once('InlogSubmit.php');
             if (isset($_SESSION['user'])) {
         ?>
         <ul class="nav navbar-nav col-sm-12 col-md-12">

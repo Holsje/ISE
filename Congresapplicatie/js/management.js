@@ -26,9 +26,17 @@ $(document).ready(function () {
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
         $("body").css("overflow", "hidden");
     });
-    $(".closePopup").on("click", function (event) {
+
+	$(".closePopup").on("click", function (event) {
+		$(".errorMsg").empty()
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
         $("body").css("overflow", "auto");
+
+		if(document.getElementById(event.target.attributes.getNamedItem('data-file').value.substring(1)).classList.contains('show')){
+			$(event.target.attributes.getNamedItem("data-file").value).removeClass('show');
+
+
+		}
     });
 	
 	

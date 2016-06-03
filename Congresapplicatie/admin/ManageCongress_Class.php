@@ -15,7 +15,30 @@
 
         public function getCongresses() {
 
-            $result = parent::getDatabase()->sendQuery("SELECT * FROM Congress", null);
+            if ($_SESSION['liberties'] != 'Algemene beheerder') {
+                $sqlGetCongresses = "SELECT * FROM Congress WHERE";
+
+                $adminCongresses = $_SESSION['liberties'];
+
+                if ($adminCongresses != null) {
+
+                    for ($i = 0; $i < sizeof($adminCongresses); $i++) {
+                        $sqlGetCongresses .= " CongressNo = ? AND";
+                    }
+
+                    $sqlGetCongresses = substr($sqlGetCongresses, 0, sizeof($sqlGetCongresses) - 4);
+                    var_dump($sqlGetCongresses);
+                    $result = parent::getDatabase()->sendQuery($sqlGetCongresses, $adminCongresses);
+                }
+                else{
+                    $result = false;
+                }
+            }
+            else{
+                $sqlGetCongresses = "SELECT * FROM Congress";
+                $result = parent::getDatabase()->sendQuery($sqlGetCongresses, null);
+            }
+
 
             if ($result){
                 $array = array();
@@ -79,10 +102,9 @@
 
 		
 		public function createCreateCongressScreen() {
+            $errMsg = new Span(null, null, 'errMsgInsertCongress', 'errorMsg', true, true, null);
 			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
-			
 			$addSubjectObject = new Button("+",null,"addSubjectButton","form-control btn btn-default popupButton", true, true, "#popUpAddSubjectFromAdd");
-
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $subjectObject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3", true, true, $columnList, $valueList, "subjectListBoxAdd");
@@ -94,7 +116,7 @@
 
 
 			$submitObject = new Button("Toevoegen","createCongress","Toevoegen","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAdd');
-			$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$priceObject,$subjectObject,$addSubjectObject,$submitObject),"Congres aanmaken","Add", "",true, false,"");
+			$this->createScreen->createPopup(array($errMsg, $congressNameObject,$startDateObject,$endDateObject,$priceObject,$subjectObject,$addSubjectObject,$submitObject),"Congres aanmaken","Add", "",true, false,"");
 			
 			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
 			$buttonAddSubjectObject = new Button("Toevoegen","Toevoegen","Toevoegen","form-control col-md-4 pull-right btn btn-default", true, true,'');
@@ -114,11 +136,11 @@
 			$endDateObject = new Date(null,"Einddatum","congressEndDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
             $priceObject = new Text(null,"Prijs","congressPrice","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
             $publicObject = new Text(null,"Publiek","congressPublic","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
-            $errMsg = new Span('',null,'errMsgBewerken','errorMsg',true,true,null);
+            $errMsg = new Span('',null,'errMsgUpdateCongress','errorMsg',true,true,null);
             $bannerEditObject = new Button("Banner aanpassen",null,"editCongressBanner","form-control btn btn-default popupButton",true,false,'#popUpBanner');
 			$submitObject = new Button("Bewerken","Bewerken","updateCongress","form-control col-md-4 pull-right btn btn-default",false, true, '#popUpUpdate');
 			//$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$addSubjectObject,$errMsg,$submitObject),"Congres bewerken","Update",null, "", true, false);
-			$this->createScreen->createForm(array($congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$subjectObject,$addSubjectObject,$errMsg,$bannerEditObject,$submitObject),"UpdateCongress", null,"");
+			$this->createScreen->createForm(array($errMsg,$congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$subjectObject,$addSubjectObject,$bannerEditObject,$submitObject),"UpdateCongress", null,"");
 
 			$subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
 			$buttonAddSubjectObject = new Button("Bewerken","Bewerken","Bewerken","form-control col-md-4 pull-right btn btn-default", true, true, '');
@@ -167,7 +189,14 @@
                 return "Transaction committed.<br />";
             } else {
                 sqlsrv_rollback($this->database->getConn());
-                return "Transaction rolled back.<br />";
+                $err['err'] = "";
+                if ($resultCongress){
+                    $err['err'] .= $resultCongress;
+                }
+                else if($resultCongressSubjects){
+                    $err['err'] .= $resultCongressSubjects;
+                }
+                return json_encode($err);
             }
 
         }
@@ -200,7 +229,8 @@
             }
 
             if ($arrayCurrentSubjects !== $subjectsFromDatabase){
-                die("De onderwerpen bij het congres zijn tussendoor gewijzigd. Probeer het opnieuw.");
+                $err['err'] = "De onderwerpen bij het congres zijn tussendoor gewijzigd. Probeer het opnieuw.";
+                return json_encode($err);
             }
 
             $resultArrayNewSubjects = array();
@@ -234,7 +264,8 @@
                 return "Transaction committed.<br />";
             } else {
                 sqlsrv_rollback($this->database->getConn());
-                return "Transaction rolled back.<br />";
+                $err['err'] = $result;
+                return json_encode($err);
             }
 
             if($result != null){

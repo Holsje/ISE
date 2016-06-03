@@ -84,7 +84,7 @@ require_once('../pageConfig.php');
                     array_push($array, $button);
                 }
             }
-            array_push($array, $buttonDelete = new Button("Verwijderen", null, "buttonDelete" . $screenName, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpDelete" . $screenName));
+            array_push($array, $buttonDelete = new Button("Verwijderen", null, "buttonDelete" . $screenName, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "" . $screenName));
 
             $this->createScreen->createForm($array, "Create" . $screenName, null,"#" . $screenName);
         }

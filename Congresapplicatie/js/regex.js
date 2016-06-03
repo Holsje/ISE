@@ -4,7 +4,7 @@ function isValidEmailAddress(email) {
 }
 
 function isValidName(name) {
-	return /^[a-zA-Z ]{3,50}$/.test(name);
+	return /^[a-zA-Z ]{1,50}$/.test(name);
 }
 
 function isValidTelephoneNumber(telnr) {
@@ -12,7 +12,7 @@ function isValidTelephoneNumber(telnr) {
 }
 
 function isValidPassword(password) {
-	return /^[a-zA-Z0-9-_\.@#$%^&*()]{8,64}$/.test(password);
+	return /^[a-zA-Z0-9-_\.!@#$%^&*()]{8,64}$/.test(password);
 }
 
 function isValidCongressName(name) {
@@ -34,4 +34,7 @@ function isValidSmallInt(capacity) {
 		}
 	}
 		return false;
+}
+function isValidDescription(description){
+    return (/^[a-zA-Z0-9-_+/-\=.,!@#$%^&*();\/\\|<>"' ~`€{}\[\]?’‘ÆÐƎƏƐƔĲŊŒẞÞǷȜæðǝəɛɣĳŋœĸſßþƿȝĄƁÇĐƊĘĦĮƘŁØƠŞȘŢȚŦŲƯY̨Ƴąɓçđɗęħįƙłøơşșţțŧųưy̨ƴÁÀÂÄǍĂĀÃÅǺĄÆǼǢƁĆĊĈČÇĎḌĐƊÐÉÈĖÊËĚĔĒĘẸƎƏƐĠĜǦĞĢƔáàâäǎăāãåǻąæǽǣɓćċĉčçďḍđɗðéèėêëěĕēęẹǝəɛġĝǧğģɣĤḤĦIÍÌİÎÏǏĬĪĨĮỊĲĴĶƘĹĻŁĽĿʼNŃN̈ŇÑŅŊÓÒÔÖǑŎŌÕŐỌØǾƠŒĥḥħıíìiîïǐĭīĩįịĳĵķƙĸĺļłľŀŉńn̈ňñņŋóòôöǒŏōõőọøǿơœŔŘŖŚŜŠŞȘṢẞŤŢṬŦÞÚÙÛÜǓŬŪŨŰŮŲỤƯẂẀŴẄǷÝỲŶŸȲỸƳŹŻŽẒŕřŗſśŝšşșṣßťţṭŧþúùûüǔŭūũűůųụưẃẁŵẅƿýỳŷÿȳỹƴźżžẓ]{1,1000}$/.test(description));
 }
