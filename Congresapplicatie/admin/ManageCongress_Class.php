@@ -6,6 +6,8 @@
  * Time: 14:29
  */
     require_once('Management.php');
+    require_once('Login_Class.php');
+    $login = new Login();
     include('fileUploadHandler.php');
     class ManageCongress extends Management{
 
@@ -14,20 +16,20 @@
         }
 
         public function getCongresses() {
-
+        global $login;
             if ($_SESSION['liberties'] != 'Algemene beheerder') {
                 $sqlGetCongresses = "SELECT * FROM Congress WHERE";
 
-                $adminCongresses = $_SESSION['liberties'];
+                $adminCongresses = $login->getAdminCongresses($_SESSION['user']);
 
                 if ($adminCongresses != null) {
 
                     for ($i = 0; $i < sizeof($adminCongresses); $i++) {
-                        $sqlGetCongresses .= " CongressNo = ? AND";
+                        $sqlGetCongresses .= " CongressNo = ? OR";
                     }
 
-                    $sqlGetCongresses = substr($sqlGetCongresses, 0, sizeof($sqlGetCongresses) - 4);
-                    var_dump($sqlGetCongresses);
+                    $sqlGetCongresses = substr($sqlGetCongresses, 0, sizeof($sqlGetCongresses) - 3);
+
                     $result = parent::getDatabase()->sendQuery($sqlGetCongresses, $adminCongresses);
                 }
                 else{
@@ -163,6 +165,7 @@
             $congressNo = "";
             $spQueryFailed = false;
             $resultCongressSubjects = true;
+            $resultCongressManager = true;
             $resultCongress = $this->database->sendQuery($sqlInsertCongress, $paramsCongress);
             $resultCongressNo = $this->database->sendQuery($sqlGetCongressNo, $paramsCongress);
             if ($resultCongressNo){
@@ -181,17 +184,29 @@
                 }
             }
 
-            if($resultCongress && $resultCongressSubjects && $resultCongressNo) {
+            $paramsCongressManager = array(array($_SESSION['personNo'], SQLSRV_PARAM_IN), array($congressNo, SQLSRV_PARAM_IN));
+            $result =  parent::addRecord("spAddCongressManagerToCongress", $paramsCongressManager);
+
+            if (!$result){
+                $resultCongressManager = false;
+            }
+
+
+
+            if($resultCongress && $resultCongressSubjects && $resultCongressNo && $resultCongressManager) {
                 sqlsrv_commit($this->database->getConn());
                 $_SESSION['congressNo'] = $congressNo;
             } else {
                 sqlsrv_rollback($this->database->getConn());
                 $err['err'] = "";
-                if ($resultCongress){
+                if (is_string($resultCongress)){
                     $err['err'] .= $resultCongress;
                 }
-                else if($resultCongressSubjects){
+                else if(is_string($resultCongressSubjects)){
                     $err['err'] .= $resultCongressSubjects;
+                }
+                else if (is_string($resultCongressManager)){
+                    $err['err'] .= $resultCongressManager;
                 }
                 return json_encode($err);
             }
