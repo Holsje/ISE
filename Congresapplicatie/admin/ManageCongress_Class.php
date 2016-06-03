@@ -184,7 +184,6 @@
             if($resultCongress && $resultCongressSubjects && $resultCongressNo) {
                 sqlsrv_commit($this->database->getConn());
                 $_SESSION['congressNo'] = $congressNo;
-                return "Transaction committed.<br />";
             } else {
                 sqlsrv_rollback($this->database->getConn());
                 $err['err'] = "";
@@ -259,7 +258,6 @@
             //END TRANSACTION
             if($result && !$insertNewSubjectsFailed && !$deleteOldSubjectsFailed) {
                 sqlsrv_commit($this->database->getConn());
-                return "Transaction committed.<br />";
             } else {
                 sqlsrv_rollback($this->database->getConn());
                 $err['err'] = $result;
