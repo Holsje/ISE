@@ -487,11 +487,16 @@ CREATE TABLE Speaker (
    PersonNo             D_PERSONNO           NOT NULL,
    Description          D_DESCRIPTION        NULL,
    PicturePath          D_FILE               NULL,
+   Owner				D_PERSONNO			 NOT NULL,
    CONSTRAINT PK_SPEAKER PRIMARY KEY (PersonNo),
    CONSTRAINT FK_SPEAKER_INHERITAN_PERSON FOREIGN KEY (PersonNo)
       REFERENCES Person (PersonNo)
 							ON UPDATE CASCADE
-							ON DELETE CASCADE
+							ON DELETE CASCADE,
+   CONSTRAINT FK_SPEAKER_OF_PERSON FOREIGN KEY (Owner)
+	  REFERENCES Person (PersonNo)
+							ON UPDATE CASCADE
+							ON DELETE NO ACTION
 )
 GO
 
