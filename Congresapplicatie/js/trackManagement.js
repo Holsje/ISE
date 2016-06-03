@@ -30,13 +30,43 @@ $(document).ready(function () {
 
     document.forms["formCreateTracks"]["buttonDeleteTracks"].onclick = deleteTrack;
     document.forms["formCreateTracks"]["buttonEditTracks"].onclick = getTrackInfo;
-    document.forms["formUpdateTracks"]["editTrack"].onclick = onUpdateTrack;
+    //document.forms["formUpdateTracks"]["editTrack"].onclick = onUpdateTrack;
     //Create
     $('html').keyup(function (e) {
         if (e.keyCode == 46) {
             deleteTrack();
         }
     });
+
+
+    if(document.forms["formAddTracks"]) {
+        document.forms["formAddTracks"].onsubmit = function() {
+            if(!isValidName(document.forms["formAddTracks"]["trackName"].value)) {
+                $("#errMsgInsertTrack").text("Tracknaam is onjuist.");
+                return false;
+            }
+            if(!isValidDescription(document.forms["formAddTracks"]["trackDescription"].value)) {
+                $("#errMsgInsertTrack").text("Omschrijving is onjuist.");
+                return false;
+            }
+            return true;
+        }
+    }
+
+    if(document.forms["formUpdateTracks"]) {
+        document.forms["formUpdateTracks"].onsubmit = function() {
+            if(!isValidName(document.forms["formUpdateTracks"]["trackName"].value)) {
+                $("#errMsgUpdateTrack").text("Tracknaam is onjuist.");
+                return false;
+            }
+            if(!isValidDescription(document.forms["formUpdateTracks"]["trackDescription"].value)) {
+                $("#errMsgUpdateTrack").text("Omschrijving is onjuist.");
+                return false;
+            }
+            return true;
+        }
+    }
+
 
 });
 
@@ -92,7 +122,9 @@ function updateTrackInfo(trackName, trackDescription){
 }
 
 
-function onUpdateTrack() {
+
+
+/*function onUpdateTrack() {
     $.ajax({
         url: window.location.href,
         type: 'POST',
@@ -102,14 +134,17 @@ function onUpdateTrack() {
             newTrackName: document.forms['formUpdateTracks']["trackName"].value,
             newTrackDescription: document.forms['formUpdateTracks']["trackDescription"].value
         },
-        success: function (data, event) {
+        success: function (data) {
             if (data != null && data != '' &&  /\S/.test(data)) {
                 console.log(data);
                 data = JSON.parse(data);
                 document.getElementById('errMsgTrack').innerHTML = '*' + data['err'];
-                alert("WACHT");
             }
-            /*
+            else{
+                $('#popUpUpdateTracks button')[0].click();
+                //location.reload();
+            }
+
             if (data != null && data != '' &&  /\S/.test(data)) {
                 data = JSON.parse(data);
                 document.getElementById('errMsgTrack').innerHTML = '*' + data['err'];
@@ -123,10 +158,12 @@ function onUpdateTrack() {
             } else {
                 location.reload();
             }
-            */
+
 
 
         }
 
     });
+
 }
+ */

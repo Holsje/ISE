@@ -74,7 +74,7 @@ function onUpdateCongress() {
         url: window.location.href,
         type: 'POST',
         data: {
-            bewerken: 'action',
+            UpdateCongress: 'action',
 
             oldCongressName: oldCongressName,
             oldCongressStartDate: oldCongressStartDate,
@@ -94,10 +94,10 @@ function onUpdateCongress() {
 
         },
         success: function (data) {
+
             if (data != null && data != '' &&  /\S/.test(data)) {
-                console.log(data);
                 data = JSON.parse(data);
-                document.getElementsByName('errMsgBewerken')[0].innerHTML = '*' + data['err'];
+                document.getElementById('errMsgUpdateCongress').innerHTML = '*' + data['err'];
                 var confirmBox = confirm(data['err']);
                 if (confirmBox) {
 
@@ -112,6 +112,7 @@ function onUpdateCongress() {
             } else {
                 location.reload();
             }
+
         }
 
     });

@@ -32,18 +32,34 @@ class ManageTracks extends Management
     }
 
     public function createCreateTrackScreen(){
-        $nameObject = new Text('', 'Naam', 'trackName', '', true, true, true);
-        $descriptionObject = new Text('', 'Omschrijving', 'trackDescription', '', true, true, false);
-        $submitObject = new Submit('Opslaan', '', 'createTrack', '', true, true);
-        $this->createScreen->createPopup(array($nameObject, $descriptionObject, $submitObject), 'Track toevoegen', 'AddTracks', null, true, true, true, '#Tracks');
+        $nameObject = new Text(null, 'Naam', 'trackName', null, true, true, true);
+        $descriptionObject = new Text(null, 'Omschrijving', 'trackDescription', null, true, true, false);
+        $submitObject = new Submit('Opslaan', null, 'createTrack', null, true, true);
+        if (isset($_SESSION['errorMsgInsertTrack'])) {
+            $errMsg = new Span($_SESSION['errorMsgInsertTrack'], null, 'errMsgTrack', 'errorMsg', true, true, null);
+            unset($_SESSION['errorMsgEditTrack']);
+            $this->createScreen->createPopup(array($errMsg, $nameObject, $descriptionObject, $submitObject), 'Track toevoegen', 'AddTracks', null, true, 'show', '#Tracks');
+        }
+        else{
+            $errMsg = new Span(null, null, 'errMsgInsertTrack', 'errorMsg', true, true, null);
+            $this->createScreen->createPopup(array($errMsg, $nameObject, $descriptionObject, $submitObject), 'Track toevoegen', 'AddTracks', null, true, '','#Tracks');
+        }
+
     }
 
     public function createEditTrackScreen(){
-        $nameObject = new Text('', 'Naam', 'trackName', '', true, true, true);
-        $descriptionObject = new Text('', 'Omschrijving', 'trackDescription', '', true, true, false);
-        $errMsg = new Span('',null,'errMsgTrack','errorMsg',true,true,null);
-        $submitObject = new Button('Opslaan', '', 'editTrack', '', true, true, '#popUpUpdateTracks');
-        $this->createScreen->createPopup(array($nameObject, $descriptionObject, $errMsg, $submitObject), 'Track aanpassen', 'UpdateTracks', null, true, true, true, '#Tracks');
+        $nameObject = new Text(null, 'Naam', 'trackName', null, true, true, true);
+        $descriptionObject = new Text(null, 'Omschrijving', 'trackDescription', null, true, true, false);
+        $submitObject = new Submit('Opslaan', null, 'editTrack', null, true, true);
+        if (isset($_SESSION['errorMsgEditTrack'])) {
+            $errMsg = new Span($_SESSION['errorMsgEditTrack'], null, 'errMsgTrackUpdateTrack', 'errorMsg', true, true, null);
+            unset($_SESSION['errorMsgEditTrack']);
+            $this->createScreen->createPopup(array($errMsg, $nameObject, $descriptionObject, $submitObject), 'Track aanpassen', 'UpdateTracks', null, true, 'show', '#Tracks');
+        }
+        else{
+            $errMsg = new Span(null, null, 'errMsgUpdateTrack', 'errorMsg', true, true, null);
+            $this->createScreen->createPopup(array($errMsg, $nameObject, $descriptionObject, $submitObject), 'Track aanpassen', 'UpdateTracks', null, true, '', '#Tracks');
+        }
     }
 
 
@@ -61,22 +77,22 @@ class ManageTracks extends Management
         }
     }
 
-    public function changeRecord($params){
-        $sqlUpdateTrack = "UPDATE Track SET TName = ? AND Description = ? WHERE CongressNo = ? AND TrackNo = ?";
+    public function editTrack($params){
+        $sqlUpdateTrack = "UPDATE Track SET TName = ?, Description = ? WHERE CongressNo = ? AND TrackNo = ?";
         $result = $this->database->sendQuery($sqlUpdateTrack, $params);
-        if ($result != null){
-            $error['err'] = $result;
-            return json_encode($error);
+        if (is_string($result)){
+            $_SESSION['errorMsgEditTrack'] = $result;
         }
     }
 
-    public function addRecord($params){
+    public function createTrack($params){
         $sqlGetTrackNo = "SELECT MAX(TrackNo) AS TrackNo FROM Track WHERE CongressNo = ?";
         $resultGetTrackNo = $this->database->sendQuery($sqlGetTrackNo, array($params[0]));
         if ($resultGetTrackNo){
-            while ($row = sqlsrv_fetch_array($resultGetTrackNo, SQLSRV_FETCH_ASSOC)){
+            if ($row = sqlsrv_fetch_array($resultGetTrackNo, SQLSRV_FETCH_ASSOC)){
                 $trackNo = $row['TrackNo'];
             }
+            $trackNo++;
         }
 
         $paramsInsertTrack = $params;
@@ -84,9 +100,8 @@ class ManageTracks extends Management
 
         $sqlInsertTrack = "INSERT INTO Track(CongressNo, TName, Description, TrackNo) VALUES (?, ?, ?, ?)";
         $resultInsertTrack = $this->database->sendQuery($sqlInsertTrack, $paramsInsertTrack);
-        if ($resultInsertTrack != null){
-            $error['err'] = $resultInsertTrack;
-            return json_encode($error);
+        if (is_string($resultInsertTrack)){
+            $_SESSION['errorMsgInsertTrack'] = $resultInsertTrack;
         }
     }
 }

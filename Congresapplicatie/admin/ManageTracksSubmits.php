@@ -2,17 +2,17 @@
 
 $manageTracks = new ManageTracks();
 if(isset($_POST['getTrackInfo'])) {
-    echo $manageTracks->getTrackInfo($_SESSION['congressNo'], $_POST['trackNo']);
+    $_SESSION['trackNo'] = $_POST['trackNo'];
+    echo $manageTracks->getTrackInfo($_SESSION['congressNo'], $_SESSION['trackNo']);
     die();
 }
 else if(isset($_POST['createTrack'])){
-    $params = array($_SESSION['congressNo'], $_POST['newTrackName'], $_POST['newTrackDescription']);
-    echo $manageTracks->addRecord($params);
+    $params = array($_SESSION['congressNo'], $_POST['trackName'], $_POST['trackDescription']);
+    echo $manageTracks->createTrack($params);
 }
 else if(isset($_POST['editTrack'])) {
-    $params = array($_POST['newTrackName'], $_POST['newTrackDescription'], $_SESSION['congressNo'], $_POST['trackNo']);
-    echo $manageTracks->changeRecord($params);
-    die();
+    $params = array($_POST['trackName'], $_POST['trackDescription'], $_SESSION['congressNo'], $_SESSION['trackNo']);
+    echo $manageTracks->editTrack($params);
 }
 
 else if(isset($_POST['delete'])) {
