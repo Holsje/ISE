@@ -15,7 +15,30 @@
 
         public function getCongresses() {
 
-            $result = parent::getDatabase()->sendQuery("SELECT * FROM Congress", null);
+            if ($_SESSION['liberties'] != 'Algemene beheerder') {
+                $sqlGetCongresses = "SELECT * FROM Congress WHERE";
+
+                $adminCongresses = $_SESSION['liberties'];
+
+                if ($adminCongresses != null) {
+
+                    for ($i = 0; $i < sizeof($adminCongresses); $i++) {
+                        $sqlGetCongresses .= " CongressNo = ? AND";
+                    }
+
+                    $sqlGetCongresses = substr($sqlGetCongresses, 0, sizeof($sqlGetCongresses) - 4);
+                    var_dump($sqlGetCongresses);
+                    $result = parent::getDatabase()->sendQuery($sqlGetCongresses, $adminCongresses);
+                }
+                else{
+                    $result = false;
+                }
+            }
+            else{
+                $sqlGetCongresses = "SELECT * FROM Congress";
+                $result = parent::getDatabase()->sendQuery($sqlGetCongresses, null);
+            }
+
 
             if ($result){
                 $array = array();
