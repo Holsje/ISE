@@ -3,8 +3,8 @@ CREATE PROC spAddSpeakerToCongress
 @LastName D_Name, 
 @MailAddress D_Mail,
 @PhoneNumber D_TELNR ,
-
-@PicturePath D_FILE, 
+@Owner D_Personno,
+@fileExtension D_FILE, 
 @Description D_Description,
 
 @CongressNo D_CongressNO, 
@@ -34,9 +34,16 @@ BEGIN
 		INSERT INTO PersonTypeOfPerson(PersonNo, TypeName)
 		VALUES(@PersonNo, 'Spreker')
 
-		INSERT INTO Speaker(PersonNo, Description, PicturePath)
-		VALUES(@PersonNo, @Description,@PicturePath)
-
+		IF (@fileExtension IS NOT NULL AND @fileExtension != '') 
+		BEGIN
+			INSERT INTO Speaker(PersonNo, Description, PicturePath,[Owner])
+			VALUES(@PersonNo, @Description,'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension,@Owner)
+		END
+		ELSE
+		BEGIN
+			INSERT INTO Speaker(PersonNo, Description, PicturePath,[Owner])
+			VALUES(@PersonNo, @Description,null,@Owner)
+		END
 		INSERT INTO SpeakerOfCongress(PersonNo, CongressNo, Agreement)
 		VALUES(@PersonNo, @CongressNo, @Agreement)
 
@@ -64,8 +71,8 @@ EXEC spAddSpeakerToCongress
 @LastName = 'Test 2', 
 @MailAddress = 'Email@Test1.nl',
 @PhoneNumber = '0612345678',
-
-@PicturePath = 'path/img/img.png', 
+@Owner = 3,
+@fileExtension = 'png', 
 @Description = 'Dit is een korte beschrijving van een spreker',
 
 @CongressNo = 1, 
@@ -88,8 +95,8 @@ EXEC spAddSpeakerToCongress
 @LastName = 'Test 2', 
 @MailAddress = 'Email@Test1.nl',
 @PhoneNumber = '0612345678',
-
-@PicturePath = 'path/img/img.png', 
+@owner = 1,
+@fileExtension = 'png', 
 @Description = 'Dit is een korte beschrijving van een spreker',
 
 @CongressNo = 543, 

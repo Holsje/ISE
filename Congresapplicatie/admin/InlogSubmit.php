@@ -13,6 +13,7 @@
                 $_SESSION['user'] = $_POST['input-username'];
                 echo "Ingevulde inloggegevens zijn juist!";
                 $_SESSION['liberties'] = $login->checkUser($_SESSION['user']);
+                $_SESSION['personno'] = $login->getPersonNo($_SESSION['user']);
                 header('Location: index.php');
             }
             else{

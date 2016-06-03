@@ -56,6 +56,15 @@
                 }
             }
         }
+		
+		public function getPersonNo($username) {
+			$result = parent::getDatabase()->sendQuery("SELECT Personno FROM Person P WHERE MailAddress = ?", array($username));
+            if ($result){
+                while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+                    return $row['Personno'];
+                }
+            }
+		}
 
         public function getAdminCongresses($username){
             $result = parent::getDatabase()->sendQuery("SELECT COC.CongressNo FROM CongressManagerOfCongress COC INNER JOIN CongressManager CM ON COC.PersonNo = CM.PersonNo WHERE P.MailAddress = ?", array($username));

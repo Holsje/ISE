@@ -69,20 +69,26 @@
 		
 		
 		public function createEditSpeakerScreen() {
-			$speakerNumberObject = new Identifier(null,"ID","personNo",null, true, true, true);
-			$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
-			$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
-			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
-			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
-			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
 			$uploadFile = new Upload(null,'Foto',"uploadEditSpeaker",null,true,true,null,"image");
 			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);	
 			
 			global $editSpeakerError;
 			if(isset($editSpeakerError)) {
+				$speakerNumberObject = new Identifier($_POST['personNo'],"ID","personNo",null, true, true, true);
+				$speakerNameObject = new Text($_POST['speakerName'],"Voornaam","speakerName",null, true, true, true);
+				$speakerLastNameObject = new Text($_POST['LastName'],"Achternaam","LastName",null, true, true, true);
+				$emailObject = new Text($_POST['mailAddress'], "Mailadres", "mailAddress", null, true, true, true);
+				$phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, true);
+				$descriptionObject = new Text($_POST['description'], "Description", "description", null, true, true, true);
 				$errMsg = new Span($editSpeakerError,null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
 				$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","Update",null,null,'show',"#spreker");
 			}else {
+				$speakerNumberObject = new Identifier(null,"ID","personNo",null, true, true, true);
+				$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
+				$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
+				$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
+				$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
+				$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
 				$errMsg = new Span('',null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
 				$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","Update",null,null,false,"#spreker");
 			}

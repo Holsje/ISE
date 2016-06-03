@@ -9,17 +9,18 @@
 				array($_POST['LastName'],SQLSRV_PARAM_IN),
 				array($_POST['mailAddress'],SQLSRV_PARAM_IN),
 				array($_POST['phoneNumber'],SQLSRV_PARAM_IN),
+				array($_SESSION['personno'],SQLSRV_PARAM_IN),
+				array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN),
+				array($_POST['description'],SQLSRV_PARAM_IN),		
 				array($manage->getCongressNo(), SQLSRV_PARAM_IN),
-				array($_POST['agreement'],SQLSRV_PARAM_IN),
-				array($_POST['description'],SQLSRV_PARAM_IN),
-				array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN)
+				array($_POST['agreement'],SQLSRV_PARAM_IN),	
 			);
 			
-			$personNo = $manageSpeakers->createSpeaker('spRegisterSpeakerFromCongress',$params,$_POST['mailAddress']);
-			if(!is_int($personNo)){
-				$emailIsWrong = true;
-			}else if($personNo) {
-				handleFile("img/speakers/","uploadCreateSpeaker","speaker" . $personNo);
+			$result = $manageSpeakers->createSpeaker('spAddSpeakerToCongress',$params,$_POST['mailAddress']);
+			if(!is_int($result)){
+				$errorOnCreateSpeaker = $result;
+			}else if($result) {
+				handleFile("img/speakers/","uploadCreateSpeaker","speaker" . $result);
 			}
 
 		}
