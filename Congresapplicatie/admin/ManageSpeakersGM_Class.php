@@ -35,18 +35,13 @@
 			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
 			$uploadFile = new Upload(null,'Foto',"uploadCreateSpeaker",null,true,true,null,"image");
-			$submitObject = new Submit("toevoegen","createSpeaker","toevoegen",null, true, true);			
-			$errMsg = new Span('',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
+			$submitObject = new Submit("toevoegen","createSpeaker","toevoegen",null, true, true);		
 			
-			global $emailIsWrong;
-			if(isset($emailIsWrong)) {
-				$speakerNameObject = new Text($_POST['speakerName'],"Voornaam","speakerName",null, true, true, true);
-				$speakerLastNameObject = new Text($_POST['LastName'],"Achternaam","LastName",null, true, true, true);
-				$emailObject = new Text($_POST['mailAddress'], "Mailadres", "mailAddress", null, true, true, true);
-				$phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, true);
-				$descriptionObject = new Text($_POST['description'], "Description", "description", null, true, true, true);
+			global $emailOfSpeakerIsWrong;
+			if(isset($emailOfSpeakerIsWrong)) {
 				$errMsg = new Span('Email staat al in de database.',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
-				echo '<script>$(document).ready(function () {document.forms["formCreate"]["buttonAdd"].click();});</script>';
+			}else {
+				$errMsg = new Span('',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
 			}
 			
 			
@@ -80,11 +75,19 @@
 			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
 			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
 			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
-			$errMsg = new Span('',null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
 			$uploadFile = new Upload(null,'Foto',"uploadEditSpeaker",null,true,true,null,"image");
-			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);			
+			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);	
+			
+			global $editSpeakerError;
+			if(isset($editSpeakerError)) {
+				$errMsg = new Span($editSpeakerError,null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
+				$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","Update",null,null,'show',"#spreker");
+			}else {
+				$errMsg = new Span('',null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
+				$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","Update",null,null,false,"#spreker");
+			}
 
-			$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","Update",null,null,false,"#spreker");
+			
 
 		}
 		
@@ -114,8 +117,7 @@
 			$this->addRecord($storedProcName, $params);
 			if($this->database->getError()) {
 				return $this->database->getError();	
-			}
-			
+			}			
 			return null;
 		}
 	}

@@ -28,7 +28,8 @@ $(document).ready(function () {
 	document.forms["formCreate"]["buttonEdit"].onclick = getSpeakerInfo;
 	document.forms["formCreate"]["buttonDelete"].onclick = deleteSpeakers;
 	
-	
+	$("[name=buttonAdd]").prop("disabled", true);
+
 	
 	if(document.forms["formAdd"]) {
 		document.forms["formAdd"].onsubmit = function() {
