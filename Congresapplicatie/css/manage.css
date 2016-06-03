@@ -37,3 +37,22 @@
 .locationSelect, .buttonLinkToCongress {
 	margin-bottom: 20px;
 }
+.description{
+    word-break: break-all;
+    height: 300px;
+    line-height: 18px;
+    vertical-align: text-top;
+}
+.bigPop {
+    width: 80%;
+    margin: auto 10%;
+}
+.bigPop .popupTitle {
+    width: 76%;
+}
+.smallPop {
+    width: 60%;
+}
+.smallPop .popupTitle {
+    width: 55%;
+}

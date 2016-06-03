@@ -5,6 +5,7 @@ require_once('Manage_Class.php');
 require_once('Management.php');
 require_once('ManageSpeakers_class.php');
 require_once("manageLocations_Class.php");
+require_once('manageEvents_Class.php');
 global $server, $databaseName, $uid, $password;
 $database = new Database($server,$databaseName,$uid,$password);
 
@@ -15,12 +16,13 @@ if(isset($_SESSION['congressNo'])) {
 else {
 	$manage->setCongressNo(1);
 }
-
+include('manageEvents_Submits.php');
 include('manageSpeakersSubmits.php');
 include('manageLocationsSubmits.php');
 
 
 $js = '<script src="../js/editCongressManagement.js"></script>';
+$js .= '<script src="../js/evenement.js"></script>';
 $js .= "<script src='../js/manage.js'></script>";
 $js .= "<script src='../js/locationManagement.js'></script>";
 $css = '<link rel="stylesheet" href="../css/manage.css">"';

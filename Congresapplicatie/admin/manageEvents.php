@@ -1,9 +1,10 @@
 <?php
-    require_once('manageEvents_Class.php');
-    $manageEvents = new ManageEvents();
-    require_once('manageEvents_Submits.php');
+    global $manageEvents;
    
 
-    $manageEvents->createManagementScreen(array('EventNo','Naam', 'Type','MaxVisitors'),$manageEvents->getEventsByCongress());
+    $manageEvents->createManagementScreen(array('EventNo','Naam', 'Type','Prijs','MaxVisitors','Description'),$manageEvents->getEventsByCongress());
     $manageEvents->createCreateEventsScreen();
+    $manageEvents->createEditEventsScreen();
+    $manageEvents->createAddSubjectScreen();
+    $manageEvents->createAddSpeakerToEvent();
 ?>

@@ -81,8 +81,6 @@
                     <script src="../js/headerfunctions.js"></script>
                     <script src="../js/regex.js"></script>
                     <script src="../js/DataSwap.js"></script>
-                    <script src="../js/evenement.js"></script>
-                    <script src="../js/management.js"></script>
                     <script src="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.js"></script>
                     <script src="../js/dataTables/js/jquery.dataTables.min.js"></script>
                     <script src="../js/dataTables/js/dataTables.bootstrap.min.js"></script>
@@ -90,6 +88,8 @@
 
 
                     <?php echo $javaScript; ?>
+                    
+                    <script src="../js/management.js"></script>
             </head>
 
             <body>
