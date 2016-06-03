@@ -128,7 +128,6 @@ function onCreateCongress() {
 function submitAddSubjectAdd(){
     $('#popUpAddSubjectFromAdd .closePopUp').click();
     var newSubject = document.forms['formAddSubjectFromAdd']['subjectName'].value;
-    console.log([newSubject]);
     subjectTableAdd.row.add([newSubject]).draw(true).nodes().to$().addClass('selected');
 }
 

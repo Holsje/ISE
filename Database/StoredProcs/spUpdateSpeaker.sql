@@ -1,4 +1,4 @@
-ALTER PROC spUpdateSpeaker
+CREATE PROC spUpdateSpeaker
 	@personNo D_Personno,
 	@firstname D_Name, 
 	@lastname D_Name, 

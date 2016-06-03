@@ -5,7 +5,12 @@
 	require_once('../database.php');
 	global $server, $databaseName, $uid, $password;
 	$dataBase = new Database($server,$databaseName,$uid,$password);
+	
 	require_once('manageBuildingGeneralManager_Submit.php');
+	if (!isset($_SESSION['chosenLocationCity']) || !isset($_SESSION['chosenLocationName'])) {
+		header('Location: manageLocationGeneralManager.php');
+		die();
+	}
 	$manageBuildingGeneralManager = new ManageBuildingGeneralManager(array("Gebouw", "Straat", "Huisnummer", "Postcode"), 
 																	 $_SESSION['chosenLocationName'], 
 																	 $_SESSION['chosenLocationCity']);
@@ -21,7 +26,6 @@
             <div class="content col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
                 <h1>Aanpassen locatie</h1>
 				<?php
-					
 					$manageBuildingGeneralManager->createManageBuildingScreenGM();
 				?>
             </div>
@@ -31,5 +35,8 @@
 <?php     
 	$manageBuildingGeneralManager->createCreateBuildingPopUp();
 	$manageBuildingGeneralManager->createDeleteBuildingPopUp();
+	$manageBuildingGeneralManager->createEditLocationPopUp();
+	$manageBuildingGeneralManager->createCreateRoomPopUp();
+	$manageBuildingGeneralManager->createEditRoomPopUp();
     bottomLayout();
 ?>
