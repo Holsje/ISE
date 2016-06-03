@@ -53,9 +53,7 @@
         }
 
         public function createManagementScreen($columnList, $valueList) {
-            $button = new Submit("Test", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "DATAFILE");
-            $buttonArray = array($button);
-            parent::createManagementScreen($columnList, $valueList, "", $buttonArray);
+            parent::createManagementScreen($columnList, $valueList, "", null);
         }
 
 
