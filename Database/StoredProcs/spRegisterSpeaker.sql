@@ -1,10 +1,11 @@
-ALTER PROC spRegisterSpeaker 
+CREATE PROC spRegisterSpeaker 
 		@firstname D_Name, 
 		@lastname D_Name, 
 		@mailAddress D_Mail, 
 		@phonenum D_telnr,
 		@description D_DESCRIPTION,
-		@fileExtension varchar(5)
+		@fileExtension varchar(5),
+		@owner D_Personno 
 	AS
 	BEGIN
 		SET NOCOUNT ON;
@@ -23,11 +24,11 @@ ALTER PROC spRegisterSpeaker
 				INSERT INTO PERSONTYPEOFPERSON VALUES(@personNo, 'Spreker')
 				IF (@fileExtension IS NOT NULL AND @fileExtension != '') 
 				BEGIN
-					INSERT INTO Speaker VALUES(@personNo,@description,'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension)
+					INSERT INTO Speaker VALUES(@personNo,@description,'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension,@owner)
 				END
 				ELSE
 				BEGIN
-					INSERT INTO Speaker VALUES(@personNo,@description,null)
+					INSERT INTO Speaker VALUES(@personNo,@description,null,@owner)
 				END
 				IF @TranCounter = 0 AND XACT_STATE() = 1
 					COMMIT TRANSACTION;

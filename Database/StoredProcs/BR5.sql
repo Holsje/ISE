@@ -1,4 +1,4 @@
-ALTER PROC spAddSpeakerToCongress
+CREATE PROC spAddSpeakerToCongress
 @FirstName D_Name, 
 @LastName D_Name, 
 @MailAddress D_Mail,

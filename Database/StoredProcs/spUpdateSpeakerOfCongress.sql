@@ -57,6 +57,3 @@ BEGIN
 		THROW;
 	END CATCH
 END
-
-
-SELECT * FROM Speaker
