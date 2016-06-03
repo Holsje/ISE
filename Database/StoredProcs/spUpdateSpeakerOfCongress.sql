@@ -7,7 +7,8 @@ CREATE PROC spUpdateSpeakerSpeakerOfCongress
 	@agreement D_DESCRIPTION,
 	@description D_DESCRIPTION,
 	@fileExtension varchar(5),
-	@congressno D_CongressNo
+	@congressno D_CongressNo,
+	@owner D_Personno
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -20,12 +21,14 @@ BEGIN
 		BEGIN TRANSACTION;
 	BEGIN TRY		
 		
+		IF(NOT EXISTS(SELECT 1 FROM Speaker WHERE PersonNo = @personNo AND Owner = @owner)) OR EXISTS(SELECT 1 FROM PersonTypeOfPerson WHERE PersonNo = @personNo AND TypeName = 'Algemene beheerder')
+		BEGIN
+			RAISERROR('Je kan alleen je eigen sprekers aanpassen',16,1);
+		END
+
 		UPDATE SpeakerOfCongress 
 		SET Agreement = @agreement
 		WHERE PersonNo = @personNo AND CongressNo = @congressno
-
-
-		
 
 		IF (@fileExtension IS NOT NULL AND @fileExtension != '')
 		BEGIN
