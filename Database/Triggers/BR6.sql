@@ -1,4 +1,4 @@
-ALTER TRIGGER trDeleteSubjectFromEvent
+CREATE TRIGGER trDeleteSubjectFromEvent
 ON SubjectOfEvent
 AFTER UPDATE,DELETE
 AS 

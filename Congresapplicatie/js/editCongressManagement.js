@@ -40,20 +40,6 @@ $(document).ready(function () {
 
 });
 
-//Edit mag weg
-function fillUpdateCongressInfo() {
-    var selectedRow = table.row('.selected');
-    if (selectedRow.data()) {
-        congressNo = selectedRow.data()[0];
-        oldCongressName = selectedRow.data()[1];
-        oldCongressStartDate = selectedRow.data()[2];
-        oldCongressEndDate = selectedRow.data()[3];
-        updateCongressInfo(oldCongressName, oldCongressStartDate, oldCongressEndDate);
-    } else {
-        alert("Er is geen selectie gemaakt");
-        return false;
-    }
-}
 
 function updateCongressInfo(congressName, congressStartDate, congressEndDate, congressPrice, congressBanner, congressPublic, congressSubjects) {
     document.forms["formUpdateCongress"]["congressName"].value = congressName;
@@ -88,7 +74,7 @@ function onUpdateCongress() {
         url: window.location.href,
         type: 'POST',
         data: {
-            bewerken: 'action',
+            UpdateCongress: 'action',
 
             oldCongressName: oldCongressName,
             oldCongressStartDate: oldCongressStartDate,
@@ -108,10 +94,10 @@ function onUpdateCongress() {
 
         },
         success: function (data) {
+
             if (data != null && data != '' &&  /\S/.test(data)) {
-                console.log(data);
                 data = JSON.parse(data);
-                document.getElementsByName('errMsgBewerken')[0].innerHTML = '*' + data['err'];
+                document.getElementById('errMsgUpdateCongress').innerHTML = '*' + data['err'];
                 var confirmBox = confirm(data['err']);
                 if (confirmBox) {
 
@@ -126,6 +112,7 @@ function onUpdateCongress() {
             } else {
                 location.reload();
             }
+
         }
 
     });

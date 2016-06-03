@@ -112,7 +112,12 @@ function onCreateCongress() {
             selectedSubjects: getSelectedSubjects("Add")
         },
         success: function (data) {
-            window.location.href = 'manage.php';
+            if (data != null && data != '' &&  /\S/.test(data)) {
+                data = JSON.parse(data);
+                document.getElementById('errMsgInsertCongress').innerHTML = '*' + data['err'];
+            }else {
+                window.location.href = 'manage.php';
+            }
         }
 
     });
@@ -154,19 +159,19 @@ function goToEditCongress(){
 function isValidInput() {
     var form = document.forms["formAdd"];
     if (!isValidCongressName(form['congressName'].value)) {
-        alert('Congresnaam is niet geldig');
+        $("#errMsgInsertCongress").text("Congresnaam is niet geldig.");
         return;
     }
     else if (!isValidDate(form['congressStartDate'].value)) {
-        alert('Startdatum is niet geldig');
+        $("#errMsgInsertCongress").text("Startdatum is niet geldig.");
         return;
     }
     else if (!isValidDate(form['congressEndDate'].value)) {
-        alert('Einddatum is niet geldig');
+        $("#errMsgInsertCongress").text("Einddatum is niet geldig.");
         return;
     }
     else if (!isValidPrice(form['congressPrice'].value)) {
-        alert('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
+        $("#errMsgInsertCongress").text("Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.");
         return;
     }
     else {

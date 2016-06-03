@@ -7,7 +7,7 @@
 	bijvoorbeeld track toegevoegd die leeg is dan zit er geen range lock op.
 
 */
-ALTER PROC spPublishCongress
+CREATE PROC spPublishCongress
 	@congressno D_CONGRESSNO
 AS
 BEGIN
@@ -155,7 +155,7 @@ BEGIN
 	END CATCH
 END
 
-
+GO
 --Check of alle waarden binnen de congres worden gecontroleerd.
 BEGIN TRAN
 	UPDATE Congress SET LocationName = NULL WHERE CongressNo = 1
