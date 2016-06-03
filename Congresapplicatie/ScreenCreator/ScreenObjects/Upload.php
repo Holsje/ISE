@@ -11,7 +11,11 @@
         }
 
         public function getObjectCode(){
-            $string = '<input type="file" name="' . $this->name . '" id="' . $this->name . 'InputFile" data-file="#' . $this->name . 'Btn" class="file-Holder ' . $this->classesInput . '" accept="' . $this->acceptFile . '/*">';
+            $string = '';
+            if ($this->label != null) {
+                $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
+            }
+            $string .= '<input type="file" name="' . $this->name . '" id="' . $this->name . 'InputFile" data-file="#' . $this->name . 'Btn" class="file-Holder ' . $this->classesInput . '" accept="' . $this->acceptFile . '/*">';
             $string .= '<button type="button" id="' . $this->name . 'Btn" data-file="#' . $this->name . 'InputFile" class="file-Caller ' . $this->classes . '">+</button>';
             return $string;
         }  

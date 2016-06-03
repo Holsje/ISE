@@ -17,7 +17,7 @@
 
             $submitButtonLogout = new Submit("Uitloggen", null, "logout", "form-control col-md-4 col-md-offset-4 btn btn-default", true, true);
             $screenObjectsLoggedIn = array($submitButtonLogout);
-            $this->getCreateScreen()->createForm($screenObjects, "Login", null);
+            $this->getCreateScreen()->createForm($screenObjects, "Login", null,"");
             if (!empty($errorstring)){
                 echo $errorstring;
             }
@@ -27,7 +27,7 @@
             $submitButtonLogout = new Submit("Uitloggen", null, "logout", "form-control col-md-4 col-md-offset-4 btn btn-default", true, true);
             $screenObjects = array($submitButtonLogout);
 
-            $this->getCreateScreen()->createForm($screenObjects, "Logout", null);
+            $this->getCreateScreen()->createForm($screenObjects, "Logout", null,"");
         }
 
         public function checkLogin($username, $password){
@@ -58,7 +58,7 @@
         }
 
         public function getAdminCongresses($username){
-            $result = parent::getDatabase()->sendQuery("SELECT COC.CongressNo FROM CongressManagerOfCongress COC INNER JOIN CongressManager CM ON COC.PersonNo = CM.PersonNo WHERE P.MailAddress = ?", array($username));
+            $result = parent::getDatabase()->sendQuery("SELECT COC.CongressNo FROM CongressManagerOfCongress COC INNER JOIN CongressManager CM ON COC.PersonNo = CM.PersonNo INNER JOIN Person P ON CM.PersonNo = P.PersonNo WHERE P.MailAddress = ?", array($username));
             $congressesarray = array();
             if ($result){
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){

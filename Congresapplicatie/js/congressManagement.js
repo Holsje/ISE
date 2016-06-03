@@ -9,7 +9,7 @@ var congressNo,
     subjectTableAdd,
     file;
 
-
+var table;
 $(document).ready(function () {
     //Create
     subjectTableAdd = $('#subjectListBoxAdd').DataTable( {
@@ -18,12 +18,26 @@ $(document).ready(function () {
         "bInfo": false
     });
 
+	table = $('#ListBox').DataTable( {
+        "sScrollY": "500px",
+        "bPaginate": false,
+        "bInfo": false
+    });
 
-
+	$('#ListBox tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            $('.onSelected').prop('disabled', true);
+        } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $('.onSelected').prop('disabled', false);
+        }
+    });
 
 //Create
-    document.forms["formCreateCongress"]["buttonDelete"].onclick = deleteCongress;
-    document.forms["formCreateCongress"]["buttonEdit"].onclick = goToEditCongress;
+    document.forms["formCreate"]["buttonDelete"].onclick = deleteCongress;
+    document.forms["formCreate"]["buttonEdit"].onclick = goToEditCongress;
     document.forms['formAddSubjectFromAdd']['Toevoegen'].onclick = submitAddSubjectAdd;
     document.forms['formAdd']['Toevoegen'].onclick = isValidInput;
 
@@ -98,8 +112,12 @@ function onCreateCongress() {
             selectedSubjects: getSelectedSubjects("Add")
         },
         success: function (data) {
-            console.log(data);
-            window.location.href = 'manage.php';
+            if (data != null && data != '' &&  /\S/.test(data)) {
+                data = JSON.parse(data);
+                document.getElementById('errMsgInsertCongress').innerHTML = '*' + data['err'];
+            }else {
+                window.location.href = 'manage.php';
+            }
         }
 
     });
@@ -110,7 +128,6 @@ function onCreateCongress() {
 function submitAddSubjectAdd(){
     $('#popUpAddSubjectFromAdd .closePopUp').click();
     var newSubject = document.forms['formAddSubjectFromAdd']['subjectName'].value;
-    console.log([newSubject]);
     subjectTableAdd.row.add([newSubject]).draw(true).nodes().to$().addClass('selected');
 }
 
@@ -142,19 +159,19 @@ function goToEditCongress(){
 function isValidInput() {
     var form = document.forms["formAdd"];
     if (!isValidCongressName(form['congressName'].value)) {
-        alert('Congresnaam is niet geldig');
+        $("#errMsgInsertCongress").text("Congresnaam is niet geldig.");
         return;
     }
     else if (!isValidDate(form['congressStartDate'].value)) {
-        alert('Startdatum is niet geldig');
+        $("#errMsgInsertCongress").text("Startdatum is niet geldig.");
         return;
     }
     else if (!isValidDate(form['congressEndDate'].value)) {
-        alert('Einddatum is niet geldig');
+        $("#errMsgInsertCongress").text("Einddatum is niet geldig.");
         return;
     }
     else if (!isValidPrice(form['congressPrice'].value)) {
-        alert('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
+        $("#errMsgInsertCongress").text("Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.");
         return;
     }
     else {

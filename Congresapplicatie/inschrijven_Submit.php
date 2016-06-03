@@ -1,4 +1,9 @@
 <?php
+	if(isset($_POST['tracksPerCarouselSlide'])) {
+		$_SESSION['tracksPerCarouselSlide'] = $_POST['tracksPerCarouselSlide'];
+		die();
+	}
+	
 	if (isset($_SESSION['userPersonNo'])) {
 		$queryPersonNoCheck = "SELECT PersonNo FROM VisitorOfCongress WHERE PersonNo = ? AND CongressNo = ?";
 		$paramsPersonNoCheck = array($_SESSION['userPersonNo'], $_SESSION['congressNo']);
@@ -25,7 +30,7 @@
 		die();
     }
 	
-	if (isset($_SESSION['lastPage'])) {
+	if (isset($_SESSION['lastPage']) && isset($_SESSION['userPersonNo'])) {
 		header('Location: confirm.php');
 	}
 	else if (isset($_SESSION['congressNo']) && !isset($_SESSION['runningFormData'])) {

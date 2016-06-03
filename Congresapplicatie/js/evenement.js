@@ -1,0 +1,32 @@
+var eventListBox;
+var eventSubjectAddListBox;
+var eventSelect;
+var selectedCounter = 0;
+
+$(document).ready(function () {
+    
+    $('#EvenementenSubjectListBoxAdd tbody').on('click','tr',function(){
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            $('.onSelected').prop('disabled', true);
+            this.children[0].removeChild(this.children[0].childNodes[1]);
+        } else {
+            $(this).addClass('selected');
+            $('.onSelected').prop('disabled', false);
+            var child = document.createElement('input');
+            child.setAttribute('value',this.children[0].innerHTML);
+            child.setAttribute('name','subjects[]');
+            child.style.visibility ='hidden';
+            this.children[0].appendChild(child);
+        }
+    });
+    $('#eventType').change(function(event){
+        if(event.target.value == 'Lezing'){
+            document.getElementsByName('eventPrice')[0].parentElement.style.display = 'None';
+        }else{
+            document.getElementsByName('eventPrice')[0].parentElement.style.display = 'block';
+        }
+    });
+    
+    
+});

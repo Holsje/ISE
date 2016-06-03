@@ -36,7 +36,7 @@
         public function getObjectCode(){
             $string = "";
             if ($this->label != null) {
-                $string .= '<label class="control-label col-xs-2 col-sm-2 col-md-2">' . $this->label . ':</label>';
+                $string .= '<label class="control-label col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
             }
             $string .= '<select id="' . $this->id . '" value="' . $this->value . '" name="' . $this->name .'" class="';
 			
@@ -51,7 +51,7 @@
 			}
 			$string .= '">';
             if($this->firstRowEmpty){
-                $string .= '<option disabled selected value>Selecteer een onderwerp</option>';
+                $string .= '<option disabled selected value>Selecteer een rij</option>';
             }
             for ($i = 0; $i < sizeof($this->list); $i++){
                 if ($this->list[$i] == $this->value){

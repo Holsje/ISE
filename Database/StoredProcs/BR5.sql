@@ -1,4 +1,4 @@
-ALTER PROC spAddSpeakerToCongress
+CREATE PROC spAddSpeakerToCongress
 @FirstName D_Name, 
 @LastName D_Name, 
 @MailAddress D_Mail,
@@ -6,6 +6,7 @@ ALTER PROC spAddSpeakerToCongress
 
 @PicturePath D_FILE, 
 @Description D_Description,
+@Owner D_PERSONNO,
 
 @CongressNo D_CongressNO, 
 @Agreement D_Description 
@@ -34,8 +35,8 @@ BEGIN
 		INSERT INTO PersonTypeOfPerson(PersonNo, TypeName)
 		VALUES(@PersonNo, 'Spreker')
 
-		INSERT INTO Speaker(PersonNo, Description, PicturePath)
-		VALUES(@PersonNo, @Description,@PicturePath)
+		INSERT INTO Speaker(PersonNo, Description, PicturePath, Owner)
+		VALUES(@PersonNo, @Description,@PicturePath,@Owner)
 
 		INSERT INTO SpeakerOfCongress(PersonNo, CongressNo, Agreement)
 		VALUES(@PersonNo, @CongressNo, @Agreement)
@@ -67,6 +68,7 @@ EXEC spAddSpeakerToCongress
 
 @PicturePath = 'path/img/img.png', 
 @Description = 'Dit is een korte beschrijving van een spreker',
+@Owner = 1,
 
 @CongressNo = 1, 
 @Agreement = 'Dit zijn de afspraken met een spreker'
@@ -91,6 +93,7 @@ EXEC spAddSpeakerToCongress
 
 @PicturePath = 'path/img/img.png', 
 @Description = 'Dit is een korte beschrijving van een spreker',
+@Owner = 1,
 
 @CongressNo = 543, 
 @Agreement = 'Dit zijn de afspraken met een spreker'
