@@ -54,5 +54,85 @@
 		}
 	}
 	
+	if(isset($_POST['getRooms'])) {
+		if($_POST['getRooms'] == 'rooms') {			
+			$queryRoomInfo = "SELECT BName, RName, Description, MaxNumberOfParticipants " .
+							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ?";
+			$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['building']);
+			
+			$result = $database->sendQuery($queryRoomInfo, $params);
+			$rooms = array();
+			if($result) {
+				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					array_push($rooms,$row);
+				}
+				echo json_encode($rooms);
+			}
+			die();
+		}
+	}
+	
+	
+	if(isset($_POST['createRoom'])) {
+		if($_POST['createRoom'] == 'createRoom') {			
+			$queryRoomInfo = "INSERT INTO Room VALUES(?,?,?,?,?,?)";
+			$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['BName'],$_POST['roomName'],$_POST['roomDescription'],$_POST['roomCapacity']);
+			
+			$result = $database->sendQuery($queryRoomInfo, $params);
+			if($result) {
+				echo json_encode($result);
+			}
+			die();
+		}
+	}
+	
+	if(isset($_POST['getRoomInfo'])){
+		$queryRoomInfo = "SELECT BName, RName, Description, MaxNumberOfParticipants " .
+							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
+		$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['building'],$_POST['RName']);
+		
+		
+		$result = $database->sendQuery($queryRoomInfo, $params);
+		$roomInfo = array();
+		if($result) {
+			while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+				array_push($roomInfo,$row);
+			}
+			echo json_encode($roomInfo);
+		}
+		die();
+	}
+	
+	if(isset($_POST['editRoom'])) {
+		$queryUpdateRoom = " UPDATE ROOM SET RName = ?, [Description] = ?, MaxNumberOfParticipants = ? ".
+							" WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
+							
+							
+		$params = array($_POST['roomName'],$_POST['roomDescription'],$_POST['roomCapacity'],$_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['BName'],$_POST['oldRoomName']);
+		
+		
+		$result = $database->sendQuery($queryUpdateRoom, $params);
+		
+		if($result) {
+			echo json_encode($result);
+		}		
+		die();	
+	}
+	
+	if(isset($_POST['deleteRoom'])) {
+		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
+		$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['BName'],$_POST['roomName']);
+		
+		$result = $database->sendQuery($queryDeleteRoom, $params);
+		
+		if($result) {
+			echo json_encode($result);
+		}		
+		die();
+	}
+	
+	
+	
+	
 	
 ?>

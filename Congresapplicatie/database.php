@@ -104,6 +104,9 @@ class Database
         {
             foreach( $errors as $error ) 
             {
+				if($error['code'] == 2627) {
+					return 'Deze waarden komen al voor in de database';
+				}
                 $err=substr($error['message'],54,strlen($error['message'])-54).'<br>';
             }
         }
