@@ -3,31 +3,33 @@ var oldFirstName,oldLastName,oldMailAddress,oldPhoneNumber,oldDescription,oldAgr
 $(document).ready(function () {	
 	if($('#listBoxSpeakerLeft')) {
 		$('#listBoxSpeakerLeft').on('click', 'tr', function () {
-		   if ($('#listBoxSpeakerLeft .selected')[0] == null) {
-				$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",true);
-			}else {
-				if($('#listBoxSpeakerLeft .selected')[1] != null) {
-					$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",true);
-				}else {
-					$("button[name='buttonEditSpeakerOfCongress']").prop("disabled",false);
-				}
+			var numSelectedRows = dataSwapTables['listBoxSpeakerLeft'].rows(".selected").data().length;
+			if (numSelectedRows == 0) {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", true);
+			}
+			else if (numSelectedRows == 1) {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", false);
+			}
+			else {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", true);
 			}
 		});	
 	}
-		
 
 	if($('#listBoxSpeakerRight')) {
 		$('#listBoxSpeakerRight').on('click', 'tr', function () {
-		   if ($('#listBoxSpeakerRight .selected')[0] == null) {
-				$("button[name='buttonEditSpeaker']").prop("disabled",true);
-				$("button[name='buttonDeleteSpeaker']").prop("disabled",true);
-			}else {
-				if($('#listBoxSpeakerRight .selected')[1] != null) {
-					$("button[name='buttonEditSpeaker']").prop("disabled",true);
-				}else {
-					$("button[name='buttonEditSpeaker']").prop("disabled",false);
-					$("button[name='buttonDeleteSpeaker']").prop("disabled",false);
-				}
+			var numSelectedRows = dataSwapTables['listBoxSpeakerRight'].rows(".selected").data().length;
+			if (numSelectedRows == 0) {
+				$("[name=buttonEditSpeaker]").prop("disabled", true);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", true);
+			}
+			else if (numSelectedRows == 1) {
+				$("[name=buttonEditSpeaker]").prop("disabled", false);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", false);
+			}
+			else {
+				$("[name=buttonEditSpeaker]").prop("disabled", true);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", false);
 			}
 		});
 	}
@@ -42,17 +44,82 @@ $(document).ready(function () {
 	if(document.forms["formspreker"]) {
 		document.forms["formspreker"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0)};
 		document.forms["formspreker"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1)};
-		document.forms["formUpdateSpeakerOfCongress"]["aanpassen"].onclick = editSpeakerOfCongress;
-		//document.forms["formUpdateSpeaker"]["aanpassen"].onclick = editSpeaker;
 		document.forms["formspreker"]["buttonDeleteSpeaker"].onclick = deleteSpeakers;
 	}
 	
 	if(document.forms["formAddSpeaker"]) {
 		document.forms["formAddSpeaker"].onsubmit = function() {
-			alert("test");
-			return false;
+			if(!isValidName(document.forms["formAddSpeaker"]["speakerName"].value)) {
+				$("#errMsgAanmakenSpreker").text("Voornaam onjuist.");
+				return false;
+			}
+			if(!isValidName(document.forms["formAddSpeaker"]["LastName"].value)) {
+				$("#errMsgAanmakenSpreker").text("Achternaam onjuist.");
+				return false;
+			}			
+			if(!isValidEmailAddress(document.forms["formAddSpeaker"]["mailAddress"].value)) {
+				$("#errMsgAanmakenSpreker").text("Email onjuist.");
+				return false;
+			}			
+			if(!isValidTelephoneNumber(document.forms["formAddSpeaker"]["phoneNumber"].value)) {
+				$("#errMsgAanmakenSpreker").text("Telefoonnummer onjuist.");
+				return false;
+			}						
+			return true;
 		}
 	}
+	
+	
+	if(document.forms["formUpdateSpeakerOfCongress"]) {
+		document.forms["formUpdateSpeakerOfCongress"].onsubmit = function() {
+			if(!isValidName(document.forms["formUpdateSpeakerOfCongress"]["speakerName"].value)) {
+				$("#errMsgUpdateSpeakerOfCongress").text("Voornaam onjuist.");
+				return false;
+			}
+			if(!isValidName(document.forms["formUpdateSpeakerOfCongress"]["LastName"].value)) {
+				$("#errMsgUpdateSpeakerOfCongress").text("Achternaam onjuist.");
+				return false;
+			}			
+			if(!isValidEmailAddress(document.forms["formUpdateSpeakerOfCongress"]["mailAddress"].value)) {
+				$("#errMsgUpdateSpeakerOfCongress").text("Email onjuist.");
+				return false;
+			}			
+			if(!isValidTelephoneNumber(document.forms["formUpdateSpeakerOfCongress"]["phoneNumber"].value)) {
+				$("#errMsgUpdateSpeakerOfCongress").text("Telefoonnummer onjuist.");
+				return false;
+			}			
+			return true;
+		}
+	}
+	
+	
+	if(document.forms["formUpdateSpeaker"]) {
+		document.forms["formUpdateSpeaker"].onsubmit = function() {
+			if(!isValidName(document.forms["formUpdateSpeaker"]["speakerName"].value)) {
+				$("#errMsgBewerkenSpreker").text("Voornaam onjuist.");
+				return false;
+			}
+			if(!isValidName(document.forms["formUpdateSpeaker"]["LastName"].value)) {
+				$("#errMsgBewerkenSpreker").text("Achternaam onjuist.");
+				return false;
+			}			
+			if(!isValidEmailAddress(document.forms["formUpdateSpeaker"]["mailAddress"].value)) {
+				$("#errMsgBewerkenSpreker").text("Email onjuist.");
+				return false;
+			}			
+			if(!isValidTelephoneNumber(document.forms["formUpdateSpeaker"]["phoneNumber"].value)) {
+				$("#errMsgBewerkenSpreker").text("Telefoonnummer onjuist.");
+				return false;
+			}			
+			return true;
+		}
+	}
+	
+	
+	$(".listBoxSpeakerLeft .dataTables_scrollBody").removeAttr("style");
+	$(".listBoxSpeakerRight .dataTables_scrollBody").removeAttr("style");
+	$(".listBoxSpeakerRight .dataTables_scrollBody").addClass("noScrollBody");
+	$(".listBoxSpeakerLeft .dataTables_scrollBody").addClass("noScrollBody");
 });
 
 
@@ -121,7 +188,11 @@ function getSpeakerInfo(speakerType) {
 				oldPhoneNumber = data[0]['phonenumber'];
 				oldDescription = data[0]['Description'];
 				oldAgreement = data[0]['agreement'];
-				document.getElementById("uploadEditSpeakerOfCongressBtn").style.backgroundImage= "url('../" + data[0]['PicturePath'] + "')";
+				if(speakerType == 0) {
+					document.getElementById("uploadEditSpeakerOfCongressBtn").style.backgroundImage= "url('../" + data[0]['PicturePath'] + "')";
+				}else {
+					document.getElementById("uploadEditSpeakerBtn").style.backgroundImage= "url('../" + data[0]['PicturePath'] + "')";
+				}
                 updateSpeakerInfo(speakerType);
             },
             error: function (request, status, error) {
@@ -151,7 +222,6 @@ function updateSpeakerInfo(speakerType){
 		document.forms["formUpdateSpeaker"]["mailAddress"].value = oldMailAddress;
 		document.forms["formUpdateSpeaker"]["phoneNumber"].value = oldPhoneNumber;
 		document.forms["formUpdateSpeaker"]["description"].value = oldDescription;
-		document.forms["formUpdateSpeaker"]["agreement"].value = oldAgreement;	
 	}
 }
 
@@ -193,27 +263,26 @@ function editSpeakerOfCongress(){
 }
 
 function deleteSpeakers() {
-	var selectedRows = dataSwapTables["listBoxSpeakerRight"].rows(".selected");
-	
-	for(var i = 0;i<selectedRows.data().length;i++) {
-		$.ajax({
-			url: window.location.href,
-			type: 'POST',
-			data: {
-				deleteSpeaker: 'deleteSpeaker',
-				personNo: selectedRows.data()[i][0]			
-			},
-			success: function (data) {
-				
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
-			}
-		});
+	if (confirm("Weet u zeker dat u deze rij(en) wilt verwijderen?")) {
+		var selectedRows = dataSwapTables["listBoxSpeakerRight"].rows(".selected");
+		
+		for(var i = 0;i<selectedRows.data().length;i++) {
+			$.ajax({
+				url: window.location.href,
+				type: 'POST',
+				data: {
+					deleteSpeaker: 'deleteSpeaker',
+					personNo: selectedRows.data()[i][0]			
+				},
+				success: function (data) {
+					
+				},
+				error: function (request, status, error) {
+					alert(request.responseText);
+				}
+			});
+		}
+		
+		selectedRows.remove().draw(false);
 	}
-	
-	selectedRows.remove().draw(false);
-	
-	
-
 }

@@ -1,11 +1,13 @@
-CREATE PROC spUpdateSpeaker
+CREATE PROC spUpdateSpeakerSpeakerOfCongress
 	@personNo D_Personno,
 	@firstname D_Name, 
 	@lastname D_Name, 
 	@mailAddress D_Mail, 
 	@phonenum D_telnr,
+	@agreement D_DESCRIPTION,
 	@description D_DESCRIPTION,
-	@fileExtension varchar(5)
+	@fileExtension varchar(5),
+	@congressno D_CongressNo
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -17,13 +19,21 @@ BEGIN
 	ELSE
 		BEGIN TRANSACTION;
 	BEGIN TRY		
+		
+		UPDATE SpeakerOfCongress 
+		SET Agreement = @agreement
+		WHERE PersonNo = @personNo AND CongressNo = @congressno
+
+
+		
+
 		IF (@fileExtension IS NOT NULL AND @fileExtension != '')
 		BEGIN
 			UPDATE Speaker 
 			SET PicturePath = 'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension
 			WHERE PersonNo = @personNo
 		END
-		
+
 		UPDATE Speaker 
 			SET Description = @description
 			WHERE PersonNo = @personNo

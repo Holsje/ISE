@@ -8,5 +8,8 @@
 	$manageLocations->createLocationScreen();
 	$manageLocations->createAddBuildingPopUp();
 	$manageLocations->createDeleteBuildingPopUp();
+	$manageLocations->createEditLocationPopUp();
+	$manageLocations->createCreateRoomPopUp();
+	$manageLocations->createEditRoomPopUp();
 	
 ?>

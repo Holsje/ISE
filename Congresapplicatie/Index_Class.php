@@ -118,7 +118,7 @@
                     }
                     //Info box
                     echo '<div class="col-md-3">';
-                    echo '<h3 class="col-md-12">Congres Informatie</h3>';
+                    echo '<h3 class="col-md-12" name="congressInfo">Congres Informatie</h3>';
                     echo '<div class="col-md-12 congresInfo">';
                     $objects = array();
                     array_push($objects,new Span($congressResults['CName'],'Naam','ConName','col-md-8',true,true));
@@ -139,7 +139,7 @@
                     }
                     echo '</div>';
                     //Subject Box
-                    echo '<h3 class="col-md-12">Onderwerpen</h3>';
+                    echo '<h3 class="col-md-12" name="congressSubjects">Onderwerpen</h3>';
                     echo '<div class="col-md-12 congresInfo subjects">';
                     $sqlSubjects = 'SELECT SOE.Subject, (COUNT(E.EventNo)*100)/(SELECT COUNT(*)
                                                                                 FROM SubjectOfEvent SOE INNER JOIN Event E
@@ -160,7 +160,7 @@
                         echo '</p>';
                     }
                     echo '</div>';
-                    echo '<button type="button" class="btn btn-default plan" onClick="location.href=&quot;inschrijven.php&quot;">Plan je Congres</button>';
+                    echo '<button type="button" name="planCongress" class="btn btn-default plan" onClick="location.href=&quot;inschrijven.php&quot;">Plan je Congres</button>';
                     echo '</div>';
                 }
             }
