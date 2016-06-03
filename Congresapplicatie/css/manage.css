@@ -51,12 +51,24 @@
     vertical-align: text-top;
 }
 .bigPop {
-    width: 80%;
-    margin: auto 10%;
+    width: 90%;
+    margin: auto 5%;
+}
+
+.bigPop .listBoxDataSwap {
+    font-size: 15px;
 }
 .bigPop .popupTitle {
-    width: 76%;
+    width: 88%;
 }
+.bigPop .noScrollBody{
+    height: 300px;
+}
+.bigPop .buttonSaveSwapList{
+    margin-top: 50px;
+    float: right;
+}
+
 .smallPop {
     width: 60%;
 }

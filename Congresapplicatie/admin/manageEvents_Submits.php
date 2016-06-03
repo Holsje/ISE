@@ -19,5 +19,13 @@
     }
     if(isset($_POST['AanpassenEvent'])){
         $manageEvents->handleSubmitEdit($_POST['AanpassenEvent']);
+        die();
+    }
+    if(isset($_POST['speakerOfEvent'])){
+        echo $manageEvents->getSpeakersOfEvent($_SESSION['congressNo'],$_POST['eventNo']);
+        die();
+    }
+    if(isset($_POST['addSpeakerOfEvent'])){
+        echo $manageEvents->handleSpeakerEdit($_SESSION['congressNo'], $_POST['eventNo']);
     }
 ?>

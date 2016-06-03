@@ -1,10 +1,8 @@
 var eventListBox;
 var eventSubjectAddListBox;
 var eventSubjectEditListBox;
-var eventSelect;
-var selectedCounter = 0;
 var selectedTable;
-var eventTable
+var oldSpeakers = [];
 
 $(document).ready(function () {
     eventSubjectAddListBox = $('#EvenementenSubjectListBoxAdd').DataTable( {
@@ -20,10 +18,9 @@ $(document).ready(function () {
     eventSubjectEditListBox =  $('#EvenementenSubjectListBoxEdit').DataTable( {
 			         "sScrollY": "500px",
 			         "bPaginate": false
-    });
+    });    
     
     $('.subjectAdd').on('click',function(event){
-        eventTable = event;
         selectedTable = $('#' + event.target.form.getElementsByClassName('subjectListBox')[1].getAttribute('id')).DataTable();
     });
     
@@ -67,9 +64,17 @@ $(document).ready(function () {
     
     document.forms['formCreateEvenementen']['buttonDeleteEvenementen'].onclick = deleteEvent;
     document.forms['formCreateEvenementen']['buttonEditEvenementen'].onclick = getSelectedEventInfo;
+    document.forms['formCreateEvenementen']['speakerToEvent'].onclick = fillSpeakersOfEvent;
     document.forms['formEvenementenSubjectListBoxAdd']['ToevoegenSubject'].onclick = function(event){
        addTemporarySubject(event,selectedTable); 
     }
+    
+    document.forms['formsprekerEvent']['buttonSaveSwapListsprekerEvent'].onclick = addNewSpeakers;
+    
+    $(".listBoxSpeakerEventLeft .dataTables_scrollBody").removeAttr("style");
+	$(".listBoxSpeakerEventRight .dataTables_scrollBody").removeAttr("style");
+	$(".listBoxSpeakerEventRight .dataTables_scrollBody").addClass("noScrollBody");
+	$(".listBoxSpeakerEventLeft .dataTables_scrollBody").addClass("noScrollBody");
     
     
 });
@@ -123,10 +128,7 @@ function getSelectedEventInfo(){
         }
     });
 }
-
-var clickEvent;
 function addTemporarySubject(event,dataTable){
-    clickEvent = event;
     $('#popUpEvenementenSubjectListBoxAdd .closePopUp').click();
     var newSubject = document.forms['formEvenementenSubjectListBoxAdd']['subjectName'].value;
     dataTable.row.add([newSubject]).draw(true).nodes().to$().addClass('selected');
@@ -137,6 +139,81 @@ function addTemporarySubject(event,dataTable){
     child.setAttribute('name', 'subjects[]');
     child.style.visibility = 'hidden';
     newRow.node().childNodes[0].appendChild(child);
-    
-    
+}
+
+function fillSpeakersOfEvent(){
+    var eventNo = $('#EvenementenListBox tbody .selected td').html();
+    $.ajax({
+        url: window.location.href,
+        type: 'POST',
+        data: {
+            speakerOfEvent: 'Action',
+            eventNo: eventNo
+        },
+        success: function(data){
+            data = JSON.parse(data);
+            var table = $('#listBoxSpeakerEventLeft').DataTable();
+            for(i = 0; i< data.length; i++){
+                oldSpeakers.push(data[i]);
+                table.row.add([data[i][0],data[i][1],data[i][2],data[i][3]]);
+            }
+            table.rows().draw();
+        }
+    });
+}
+
+
+
+function addNewSpeakers(){
+    var table = $('#listBoxSpeakerEventLeft').DataTable();
+    var eventNo = $('#EvenementenListBox tbody .selected td').html();
+    var newSpeakers = calcNewSpeakers(table);
+    var deleteSpeakers = calcDeleteSpeakers(table);
+    $.ajax({
+        url: window.location.href,
+        type: 'POST',
+        data: {
+            addSpeakerOfEvent: 'Action',
+            addingSpeakers: newSpeakers,
+            deletingSpeakers: deleteSpeakers,
+            eventNo: eventNo
+        },
+        success: function(data){
+            
+        }
+    });
+}
+
+function calcNewSpeakers(dataTable){
+    var returnArray =[];
+    for(i =0; i< dataTable.rows().data().length; i++){
+        var continueLoop = true;
+        for(j = 0; j < oldSpeakers.length; j++){
+            if(continueLoop){
+                if(dataTable.rows().data()[i][0] == oldSpeakers[j][0]){
+                    continueLoop = false;
+                }
+            }
+        }if(continueLoop){
+            returnArray.push(dataTable.rows().data()[i][0]);
+        }
+    }
+    return returnArray;
+}
+
+function calcDeleteSpeakers(dataTable){
+    var returnArray =[];
+    for(i =0; i< oldSpeakers.length; i++){
+        var continueLoop = true;
+        for(j = 0; j < dataTable.rows().data().length; j++){
+            if(continueLoop){
+                if(dataTable.rows().data()[j][0] == oldSpeakers[i][0]){
+                    continueLoop = false;
+                }
+            }
+        }if(continueLoop){
+            returnArray.push(oldSpeakers[i][0]);
+        }
+    }
+    return returnArray;
 }

@@ -73,7 +73,7 @@
                 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
                 <link rel="stylesheet" href="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.css">
                 <link rel="stylesheet" href="../css/dataTables/css/dataTables.bootstrap.min.css">
-                <link rel="stylesheet" href="../css/management.css">
+                <link rel="stylesheet" href="../css/management.css?version=1">
                 <?php echo $css; ?>
                     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
                     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
