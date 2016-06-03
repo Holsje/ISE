@@ -53,9 +53,7 @@
         }
 
         public function createManagementScreen($columnList, $valueList) {
-            $button = new Submit("Test", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "DATAFILE");
-            $buttonArray = array($button);
-            parent::createManagementScreen($columnList, $valueList, "", $buttonArray);
+            parent::createManagementScreen($columnList, $valueList, "", null);
         }
 
 
@@ -186,7 +184,6 @@
             if($resultCongress && $resultCongressSubjects && $resultCongressNo) {
                 sqlsrv_commit($this->database->getConn());
                 $_SESSION['congressNo'] = $congressNo;
-                return "Transaction committed.<br />";
             } else {
                 sqlsrv_rollback($this->database->getConn());
                 $err['err'] = "";
@@ -261,7 +258,6 @@
             //END TRANSACTION
             if($result && !$insertNewSubjectsFailed && !$deleteOldSubjectsFailed) {
                 sqlsrv_commit($this->database->getConn());
-                return "Transaction committed.<br />";
             } else {
                 sqlsrv_rollback($this->database->getConn());
                 $err['err'] = $result;
