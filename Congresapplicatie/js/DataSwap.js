@@ -22,6 +22,10 @@ $(document).ready(function () {
 				"targets": [0],
 				"visible": false,
 				"searchable": false			
+			},{
+				"targets": [4],
+				"visible": false,
+				"searchable": false	
 			}]
 		});
 	}
@@ -34,18 +38,28 @@ $(document).ready(function () {
         $(this).toggleClass('selected');
     });
 });
-
-function goRight(event) {
-	var selectedRows = dataSwapTables[event.target.attributes.getNamedItem("left").value].rows(".selected");
 	
-	$("." + event.target.attributes.getNamedItem("left").value + " .onSelected").attr("disabled",true);
-	if(event.target.attributes.getNamedItem("remove").value == true) {
-		selectedRows.remove().draw(false);
-	}else {
-		for(var i = 0;i<selectedRows.data().length;i++) {
-			dataSwapTables[event.target.attributes.getNamedItem("right").value].row.add(selectedRows.data()[i]).draw(false);
+function goRight(event) {
+	var rowsError = '';
+	
+	var selectedRow = dataSwapTables[event.target.attributes.getNamedItem("left").value].row(".selected");	
+	while(selectedRow.length > 0) {	
+		if(selectedRow.data()[4] == 'False') {
+			rowsError += selectedRow.data()[3] + "\n";
+			selectedRow.node().classList.remove("selected");
+			selectedRow = dataSwapTables[event.target.attributes.getNamedItem("left").value].row(".selected");	
+			continue;
 		}
-		selectedRows.remove().draw(false);
+		dataSwapTables[event.target.attributes.getNamedItem("right").value].row.add(selectedRow.data());
+		selectedRow.remove();
+		selectedRow = dataSwapTables[event.target.attributes.getNamedItem("left").value].row(".selected");	
+	}
+	
+	dataSwapTables[event.target.attributes.getNamedItem("left").value].rows().draw();
+	dataSwapTables[event.target.attributes.getNamedItem("right").value].rows().draw();
+	
+	if(rowsError != '') {
+		alert('Kan de rij(en) met de volgende mail(s) niet verwijderen: \n' + rowsError);
 	}
 }
 
