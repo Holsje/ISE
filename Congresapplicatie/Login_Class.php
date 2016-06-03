@@ -34,7 +34,7 @@ require_once('pageConfig.php');
             }
             array_push($loginScreenObjects,$openRegistration, $submitLogin);
             
-            $this->createScreen->createPopup($loginScreenObjects, "Inloggen", "Login", 'smallPop','first',$css);
+            $this->createScreen->createPopup($loginScreenObjects, "Inloggen", "Login", 'smallPop','first',$css,'');
         }
 
         public function checkLogin($username, $password){
