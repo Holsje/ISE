@@ -2,13 +2,11 @@
 	if (isset($_POST['selectedLocationValue'])) {
 		$_SESSION['chosenLocationName'] = $_POST['selectedLocationValue'][0];
 		$_SESSION['chosenLocationCity'] = $_POST['selectedLocationValue'][1];
-		echo 'gelukt';
 		die();
 	}
 	
 	if (isset($_POST['selectedBuildingValues'])) {
 		$_SESSION['selectedBuildingValues'] = $_POST['selectedBuildingValues'];
-		echo 'gelukt';
 		die();
 	}
 	
@@ -21,12 +19,6 @@
 										 $_POST['houseNo'], 
 										 $_POST['postalCode']);
 		$result = $dataBase->sendQuery($queryInsertNewBuilding, $paramsInsertNewBuilding);
-		if (!is_string($result)) {
-			echo 'Het gebouw is opgeslagen';
-		}
-		else {
-			echo 'Het gebouw is niet opgeslagen.';
-		}
 	}
 	
 	if (isset($_POST['confirmEditLocationButton'])) {
@@ -40,7 +32,6 @@
 			$execString .= " ?,";
 		}
 		$execString .= " ?)}";
-		echo var_dump($execString);
 		$dataBase->sendQuery($execString, $params);
 		$_SESSION['chosenLocationName'] = $_POST['locationName'];
 		$_SESSION['chosenLocationCity'] = $_POST['locationCity'];
@@ -62,13 +53,6 @@
 				array_push($paramsDeleteSelection, $_SESSION['chosenLocationCity']);
 			}
 			$result = $dataBase->sendQuery($queryDeleteSelection, $paramsDeleteSelection);
-			
-			if (!is_string($result)) {
-				echo 'De selectie is succesvol verwijderd';
-			}
-			else {
-				echo 'Er is iets misgegaan bij het verwijderen.';
-			}
 		}
 	}
 	
