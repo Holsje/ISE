@@ -23,12 +23,13 @@ class ManageBuildingGeneralManager extends Management {
 	}
 	
 	public function createCreateBuildingPopUp() {
+		$errMsg = new Span(null,null,'errMsgCreateBuilding','errorMsg',true,true,null);
 		$nameTextField = new Text(null, "Naam", "buildingName", null, true, true, true);
 		$street = new Text(null, "Straat + Huisnr", "streetName", "form-control col-xs-7 col-sm-7 col-md-7", true, false, true);
 		$houseNo = new Text(null, null, "houseNo", "form-control col-xs-1 col-sm-1 col-md-1", false, true, true);
 		$postalCode = new Text(null, "Postcode", "postalCode", null, true, true, true);
 		$saveButton = new Submit("Opslaan", null, "saveBuildingButton", null, true, true);
-		$this->getCreateScreen()->createPopUp(array($nameTextField, $street, $houseNo, $postalCode, $saveButton),"Gebouw toevoegen","AddBuildingGM",null,null,null, "#Locatie");
+		$this->getCreateScreen()->createPopUp(array($errMsg, $nameTextField, $street, $houseNo, $postalCode, $saveButton),"Gebouw toevoegen","AddBuildingGM",null,null,null, "#Locatie");
 	}
 		
 	public function createEditLocationPopUp() {
@@ -78,6 +79,8 @@ class ManageBuildingGeneralManager extends Management {
 		
 	public function createEditLocationScreen() {
 		echo '<form name="formEditLocation" class="form-horizontal col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10 formEditLocation" method="POST" action="'. $_SERVER['PHP_SELF'] .'">';
+			$errMsg = new Span(null, null, 'errMsgEditLocationValues', 'errorMsg', true, true, null);
+			echo $errMsg->getObjectCode();
 			echo '<div class="form-group">';
 				echo '<label class="col-xs-3 col-sm-3 col-md-3">Locatienaam:</label>';
 				echo '<input type="text" value="'. $_SESSION['chosenLocationName'] . '" name="locationName" class="form-control col-xs-9 col-sm-9 col-md-9">';

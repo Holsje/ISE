@@ -2,7 +2,6 @@ var locationGMTable;
 
 $(document).ready(function () {
 	locationGMTable = $('#LocatieGMListBox').DataTable();
-	
 	$('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
     $('#LocatieGMListBox_length').css('display', 'none');
@@ -66,7 +65,7 @@ $(document).ready(function () {
 					selectedLocationValues: result
 				},
 				success: function(data) {
-
+					console.log(data);
 				},
 				error: function (request, status, error) {
 					alert(request.responseText);
@@ -74,5 +73,23 @@ $(document).ready(function () {
 			})
 			dataArray.remove().draw(false);
 		}
-		})
+	})
+	document.forms['formAddLocatieGM'].onsubmit = isValidInput;
 });
+
+function isValidInput(){
+    var form = document.forms["formAddLocatieGM"];
+    if (!isValidLocationName(form['locationNameText'].value)) {
+		$(".errorMsg").html("* Locatienaam is niet geldig.");
+        return false;
+    }
+	else if (!isValidCityName(form['locationCityText'].value)) {
+		$(".errorMsg").html("* Plaatsnaam is niet geldig.");
+		return false;
+	}
+    else {
+        form.submit();
+    }
+}
+
+

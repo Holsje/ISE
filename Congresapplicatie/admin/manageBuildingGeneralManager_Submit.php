@@ -5,11 +5,6 @@
 		die();
 	}
 	
-	if (isset($_POST['selectedBuildingValues'])) {
-		$_SESSION['selectedBuildingValues'] = $_POST['selectedBuildingValues'];
-		die();
-	}
-	
 	if (isset($_POST['buildingName']) && isset($_POST['streetName'])) {	
 		$queryInsertNewBuilding = "INSERT INTO Building (LocationName, City, BName, Street, HouseNo, PostalCode) VALUES(?, ?, ?, ?, ?, ?)";
 		$paramsInsertNewBuilding = array($_SESSION['chosenLocationName'], 
@@ -37,11 +32,11 @@
 		$_SESSION['chosenLocationCity'] = $_POST['locationCity'];
 	}
 	
-	if (isset($_POST['confirmButton'])) {
+	if (isset($_POST['deleteBuildings'])) {
 		$queryDeleteSelection = "DELETE FROM Building WHERE ";
 		$paramsDeleteSelection = array();
-		if(isset($_SESSION['selectedBuildingValues'])) {
-			for($i = 0; $i < sizeof($_SESSION['selectedBuildingValues']); $i++) {
+		if(isset($_POST['selectedBuildingValues'])) {
+			for($i = 0; $i < sizeof($_POST['selectedBuildingValues']); $i++) {
 				if ($i == 0 ) {
 					$queryDeleteSelection .= "(LocationName = ? AND BName = ? AND City = ?)";
 				}
@@ -49,10 +44,11 @@
 					$queryDeleteSelection .= " OR (LocationName = ? AND BName = ? AND City = ?) ";
 				}
 				array_push($paramsDeleteSelection, $_SESSION['chosenLocationName']);
-				array_push($paramsDeleteSelection, $_SESSION['selectedBuildingValues'][$i]);
+				array_push($paramsDeleteSelection, $_POST['selectedBuildingValues'][$i]);
 				array_push($paramsDeleteSelection, $_SESSION['chosenLocationCity']);
 			}
 			$result = $dataBase->sendQuery($queryDeleteSelection, $paramsDeleteSelection);
+			die();
 		}
 	}
 	
