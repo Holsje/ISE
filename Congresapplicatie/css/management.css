@@ -133,7 +133,9 @@ h1 {
 .dataSwapList {
 	border-width:1px;
 	border-style:solid;
-	padding:0;
+    border-color: #888888;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .dataSwapTable {
