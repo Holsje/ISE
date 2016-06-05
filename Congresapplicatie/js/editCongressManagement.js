@@ -41,7 +41,7 @@ function updateCongressInfo(congressName, congressStartDate, congressEndDate, co
     document.forms["formUpdateCongress"]["congressName"].value = congressName;
     document.forms["formUpdateCongress"]["congressStartDate"].value = congressStartDate;
     document.forms["formUpdateCongress"]["congressEndDate"].value = congressEndDate;
-    document.forms["formUpdateCongress"]["congressPrice"].value = congressPrice;
+    document.forms["formUpdateCongress"]["congressPrice"].value = parseInt(congressPrice).toFixed(2);
 
     if (congressPublic == 0) {
         document.forms["formUpdateCongress"]["congressPublic"].value = "Nee";
@@ -92,7 +92,6 @@ function onUpdateCongress() {
 
         },
         success: function (data) {
-
             if (data != null && data != '' &&  /\S/.test(data)) {
                 data = JSON.parse(data);
                 document.getElementById('errMsgUpdateCongress').innerHTML = '*' + data['err'];
@@ -172,6 +171,9 @@ function isValidInput(){
     else if (!isValidPrice(form['congressPrice'].value)) {
         alert('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
         return;
+    }
+    else if (form['congressStartDate'].value > form['congressEndDate'].value){
+        alert('Eind datum mag niet voor begin datum liggen.');
     }
     else {
         onUpdateCongress();

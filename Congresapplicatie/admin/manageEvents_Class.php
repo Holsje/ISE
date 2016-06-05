@@ -16,7 +16,7 @@
             $returnArray = array();
             if($result){
                 while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
-                    array_push($returnArray,array($row['EventNo'], $row['EName'], $row['Type'], number_format($row['Price'],2,',','.'), $row['MaxVisitors'], $row['Description']));
+                    array_push($returnArray,array($row['EventNo'], $row['EName'], $row['Type'], number_format($row['Price'],2,',','.'), $row['MaxVisitors'], substr($row['Description'],0,100)));
                 }
             }
             return $returnArray;   

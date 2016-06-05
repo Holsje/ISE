@@ -25,7 +25,6 @@
 	function topLayout($pageName,$css,$javaScript) {
     global $bannerPath;
 ?>
-
     <head>
         <title>
             <?php echo $pageName; ?>
@@ -62,7 +61,7 @@
 	function topLayoutManagement($pageName,$css,$javaScript) {
         global $bannerPath;
 		?>
-
+        <html lang='nl'>
             <head>
                 <title>
                     <?php echo $pageName; ?>

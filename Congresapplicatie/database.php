@@ -83,6 +83,7 @@ class Database
             {
                 return false;
             }
+            
         }
 
         $result = sqlsrv_query($this->conn, $sql, $param);
@@ -91,7 +92,7 @@ class Database
         {
             return $this->getError();
         }
-
+        
         return $result;
     }
 

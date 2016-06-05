@@ -17,17 +17,6 @@ $(document).ready(function () {
         ]
     });
 
-    $('#TracksListBox tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
-        } else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
-        }
-    });
-
     document.forms["formCreateTracks"]["buttonDeleteTracks"].onclick = deleteTrack;
     document.forms["formCreateTracks"]["buttonEditTracks"].onclick = getTrackInfo;
     //document.forms["formUpdateTracks"]["editTrack"].onclick = onUpdateTrack;

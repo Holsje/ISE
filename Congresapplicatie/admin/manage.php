@@ -26,10 +26,10 @@ include('manageTracksSubmits.php');
 
 $js = '<script src="../js/editCongressManagement.js"></script>';
 $js .= '<script src="../js/evenement.js"></script>';
-$js .= "<script src='../js/manage.js'></script>";
 $js .= "<script src='../js/locationManagement.js'></script>";
 $js .= "<script src='../js/manageSpeaker.js'></script>";
 $js .= "<script src='../js/trackManagement.js'></script>";
+$js .= "<script src='../js/manage.js'></script>";
 
 $css = '<link rel="stylesheet" href="../css/manage.css">';
 

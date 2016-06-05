@@ -9,7 +9,6 @@ $(document).ready(function () {
     $('#LocatieListBox_info').css('display', 'none');
 	
 	$('#LocatieListBox tbody').on('click', 'tr', function () {
-		$(this).toggleClass('selected');
 		var numSelectedRows = locationTable.rows(".selected").data().length;
 		if (numSelectedRows == 0) {
 			$("[name=buttonEditLocatie]").prop("disabled", true);
@@ -36,7 +35,6 @@ $(document).ready(function () {
     $('#ZalenListBox_info').css('display', 'none');
 	
 	$('#ZalenListBox tbody').on('click', 'tr', function () {
-		$(this).toggleClass('selected');
 		var numSelectedRows = roomTable.rows(".selected").data().length;
 		if (numSelectedRows == 0) {
 			$("[name=buttonEditZalen]").prop("disabled", true);
