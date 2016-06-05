@@ -28,6 +28,7 @@ $(document).ready(function () {
     });
 
 	$(".closePopup").on("click", function (event) {
+
 		$(".errorMsg").empty()
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
         $("body").css("overflow", "auto");

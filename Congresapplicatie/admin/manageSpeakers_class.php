@@ -15,11 +15,13 @@
 			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap ", true, false, $columnList, $valueListLeft, "listBoxSpeakerLeft");
 			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", false, true, $columnList, $valueListRight, "listBoxSpeakerRight");
 			$buttonAddSpeaker = new Button("Toevoegen", null, "buttonAddSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAddSpeaker");
-			$buttonEditSpeakerOfCongress = new Button("Aanpassen", null, "buttonEditSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdateSpeakerOfCongress");
+			$buttonEditSpeakerOfCongress = new Button("Aanpassen", null, "buttonEditSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpUpdateSpeakerOfCongress");
 			
-			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdateSpeaker");
+			
+			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpUpdateSpeaker");
+			
 			$buttonRemoveSpeaker = new Button("Verwijderen", null, "buttonDeleteSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpDeleteSpeaker");
-			$this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","Sprekers Congres",$tableRight,"listBoxSpeakerRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeakerOfCongress),array($buttonRemoveSpeaker,$buttonEditSpeaker),"spreker");
+			echo $this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","Sprekers Congres",$tableRight,"listBoxSpeakerRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeakerOfCongress),array($buttonRemoveSpeaker,$buttonEditSpeaker),"spreker");
 
         }
         
@@ -122,30 +124,32 @@
 		
 		public function createCreateSpeakerScreen() {			
 			
-			$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
-			$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
-			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
-			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
-			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
-			$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
+			
 			$uploadFile = new Upload(null,'Foto',"uploadCreateSpeaker",null,true,true,null,"image");
 			$submitObject = new Submit("toevoegen","createSpeaker","toevoegen",null, true, true);			
-			$errMsg = new Span('',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
 			
-			global $emailIsWrong;
-			if(isset($emailIsWrong)) {
+			
+			global $errorOnCreateSpeaker;
+			if(isset($errorOnCreateSpeaker)) {
 				$speakerNameObject = new Text($_POST['speakerName'],"Voornaam","speakerName",null, true, true, true);
 				$speakerLastNameObject = new Text($_POST['LastName'],"Achternaam","LastName",null, true, true, true);
 				$emailObject = new Text($_POST['mailAddress'], "Mailadres", "mailAddress", null, true, true, true);
 				$phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, true);
 				$descriptionObject = new Text($_POST['description'], "Description", "description", null, true, true, true);
 				$agreementObject = new Text($_POST['agreement'], "Agreement", "agreement", null, true, true, false);
-				$errMsg = new Span('Email staat al in de database.',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
-				echo '<script>$(document).ready(function () {document.forms["formspreker"]["buttonAddSpeakerOfCongress"].click();});</script>';
+				$errMsg = new Span($errorOnCreateSpeaker,null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
+				$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanmaken","AddSpeaker",null,null,'show',"#spreker");
+			}else {
+				$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
+				$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
+				$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
+				$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
+				$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
+				$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
+				$errMsg = new Span('',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
+				$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanmaken","AddSpeaker",null,null,false,"#spreker");
 			}
 			
-			
-			$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanmaken","AddSpeaker",null,null,false,"#spreker");
 		}
 		
 		public function createEditSpeakerScreen() {
@@ -164,28 +168,43 @@
 		}
 		
 		public function createEditSpeakerOfCongressScreen() {
-			$speakerNumberObject = new Identifier(null,"ID","personNo",null, true, true, true);
-			$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
-			$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
-			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
-			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
-			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
-			$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
+			
 			$uploadFile = new Upload(null,'Foto',"uploadEditSpeakerOfCongress",null,true,true,null,"image");
-			$errMsg = new Span('',null,'errMsgUpdateSpeakerOfCongress','errorMsg',true,true,null);
 			$submitObject = new Submit("aanpassen","updateSpeakerOfCongress","aanpassen",null, true, true);	
+			
+			global $editSpeakersError;
+			if(isset($editSpeakersError)) {
+				$speakerNumberObject = new Identifier($_POST['personNo'],"ID","personNo",null, true, true, true);
+				$speakerNameObject = new Text($_POST['speakerName'],"Voornaam","speakerName",null, true, true, true);
+				$speakerLastNameObject = new Text($_POST['LastName'],"Achternaam","LastName",null, true, true, true);
+				$emailObject = new Text($_POST['mailAddress'], "Mailadres", "mailAddress", null, true, true, true);
+				$phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, true);
+				$descriptionObject = new Text($_POST['description'], "Description", "description", null, true, true, true);
+				$agreementObject = new Text($_POST['agreement'], "Agreement", "agreement", null, true, true, false);
+				$errMsg = new Span($editSpeakersError,null,'errMsgUpdateSpeakerOfCongress','errorMsg',true,true,null);
+				$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeakerOfCongress",null,null,'show',"#spreker");	
+			}else {
+				$speakerNumberObject = new Identifier(null,"ID","personNo",null, true, true, true);
+				$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
+				$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
+				$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
+				$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
+				$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
+				$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
+				$errMsg = new Span('',null,'errMsgUpdateSpeakerOfCongress','errorMsg',true,true,null);
+				$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeakerOfCongress",null,null,false,"#spreker");	
+			}
 
-			$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeakerOfCongress",null,null,false,"#spreker");
 
 		}
 		
-		public function getSpeakerOfCongressInfo($personNo) {
-			$sqlSpeakers = "SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, P.phonenumber,SOC.agreement,s.Description,s.PicturePath ".
-														"FROM SpeakerOfCongress SOC " .
-														"INNER JOIN Person P ON P.PersonNo = SOC.PersonNo " .
-														"INNER JOIN Speaker S ON S.PersonNo = SOC.PersonNo ".
-														"WHERE SOC.PersonNo = ?";														
-            $params = array($personNo);
+		public function getSpeakerOfCongressInfo($personNo,$user) {
+			$sqlSpeakers = "SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, P.phonenumber,SOC.agreement,s.Description,s.PicturePath 
+														FROM SpeakerOfCongress SOC 
+														INNER JOIN Person P ON P.PersonNo = SOC.PersonNo 
+														INNER JOIN Speaker S ON S.PersonNo = SOC.PersonNo 
+														WHERE SOC.PersonNo = ? AND S.owner = ?";														
+            $params = array($personNo,$user);
             $resultSpeakersObject = $this->database->sendQuery($sqlSpeakers, $params);
             $arraySpeakers = array();
             if ($resultSpeakersObject){
@@ -193,20 +212,34 @@
                     array_push($arraySpeakers,$row);
                 }
 				
-            }else {
-				$arraySpeakers = $this->database->getError();
+            }
+			
+			if(!$arraySpeakers) {			
+				$sqlSpeakers = "SELECT P.MailAddress FROM Speaker S
+								INNER JOIN Person P ON P.PersonNo = S.Owner
+								WHERE s.PersonNo = ?";	
+				$params = array($personNo);
+				
+				$ownerMailAddress = $this->database->sendQuery($sqlSpeakers, $params);
+				if($ownerMailAddress) {
+					while($row = sqlsrv_fetch_array($ownerMailAddress, SQLSRV_FETCH_ASSOC)){
+						$arraySpeakers['error'] =  $row['MailAddress'];
+					}
+				}
+				
+				
 			}
 			
             return json_encode($arraySpeakers, JSON_FORCE_OBJECT);
          
         }
 		
-		public function getSpeakerInfo($personNo) {
+		public function getSpeakerInfo($personNo,$user) {
 			$sqlSpeakers = "SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, P.phonenumber,s.Description,s.PicturePath ".
 														"FROM Person P " .
 														"INNER JOIN Speaker S ON S.PersonNo = P.PersonNo ".
-														"WHERE p.PersonNo = ?";														
-            $params = array($personNo);
+														"WHERE p.PersonNo = ? AND S.owner = ?";														
+            $params = array($personNo, $user);
             $resultSpeakersObject = $this->database->sendQuery($sqlSpeakers, $params);
             $arraySpeakers = array();
             if ($resultSpeakersObject){
@@ -214,13 +247,39 @@
                     array_push($arraySpeakers,$row);
                 }
 				
-            }else {
-				$arraySpeakers = $this->database->getError();
-			}
+            }
 			
+			
+			if(!$arraySpeakers) {			
+				$sqlSpeakers = "SELECT P.MailAddress FROM Speaker S
+								INNER JOIN Person P ON P.PersonNo = S.Owner
+								WHERE s.PersonNo = ?";	
+				$params = array($personNo);
+				
+				$ownerMailAddress = $this->database->sendQuery($sqlSpeakers, $params);
+				if($ownerMailAddress) {
+					while($row = sqlsrv_fetch_array($ownerMailAddress, SQLSRV_FETCH_ASSOC)){
+						$arraySpeakers['error'] =  $row['MailAddress'];
+					}
+				}
+				
+				
+			}
             return json_encode($arraySpeakers, JSON_FORCE_OBJECT);
          
         }
-    } 
+   
+	
+		public function isDeleted() {
+			$result = $this->database->sendQuery("SELECT @@ROWCOUNT", null);		
+			if($result) {
+				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+					$numChanges = $row[""];
+				}
+			}			
+			return ($numChanges>=1);			
+		}
+		
+ } 
 	
 ?>
