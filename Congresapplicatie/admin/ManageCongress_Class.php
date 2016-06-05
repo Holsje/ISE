@@ -186,6 +186,7 @@
             if (!$result){
                 $resultCongressManager = false;
             }
+             mkdir('../Congresses/Congress' .$congressNo);
 
 
 
@@ -204,6 +205,8 @@
                 else if (is_string($resultCongressManager)){
                     $err['err'] .= $resultCongressManager;
                 }
+                
+               
                 return json_encode($err);
             }
 

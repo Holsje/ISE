@@ -95,14 +95,14 @@
                 }
             }
             $eventNo++;
-            if(!file_exists('../Events/Event'.$eventNo)){
-                mkdir('../Events/Event'.$eventNo);
+            if(!file_exists('../Congresses/Congress' . $_SESSION['congressNo'].'/Event'.$eventNo)){
+                mkdir('../Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo);
             }
             
             if(isset($_FILES['eventPicture'])){
                 if($_FILES['eventPicture']['error'] == UPLOAD_ERR_OK){
                     require_once('fileUploadHandler.php');
-                    if(handleFile('Events/Event'.$eventNo . '/','eventPicture','thumbnail') == false){
+                    if(handleFile('Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo.'/','eventPicture','thumbnail') == false){
                         echo 'upload ging fout';
                         return;
                     }
@@ -114,7 +114,7 @@
             }
             $sqlEvents = '  INSERT INTO Event(CongressNo,EventNo, EName,Type,MaxVisitors,Price,Description,FileDirectory)
                         VALUES(?,?,?,?,?,?,?,?)';
-            $paramsEvent = array($_SESSION['congressNo'],$eventNo,$_POST['eventName'],$_POST['eventType'],$_POST['eventMaxVis'],$eventPrice, $_POST['eventDescription'],'Events/Event' . $eventNo . '/');
+            $paramsEvent = array($_SESSION['congressNo'],$eventNo,$_POST['eventName'],$_POST['eventType'],$_POST['eventMaxVis'],$eventPrice, $_POST['eventDescription'],'Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo . '/');
             $result = $this->database->sendQuery($sqlEvents,$paramsEvent);
             if($result !== true){
                 if( ($errors = sqlsrv_errors() ) != null) {
@@ -134,14 +134,14 @@
         }
         
         public function handleSubmitEdit($eventNo){
-            if(!file_exists('../Events/Event'.$eventNo)){
-                mkdir('../Events/Event'.$eventNo);
+            if(!file_exists('../Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo)){
+                mkdir('../Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo);
             }
             
             if(isset($_FILES['editEventPicture'])){
                 if($_FILES['editEventPicture']['error'] == UPLOAD_ERR_OK){
                     require_once('fileUploadHandler.php');
-                    if(handleFile('Events/Event'.$eventNo . '/','editEventPicture','thumbnail') == false){
+                    if(handleFile('Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo.'/','editEventPicture','thumbnail') == false){
                         echo 'upload ging fout';
                         return;
                     }
@@ -154,7 +154,7 @@
             if($_POST['eventType'] == 'Lezing'){
                 $eventPrice = null;
             }
-            $paramsUpdate = array($_POST['eventName'], $_POST['eventType'], $_POST['eventMaxVis'], $eventPrice, 'Events/Event' . $eventNo.'/', $_POST['eventDescription'], $eventNo, $_SESSION['congressNo']);
+            $paramsUpdate = array($_POST['eventName'], $_POST['eventType'], $_POST['eventMaxVis'], $eventPrice, 'Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo.'/', $_POST['eventDescription'], $eventNo, $_SESSION['congressNo']);
             $result = $this->database->sendQuery($sqlUpdate,$paramsUpdate);
             $sqlSubjectsEvent ='SELECT Subject
                                 FROM SubjectOfEvent

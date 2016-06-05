@@ -8,7 +8,7 @@
                         WHERE congressNo = ? and eventNo = ?';
         $params = array($_SESSION['congressNo'],$_POST['eventNo']);
         $result = $database->sendQuery($sqlDelete,$params);
-        $dir = '../Events/Event'.$_POST['eventNo'];
+        $dir = 'Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo;
         require_once('fileUploadHandler.php');
         Delete($dir);
         die();
@@ -19,6 +19,7 @@
     }
     if(isset($_POST['AanpassenEvent'])){
         $manageEvents->handleSubmitEdit($_POST['AanpassenEvent']);
+        header('Location: manage.php');
         die();
     }
     if(isset($_POST['speakerOfEvent'])){
