@@ -1,5 +1,12 @@
 <?php
-    if(isset($_POST['getInfo'])){
+    $_SESSION['pageCount'] = 0;
+	$_SESSION['monthCount'] = 0;
+	$_SESSION['yearCount'] = 0;
+
+	$_SESSION['runningFormData'] = array();
+	$_SESSION['lastPage'] = null;
+	
+	if(isset($_POST['getInfo'])){
         echo $indexClass->getEventInfo($_POST['eventNo'],$_SESSION['congressNo']);
         die();
     }
