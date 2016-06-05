@@ -82,7 +82,7 @@ require_once('ScreenObjects/TextArea.php');
 				echo '<h3 class="eventName col-xs-12 col-sm-12 col-md-12">' . $eventName ;
 				echo'</h3>';
 				echo '<div class="row">';
-					echo '<div class="eventText col-md-7 col-xs-12 col-sm-12">';
+					echo '<div class="eventText col-md-7 col-xs-12 col-sm-7">';
 					echo '<p>';
 					for($i = 0;$i<sizeof($subjects)-1;$i++) {
 						echo $subjects[$i] . " - ";

@@ -20,6 +20,22 @@
 			}
 		}
 	}
+	if (isset($_SESSION['congressNo'])) {
+		$queryCongressExists = "SELECT CongressNo FROM Congress WHERE CongressNo = ?";
+		$paramsCongressExists = array($_SESSION['congressNo']);
+		$result = $dataBase->sendQuery($queryCongressExists, $paramsCongressExists);
+		if ($result) {
+			while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+				$congressNo = $row['CongressNo'];
+			}
+			if (empty($congressNo)) {
+				echo '<h1>Dit congres bestaat niet.</h1>';
+				echo '<p class="errText">U wordt doorverwezen naar de homepagina.</p>';
+				header("refresh:2;url='index.php?congressNo=". $_SESSION['congressNo'] . '');
+				die();
+			}
+		}
+	}
 	
 	if(isset($_POST['getInfo'])){
         echo $indexClass->getEventInfo($_POST['eventNo'],$_SESSION['congressNo']);
@@ -35,25 +51,15 @@
 	}
 	else if (isset($_SESSION['congressNo']) && !isset($_SESSION['runningFormData'])) {
 		$_SESSION['pageCount'] = 0;
+		$_SESSION['monthCount'] = 0;
+		$_SESSION['yearCount'] = 0;
+
 		$_SESSION['runningFormData'] = array();
 		$_SESSION['lastPage'] = null;
-		$_SESSION['monthIncrements'] = 0;
-		$_SESSION['yearIncrements'] = 0;
-		$_SESSION['oldMonthIncrements'] = 0;
 	}
 	else if (!isset($_SESSION['congressNo'])) {
 		die("Congresnummer niet meegegeven ");
 	}
-	
-	if(isset($_SESSION['pageCount'])) {
-		if(isset($_POST['previousDayButton'])) {
-			$_SESSION['pageCount']--;
-		}
-		if (isset($_POST['nextDayButton'])) {
-			$_SESSION['pageCount']++;
-		}
-	}
-
 	if (isset($_POST['eventNoSelected'])) {
 		foreach($_POST['eventNoSelected'] as $eventAndTrack) {
 			$trackNo = (integer) substr($eventAndTrack, 0, 1);
