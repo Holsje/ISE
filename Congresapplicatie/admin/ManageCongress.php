@@ -1,10 +1,15 @@
 <?php
 
+require_once('sessionHandler.php');
+sessionHandler(true, false);
+unset($_SESSION['congressNo']);
 require_once('ManageCongress_Class.php');
 $manageCongress = new ManageCongress();
 include('ManageCongressSubmits.php');
 
 $js = '<script type="text/javascript" src="../js/congressManagement.js"></script>';
+$js .= '<script type="text/javascript" src="../js/manage.js"></script>';
+
 topLayoutManagement('Beheren Congres',null,$js);
 ?>
 
@@ -12,7 +17,7 @@ topLayoutManagement('Beheren Congres',null,$js);
         <div class="container   col-md-12 col-xs-12">
             <div class="content col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
                 <?php
-                $manageCongress->createManagementScreen(array("Congresnummer", "Naam", "Onderwerp", "Locatie", "Startdatum", "Einddatum"), $manageCongress->getCongresses());
+                $manageCongress->createManagementScreen(array("Congresnummer", "Naam", "Startdatum", "Einddatum", "Publiek"), $manageCongress->getCongresses());
             ?>
             </div>
         </div>
@@ -20,7 +25,7 @@ topLayoutManagement('Beheren Congres',null,$js);
 
     <?php 
     $manageCongress->createCreateCongressScreen(); 
-    $manageCongress->createEditCongressScreen(); 
+    //$manageCongress->createEditCongressScreen();
     
     bottomLayout();
 

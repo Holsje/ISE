@@ -9,6 +9,7 @@
         private $columnList;
         private $valueList;
         private $tableid;
+		private $canSearch;
 
         /**
          * Listbox constructor.
@@ -35,7 +36,7 @@
          * @return string
          */
         public function getObjectCode(){
-            $string = '<table id="'. $this->tableid . '" class="display ' . $this->classes . '">';
+            $string = '<table id="'. $this->tableid . '" class="display listBox ' . $this->classes . '">';
             $string .= '<thead>';
             $string .= '<tr>';
 
@@ -60,7 +61,6 @@
             }
             $string .= '</tbody>';
             $string .= '</table>';
-
             return $string;
         }
 

@@ -118,7 +118,7 @@
                     }
                     //Info box
                     echo '<div class="col-md-3">';
-                    echo '<h3 class="col-md-12">Congres Informatie</h3>';
+                    echo '<h3 class="col-md-12" name="congressInfo">Congres Informatie</h3>';
                     echo '<div class="col-md-12 congresInfo">';
                     $objects = array();
                     array_push($objects,new Span($congressResults['CName'],'Naam','ConName','col-md-8',true,true));
@@ -139,7 +139,7 @@
                     }
                     echo '</div>';
                     //Subject Box
-                    echo '<h3 class="col-md-12">Onderwerpen</h3>';
+                    echo '<h3 class="col-md-12" name="congressSubjects">Onderwerpen</h3>';
                     echo '<div class="col-md-12 congresInfo subjects">';
                     $sqlSubjects = 'SELECT SOE.Subject, (COUNT(E.EventNo)*100)/(SELECT COUNT(*)
                                                                                 FROM SubjectOfEvent SOE INNER JOIN Event E
@@ -160,7 +160,7 @@
                         echo '</p>';
                     }
                     echo '</div>';
-                    echo '<button type="button" class="btn btn-default plan" onClick="location.href=&quot;inschrijven.php&quot;">Plan je Congres</button>';
+                    echo '<button type="button" name="planCongress" class="btn btn-default plan" onClick="location.href=&quot;inschrijven.php&quot;">Plan je Congres</button>';
                     echo '</div>';
                 }
             }
@@ -171,12 +171,12 @@
             $spanDescription = new Span('','Over evenement','eventDescription','col-md-8 col-sm-6 col-xs-12',false,true);
             $spanSubjects = new Span('','Onderwerp(en)','subjects','col-md-12 col-sm-12',true,true);
             $spanSpeakers = new Span('','Spreker(s)','speakers','',true,true);
-            $this->createScreen->createPopup(array($image,$spanDescription,$spanSubjects,$spanSpeakers),"","eventInfo",'bigPop','first','');
+            $this->createScreen->createPopup(array($image,$spanDescription,$spanSubjects,$spanSpeakers),"","eventInfo",'bigPop','first','','');
         }
         public function createSpeakerInfoPopup(){
             $image = new Img('','','thumbnail','col-md-3',true,false);
             $spanDescription = new Span('','Over spreker','speakerDescription','col-md-8 col-sm-6 col-xs-12',false,true);
-            $this->createScreen->createPopup(array($image,$spanDescription),"","speaker","smallPop",'','');
+            $this->createScreen->createPopup(array($image,$spanDescription),"","speaker","smallPop",'','','');
         }
     }
 ?>

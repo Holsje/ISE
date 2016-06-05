@@ -1,23 +1,70 @@
 var congressNo,
     oldCongressName,
-    oldCongressLocation,
-    oldCongressSubject,
     oldCongressStartDate,
-    oldCongressEndDate;
+    oldCongressEndDate,
+    oldCongressPrice,
+    oldCongressBanner,
+    oldCongressPublic,
+    oldCongressSubjects,
+    subjectTableAdd,
+    file;
 
+var table;
 $(document).ready(function () {
-    document.forms["formCreateCongress"]["buttonDelete"].onclick = deleteCongress;
-    document.forms["formCreateCongress"]["buttonEdit"].onclick = fillUpdateCongressInfo;
-    document.forms['formUpdate']['updateCongress'].onclick = onUpdateCongress;
-    document.forms['formAddSubjectFromEdit']['Bewerken'].onclick = submitAddSubject;
+    //Create
+    subjectTableAdd = $('#subjectListBoxAdd').DataTable( {
+        "sScrollY": "500px",
+        "bPaginate": false,
+        "bInfo": false
+    });
 
+	table = $('#ListBox').DataTable( {
+        "sScrollY": "500px",
+        "bPaginate": false,
+        "bInfo": false
+    });
+
+	$('#ListBox tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            $('.onSelected').prop('disabled', true);
+        } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $('.onSelected').prop('disabled', false);
+        }
+    });
+
+//Create
+    document.forms["formCreate"]["buttonDelete"].onclick = deleteCongress;
+    document.forms["formCreate"]["buttonEdit"].onclick = goToEditCongress;
+    document.forms['formAddSubjectFromAdd']['Toevoegen'].onclick = submitAddSubjectAdd;
+    document.forms['formAdd']['Toevoegen'].onclick = isValidInput;
+
+
+    //Create
+    $('#subjectListBoxAdd tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            $('.onSelected').prop('disabled', true);
+        } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $('.onSelected').prop('disabled', false);
+        }
+    });
+
+
+    //Create
     $('html').keyup(function (e) {
         if (e.keyCode == 46) {
             deleteCongress();
         }
     });
+
 });
 
+//Create
 function deleteCongress() {
     var selectedRow = table.row('.selected');
     if (selectedRow.data()) {
@@ -37,91 +84,98 @@ function deleteCongress() {
     }
 }
 
-function fillUpdateCongressInfo() {
-    var selectedRow = table.row('.selected');
-    if (selectedRow.data()) {
-        congressNo = selectedRow.data()[0];
-        oldCongressName = selectedRow.data()[1];
-        oldCongressSubject = selectedRow.data()[2];
-        oldCongressLocation = selectedRow.data()[3];
-        oldCongressStartDate = selectedRow.data()[4];
-        oldCongressEndDate = selectedRow.data()[5];
-        updateCongressInfo(oldCongressName, oldCongressSubject, oldCongressLocation, oldCongressStartDate, oldCongressEndDate);
-    } else {
-        alert("Er is geen selectie gemaakt");
-        return false;
+//Both
+function getSelectedSubjects(){
+    var selectedSubjects = subjectTableAdd.rows(".selected");
+    var size = selectedSubjects.data().length;
+    var array = [];
+    for (var i = 0; i < size; i++){
+        array.push(selectedSubjects.data()[i][0]);
     }
+    return array;
 }
 
-function updateCongressInfo(congressName, congressSubject, congressLocation, congressStartDate, congressEndDate) {
-    document.forms["formUpdate"]["congressName"].value = congressName;
-    document.forms["formUpdate"]["congressSubject"].value = congressSubject;
-    document.forms["formUpdate"]["congressLocation"].value = congressLocation;
-    document.forms["formUpdate"]["congressStartDate"].value = congressStartDate;
-    document.forms["formUpdate"]["congressEndDate"].value = congressEndDate;
-}
 
-function onUpdateCongress() {
+//Create
+function onCreateCongress() {
     $.ajax({
         url: window.location.href,
         type: 'POST',
         data: {
-            bewerken: 'action',
-            congressNo: congressNo,
+            toevoegen: 'action',
 
-            oldCongressName: oldCongressName,
-            oldCongressSubject: oldCongressSubject,
-            oldCongressLocation: oldCongressLocation,
-            oldCongressStartDate: oldCongressStartDate,
-            oldCongressEndDate: oldCongressEndDate,
-
-            newCongressName: document.forms['formUpdate']["congressName"].value,
-            newCongressSubject: document.forms['formUpdate']["congressSubject"].value,
-            newCongressLocation: document.forms['formUpdate']["congressLocation"].value,
-            newCongressStartDate: document.forms['formUpdate']["congressStartDate"].value,
-            newCongressEndDate: document.forms['formUpdate']["congressEndDate"].value
+            congressName: document.forms['formAdd']["congressName"].value,
+            startDate: document.forms['formAdd']["congressStartDate"].value,
+            endDate: document.forms['formAdd']["congressEndDate"].value,
+            Price: document.forms['formAdd']["congressPrice"].value,
+            Public: "0",
+            selectedSubjects: getSelectedSubjects("Add")
         },
         success: function (data) {
-
             if (data != null && data != '' &&  /\S/.test(data)) {
                 data = JSON.parse(data);
-                document.getElementsByName('errMsgBewerken')[0].innerHTML = '*' + data['err'];
-                var confirmBox = confirm(data['err']);
-                if (confirmBox) {
-
-                } else {
-                    var startDate = parseDate(data['StartDate']['date']);
-                    var endDate = parseDate(data['EndDate']['date']);
-                    updateCongressInfo(data['Name'], data['Subject'], data['Location'], startDate, endDate);
-					oldCongressName = data['Name'];
-					oldCongressLocation = data['Location'];
-					oldCongressSubject = data['Subject'];
-					oldCongressStartDate = startDate;
-					oldCongressEndDate = endDate;
-                }
-            } else {
-                location.reload();
+                document.getElementById('errMsgInsertCongress').innerHTML = '*' + data['err'];
+            }else {
+                window.location.href = 'manage.php';
             }
         }
 
     });
 }
 
-function submitAddSubject() {
-    $('#popUpAddSubjectFromEdit .closePopUp').click();
-    var selector = document.forms['formUpdate']['congressSubject'];
-    var newSubject = document.forms['formAddSubjectFromEdit']['subjectName'].value;
-    for (i = 0; i < selector.options.length; i++) {
-        if (selector.options[i].value == newSubject) {
-            selector.options[i].selected = 'true';
-            document.forms['formAddSubjectFromEdit']['subjectName'].value = '';
-            return;
-        }
-    }
-    var option = document.createElement('option');
-    option.value = newSubject;
-    option.innerHTML = newSubject;
-    option.selected = 'true';
-    document.forms['formAddSubjectFromEdit']['subjectName'].value = '';
-    selector.add(option);
+
+//Create
+function submitAddSubjectAdd(){
+    $('#popUpAddSubjectFromAdd .closePopUp').click();
+    var newSubject = document.forms['formAddSubjectFromAdd']['subjectName'].value;
+    subjectTableAdd.row.add([newSubject]).draw(true).nodes().to$().addClass('selected');
 }
+
+function goToEditCongress(){
+    var selectedRow = table.row('.selected');
+    var congressNo = selectedRow.data()[0];
+
+    if (selectedRow.data()) {
+        $.ajax({
+            url: window.location.href,
+            type: 'POST',
+            data: {
+                goToEdit: 'action',
+                congressNo: congressNo
+            },
+            success: function (data) {
+                window.location.href = "manage.php";
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    } else{
+        alert("Er is geen selectie gemaakt");
+        return false;
+    }
+}
+
+function isValidInput() {
+    var form = document.forms["formAdd"];
+    if (!isValidCongressName(form['congressName'].value)) {
+        $("#errMsgInsertCongress").text("Congresnaam is niet geldig.");
+        return;
+    }
+    else if (!isValidDate(form['congressStartDate'].value)) {
+        $("#errMsgInsertCongress").text("Startdatum is niet geldig.");
+        return;
+    }
+    else if (!isValidDate(form['congressEndDate'].value)) {
+        $("#errMsgInsertCongress").text("Einddatum is niet geldig.");
+        return;
+    }
+    else if (!isValidPrice(form['congressPrice'].value)) {
+        $("#errMsgInsertCongress").text("Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.");
+        return;
+    }
+    else {
+        onCreateCongress();
+    }
+}
+

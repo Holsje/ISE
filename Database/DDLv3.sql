@@ -1,16 +1,16 @@
 USE master
 GO
 
-IF db_id('CongressDB2') IS NOT NULL
+IF db_id('CongressDB') IS NOT NULL
 BEGIN
-	DROP DATABASE CongressDB2
+	DROP DATABASE CongressDB
 END
 GO
 
-CREATE DATABASE CongressDB2
+CREATE DATABASE CongressDB
 GO
 
-USE CongressDB2
+USE CongressDB
 GO
 
 /*==============================================================*/
@@ -211,7 +211,7 @@ CREATE TABLE Person (
    FirstName            D_NAME               NOT NULL,
    LastName             D_NAME               NOT NULL,
    MailAddress          D_MAIL               NOT NULL,
-   PhoneNumber          D_TELNR              NOT NULL,
+   PhoneNumber          D_TELNR              	 NULL,
    CONSTRAINT PK_PERSON PRIMARY KEY (PersonNo),
    CONSTRAINT AK_MAILADDRES UNIQUE(MailAddress),
    CONSTRAINT CK_MAILADDRESS CHECK (MailAddress LIKE '_%[@]_%[.][a-z][a-z]%'
@@ -321,7 +321,7 @@ CREATE TABLE Room (
    City                 D_LOCATION           NOT NULL,
    BName                D_NAME               NOT NULL,
    RName                D_NAME               NOT NULL,
-   Description          D_DESCRIPTION        NOT NULL,
+   Description          D_DESCRIPTION        NULL,
    MaxNumberOfParticipants D_CAPACITY           NOT NULL,
    CONSTRAINT PK_ROOM PRIMARY KEY (LocationName, City, BName, RName),
    CONSTRAINT FK_ROOM_RT_ROOM_I_BUILDING FOREIGN KEY (LocationName, City, BName)
@@ -485,13 +485,18 @@ GO
 /*==============================================================*/
 CREATE TABLE Speaker (
    PersonNo             D_PERSONNO           NOT NULL,
-   Description          D_DESCRIPTION        NOT NULL,
-   PicturePath          D_FILE               NOT NULL,
+   Description          D_DESCRIPTION        NULL,
+   PicturePath          D_FILE               NULL,
+   Owner				D_PERSONNO			 NOT NULL,
    CONSTRAINT PK_SPEAKER PRIMARY KEY (PersonNo),
    CONSTRAINT FK_SPEAKER_INHERITAN_PERSON FOREIGN KEY (PersonNo)
       REFERENCES Person (PersonNo)
 							ON UPDATE CASCADE
-							ON DELETE CASCADE
+							ON DELETE CASCADE,
+   CONSTRAINT FK_SPEAKER_OF_PERSON FOREIGN KEY (Owner)
+	  REFERENCES Person (PersonNo)
+							ON UPDATE NO ACTION
+							ON DELETE NO ACTION
 )
 GO
 
@@ -499,9 +504,9 @@ GO
 /* Table: SpeakerOfCongress                                    */
 /*==============================================================*/
 CREATE TABLE SpeakerOfCongress (
-   PersonNo             D_PERSONNO          NOT NULL,
+   PersonNo             D_PERSONNO			 NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
-   Agreement            D_DESCRIPTION        NOT NULL,
+   Agreement            D_DESCRIPTION        NULL,
    CONSTRAINT PK_SPEAKEROFCONGRESS PRIMARY KEY (PersonNo, CongressNo),
    CONSTRAINT FK_SPEAKERO_RT_SPEAKE_SPEAKER FOREIGN KEY (PersonNo)
       REFERENCES Speaker (PersonNo)

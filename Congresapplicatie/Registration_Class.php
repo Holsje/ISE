@@ -22,7 +22,7 @@
 			$phoneNum = new Text(null, "Telefoonnummer", "phoneNum", null, true, true, true);
 			$password = new Password(null, "Wachtwoord", "password", null, true, true);
 			$submit = new Button("Registreer", null, "registrationSubmit", "btn btn-default pull-right", true, true, null);
-			$this->screenCreator->createPopUp(array($firstNameObject, $lastNameObject, $emailObject, $phoneNum, $password, $submit), "Registreren", "Registration",'smallPop','','');
+			$this->screenCreator->createPopUp(array($firstNameObject, $lastNameObject, $emailObject, $phoneNum, $password, $submit), "Registreren", "Registration",'smallPop','','','');
 		}
 		
 		public function addRecord($storedProcName, $params) {
@@ -32,6 +32,10 @@
 			}
 			$execString .= " ?)}";
 			return $this->database->sendQuery($execString,$params);
+		}
+		
+		public function getDatabase() {
+			return $this->database;
 		}
 	}
  ?>
