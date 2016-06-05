@@ -20,10 +20,7 @@ $(document).ready(function () {
 			         "bPaginate": false
     });    
     
-    $('.subjectAdd').on('click',function(event){
-        selectedTable = $('#' + event.target.form.getElementsByClassName('subjectListBox')[1].getAttribute('id')).DataTable();
-    });
-    
+
     $('#EvenementenSubjectListBoxAdd tbody').on('click','tr',function(){
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -65,9 +62,7 @@ $(document).ready(function () {
     document.forms['formCreateEvenementen']['buttonDeleteEvenementen'].onclick = deleteEvent;
     document.forms['formCreateEvenementen']['buttonEditEvenementen'].onclick = getSelectedEventInfo;
     document.forms['formCreateEvenementen']['speakerToEvent'].onclick = fillSpeakersOfEvent;
-    document.forms['formEvenementenSubjectListBoxAdd']['ToevoegenSubject'].onclick = function(event){
-       addTemporarySubject(event,selectedTable); 
-    }
+
     
     document.forms['formsprekerEvent']['buttonSaveSwapListsprekerEvent'].onclick = addNewSpeakers;
     
@@ -127,18 +122,6 @@ function getSelectedEventInfo(){
             document.forms['formUpdateEvenementen']['AanpassenEvent'].value = eventNo;
         }
     });
-}
-function addTemporarySubject(event,dataTable){
-    $('#popUpEvenementenSubjectListBoxAdd .closePopUp').click();
-    var newSubject = document.forms['formEvenementenSubjectListBoxAdd']['subjectName'].value;
-    dataTable.row.add([newSubject]).draw(true).nodes().to$().addClass('selected');
-    var newRow = dataTable.row(dataTable.data().length -1);
-    newRow.node().childNodes[0].setAttribute('name',newRow.data());
-    var child = document.createElement('input');
-    child.setAttribute('value',document.forms['formEvenementenSubjectListBoxAdd']['subjectName'].value);
-    child.setAttribute('name', 'subjects[]');
-    child.style.visibility = 'hidden';
-    newRow.node().childNodes[0].appendChild(child);
 }
 
 function fillSpeakersOfEvent(){

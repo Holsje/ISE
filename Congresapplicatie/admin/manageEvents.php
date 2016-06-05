@@ -5,6 +5,5 @@
     $manageEvents->createManagementScreen(array('EventNo','Naam', 'Type','Prijs','MaxVisitors','Description'),$manageEvents->getEventsByCongress());
     $manageEvents->createCreateEventsScreen();
     $manageEvents->createEditEventsScreen();
-    $manageEvents->createAddSubjectScreen();
     $manageEvents->createAddSpeakerToEvent();
 ?>

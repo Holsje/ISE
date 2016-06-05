@@ -84,6 +84,7 @@
                     <script src="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.js"></script>
                     <script src="../js/dataTables/js/jquery.dataTables.min.js"></script>
                     <script src="../js/dataTables/js/dataTables.bootstrap.min.js"></script>
+                    <script src="../js/subjects.js"></script>
 
 					
 

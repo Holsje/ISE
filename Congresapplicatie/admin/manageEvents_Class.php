@@ -268,18 +268,12 @@
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $eventSubject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 subjectListBox", true, true, $columnList, $valueList, "EvenementenSubjectListBoxAdd");
-            $addSubjectObject = new Button("+",null,"addSubjectEventButton","form-control btn btn-default popupButton subjectAdd", true, true, "#popUpEvenementenSubjectListBoxAdd");
+            $addSubjectObject = new Button("+",null,"addSubjectEventButton","form-control btn btn-default popupButton subjectAdd", true, true, "#popUpSubjectListBoxAdd");
             $eventToevoegenBtn = new Submit("Toevoegen","createEvent","ToevoegenEvent","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAddEvenementen');
             $screenObjecten = array($eventName,$eventDescription,$eventType,$eventPrice,$eventMaxVis,$eventFileUpload,$eventSubject,$addSubjectObject,$eventToevoegenBtn);
             //Maak screen objecten aan.
 			$this->createScreen->createPopup($screenObjecten,"Evenement aanmaken","AddEvenementen",'smallPop','first','','#Evenementen');
 		}
-        
-        public function createAddSubjectScreen(){
-            $buttonAddSubjectObject = new Button("Toevoegen","","ToevoegenSubject","form-control col-md-4 pull-right btn btn-default", true, true,'#EvenementenSubjectListBoxAdd');
-            $subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
-            $this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","EvenementenSubjectListBoxAdd",null, true, true,"");
-        }
         
         public function createEditEventsScreen() {
             $eventName = new Text('','Naam','eventName','',true,true,true);
@@ -292,7 +286,7 @@
             $valueList = $this->getSubjects();
             $eventSubject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 subjectListBox", true, true, $columnList, $valueList, "EvenementenSubjectListBoxEdit");
             $eventToevoegenBtn = new Submit("Aanpassen","editEvent","AanpassenEvent","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAddEvenementen');
-            $addSubjectObject = new Button("+",null,"addSubjectEventButton","form-control btn btn-default popupButton subjectAdd", true, true, "#popUpEvenementenSubjectListBoxAdd");
+            $addSubjectObject = new Button("+",null,"addSubjectEventButton","form-control btn btn-default popupButton subjectAdd", true, true, "#popUpSubjectListBoxAdd");
             $screenObjecten = array($eventName,$eventDescription,$eventType,$eventPrice,$eventMaxVis,$eventFileUpload,$eventSubject,$addSubjectObject,$eventToevoegenBtn);
             //Maak screen objecten aan.
 			$this->createScreen->createPopup($screenObjecten,"Evenement aanpassen","UpdateEvenementen",'smallPop','first','','#Evenementen');

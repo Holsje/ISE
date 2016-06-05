@@ -75,3 +75,6 @@
 .smallPop .popupTitle {
     width: 55%;
 }
+#popUpSubjectListBoxAdd{
+    z-index: 10;
+}
