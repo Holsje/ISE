@@ -54,7 +54,7 @@
                     $string .= '<tr>';
 
                     for ($i=0; $i<$size; $i++) {
-                        $string .= '<td>' . $value[$i] . '</td>';
+                        $string .= '<td name="' . $value[$i] . '">' . $value[$i] . '</td>';
                     }
                     $string .= '</tr>';
                 }

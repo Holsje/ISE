@@ -24,6 +24,7 @@ $(document).ready(function () {
 				"searchable": false			
 			}]
 		});
+        
 	}
 	
     $('#dataTables_length').css('display', 'none');
