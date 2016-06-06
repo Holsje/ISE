@@ -9,6 +9,7 @@ include('manageSpeakersGMSubmits.php');
 
 $css = '<link rel="stylesheet" href="../css/manage.css">';
 $js = '<script type="text/javascript" src="../js/manageSpeakerGM.js"></script>';
+$js .= "<script src='../js/manage.js'></script>";
 topLayoutManagement('Beheren Sprekers',$css,$js);
 ?>
 

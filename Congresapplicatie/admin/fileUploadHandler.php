@@ -1,7 +1,6 @@
 <?php
 
 function handleFile($targetFileDir, $inputName, $fileName){
-	error_reporting(0);
     if(isset($_FILES[$inputName]['error'])){
         
         if($_FILES[$inputName]['error'] == UPLOAD_ERR_OK){
@@ -23,9 +22,9 @@ function handleFile($targetFileDir, $inputName, $fileName){
 
 function uploadTheFile($fileToUpload, $targetFile){
     if(getimagesize($fileToUpload)){
-        imagepng(imagecreatefromstring(file_get_contents($fileToUpload)));
+        return imagepng(imagecreatefromstring(file_get_contents($fileToUpload)),$targetFile);
     }
-    if (move_uploaded_file($fileToUpload,$targetFile)) {
+    else if (move_uploaded_file($fileToUpload,$targetFile)) {
 		return true;
     } 
     else {

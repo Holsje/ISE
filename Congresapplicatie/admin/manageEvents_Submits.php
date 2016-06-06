@@ -19,8 +19,6 @@
     }
     if(isset($_POST['AanpassenEvent'])){
         $manageEvents->handleSubmitEdit($_POST['AanpassenEvent']);
-        header('Location: manage.php');
-        die();
     }
     if(isset($_POST['speakerOfEvent'])){
         echo $manageEvents->getSpeakersOfEvent($_SESSION['congressNo'],$_POST['eventNo']);

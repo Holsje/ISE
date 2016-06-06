@@ -157,23 +157,23 @@ function getCongressInfo(){
 function isValidInput(){
     var form = document.forms["formUpdateCongress"];
     if (!isValidCongressName(form['congressName'].value)) {
-        alert('Congresnaam is niet geldig');
+        $("#errMsgUpdateCongress").text('Congresnaam is niet geldig');
         return;
     }
     else if (!isValidDate(form['congressStartDate'].value)) {
-        alert('Startdatum is niet geldig');
+        $("#errMsgUpdateCongress").text('Startdatum is niet geldig');
         return;
     }
     else if (!isValidDate(form['congressEndDate'].value)) {
-        alert('Einddatum is niet geldig');
+        $("#errMsgUpdateCongress").text('Einddatum is niet geldig');
         return;
     }
     else if (!isValidPrice(form['congressPrice'].value)) {
-        alert('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
+        $("#errMsgUpdateCongress").text('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
         return;
     }
     else if (form['congressStartDate'].value > form['congressEndDate'].value){
-        alert('Eind datum mag niet voor begin datum liggen.');
+        $("#errMsgUpdateCongress").text('Eind datum mag niet voor begin datum liggen.');
     }
     else {
         onUpdateCongress();

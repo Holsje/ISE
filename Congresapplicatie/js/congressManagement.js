@@ -156,6 +156,9 @@ function isValidInput() {
         $("#errMsgInsertCongress").text("Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.");
         return;
     }
+    else if (form['congressStartDate'].value > form['congressEndDate'].value){
+        $("#errMsgInsertCongress").text('Eind datum mag niet voor begin datum liggen.');
+    }
     else {
         onCreateCongress();
     }

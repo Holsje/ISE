@@ -13,18 +13,6 @@ $(document).ready(function () {
 	});
 	
 	
-	 $('.singleSelect.dataTable tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
-        } else {
-            $('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
-        }
-    });
-	
-	
 	document.forms["formCreate"]["buttonEdit"].onclick = getSpeakerInfo;
 	document.forms["formCreate"]["buttonDelete"].onclick = deleteSpeakers;
 	

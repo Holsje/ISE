@@ -8,7 +8,7 @@
     require_once('Management.php');
     require_once('Login_Class.php');
     $login = new Login();
-    include('fileUploadHandler.php');
+    require_once('fileUploadHandler.php');
     class ManageCongress extends Management{
 
         public function __construct(){
@@ -123,6 +123,7 @@
 		}
 
 		public function createEditCongressScreen() {
+            $errMsg = new Span(null, null, 'errMsgUpdateCongress', 'errorMsg', true, true, null);
 			$congressNameObject = new Text(null,"Naam","congressName",null, true, true, true);
 
 			$addSubjectObject = new Button("+",null,"addSubjectButton","form-control btn btn-default popupButton subjectAdd", true, true, "#popUpSubjectListBoxAdd");
@@ -135,7 +136,6 @@
 			$endDateObject = new Date(null,"Einddatum","congressEndDate","form-control col-xs-12 col-sm-8 col-md-8", true, true, true);
             $priceObject = new Text(null,"Prijs","congressPrice","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
             $publicObject = new Text(null,"Publiek","congressPublic","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
-            $errMsg = new Span('',null,'errMsgUpdateCongress','errorMsg',true,true,null);
             $bannerEditObject = new Button("Banner aanpassen",null,"editCongressBanner","form-control btn btn-default popupButton",true,false,'#popUpBanner');
 			$submitObject = new Button("Bewerken","Bewerken","updateCongress","form-control col-md-4 pull-right btn btn-default",false, true, '#popUpUpdate');
 			//$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$addSubjectObject,$errMsg,$submitObject),"Congres bewerken","Update",null, "", true, false);

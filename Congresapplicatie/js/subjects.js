@@ -2,7 +2,6 @@ var selectedTable;
 $(document).ready(function () {
 
     document.forms['formSubjectListBoxAdd']['ToevoegenSubject'].onclick = function(event){
-        alert("TEst");
         addTemporarySubject(event,selectedTable);
     }
 
