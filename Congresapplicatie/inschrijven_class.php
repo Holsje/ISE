@@ -1,4 +1,7 @@
 <?php
+	require_once('ScreenCreator/CreateScreen.php');
+	require_once('connectDatabase.php');
+	require_once('database.php');
 	class Inschrijven {
 		public $createScreen;
 		public $dates;
@@ -17,16 +20,22 @@
 		private $congress;
 		private $congressNo;
 
-		public function __construct($__congressNo, $__dataBase, $__createScreen) {
-			$this->dataBase = $__dataBase;
-			$this->createScreen = $__createScreen;
+		public function __construct($__congressNo) {
+			global $server, $databaseName, $uid, $password;		
+			$this->dataBase = new Database($server,$databaseName,$uid,$password);
+			$this->createScreen = new CreateScreen();
 			$this->congressNo = $__congressNo;
-			$this->tracks = $this->getTracks($this->congressNo);
+			$this->tracks = $this->getTracks();
 			$this->dates =$this->getDays($this->congressNo);
 			$this->calculateAllCongressDays($this->dates['STARTDATE'], $this->dates['ENDDATE']);
 			$this->handleMonthAndYearCounts();
-			$this->congress = $this->getCongress($this->congressNo);
+			$this->congress = $this->getCongress();
 			$this->congressName = $this->getCongressName();
+			if (!isset($_SESSION['pageCount']) || !isset($_SESSION['monthCount']) || !isset($_SESSION['yearCount'])) {
+				$_SESSION['pageCount'] = 0;
+				$_SESSION['monthCount'] = 0;
+				$_SESSION['yearCount'] = 0;
+			}
 		}
 		
 		public function createSchedule() {
@@ -161,10 +170,10 @@
 			return strtotime($a['startdate']) - strtotime($b['startdate']);
 		}
 	
-		public function getTracks($congressNo) {
+		public function getTracks() {
 				$result  = $this->dataBase->sendQuery("SELECT TRACKNO,DESCRIPTION,TNAME " . 
 														"FROM TRACK " . 
-														"WHERE CongressNo = ?",array($congressNo));
+														"WHERE CongressNo = ?",array($this->congressNo));
 				$tracks = array();
 				if($result) {
 					while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
@@ -191,7 +200,7 @@
 			return $dates;
 		}
 		
-		public function getCongress($congressNo) {
+		public function getCongress() {
 			$result  = $this->dataBase->sendQuery("SELECT T.TRACKNO,E.EVENTNO,T.CONGRESSNO,E.ENAME,E.TYPE,EIT.START,EIT.[END],E.PRICE,E.FILEDIRECTORY " .
 													"FROM TRACK T " .
 													"INNER JOIN EVENTINTRACK EIT " .
@@ -201,7 +210,7 @@
 														"ON E.EVENTNO = EIT.EVENTNO " .
 														"AND E.CongressNo = T.CongressNo " .
 													"WHERE T.CONGRESSNO = ? " . 
-													"ORDER BY EIT.START",array($congressNo));
+													"ORDER BY EIT.START",array($this->congressNo));
 			$congress = array();
 			if($result) {
 				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))

@@ -1,15 +1,9 @@
 <?php
 	include('admin/sessionHandler.php');
 	sessionHandlerWeb(false, false);
-	require_once('database.php');
 	require_once('Index_Class.php');
 	$indexClass = new Index();
-	global $server, $databaseName, $uid, $password;
-	$dataBase = new Database($server,$databaseName,$uid,$password);
-	$createScreen = new CreateScreen();
 	include('inschrijven_Submit.php');
-	require_once('ScreenCreator/CreateScreen.php');
-	require_once('connectDatabase.php');
 	require_once('pageConfig.php');
 	require_once('inschrijven_class.php');
 	$inschrijven = new Inschrijven($_SESSION['congressNo'], $dataBase, $createScreen);

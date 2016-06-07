@@ -1,0 +1,27 @@
+#trackCarousel {
+	border-style: solid;
+	margin-right: 20px;
+}
+
+
+.eventPlanningBox {
+	border-style: solid;
+}
+
+.eventInEventBox {
+	border-style: solid;
+	margin-top:3px;
+	margin-bottom: 3px;
+}
+
+.eventBoxPlanning  .eventInEventBox {
+	position:absolute;
+}
+
+.smallEventName {
+	font-size: 18px;
+}
+
+#timeBarPlanning {
+	margin-top: 100px;
+}

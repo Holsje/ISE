@@ -95,6 +95,17 @@ require_once('ScreenObjects/Identifier.php');
 			echo '</div>';
 		}
 		
+		public function createSmallEventInfo($eventNo, $eventName, $height,$topOffset) {
+			echo '<div class="eventInEventBox col-xs-12 col-sm-12 col-md-12" style="height: '. $height . ';';
+			if(isset($topOffset)){
+				echo 'top:' . $topOffset . ';';
+			}
+			echo '">';
+				echo '<input type="hidden" value="'. $eventNo . '">';
+				echo '<p class="SmallEventName">'. $eventName . '</p>';
+			echo '</div>';
+		}
+		
 		public function createDataSwapList($tableLeft,$tableLeftId,$titleLeft,$tableRight,$tableRightId,$titleRight,$keepRight,$removeLeft,$buttonsLeft,$buttonsRight,$pageName) {
 			echo '<form name="form' . $pageName . '" method="post"  class="row col-sm-12 col-xs-12 col-md-12"  action="'.$_SERVER['PHP_SELF']. '#' . $pageName . '">';
 				echo '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList ' . $tableLeftId . '"> ';
