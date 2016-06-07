@@ -48,15 +48,19 @@
 			$congress['city'] = $row['City'];
 		}
 		if (!is_string($result)) {
-			$queryUpdateCongressLocation = "UPDATE Congress SET LocationName = ?, City = ? WHERE LocationName = ? AND City = ? AND CongressNo = ?";
-			$paramsUpdateCongressLocation = array($_SESSION['currentLocationName'], $_SESSION['currentLocationCity'], $congress['locationName'], $congress['city'], $manage->getCongressNo());
+
+			$queryUpdateCongressLocation = "UPDATE Congress SET LocationName = ?, City = ? WHERE CongressNo = ?";
+
+			$paramsUpdateCongressLocation = array($_SESSION['currentLocationName'], $_SESSION['currentLocationCity'], $manage->getCongressNo());
+			var_dump($queryUpdateCongressLocation);
+			var_dump($paramsUpdateCongressLocation);
 			$result = $database->sendQuery($queryUpdateCongressLocation, $paramsUpdateCongressLocation);
 		}
 	}
 	
 	if(isset($_POST['getRooms'])) {
 		if($_POST['getRooms'] == 'rooms') {			
-			$queryRoomInfo = "SELECT BName, RName, Description, MaxNumberOfParticipants " .
+			$queryRoomInfo = "SELECT LocationName, City, BName, RName, Description, MaxNumberOfParticipants " .
 							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ?";
 			$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['building']);
 			
@@ -87,7 +91,7 @@
 	}
 	
 	if(isset($_POST['getRoomInfo'])){
-		$queryRoomInfo = "SELECT BName, RName, Description, MaxNumberOfParticipants " .
+		$queryRoomInfo = "SELECT LocationName, City, BName, RName, Description, MaxNumberOfParticipants " .
 							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
 		$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['building'],$_POST['RName']);
 		

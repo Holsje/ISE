@@ -28,7 +28,7 @@ function isValidPrice(price){
 }
 
 function isValidLocationName(locationName) {
-	return /^[a-zA-Z0-9-,()./\ ]{1,50}$/.test(locationName);
+	return /^[a-zA-Z0-9-, ()./ ]{1,50}$/.test(locationName);
 }
 
 function isValidCityName(cityName) {

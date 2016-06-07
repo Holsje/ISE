@@ -10,19 +10,33 @@ class ManageLocations extends Management {
 	
 	public function __construct($currentLocationName, $currentLocationCity, $columnList){
 		parent::__construct();
+
+		if (!isset($_SESSION['currentLocationName']) && !isset($_SESSION['currentLocationCity'])) {
+			$location = $this->getCongressLocation();
+			if ($location['LocationName'] == null) {
+				$this->currentLocationName = null;
+			} else {
+				$this->currentLocationName = $location['LocationName'];
+				$_SESSION['currentLocationName'] = $this->currentLocationName;
+			}
+
+			if ($location['City'] == null) {
+				$this->currentLocationCity = null;
+			} else {
+				$this->currentLocationCity = $location['City'];
+				$_SESSION['currentLocationCity'] = $this->currentLocationCity;
+			}
+		}
+
 		$this->allLocations = $this->getAllLocations();
-		if ($currentLocationName != null && $currentLocationCity != null) {
-			$this->currentLocationName = $currentLocationName;
-			$this->currentLocationCity = $currentLocationCity;
-		}
-		else {
-			$this->currentLocationName = $this->allLocations[0][0];
-			$this->currentLocationCity = $this->allLocations[0][1];
-			$_SESSION['currentLocationName'] = $this->currentLocationName;
-			$_SESSION['currentLocationCity'] = $this->currentLocationCity;
-		}
+
+
+
+
 		$this->columnList = $columnList;
-		$_SESSION['locationValueList'] = $this->getBuildingsByLocation($this->currentLocationName, $this->currentLocationCity);
+		if (isset($_SESSION['currentLocationName']) && isset($_SESSION['currentLocationCity'])) {
+			$_SESSION['locationValueList'] = $this->getBuildingsByLocation($_SESSION['currentLocationName'], $_SESSION['currentLocationCity']);
+		}
     }
 	
 	public function createManagementScreen($columnList, $valueList, $screenName, $buttonArray) {
@@ -36,23 +50,23 @@ class ManageLocations extends Management {
 		for($i = 0; $i < sizeof($this->allLocations); $i++) {
 			array_push($locationNamesWithCity, $this->allLocations[$i][0] . ' - ' . $this->allLocations[$i][1]);
 		}
-		if (isset($_SESSION['selectedLocation'])) {
-			$selectLocations = new Select($_SESSION['selectedLocation'], "Locatie", null, "form-control col-xs-12 col-sm-8 col-md-8 locationSelect", true, true, $locationNamesWithCity, null, true, null);
+		if (isset($_SESSION['currentLocationName']) && isset($_SESSION['currentLocationCity'])) {
+			$selectLocations = new Select($_SESSION['currentLocationName'] . ' - ' . $_SESSION['currentLocationCity'], "Locatie", null, "form-control col-xs-12 col-sm-8 col-md-8 locationSelect", true, true, $locationNamesWithCity, null, true, null);
 		}
-		else {
+		else{
 			$selectLocations = new Select(null, "Locatie", null, "form-control col-xs-12 col-sm-8 col-md-8 locationSelect", true, true, $locationNamesWithCity, null, true, null);
 		}
 		echo '<div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10">';
-			echo $selectLocations->getObjectCode();
-			echo '<form name="formCoupleLocatie" method="POST" action="'. $_SERVER['PHP_SELF'] . '#Locatie">';
-				echo $buttonLinkToCongress->getObjectCode();
-			echo '</form>';
+		echo $selectLocations->getObjectCode();
+		echo '<form name="formCoupleLocatie" method="POST" action="'. $_SERVER['PHP_SELF'] . '#Locatie">';
+			echo $buttonLinkToCongress->getObjectCode();
+		echo '</form>';
 		echo '</div>';
-		if (!isset($_SESSION['selectedLocation'])) {
-			$this->createManagementScreen($this->columnList, null, "Locatie", null);
+		if (isset($_SESSION['currentLocationName']) && isset($_SESSION['currentLocationCity'])) {
+			$this->createManagementScreen($this->columnList, $_SESSION['locationValueList'], "Locatie", null);
 		}
 		else {
-			$this->createManagementScreen($this->columnList, $_SESSION['locationValueList'], "Locatie", null);
+			$this->createManagementScreen($this->columnList, null, "Locatie", null);
 		}
 		echo '</div>';
 	}
@@ -62,7 +76,7 @@ class ManageLocations extends Management {
 		$street = new Text(null, "Straat + Huisnr", "streetName", "form-control col-xs-7 col-sm-7 col-md-7", true, false, false);
 		$houseNo = new Text(null, null, "houseNo", "form-control col-xs-1 col-sm-1 col-md-1", false, true, false);
 		$postalCode = new Text(null, "Postcode", "postalCode", null, true, true, false);
-		$saveButton = new Submit("Opslaan", null, "saveBuildingButton", null, true, true);
+		$saveButton = new Submit("Toevoegen", null, "saveBuildingButton", null, true, true);
 		$this->getCreateScreen()->createPopUp(array($nameTextField, $street, $houseNo, $postalCode, $saveButton),"Gebouw toevoegen","AddLocatie",null,null,null, "#Locatie");
 	}
 	
@@ -71,6 +85,8 @@ class ManageLocations extends Management {
 		$valueList = null;
 		
 		$screenName = "Zalen";
+		$locationName = new Identifier(null, "Locatie", "LocationName", null, true, true, true);
+		$cityName = new Identifier(null, "Plaats", "cityName", null, true, true, true);
 		$buildingName = new Identifier(null, "Gebouw", "BName", null, true, true, true);
 		$listBox = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 singleSelect", false, false, $columnList, $valueList, $screenName . "ListBox");
 		$buttonAdd = new Button("Toevoegen", null, "buttonAdd" . $screenName , "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAdd" . $screenName);
@@ -78,7 +94,7 @@ class ManageLocations extends Management {
 		$buttonDelete = new Button("Verwijderen", null, "buttonDelete" . $screenName, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpDelete" . $screenName);
 		
 				
-		$this->getCreateScreen()->createPopUp(array($buildingName,$listBox, $buttonAdd, $buttonChange,$buttonDelete),"Zaal beheren","UpdateLocatie",null,null,null, "#Locatie");
+		$this->getCreateScreen()->createPopUp(array($locationName, $cityName, $buildingName,$listBox, $buttonAdd, $buttonChange,$buttonDelete),"Zaal beheren","UpdateLocatie",null,null,null, "#Locatie");
 	
 	}
 	
@@ -95,6 +111,8 @@ class ManageLocations extends Management {
 	
 	
 	public function createEditRoomPopUp() {
+		$locationName = new Identifier(null, "Locatie", "LocationName", null, true, true, true);
+		$cityName = new Identifier(null, "Plaats", "cityName", null, true, true, true);
 		$buildingName = new Identifier(null, "Gebouw", "BName", null, true, true, true);
 		$roomName = new Text(null, "Naam", "roomName", null, true, true, true);
 		$roomDescription = new Text(null, "Omschrijving", "roomDescription", null, true, true, true);
@@ -102,7 +120,7 @@ class ManageLocations extends Management {
 		$errMsg = new Span('',null,'errMsgUpdateRoom','errorMsg',true,true,null);
 		$saveButton = new Submit("Opslaan", null, "saveRoomButton", null, true, true);
 	
-		$this->getCreateScreen()->createPopUp(array($buildingName,$roomName, $roomDescription, $roomCapacity,$errMsg,$saveButton),"Zaal aanpassen","UpdateZalen",null,null,null, "#Locatie");
+		$this->getCreateScreen()->createPopUp(array($locationName, $cityName, $buildingName, $roomName, $roomDescription, $roomCapacity,$errMsg,$saveButton),"Zaal aanpassen","UpdateZalen",null,null,null, "#Locatie");
 	}
 	
 	
@@ -150,6 +168,22 @@ class ManageLocations extends Management {
 	public function getCurrentLocationCity() {
 		return $this->currentLocationCity;
 	}
+
+
+	public function getCongressLocation(){
+		$queryGetLocation = "SELECT LocationName, City
+							 FROM Congress
+							 WHERE CongressNo = ?";
+		$params = array($_SESSION['congressNo']);
+		$result = $this->database->sendQuery($queryGetLocation, $params);
+		if ($result){
+			if ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+				return $row;
+			}
+		}
+	}
+
+
 }
 
 ?>

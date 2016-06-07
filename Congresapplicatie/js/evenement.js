@@ -84,6 +84,7 @@ function deleteEvent(){
             eventNo: eventNo
         },
         success: function(data){
+            console.log(data);
             $('#EvenementenListBox tbody .selected').remove();
         }
     });

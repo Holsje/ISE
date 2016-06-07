@@ -143,7 +143,9 @@ function getRooms() {
 
 function refreshRoom(rooms) {
 	roomTable.rows().remove().draw(false);
-	
+	document.forms['formUpdateLocatie']['LocationName'].value = rooms[0]['LocationName'];
+	document.forms['formUpdateLocatie']['cityName'].value = rooms[0]['City'];
+
 	for(var i = 0;i<rooms.length;i++) {
 		roomTable.row.add([rooms[i]["RName"],rooms[i]["Description"],rooms[i]["MaxNumberOfParticipants"]]);
 	}
@@ -210,6 +212,8 @@ function getRoomInfo() {
 }
 
 function refreshEditRoom(roomInfo) {
+	document.forms['formUpdateZalen']['LocationName'].value = roomInfo[0]['LocationName'];
+	document.forms['formUpdateZalen']['cityName'].value = roomInfo[0]['City'];
 	document.forms['formUpdateZalen']['BName'].value = roomInfo[0]['BName'];
 	document.forms['formUpdateZalen']['roomName'].value = roomInfo[0]['RName'];
 	document.forms['formUpdateZalen']['roomDescription'].value = roomInfo[0]['Description'];
