@@ -3,8 +3,14 @@
 		public $createScreen;
 		public $dates;
 		public $congressName;
+		
+		public $yearsOfCongress;
+		public $monthsOfCongress;
 		public $daysOfCongress;
-		public $currentDay;
+		
+		private $thisYear;
+		private $thisMonth;
+		private $thisDay;
 		
 		private $dataBase;
 		private $tracks;
@@ -17,21 +23,10 @@
 			$this->congressNo = $__congressNo;
 			$this->tracks = $this->getTracks($this->congressNo);
 			$this->dates =$this->getDays($this->congressNo);
+			$this->calculateAllCongressDays($this->dates['STARTDATE'], $this->dates['ENDDATE']);
+			$this->handleMonthAndYearCounts();
 			$this->congress = $this->getCongress($this->congressNo);
-			$this->daysOfCongress = $this->getDaysOfCongressAsArray($this->congressNo);
 			$this->congressName = $this->getCongressName();
-			if (isset($_POST['nextDayButton'])) {
-				if ($_SESSION['pageCount'] < sizeof($this->daysOfCongress)) {
-					$this->currentDay = $this->daysOfCongress[$_SESSION['pageCount']];
-				}
-				else {
-					$this->currentDay = $this->daysOfCongress[0];
-					$_SESSION['pageCount'] = 0;
-				}
-			}
-			else {
-				$this->currentDay = $this->daysOfCongress[0];
-			}
 		}
 		
 		public function createSchedule() {
@@ -40,23 +35,34 @@
 		
 		public function createScheduleForOneDay($dayKey) {
 			$amountOfTracks = sizeof($this->tracks);
-			for($i = 1; $i <= $amountOfTracks; $i+= 3) {
+			if (isset($_SESSION['tracksPerCarouselSlide'])) {
+				$this->tracksPerCarouselSlide = $_SESSION['tracksPerCarouselSlide'];
+			}
+			else {
+				$this->tracksPerCarouselSlide = 3;
+			}
+			if (empty($this->congress[2]["DAYS"][$dayKey]["EVENTS"])) {
+				echo '<p class="noEventsText">Er zijn geen evenementen ingepland voor deze dag</p>';
+				return;
+			}
+			
+			for($i = 1; $i <= $amountOfTracks; $i+= $this->tracksPerCarouselSlide) {
 				if ($i == 1) {
-					$this->makeCarouselItem($this->getNextThreeTracks($i, $amountOfTracks), true, $dayKey);
+					$this->makeCarouselItem($this->getNextFewTracks($i, $amountOfTracks, $this->tracksPerCarouselSlide), true, $dayKey);
 				}
 				else {
-					$this->makeCarouselItem($this->getNextThreeTracks($i, $amountOfTracks), false, $dayKey);
+					$this->makeCarouselItem($this->getNextFewTracks($i, $amountOfTracks, $this->tracksPerCarouselSlide), false, $dayKey);
 				}
 			}
 		}
 		
-		private function getNextThreeTracks($currentIndex, $amountOfTracks) {
+		private function getNextFewTracks($currentIndex, $amountOfTracks, $tracksPerCarouselSlide) {
 			$tracksInItem = array();
-			if (($currentIndex + 2) > $amountOfTracks){
+			if (($currentIndex + $tracksPerCarouselSlide - 1) > $amountOfTracks){
 				$increment = $amountOfTracks;
 			}
-			else{
-				$increment = $currentIndex + 2;
+			else {
+				$increment = $currentIndex + $tracksPerCarouselSlide - 1;
 			}
 			for($i = $currentIndex; $i <= $increment; $i++) {
 				array_push($tracksInItem, $this->tracks[$i]);
@@ -65,7 +71,7 @@
 		}
 		
 		public function makeCarouselItem($tracksInItem, $active, $dayKey) {
-			$hourHeight = 150;
+			$hourHeight = 250;
 			$firstTrack = true;	
 			if ($active) {
 				echo '<div class="item active">';
@@ -79,10 +85,9 @@
 				if($trackKey=="TIMES") {
 					continue;
 				}
-	
-				echo '<div class="event' . $dayKey . '">';
+				
 				if($firstTrack) {
-					echo '<div id="timeBar' . $dayKey . '" class="timeBar col-xs-1 col-sm-1 col-md-1" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME'] - $this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight + $hourHeight) . 'px; top:100px;" class="col-sm-1 col-md-1 col-xs-1">';
+					echo '<div id="timeBar" class="timeBar col-xs-1 col-sm-1 col-md-1" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME'] - $this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight + $hourHeight) . 'px; top:100px;" class="col-sm-1 col-md-1 col-xs-1">';
 					for($i = 0;$i < ($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])+1;$i++) {
 						echo '<div style="height:' . $hourHeight . ';">';
 						if($this->congress['TIMES'][$dayKey]['STARTTIME']+$i < 10) {
@@ -94,12 +99,36 @@
 						echo ':00</div>';
 					}
 					echo '</div>';
+					echo '<div class="col-xs-1 col-sm-1 col-md-1 whiteSpace">';
+					echo '</div>';
 					$firstTrack = false;
 				}
 				
-				echo '<div class="col-sm-3 col-md-3 col-xs-3 event">';
-				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventTitle"><h2>' . $track['TNAME'] . '</h2></div>';
-				echo '<div class="col-sm-12 col-md-12 col-xs-12 eventBox" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight) . ';">';
+				if (isset($_SESSION['tracksPerCarouselSlide'])) {
+					if ($_SESSION['tracksPerCarouselSlide'] == 2) {
+						echo '<div class="track col-xs-5 col-sm-5 col-md-5">';
+					}
+					else {
+						echo '<div class="track col-xs-3 col-sm-3 col-md-3">';
+					}
+				}
+				else {
+					echo '<div class="track col-xs-3 col-sm-3 col-md-3">';
+				}
+				
+				if (isset($_SESSION['tracksPerCarouselSlide'])) {
+					if ($_SESSION['tracksPerCarouselSlide'] == 2) {
+						echo '<div class="col-xs-12 col-sm-12 col-md-12 event">';
+					}
+					else {
+						echo '<div class="col-xs-12 col-sm-12 col-md-12 event">';
+					}
+				}
+				else {
+					echo '<div class="col-xs-12 col-sm-12 col-md-12 event">';
+				}
+				echo '<div class="eventTitle">' . $track['TNAME'] . '</div>';
+				echo '<div class="eventBox" style="height:' . (($this->congress['TIMES'][$dayKey]['ENDTIME']-$this->congress['TIMES'][$dayKey]['STARTTIME'])*$hourHeight) . ';">';
 				
 				if(!isset($this->congress[$track['TRACKNO']]["DAYS"][$dayKey])) {
 					echo '</div>';
@@ -108,7 +137,7 @@
 					continue;
 				}					
 				$eventDates = $this->congress[$track['TRACKNO']]["DAYS"][$dayKey];
-	
+				
 				foreach($eventDates["EVENTS"] AS $event) {
 					$time = explode(':',$event['START']);
 					$startTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
@@ -117,7 +146,8 @@
 					
 					$distanceFromTop = ($startTimeInHours - ($this->congress['TIMES'][$dayKey]['STARTTIME']))*$hourHeight;
 					$height = ($endTimeInHours-$startTimeInHours)*$hourHeight;
-					echo $this->createScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","col-sm-12 col-md-12 col-xs-12 eventBoxSignUp","position:absolute; top:" . $distanceFromTop . "px; height:" . $height . "px; width:90%; left:5%;",$event['FILEDIRECTORY'] . 'thumbnail.png',$event['START'] . " -  " . $event['END']);
+					$distanceFromTop += 100;
+					echo $this->createScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","eventBoxSignUp","top:" . $distanceFromTop ."px; height:" . $height . "px;overflow: auto;width: 87%;",$event['FILEDIRECTORY'] . 'thumbnail.png', substr($event['START'], 0, 5) . " -  " . substr($event['END'], 0, 5));
 				}
 				echo '</div>';
 				echo '</div>';
@@ -206,7 +236,6 @@
 		
 		public function getCongressName() {
 			$result = $this->dataBase->sendQuery("SELECT CName FROM Congress WHERE CongressNo = ?", array($this->congressNo));
-			$congressName = '';
 			if ($result) {
 				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
 					$congressName = $row['CName'];
@@ -215,71 +244,133 @@
 			return $congressName;
 		}
 		
-		public function getDaysOfCongressAsArray($congressNo) {
-			$congressStartDay = $this->getDayPartOfCongressDate($this->dates['STARTDATE']);
-			$congressEndDay = $this->getDayPartOfCongressDate($this->dates['ENDDATE']);
+		public function getCongressDescription() {
+			$result = $this->dataBase->sendQuery("SELECT Description FROM Congress WHERE CongressNo = ?", array($this->congressNo));
+			if ($result) {
+				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					$congressDescription = $row['Description'];
+				}
+			}
+			return $congressDescription;
+		}
+		
+		public function calculateAllCongressDays($startDate, $endDate) {
+			$congressStartDay = $this->getDayPartOfCongressDate($startDate);
+			$congressEndDay = $this->getDayPartOfCongressDate($endDate);
+			$congressYearsArray = array();
+			$congressMonthsArray = array();
 			$congressDaysArray = array();
-			if ($congressStartDay >= 28 && $congressEndDay < 28) {
-				$monthInDate = (integer)substr($this->dates['STARTDATE'], 5, 2);
-				$yearInDate = (integer)substr($this->dates['STARTDATE'], 0, 4);
-				$totalDaysInThisMonth = cal_days_in_month(CAL_GREGORIAN, $monthInDate, $yearInDate);
-				for($i = $congressStartDay; $i <= $totalDaysInThisMonth; $i++) {
-					array_push($congressDaysArray, $i);
-				}
-				for($i = 1; $i <= $congressEndDay; $i++) {
-					array_push($congressDaysArray, $i);
-				}
-				return $congressDaysArray;
+			$monthInStartDate = (integer)substr($startDate, 5, 2);
+			$yearInStartDate = (integer)substr($startDate, 0, 4);
+			$monthInEndDate = (integer)substr($endDate, 5, 2);
+			$yearInEndDate = (integer)substr($endDate, 0, 4);
+			
+			$yearIterations = $yearInEndDate - $yearInStartDate;
+			$numberOfMonths = abs(($yearInEndDate - $yearInStartDate)*12 + ($monthInEndDate - $monthInStartDate));
+		
+			$currentMonth = $monthInStartDate;
+			$currentYear = $yearInStartDate;
+			
+			for($i = 0; $i <= $yearIterations; $i++) {
+				array_push($congressYearsArray, $currentYear + $i);
 			}
-			else {
-				for($i = $congressStartDay; $i <= $congressEndDay; $i++) {
-					array_push($congressDaysArray, $i);
-				}	
+			
+			$monthCount = 1;
+			for($j = 0; $j <= $numberOfMonths; $j++) {
+				if ($currentMonth + $j > 12) {
+					if ($monthCount > 12) {
+						$monthCount = 1;
+					}
+					array_push($congressMonthsArray, $monthCount);
+					$monthCount++;
+				}
+				else {
+					array_push($congressMonthsArray, $currentMonth + $j);
+				}
 			}
-			return $congressDaysArray;
+			$yearCount = 0;
+			$dayCount = 1;
+			$monthCount = 0;
+			$firstMonth = true;
+			$lastMonth = false;
+
+			if ($numberOfMonths == 0) {
+				array_push($congressDaysArray, $congressStartDay);
+			}
+			//First month
+			$amountOfMonths = sizeof($congressMonthsArray);
+			for($j = 0; $j < $amountOfMonths - 1; $j++) {
+				if ($congressMonthsArray[$j] == 1 && $j != 0) {
+					$yearCount++;
+				}
+				$totalDaysInThisMonth = cal_days_in_month(CAL_GREGORIAN, $congressMonthsArray[$j], $congressYearsArray[$yearCount]);
+				for($i = 0; $i <= $totalDaysInThisMonth; $i++) {
+					if ($firstMonth) {
+						if ($congressStartDay + $i > $totalDaysInThisMonth) {
+							$firstMonth = false;
+						}
+						else {
+							array_push($congressDaysArray, $congressStartDay + $i);
+						}
+					}
+					else {
+						if ($j + 1 == sizeof($congressMonthsArray) - 1) {
+							$lastMonth = true;
+						}
+						if (!$lastMonth) {
+							if ($dayCount > $totalDaysInThisMonth) {
+								$dayCount = 1;
+							}
+							array_push($congressDaysArray, $dayCount);
+							$dayCount++;
+						}
+						else {
+							if (sizeof($congressMonthsArray) >  2) {
+								if ($dayCount > $totalDaysInThisMonth) {
+									$dayCount = 1;
+								}
+								array_push($congressDaysArray, $dayCount);
+								$dayCount++;
+							}
+							else {
+								while($dayCount <= $congressEndDay) {
+									array_push($congressDaysArray, $dayCount);
+									$dayCount++;
+								}
+							}
+						}
+					}
+				}
+			}
+			if (sizeof($congressMonthsArray) >  2) {
+				array_pop($congressDaysArray);
+			}
+			
+			if ($numberOfMonths == 0) {
+				array_push($congressDaysArray, $congressEndDay);
+			}
+			$this->yearsOfCongress = $congressYearsArray;
+			$this->monthsOfCongress = $congressMonthsArray;
+			$this->daysOfCongress = $congressDaysArray;
 		}
 		
 		public function writeOutCurrentDate() {
-			$thisMonth = (integer)substr($this->dates['STARTDATE'], 5, 2);
-			$thisYear = (integer) substr($this->dates['STARTDATE'], 0, 4);
-			$totalDaysInThisMonth = cal_days_in_month(CAL_GREGORIAN, $thisMonth, $thisYear);
-			if ($_SESSION['yearIncrements'] != 0) {
-				if ($this->daysOfCongress[$_SESSION['pageCount']] == $totalDaysInThisMonth) {
-					$_SESSION['yearIncrements']--;
-				}
-				if ($_SESSION['monthIncrements'] == 0 && $_SESSION['yearIncrements'] != 0) {
-					$thisMonth = 1;
-				}
-			}
-			else if ($_SESSION['monthIncrements'] != 0) {
-				if ($this->daysOfCongress[$_SESSION['pageCount']] == $totalDaysInThisMonth) {
-					$_SESSION['monthIncrements']--;
-				} 
-			}
-			$thisMonth = $thisMonth + $_SESSION['monthIncrements'];
-			$thisYear = $thisYear + $_SESSION['yearIncrements'];
-			if ($this->canIncrementYear($thisYear, $thisMonth)) {
-				$_SESSION['yearIncrements']++;
-				$thisYear = (integer) $thisYear + $_SESSION['yearIncrements'];
-				$thisMonth = 1;
-				$_SESSION['monthIncrements'] = 0;
-			}
-			else if ($this->canIncrementMonth($thisYear, $thisMonth)) {
-				$_SESSION['monthIncrements']++;
-				$thisMonth = (integer) $thisMonth + $_SESSION['monthIncrements'];
-			}
-			if ($thisMonth < 10) {
-				$thisMonth = '0'. $thisMonth;
-			}
+			$thisYear = $this->yearsOfCongress[$_SESSION['yearCount']];
+			$thisMonth = $this->monthsOfCongress[$_SESSION['monthCount']];
+			$thisDay = $this->daysOfCongress[$_SESSION['pageCount']];
 			
-			if ($this->daysOfCongress[$_SESSION['pageCount']] < 10) {
-				$currentDate = $thisYear. '-'. $thisMonth. '-0'. $this->daysOfCongress[$_SESSION['pageCount']];
+			$totalDaysInThisMonth = cal_days_in_month(CAL_GREGORIAN, $thisMonth, $thisYear);
+			
+			if ($thisMonth < 10) {
+				$thisMonth = '0' . $thisMonth;
 			}
-			else {
-				$currentDate = $thisYear. '-'. $thisMonth. '-'. $this->daysOfCongress[$_SESSION['pageCount']];
+			if ($thisDay < 10) {
+				$thisDay = '0' . $thisDay;
 			}
-			return $currentDate;
+			return $thisYear . '-'. $thisMonth . '-'. $thisDay;
 		}
+		
+		
 		
 		public function createNextDayButton() {
 			if ($_SESSION['pageCount'] + 1 >= sizeof($this->daysOfCongress)) {
@@ -291,7 +382,7 @@
 				}
 			}
 			else {
-				echo '<button value="'. $this->currentDay . '" type="submit" name="nextDayButton" class="btn btn-default nextDayButton">Volgende dag</button>';
+				echo '<button value="nextDay" type="submit" name="nextDayButton" class="btn btn-default nextDayButton">Volgende dag</button>';
 			}
 		}
 		
@@ -301,34 +392,44 @@
 			}
 		}
 		
-		private function canIncrementYear($thisYear, $thisMonth) {
-			$thisYear = (integer) $thisYear + 1;
-			$dateWithOneYearIncrement = new DateTime ($thisYear . '-' . '01' . '-'. '01');
-			$congressEndDate = new DateTime($this->dates['ENDDATE']);
-			return $dateWithOneYearIncrement < $congressEndDate  && $_SESSION['pageCount'] != 0 && $thisMonth == 12;
-		}
-		
-		private function canIncrementMonth($thisYear, $thisMonth) {
-			$totalDaysInThisMonth = cal_days_in_month(CAL_GREGORIAN, $thisMonth, $thisYear);		
-			$thisMonth = (integer) $thisMonth + 1;
-			if ($thisMonth > 12) {
-				$thisMonth = 1;
-			}
-			if ($thisMonth < 10) {
-				$thisMonth = '0'. $thisMonth;
-			}
-			$dateWithOneMonthIncrement = new DateTime( $thisYear . '-' . $thisMonth  . '-' . '01' );
-			$congressEndDate = new DateTime($this->dates['ENDDATE']);
-			return $dateWithOneMonthIncrement < $congressEndDate && 
-				   $_SESSION['pageCount'] != 0 				     && 
-				   $this->daysOfCongress[$_SESSION['pageCount'] - 1] == $totalDaysInThisMonth;
-		}
-			
 		private function getDayPartOfCongressDate($congressDate) {
 			$dayOfCongressDate = (integer) substr($congressDate, 8);
 			return $dayOfCongressDate;
 		}
 		
-		
+		private function handleMonthAndYearCounts() {
+			$this->thisYear = $this->yearsOfCongress[$_SESSION['yearCount']];
+			$this->thisMonth = $this->monthsOfCongress[$_SESSION['monthCount']];
+			$this->thisDay = $this->daysOfCongress[$_SESSION['pageCount']];	
+			
+			$totalDaysInThisMonth = cal_days_in_month(CAL_GREGORIAN, $this->thisMonth, $this->thisYear);
+			
+			if (isset($_POST['nextDayButton'])) {
+				$_SESSION['pageCount']++;
+				if ($this->daysOfCongress[$_SESSION['pageCount']] == 1) {
+					$_SESSION['monthCount']++;
+				}
+				if($this->monthsOfCongress[$_SESSION['monthCount']] == 1 && $this->daysOfCongress[$_SESSION['pageCount']] == 1) {
+					$_SESSION['yearCount']++;
+				}
+			}
+			if (isset($_POST['previousDayButton'])) {
+				$_SESSION['pageCount']--;
+				if ($_SESSION['monthCount'] > 0) {
+					$totalDaysInPrevMonth = cal_days_in_month(CAL_GREGORIAN, $this->monthsOfCongress[$_SESSION['monthCount']-1], $this->thisYear);
+				}
+				if (isset($totalDaysInPrevMonth)) {
+					if ($this->daysOfCongress[$_SESSION['pageCount']] == $totalDaysInPrevMonth) {
+						$_SESSION['monthCount']--;
+					}
+				}
+				else {
+					
+				}
+				if($this->monthsOfCongress[$_SESSION['monthCount']] == 12 && $this->daysOfCongress[$_SESSION['pageCount']] == $totalDaysInThisMonth) {
+					$_SESSION['yearCount']--;
+				}
+			}
+		}			
 	}
 ?>

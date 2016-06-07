@@ -1,6 +1,6 @@
 <?php
 	require_once('SessionHandler.php');
-	sessionHandler(false, false);
+	sessionHandler(true, true);
 	require_once('manageLocationGeneralManager_Class.php');
 	require_once('../database.php');
 	global $server, $databaseName, $uid, $password;

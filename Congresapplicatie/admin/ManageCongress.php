@@ -8,6 +8,7 @@ $manageCongress = new ManageCongress();
 include('ManageCongressSubmits.php');
 
 $js = '<script type="text/javascript" src="../js/congressManagement.js"></script>';
+$js .= '<script type="text/javascript" src="../js/manage.js"></script>';
 
 topLayoutManagement('Beheren Congres',null,$js);
 ?>

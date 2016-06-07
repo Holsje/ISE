@@ -6,6 +6,7 @@ CREATE PROC spAddSpeakerToCongress
 @Owner D_Personno,
 @fileExtension D_FILE, 
 @Description D_Description,
+@Owner D_PERSONNO,
 
 @CongressNo D_CongressNO, 
 @Agreement D_Description 
@@ -74,6 +75,7 @@ EXEC spAddSpeakerToCongress
 @Owner = 3,
 @fileExtension = 'png', 
 @Description = 'Dit is een korte beschrijving van een spreker',
+@Owner = 1,
 
 @CongressNo = 1, 
 @Agreement = 'Dit zijn de afspraken met een spreker'
@@ -98,6 +100,7 @@ EXEC spAddSpeakerToCongress
 @owner = 1,
 @fileExtension = 'png', 
 @Description = 'Dit is een korte beschrijving van een spreker',
+@Owner = 1,
 
 @CongressNo = 543, 
 @Agreement = 'Dit zijn de afspraken met een spreker'

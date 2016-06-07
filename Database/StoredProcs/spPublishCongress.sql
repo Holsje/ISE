@@ -1,4 +1,8 @@
---BR 3 Alle velden moeten ingevuld zijn.
+CREATE PROC spPublishCongress
+	@congressno D_CONGRESSNO
+AS
+BEGIN
+--BR3 Alle velden moeten ingevuld zijn.
 
 /*
 	Isolation level: Serializable
@@ -7,10 +11,6 @@
 	bijvoorbeeld track toegevoegd die leeg is dan zit er geen range lock op.
 
 */
-CREATE PROC spPublishCongress
-	@congressno D_CONGRESSNO
-AS
-BEGIN
 	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 	SET NOCOUNT ON;
 	DECLARE @TranCounter INT;

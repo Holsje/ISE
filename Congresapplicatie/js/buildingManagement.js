@@ -2,7 +2,6 @@ var buildingGMTable, roomTable;
 var selectedBuilding;
 $(document).ready(function () {
 	buildingGMTable = $('#BuildingGMListBox').DataTable();
-	
 	$('#dataTables_length').css('display', 'none');
     $('#BuildingGMListBox_length').css('display', 'none');
     $('#BuildingGMListBox_paginate').css('display', 'none');
@@ -33,29 +32,28 @@ $(document).ready(function () {
 	})
 	
 	$("[name=buttonDeleteBuildingGM]").on("click", function(event) {
-		var dataArray = buildingGMTable.rows(".selected");
-		var result = [];
-		for(var i = 0; i < dataArray.data().length; i++) {
-			result.push(dataArray.data()[i][0]);
+		if (confirm("Weet u zeker dat u deze rij(en) wilt verwijderen?")) {
+			var dataArray = buildingGMTable.rows(".selected");
+				var result = [];
+				for(var i = 0; i < dataArray.data().length; i++) {
+					result.push(dataArray.data()[i][0]);
+				}				
+				$.ajax({
+					url: window.location.href,
+					type: 'POST',
+					data: {
+						deleteBuildings: 'deleteBuildings',
+						selectedBuildingValues: result
+					},
+					success: function(data) {
+					},
+					error: function (request, status, error) {
+						alert(request.responseText);
+					}
+				})
+			dataArray.remove().draw(false);
 		}
-		console.log(result);
-		
-		$.ajax({
-			url: window.location.href,
-			type: 'POST',
-			data: {
-				selectedBuildingValues: result
-			},
-			success: function(data) {
-				console.log(data);
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
-			}
-		})
 	})
-	
-	
 	
 	roomTable = $("#ZalenListBox").DataTable({
 		 "scrollY":        "500px",
@@ -83,8 +81,7 @@ $(document).ready(function () {
 			$("[name=buttonDeleteZalen]").prop("disabled", false);
 		}
     });
-	
-	
+	document.forms['formAddBuildingGM'].onsubmit = isValidBuildingInput;
 	document.forms['formCreateBuildingGM']['buttonEditBuildingGM'].onclick = getRooms;
 	document.forms['formUpdateBuildingGM']['buttonAddZalen'].onclick = updateCreateRoom;
 	document.forms['formUpdateBuildingGM']['buttonEditZalen'].onclick = getRoomInfo;
@@ -110,9 +107,45 @@ $(document).ready(function () {
 		editRoom();
 		return false;	
 	}
+	
+	document.forms['formEditLocation'].onsubmit = function() {
+		var form = document.forms["formEditLocation"];
+		if (!isValidLocationName(form['locationName'].value)) {
+			$('#errMsgEditLocationValues').html("* Locatienaam is niet geldig.");
+			return false;
+		}
+		else if (!isValidCityName(form['locationCity'].value)) {
+			$("#errMsgEditLocationValues").html("* Plaatsnaam is niet geldig. Plaatsnamen mogen maximaal 20 karakters bevatten.");
+			return false;
+		}
+		else {
+			form.submit();
+		}
+	}
 });
 
-
+function isValidBuildingInput() {
+		var form = document.forms['formAddBuildingGM'];
+		if (!isValidLocationName(form['buildingName'].value)) {
+			$('#errMsgCreateBuilding').html("Gebouwnaam is niet geldig.");
+			return false;
+		}
+		else if (!isValidLocationName(form['streetName'].value)) {
+			$("#errMsgCreateBuilding").html("Straatnaam is niet geldig.");
+			return false;
+		}
+		else if (!isValidSmallInt(form['houseNo'].value)) {
+			$('#errMsgCreateBuilding').html("Huisnummer is niet geldig");
+			return false;
+		}
+		else if (!isValidPostalCode(form['postalCode'].value)) {
+			$('#errMsgCreateBuilding').html("Postcode is niet geldig.");
+			return false;
+		}
+		else {
+			form.submit();
+		}
+}
 
 function getRooms() {
 	roomTable.rows().remove().draw(false);

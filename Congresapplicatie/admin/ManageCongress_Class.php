@@ -15,7 +15,30 @@
 
         public function getCongresses() {
 
-            $result = parent::getDatabase()->sendQuery("SELECT * FROM Congress", null);
+            if ($_SESSION['liberties'] != 'Algemene beheerder') {
+                $sqlGetCongresses = "SELECT * FROM Congress WHERE";
+
+                $adminCongresses = $_SESSION['liberties'];
+
+                if ($adminCongresses != null) {
+
+                    for ($i = 0; $i < sizeof($adminCongresses); $i++) {
+                        $sqlGetCongresses .= " CongressNo = ? AND";
+                    }
+
+                    $sqlGetCongresses = substr($sqlGetCongresses, 0, sizeof($sqlGetCongresses) - 4);
+                    var_dump($sqlGetCongresses);
+                    $result = parent::getDatabase()->sendQuery($sqlGetCongresses, $adminCongresses);
+                }
+                else{
+                    $result = false;
+                }
+            }
+            else{
+                $sqlGetCongresses = "SELECT * FROM Congress";
+                $result = parent::getDatabase()->sendQuery($sqlGetCongresses, null);
+            }
+
 
             if ($result){
                 $array = array();
@@ -30,9 +53,7 @@
         }
 
         public function createManagementScreen($columnList, $valueList) {
-            $button = new Submit("Test", null, null, "form-control btn btn-default col-xs-3 col-md-3 col-sm-3", false, false, "DATAFILE");
-            $buttonArray = array($button);
-            parent::createManagementScreen($columnList, $valueList, "", $buttonArray);
+            parent::createManagementScreen($columnList, $valueList, "", null);
         }
 
 
@@ -163,7 +184,6 @@
             if($resultCongress && $resultCongressSubjects && $resultCongressNo) {
                 sqlsrv_commit($this->database->getConn());
                 $_SESSION['congressNo'] = $congressNo;
-                return "Transaction committed.<br />";
             } else {
                 sqlsrv_rollback($this->database->getConn());
                 $err['err'] = "";
@@ -238,7 +258,6 @@
             //END TRANSACTION
             if($result && !$insertNewSubjectsFailed && !$deleteOldSubjectsFailed) {
                 sqlsrv_commit($this->database->getConn());
-                return "Transaction committed.<br />";
             } else {
                 sqlsrv_rollback($this->database->getConn());
                 $err['err'] = $result;

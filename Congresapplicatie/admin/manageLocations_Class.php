@@ -37,10 +37,10 @@ class ManageLocations extends Management {
 			array_push($locationNamesWithCity, $this->allLocations[$i][0] . ' - ' . $this->allLocations[$i][1]);
 		}
 		if (isset($_SESSION['selectedLocation'])) {
-			$selectLocations = new Select($_SESSION['selectedLocation'], "Locatie", null, "form-control col-xs-12 col-sm-8 col-md-8 locationSelect", true, true, $locationNamesWithCity, null, null, null);
+			$selectLocations = new Select($_SESSION['selectedLocation'], "Locatie", null, "form-control col-xs-12 col-sm-8 col-md-8 locationSelect", true, true, $locationNamesWithCity, null, true, null);
 		}
 		else {
-			$selectLocations = new Select($locationNamesWithCity[0], "Locatie", null, "form-control col-xs-12 col-sm-8 col-md-8 locationSelect", true, true, $locationNamesWithCity, null, null, null);
+			$selectLocations = new Select(null, "Locatie", null, "form-control col-xs-12 col-sm-8 col-md-8 locationSelect", true, true, $locationNamesWithCity, null, true, null);
 		}
 		echo '<div class="col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-xs-10 col-sm-10 col-md-10">';
 			echo $selectLocations->getObjectCode();
@@ -48,7 +48,12 @@ class ManageLocations extends Management {
 				echo $buttonLinkToCongress->getObjectCode();
 			echo '</form>';
 		echo '</div>';
-		$this->createManagementScreen($this->columnList, $_SESSION['locationValueList'], "Locatie", null);
+		if (!isset($_SESSION['selectedLocation'])) {
+			$this->createManagementScreen($this->columnList, null, "Locatie", null);
+		}
+		else {
+			$this->createManagementScreen($this->columnList, $_SESSION['locationValueList'], "Locatie", null);
+		}
 		echo '</div>';
 	}
 	

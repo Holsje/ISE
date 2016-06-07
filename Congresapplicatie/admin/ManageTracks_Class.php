@@ -32,15 +32,19 @@ class ManageTracks extends Management
     }
 
     public function createCreateTrackScreen(){
-        $nameObject = new Text(null, 'Naam', 'trackName', null, true, true, true);
-        $descriptionObject = new Text(null, 'Omschrijving', 'trackDescription', null, true, true, false);
+
         $submitObject = new Submit('Opslaan', null, 'createTrack', null, true, true);
         if (isset($_SESSION['errorMsgInsertTrack'])) {
+
+            $nameObject = new Text($_POST['trackName'], 'Naam', 'trackName', null, true, true, true);
+            $descriptionObject = new Text($_POST['trackDescription'], 'Omschrijving', 'trackDescription', null, true, true, false);
             $errMsg = new Span($_SESSION['errorMsgInsertTrack'], null, 'errMsgTrack', 'errorMsg', true, true, null);
-            unset($_SESSION['errorMsgEditTrack']);
+            unset($_SESSION['errorMsgInsertTrack']);
             $this->createScreen->createPopup(array($errMsg, $nameObject, $descriptionObject, $submitObject), 'Track toevoegen', 'AddTracks', null, true, 'show', '#Tracks');
         }
         else{
+            $nameObject = new Text(null, 'Naam', 'trackName', null, true, true, true);
+            $descriptionObject = new Text(null, 'Omschrijving', 'trackDescription', null, true, true, false);
             $errMsg = new Span(null, null, 'errMsgInsertTrack', 'errorMsg', true, true, null);
             $this->createScreen->createPopup(array($errMsg, $nameObject, $descriptionObject, $submitObject), 'Track toevoegen', 'AddTracks', null, true, '','#Tracks');
         }
@@ -48,15 +52,18 @@ class ManageTracks extends Management
     }
 
     public function createEditTrackScreen(){
-        $nameObject = new Text(null, 'Naam', 'trackName', null, true, true, true);
-        $descriptionObject = new Text(null, 'Omschrijving', 'trackDescription', null, true, true, false);
+
         $submitObject = new Submit('Opslaan', null, 'editTrack', null, true, true);
         if (isset($_SESSION['errorMsgEditTrack'])) {
+            $nameObject = new Text($_POST['trackName'], 'Naam', 'trackName', null, true, true, true);
+            $descriptionObject = new Text($_POST['trackDescription'], 'Omschrijving', 'trackDescription', null, true, true, false);
             $errMsg = new Span($_SESSION['errorMsgEditTrack'], null, 'errMsgTrackUpdateTrack', 'errorMsg', true, true, null);
             unset($_SESSION['errorMsgEditTrack']);
             $this->createScreen->createPopup(array($errMsg, $nameObject, $descriptionObject, $submitObject), 'Track aanpassen', 'UpdateTracks', null, true, 'show', '#Tracks');
         }
         else{
+            $nameObject = new Text(null, 'Naam', 'trackName', null, true, true, true);
+            $descriptionObject = new Text(null, 'Omschrijving', 'trackDescription', null, true, true, false);
             $errMsg = new Span(null, null, 'errMsgUpdateTrack', 'errorMsg', true, true, null);
             $this->createScreen->createPopup(array($errMsg, $nameObject, $descriptionObject, $submitObject), 'Track aanpassen', 'UpdateTracks', null, true, '', '#Tracks');
         }

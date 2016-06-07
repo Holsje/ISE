@@ -19,10 +19,11 @@ class manageLocationGeneralManager extends Management {
 	}
 	
 	public function createCreateLocationPopUp() {
+		$errMsg = new Span(null, null, 'errMsgCreateLocation', 'errorMsg', true, true, null);
 		$locationNameText = new Text(null, "Locatienaam", "locationNameText", null, true, true, true);
 		$locationCityText = new Text(null, "Plaats", "locationCityText", null, true, true, true);
 		$submitButton = new Submit("Opslaan", null, "saveLocationGMButton", null, true, true);
-		$this->getCreateScreen()->createPopUp(array($locationNameText, $locationCityText, $submitButton),"Locatie toevoegen","AddLocatieGM",null,null,null, "#LocatieGM");
+		$this->getCreateScreen()->createPopUp(array($errMsg, $locationNameText, $locationCityText, $submitButton),"Locatie toevoegen","AddLocatieGM",null,null,null, "#LocatieGM");
 	}
 	
 	public function createDeleteLocationPopUp() {
@@ -31,10 +32,7 @@ class manageLocationGeneralManager extends Management {
 		$confirmButton = new Submit("Bevestigen", "confirmDeleteLocation", "confirmDeleteLocationButton", "form-control btn btn-default popupButton col-xs-6 col-sm-6 col-md-6", false, true);
 		$this->getCreateScreen()->createPopUp(array($text, $cancelButton, $confirmButton), "Locatie verwijderen", "DeleteLocatieGM", null, null, null, "#LocatieGM");
 	}
-	
-	
-	
-	
+
 	private function getAllLocations() {
 		$queryLocations = "SELECT L.LocationName, City FROM Location L";
 		$result = $this->database->sendQuery($queryLocations, array());

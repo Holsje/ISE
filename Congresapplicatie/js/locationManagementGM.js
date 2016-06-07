@@ -2,7 +2,6 @@ var locationGMTable;
 
 $(document).ready(function () {
 	locationGMTable = $('#LocatieGMListBox').DataTable();
-	
 	$('.onSelected').prop('disabled', true);
     $('#dataTables_length').css('display', 'none');
     $('#LocatieGMListBox_length').css('display', 'none');
@@ -51,25 +50,46 @@ $(document).ready(function () {
 		})
 	})
 	$("[name=buttonDeleteLocatieGM]").on("click", function(event) {
-		var dataArray = locationGMTable.rows(".selected");
-		console.log(dataArray);
-		var result = [];
-		for(var i = 0; i < dataArray.data().length; i++) {
-			result.push(dataArray.data()[i][0]);
-			result.push(dataArray.data()[i][1]);
-		}
-		$.ajax({
-			url: window.location.href,
-			type: 'POST',
-			data: {
-				selectedLocationValues: result
-			},
-			success: function(data) {
-				console.log(data);
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
+		if (confirm("Weet u zeker dat u deze rij(en) wilt verwijderen?")) {
+			var dataArray = locationGMTable.rows(".selected");
+			var result = [];
+			for(var i = 0; i < dataArray.data().length; i++) {
+				result.push(dataArray.data()[i][0]);
+				result.push(dataArray.data()[i][1]);
 			}
-		})
+			$.ajax({
+				url: window.location.href,
+				type: 'POST',
+				data: {
+					deleteLocation: 'deleteLocation',
+					selectedLocationValues: result
+				},
+				success: function(data) {
+					console.log(data);
+				},
+				error: function (request, status, error) {
+					alert(request.responseText);
+				}
+			})
+			dataArray.remove().draw(false);
+		}
 	})
+	document.forms['formAddLocatieGM'].onsubmit = isValidInput;
 });
+
+function isValidInput(){
+    var form = document.forms["formAddLocatieGM"];
+    if (!isValidLocationName(form['locationNameText'].value)) {
+		$(".errorMsg").html("* Locatienaam is niet geldig.");
+        return false;
+    }
+	else if (!isValidCityName(form['locationCityText'].value)) {
+		$(".errorMsg").html("* Plaatsnaam is niet geldig.");
+		return false;
+	}
+    else {
+        form.submit();
+    }
+}
+
+
