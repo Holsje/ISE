@@ -96,13 +96,23 @@ require_once('ScreenObjects/Identifier.php');
 		}
 		
 		public function createSmallEventInfo($eventNo, $eventName, $height,$topOffset) {
-			echo '<div class="eventInEventBox col-xs-12 col-sm-12 col-md-12" style="height: '. $height . ';';
+			echo '<div class="eventInEventBox col-xs-12 col-sm-12 col-md-12" id="' . $eventNo . '" style="height: '. $height . ';';
 			if(isset($topOffset)){
 				echo 'top:' . $topOffset . ';';
 			}
 			echo '">';
-				echo '<input type="hidden" value="'. $eventNo . '">';
 				echo '<p class="SmallEventName">'. $eventName . '</p>';
+			echo '</div>';
+		}
+		
+		public function createEventPlanningPopUp() {
+			$startTime = new Text(null, "Starttijd", "startTimeEvent", null, true, true, true);
+			$endTime = new Text(null, "Eindtijd", "endTimeEvent", null, true, true, true);
+			$room = new Select(null, "Zaal", "roomSelect", null, true, true, null, null, true, null);
+			$submit = new button("Opslaan", null, "saveEventPlanningButton", "btn btn-default form-control pull-right", true, true,null);
+			echo '<div class="eventPlanningPopUp">';
+				
+				$this->createForm(array($startTime, $endTime, $room, $submit), "formEditEventInfo", null, null);
 			echo '</div>';
 		}
 		

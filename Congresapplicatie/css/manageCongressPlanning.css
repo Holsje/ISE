@@ -8,10 +8,22 @@
 	border-style: solid;
 }
 
+.eventBoxPlanning {
+	border-style: solid;
+	position:absolute;
+	top:100px;
+}
+
 .eventInEventBox {
 	border-style: solid;
 	margin-top:3px;
 	margin-bottom: 3px;
+	left:0;
+}
+
+.eventPlanningBox .eventInEventBox {
+	z-index:6;
+	background-color:#ffffff;
 }
 
 .eventBoxPlanning  .eventInEventBox {
@@ -24,4 +36,19 @@
 
 #timeBarPlanning {
 	margin-top: 100px;
+}
+
+.eventPlanningPopUp {
+	position:absolute;
+	display: none;
+	width: 130%;
+	left:-15%;
+	background-color: #FFFFFF;
+	border-style: solid;
+	border-radius: 25px;
+	z-index:5;
+}
+
+.eventPlanningPopUp form {
+	margin: 10px 0px 0px 0px;
 }

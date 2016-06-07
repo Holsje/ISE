@@ -11,6 +11,7 @@
 		
 		private $congressNo;
 		private $hourHeight;
+		private $currentDay;
 		
 		public function __construct($congressNo) {
 			$this->congressNo = $congressNo;
@@ -25,6 +26,7 @@
 			if (!isset($_SESSION['pageCountPlanning'])) {
 				$_SESSION['pageCountPlanning'] = 0;
 			}
+			$this->currentDay = $this->daysOfCongress[$_SESSION['pageCountPlanning']];
 		}
 		
 		public function createManageCongressTrackScreen() {
@@ -66,20 +68,23 @@
 					echo '<div class="trackTitle col-xs-12 col-sm-12 col-md-12">';
 						echo '<h2>' . $track["TNAME"] . '</h2>';
 					echo '</div>';
-					echo '<div class="eventBoxPlanning col-xs-12 col-sm-12 col-md-12" style="' . (24*$this->hourHeight) . ';">';
-						foreach($track['EVENTS'] AS $event) {
-							
-							$time = explode('-',$event['START']->format("H-i-s"));
-							$startTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
-							$topOffset = $startTimeInHours * $this->hourHeight;
-							$time = explode('-',$event['END']->format("H-i-s"));
-							$endTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
-							
-							$distanceFromTop = 1*$this->hourHeight;
-							$height = ($endTimeInHours-$startTimeInHours)*$this->hourHeight;
-							
-							echo $this->createScreen->createSmallEventInfo($event["EVENTNO"], $event["ENAME"], $height,$topOffset);
+					echo '<div class="eventBoxPlanning col-xs-12 col-sm-12 col-md-12" style="height:' . (24*$this->hourHeight) . 'px;" id=' . $track['TRACKNO'] . '>';
+						if(isset($track['events'])) {
+							foreach($track['EVENTS'] AS $event) {
+								
+								$time = explode('-',$event['START']->format("H-i-s"));
+								$startTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
+								$topOffset = $startTimeInHours * $this->hourHeight;
+								$time = explode('-',$event['END']->format("H-i-s"));
+								$endTimeInHours = $time[0] + $time[1]/60 + $time[2]/3600;
+								
+								$distanceFromTop = 1*$this->hourHeight;
+								$height = ($endTimeInHours-$startTimeInHours)*$this->hourHeight;
+								
+								echo $this->createScreen->createSmallEventInfo($event["EVENTNO"], $event["ENAME"], $height,$topOffset);
+							}
 						}
+						echo $this->createScreen->createEventPlanningPopUp();
 					echo '</div>';
 					
 				echo '</div>';
@@ -151,7 +156,7 @@
 								INNER JOIN EVENT E 
 									ON E.EVENTNO = EIT.EVENTNO
 									AND E.CongressNo = T.CongressNo
-								WHERE T.CONGRESSNO = ? AND EIT.Start IS NOT NULL AND EIT.[End] IS NOT NULL";
+								WHERE T.CONGRESSNO = ? AND EIT.Start IS NOT NULL AND EIT.[End] IS NOT NULL AND DATEDIFF(day,start,'2016-10-10') = 0";
 			$paramsEventInTrack = array($this->congressNo);
 			$result = $this->database->sendQuery($queryEventInTrack, $paramsEventInTrack);
 			//$eventsInTrack = array();
