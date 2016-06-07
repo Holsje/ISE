@@ -1,5 +1,6 @@
 var oldSpeakersOfCongress = new Array();
 var oldFirstName,oldLastName,oldMailAddress,oldPhoneNumber,oldDescription,oldAgreement,personNo;
+var onSubmitAddres;
 $(document).ready(function () {	
 	if($('#listBoxSpeakerLeft')) {
 		$('#listBoxSpeakerLeft').on('click', 'tr', function () {
@@ -64,7 +65,8 @@ $(document).ready(function () {
 			if(!isValidTelephoneNumber(document.forms["formAddSpeaker"]["phoneNumber"].value)) {
 				$("#errMsgAanmakenSpreker").text("Telefoonnummer onjuist.");
 				return false;
-			}						
+			}
+            
 			return true;
 		}
 	}
@@ -87,7 +89,8 @@ $(document).ready(function () {
 			if(!isValidTelephoneNumber(document.forms["formUpdateSpeakerOfCongress"]["phoneNumber"].value)) {
 				$("#errMsgUpdateSpeakerOfCongress").text("Telefoonnummer onjuist.");
 				return false;
-			}			
+			}
+            document.forms['formUpdateSpeakerOfCongress'].setAttribute('action',onSubmitAddres);
 			return true;
 		}
 	}
@@ -160,6 +163,12 @@ function getSpeakersOfCongress() {
 }
 
 function getSpeakerInfo(speakerType,event) {
+    onSubmitAddres = $(event.target).parents('form').attr('name');
+    if(onSubmitAddres == 'formsprekerEvent'){
+        onSubmitAddres = 'manage.php#sprekerEvent';
+    }else{
+        onSubmitAddres = 'manage.php#Speaker';
+    }
     var thisEvent = $(event.target).parents('form').children('.dataSwapList');
     var leftTable = $(thisEvent[0]).find('table')[1];
     var rightTable = $(thisEvent[1]).find('table')[1];
@@ -183,7 +192,6 @@ function getSpeakerInfo(speakerType,event) {
                 personNo: selectedRow.data()[0]
             },
             success: function (data) {
-                console.log(data);
 				data=JSON.parse(data);
 				if(data['error']){
 					alert("U kunt deze spreker niet aanpassen. \nNeem contact op met de eigenaar van deze spreker: \n" + data['error']);

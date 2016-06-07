@@ -14,7 +14,6 @@ $(document).ready(function () {
 	
     $('.singleSelect.dataTable tbody').on('click', 'tr', function () {
         var parent = $(this).parents('form').children('.onSelected');
-        console.log(parent);
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             parent.prop('disabled', true);

@@ -5,9 +5,12 @@ var selectedTable;
 var oldSpeakers = [];
 
 $(document).ready(function () {
-    //Fix dit nog even Daniel Goedzo je bent een brave jongen
-    // $('#listBoxSpeakerEventLeft').DataTable().draw(false);
-     //       $('#listBoxSpeakerEventRight').DataTable().draw(false);
+    $('#popUpSpeakerToEvent .closePopup').on('click',function(){
+        $('#listBoxSpeakerEventLeft').DataTable().clear();
+        $('#listBoxSpeakerEventRight').DataTable().clear();
+        console.log("test");
+    });
+   
     eventSubjectAddListBox = $('#EvenementenSubjectListBoxAdd').DataTable( {
 			         "sScrollY": "500px",
 			         "bPaginate": false,
@@ -55,8 +58,6 @@ $(document).ready(function () {
 			}
 		});	
 	}
-    
-
     $('#EvenementenSubjectListBoxAdd tbody').on('click','tr',function(){
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -87,7 +88,6 @@ $(document).ready(function () {
         }
     });
     $('.subjectInput').change(function(event){
-        console.log(event.target.value);
         if(event.target.value == 'Lezing'){
             $('.eventPrice').parent().css('display','none');
         }else{
@@ -140,7 +140,6 @@ function getSelectedEventInfo(){
         },
         success: function(data){
             data = JSON.parse(data);
-            console.log(data);
             document.forms['formUpdateEvenementen']['eventName'].value = data[0];
             document.forms['formUpdateEvenementen']['eventDescription'].value = data[5];
             document.forms['formUpdateEvenementen']['eventType'].value = data[1];
@@ -151,7 +150,6 @@ function getSelectedEventInfo(){
             }
             document.forms['formUpdateEvenementen']['eventMaxVis'].value = data[2];
             $('#editEventPictureBtn').css("background-image", "url(../" + data[4] + 'thumbnail.png' + ")");
-            console.log($('#editEventPictureBtn'));
             for(var i = 0; i<data['Subjects'].length;i++){
                $("#EvenementenSubjectListBoxEdit").find('[name="' + data['Subjects'][i] + '"]').parent().addClass('selected');
                 var child = document.createElement('input');
@@ -176,7 +174,6 @@ function fillSpeakersOfEvent(){
         },
         success: function(data){
             data = JSON.parse(data);
-            console.log(data);
             var tableLeft = $('#listBoxSpeakerEventLeft').DataTable();
             for(i = 0; i< data['event'].length; i++){
                 oldSpeakers.push(data['event'][i]);
