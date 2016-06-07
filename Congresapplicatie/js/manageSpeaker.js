@@ -235,61 +235,25 @@ function updateSpeakerInfo(speakerType,event){
         $("body").css("overflow", "hidden");
 }
 
-/*function editSpeakerOfCongress(){
-	$.ajax({
-		url: window.location.href,
-		type: 'POST',
-		data: {
-			updateSpeakerInfo: 'updateSpeakerInfo',
-			personNo: personNo,
-			
-			oldFirstName: oldFirstName,
-			oldLastName: oldLastName,
-			oldMailAddress: oldMailAddress,
-			oldPhoneNumber: oldPhoneNumber,
-			oldDescription: oldDescription,
-			oldAgreement: oldAgreement,
-			
-			newFirstName: document.forms["formUpdateSpeakerOfCongress"]["speakerName"].value,
-			newLastName: document.forms["formUpdateSpeakerOfCongress"]["LastName"].value,
-			newMailAddress: document.forms["formUpdateSpeakerOfCongress"]["mailAddress"].value,
-			newPhoneNumber: document.forms["formUpdateSpeakerOfCongress"]["phoneNumber"].value,
-			newDescription: document.forms["formUpdateSpeakerOfCongress"]["description"].value,
-			newAgreement: document.forms["formUpdateSpeakerOfCongress"]["agreement"].value
-			
-		},
-		success: function (data) {
-			if(data) {
-				$("#errMsgBewerkenSpreker").text(data);
-			}
-			else{
-				refreshSpeaker();
-			}
-		},
-		error: function (request, status, error) {
-			alert(request.responseText);
-		}
-	});
-}*/
-
 function deleteSpeakers() {
 	if (confirm("Weet u zeker dat u deze rij(en) wilt verwijderen?")) {
 		var selectedRows = dataSwapTables["listBoxSpeakerRight"].rows(".selected");
 		
 		var numSelectedRows = selectedRows.data().length;
 		for(var i = 0;i<numSelectedRows;i++) {
+		var selectedRows = dataSwapTables["listBoxSpeakerRight"].row(".selected");
 			$.ajax({
 				url: window.location.href,
 				type: 'POST',
 				data: {
 					deleteSpeaker: 'deleteSpeaker',
-					personNo: selectedRows.data()[i][0]			
+					personNo: selectedRows.data()[0]			
 				},
 				success: function (data) {
 					if(data == 1) {
-						//selectedRows.remove().draw(false);
+						selectedRows.remove().draw(false);
 					}else {
-						//selectedRows.remove().draw(false);
+						alert("mag niet!");
 					}
 				},
 				error: function (request, status, error) {
