@@ -1,10 +1,10 @@
-CREATE PROC spRegisterSpeaker 
+ALTER PROC spRegisterSpeaker 
 		@firstname D_Name, 
 		@lastname D_Name, 
 		@mailAddress D_Mail, 
 		@phonenum D_telnr,
 		@description D_DESCRIPTION,
-		@fileExtension varchar(5),
+		@fileUploaded BIT,
 		@owner D_Personno 
 	AS
 	BEGIN
@@ -17,21 +17,30 @@ CREATE PROC spRegisterSpeaker
 		ELSE
 			BEGIN TRANSACTION;
 		BEGIN TRY
-				INSERT INTO PERSON VALUES(@firstname, @lastname, @mailAddress, @phonenum)
-				DECLARE @personNo INT = (SELECT PersonNo 
-										 FROM PERSON 
-										 WHERE FIRSTNAME = @firstname AND LASTNAME = @lastname AND MAILADDRESS = @mailAddress AND PHONENUMBER = @phonenum)
-				INSERT INTO PERSONTYPEOFPERSON VALUES(@personNo, 'Spreker')
-				IF (@fileExtension IS NOT NULL AND @fileExtension != '') 
-				BEGIN
-					INSERT INTO Speaker VALUES(@personNo,@description,'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension,@owner)
-				END
-				ELSE
-				BEGIN
-					INSERT INTO Speaker VALUES(@personNo,@description,null,@owner)
-				END
-				IF @TranCounter = 0 AND XACT_STATE() = 1
-					COMMIT TRANSACTION;
+			IF EXISTS ( SELECT 1 
+						FROM Person
+						WHERE MailAddress != @mailAddress)
+			BEGIN		
+				INSERT INTO PERSON 
+				VALUES(@firstname, @lastname, @mailAddress, @phonenum)
+			END
+
+			DECLARE @personNo INT = (SELECT PersonNo 
+									 FROM PERSON 
+									 WHERE  MAILADDRESS = @mailAddress)
+			INSERT INTO PERSONTYPEOFPERSON VALUES(@personNo, 'Spreker')
+			IF @fileUploaded = 1
+			BEGIN
+				INSERT INTO Speaker 
+				VALUES(@personNo,@description,'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.png' ,@owner)
+			END
+			ELSE
+			BEGIN
+				INSERT INTO Speaker 
+				VALUES(@personNo,@description,null,@owner)
+			END
+			IF @TranCounter = 0 AND XACT_STATE() = 1
+				COMMIT TRANSACTION;
 		END TRY
 		BEGIN CATCH
 			IF @TranCounter = 0 

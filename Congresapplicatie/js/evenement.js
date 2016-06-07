@@ -5,6 +5,9 @@ var selectedTable;
 var oldSpeakers = [];
 
 $(document).ready(function () {
+    //Fix dit nog even Daniel Goedzo je bent een brave jongen
+    // $('#listBoxSpeakerEventLeft').DataTable().draw(false);
+     //       $('#listBoxSpeakerEventRight').DataTable().draw(false);
     eventSubjectAddListBox = $('#EvenementenSubjectListBoxAdd').DataTable( {
 			         "sScrollY": "500px",
 			         "bPaginate": false,
@@ -18,7 +21,40 @@ $(document).ready(function () {
     eventSubjectEditListBox =  $('#EvenementenSubjectListBoxEdit').DataTable( {
 			         "sScrollY": "500px",
 			         "bPaginate": false
-    });    
+    });
+    
+    if($('#listBoxSpeakerEventRight')) {
+		$('#listBoxSpeakerEventRight').on('click', 'tr', function () {
+			var numSelectedRows = dataSwapTables['listBoxSpeakerEventRight'].rows(".selected").data().length;
+			if (numSelectedRows == 0) {
+				$("[name=buttonEditSpeaker]").prop("disabled", true);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", true);
+			}
+			else if (numSelectedRows == 1) {
+				$("[name=buttonEditSpeaker]").prop("disabled", false);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", false);
+			}
+			else {
+				$("[name=buttonEditSpeaker]").prop("disabled", true);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", true);
+			}
+		});
+	}
+    
+    if($('#listBoxSpeakerEventLeft')) {
+		$('#listBoxSpeakerEventLeft').on('click', 'tr', function () {
+			var numSelectedRows = dataSwapTables['listBoxSpeakerEventLeft'].rows(".selected").data().length;
+			if (numSelectedRows == 0) {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", true);
+			}
+			else if (numSelectedRows == 1) {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", false);
+			}
+			else {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", true);
+			}
+		});	
+	}
     
 
     $('#EvenementenSubjectListBoxAdd tbody').on('click','tr',function(){
@@ -62,6 +98,11 @@ $(document).ready(function () {
     document.forms['formCreateEvenementen']['buttonDeleteEvenementen'].onclick = deleteEvent;
     document.forms['formCreateEvenementen']['buttonEditEvenementen'].onclick = getSelectedEventInfo;
     document.forms['formCreateEvenementen']['speakerToEvent'].onclick = fillSpeakersOfEvent;
+    
+    if(document.forms["formsprekerEvent"]) {
+		document.forms["formsprekerEvent"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0,event)};
+		document.forms["formsprekerEvent"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1,event)};
+	}
 
     
     document.forms['formsprekerEvent']['buttonSaveSwapListsprekerEvent'].onclick = addNewSpeakers;
@@ -135,12 +176,21 @@ function fillSpeakersOfEvent(){
         },
         success: function(data){
             data = JSON.parse(data);
-            var table = $('#listBoxSpeakerEventLeft').DataTable();
-            for(i = 0; i< data.length; i++){
-                oldSpeakers.push(data[i]);
-                table.row.add([data[i][0],data[i][1],data[i][2],data[i][3]]);
+            console.log(data);
+            var tableLeft = $('#listBoxSpeakerEventLeft').DataTable();
+            for(i = 0; i< data['event'].length; i++){
+                oldSpeakers.push(data['event'][i]);
+                tableLeft.row.add([data['event'][i][0],data['event'][i][1],data['event'][i][2],data['event'][i][3]]);
             }
-            table.rows().draw();
+            var tableRight = $('#listBoxSpeakerEventRight').DataTable();
+            for(i = 0; i< data['congres'].length; i++){
+                tableRight.row.add([data['congres'][i][0],data['congres'][i][1],data['congres'][i][2],data['congres'][i][3]]);
+            }
+            
+            tableLeft.rows().draw();
+            tableRight.rows().draw();
+            
+            
         }
     });
 }
@@ -162,7 +212,7 @@ function addNewSpeakers(){
             eventNo: eventNo
         },
         success: function(data){
-            
+            window.location.reload();
         }
     });
 }

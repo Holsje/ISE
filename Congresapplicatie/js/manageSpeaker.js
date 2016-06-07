@@ -29,7 +29,7 @@ $(document).ready(function () {
 			}
 			else {
 				$("[name=buttonEditSpeaker]").prop("disabled", true);
-				$("[name=buttonDeleteSpeaker]").prop("disabled", false);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", true);
 			}
 		});
 	}
@@ -159,12 +159,15 @@ function getSpeakersOfCongress() {
 	return newSpeakers;
 }
 
-	
 function getSpeakerInfo(speakerType,event) {
+    var thisEvent = $(event.target).parents('form').children('.dataSwapList');
+    var leftTable = $(thisEvent[0]).find('table')[1];
+    var rightTable = $(thisEvent[1]).find('table')[1];
 	if(speakerType == 0) {
-		var selectedRow = dataSwapTables['listBoxSpeakerLeft'].row('.selected');
+		var selectedRow = $(leftTable).DataTable().row('.selected');
 	}else {
-		var selectedRow = dataSwapTables['listBoxSpeakerRight'].row('.selected');
+        
+		var selectedRow = $(rightTable).DataTable().row('.selected');
 	}
     if(selectedRow.data()) {
 		if(speakerType == 0) {
@@ -180,13 +183,13 @@ function getSpeakerInfo(speakerType,event) {
                 personNo: selectedRow.data()[0]
             },
             success: function (data) {
-			
+                console.log(data);
 				data=JSON.parse(data);
 				if(data['error']){
 					alert("U kunt deze spreker niet aanpassen. \nNeem contact op met de eigenaar van deze spreker: \n" + data['error']);
 					return;
 				}				
-				
+				console.log(data);
                 personNo = data[0]['personNo'];
 				oldFirstName = data[0]['FirstName'];
 				oldLastName = data[0]['LastName'];
@@ -235,68 +238,31 @@ function updateSpeakerInfo(speakerType,event){
         $("body").css("overflow", "hidden");
 }
 
-/*function editSpeakerOfCongress(){
-	$.ajax({
-		url: window.location.href,
-		type: 'POST',
-		data: {
-			updateSpeakerInfo: 'updateSpeakerInfo',
-			personNo: personNo,
-			
-			oldFirstName: oldFirstName,
-			oldLastName: oldLastName,
-			oldMailAddress: oldMailAddress,
-			oldPhoneNumber: oldPhoneNumber,
-			oldDescription: oldDescription,
-			oldAgreement: oldAgreement,
-			
-			newFirstName: document.forms["formUpdateSpeakerOfCongress"]["speakerName"].value,
-			newLastName: document.forms["formUpdateSpeakerOfCongress"]["LastName"].value,
-			newMailAddress: document.forms["formUpdateSpeakerOfCongress"]["mailAddress"].value,
-			newPhoneNumber: document.forms["formUpdateSpeakerOfCongress"]["phoneNumber"].value,
-			newDescription: document.forms["formUpdateSpeakerOfCongress"]["description"].value,
-			newAgreement: document.forms["formUpdateSpeakerOfCongress"]["agreement"].value
-			
-		},
-		success: function (data) {
-			if(data) {
-				$("#errMsgBewerkenSpreker").text(data);
-			}
-			else{
-				refreshSpeaker();
-			}
-		},
-		error: function (request, status, error) {
-			alert(request.responseText);
-		}
-	});
-}*/
 
 function deleteSpeakers() {
 	if (confirm("Weet u zeker dat u deze rij(en) wilt verwijderen?")) {
-		var selectedRows = dataSwapTables["listBoxSpeakerRight"].rows(".selected");
-		
-		var numSelectedRows = selectedRows.data().length;
-		for(var i = 0;i<numSelectedRows;i++) {
-			$.ajax({
-				url: window.location.href,
-				type: 'POST',
-				data: {
-					deleteSpeaker: 'deleteSpeaker',
-					personNo: selectedRows.data()[i][0]			
-				},
-				success: function (data) {
-					if(data == 1) {
-						//selectedRows.remove().draw(false);
-					}else {
-						//selectedRows.remove().draw(false);
-					}
-				},
-				error: function (request, status, error) {
-					alert(request.responseText);
-				}
-			});
-		}
-		
+		var selectedRow = dataSwapTables['listBoxSpeakerRight'].row('.selected');
+        $.ajax({
+            url: window.location.href,
+            type: 'POST',
+            data: {
+                deleteSpeaker: 'deleteSpeaker',
+                personNo: selectedRow.data()[0]			
+            },
+            success: function (data) {
+                var index = oldSpeakersOfCongress.indexOf(selectedRow.data()[0]);
+                if(index != -1){
+                    oldSpeakersOfCongress.splice(index,1);
+                }
+                if(data == 1) {
+                    alert('De spreker die u probeert te verwijderen is nog in gebruik.');
+                }else {
+                    selectedRow.remove().draw(false);
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
 	}
 }

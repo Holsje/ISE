@@ -35,16 +35,18 @@
 				{
 					array_push($array,array($row['PersonNo'],$row['FirstName'],$row['LastName'],$row['MailAddress']));
 				}
-				return json_encode( $array);
+				return ( $array);
 			}
 			return false;	
         }
         
-        public function getSpeakersOfCongress($congressNo) {
-			 $result = parent::getDatabase()->sendQuery("SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress ".
-														"FROM SpeakerOfCongress SOC " .
-														"INNER JOIN Person P ON P.PersonNo = SOC.PersonNo " .
-														"WHERE SOC.CongressNo = ?",array($congressNo));
+        public function getSpeakersOfCongress($congressNo,$eventNo) {
+			 $result = parent::getDatabase()->sendQuery("    SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress 
+                                                            FROM SpeakerOfCongress SOC 
+                                                            INNER JOIN Person P ON P.PersonNo = SOC.PersonNo
+                                                            WHERE CongressNo = ? AND P.PersonNo NOT IN  (   SELECT PersonNo
+                                                                                                            FROM SpeakerOfEvent P2
+                                                                                                            WHERE P2.EventNo = ? AND P2.CongressNo =                                                                                                SOC.CongressNo)" ,array($congressNo,$eventNo));
 														
 			 if ($result){
 				$array = array();
@@ -73,13 +75,36 @@
 		}
         
         public function handleSpeakerEdit($congressNo, $eventNo){
-            $sqlInsertEvent = 'INSERT INTO SpeakerOfEvent(PersonNo,CongressNo,EventNo) VALUES';
-            $params = array();
-            foreach($_POST['addingSpeakers'] as $value){
-                $sqlInsertEvent .= 'VALUES(?,?,?)';
-                array_push($congressNo, $eventNo,$value);
+            if(isset($_POST['addingSpeakers'])){
+                if(sizeof($_POST['addingSpeakers'])> 0){
+                    $sqlInsertEvent = 'INSERT INTO SpeakerOfEvent(PersonNo,CongressNo,EventNo) VALUES';
+                    $params = array();
+                    foreach($_POST['addingSpeakers'] as $value){
+                        $sqlInsertEvent .= '(?,?,?), ';
+                        array_push($params,$value, $congressNo, $eventNo);
+                    }
+                    $sqlInsertEvent = substr($sqlInsertEvent,0,-2);
+                    $resultInsert = $this->database->sendQuery($sqlInsertEvent,$params);
+                    echo 'add:' .$resultInsert;
+                }
             }
-            dhsajdhasjkdhajkhdajkshdajkhdsajkhdsjkhakdj;
+            if(isset($_POST['deletingSpeakers'])){
+                if(sizeof($_POST['deletingSpeakers']) > 0){
+                    $sqlDeleteEvent = 'DELETE FROM SpeakerOfEvent
+                                       WHERE CongressNo = ? AND EventNo = ? AND(';
+                    $params = array($congressNo, $eventNo);
+                    foreach($_POST['deletingSpeakers'] as $value){
+                        $sqlDeleteEvent .= 'PersonNo = ? OR';
+                        array_push($params,$value);
+                    }
+                    $sqlDeleteEvent = substr($sqlDeleteEvent,0,-2);
+                    $sqlDeleteEvent .= ')';
+                    $resultDelete = $this->database->sendQuery($sqlDeleteEvent,$params);
+                    echo 'delete'. $sqlDeleteEvent . ', result'. $resultDelete;
+                    var_dump($params);
+                }
+            }
+            die();
         }
         
         public function handleSubmitAdd(){
@@ -301,16 +326,15 @@
         public function createAddSpeakerToEvent(){
             $columnList = array("PersonNo","Voornaam","Achternaam","Email");
 			$valueListLeft = array();
-			$valueListRight = $this->getSpeakersOfCongress($_SESSION['congressNo']);
+			$valueListRight = array();
 			
 			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", true, false, $columnList, $valueListLeft, "listBoxSpeakerEventLeft");
 			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", false, true, $columnList, $valueListRight, "listBoxSpeakerEventRight");
 			$buttonAddSpeaker = new Button("Toevoegen", null, "buttonAddSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton", false, false, "#popUpAddSpeaker");
-			$buttonEditSpeakerOfCongress = new Button("Aanpassen", null, "buttonEditSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdateSpeakerOfCongress");
+			$buttonEditSpeakerOfCongress = new Button("Aanpassen", null, "buttonEditSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpUpdateSpeakerOfCongress");
 			
-			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected", false, false, "#popUpUpdateSpeaker");
-			$buttonRemoveSpeaker = new Button("Verwijderen", null, "buttonDeleteSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpDeleteSpeaker");
-			$dataSwapList = $this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerEventLeft","Sprekers Evenement",$tableRight,"listBoxSpeakerEventRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeakerOfCongress),array($buttonRemoveSpeaker,$buttonEditSpeaker),"sprekerEvent");
+			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpUpdateSpeaker");
+			$dataSwapList = $this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerEventLeft","Sprekers Evenement",$tableRight,"listBoxSpeakerEventRight","Sprekers",false,false,array($buttonEditSpeakerOfCongress),array($buttonAddSpeaker,$buttonEditSpeaker),"sprekerEvent");
             $this->createScreen->createPopupByHtml($dataSwapList,'Sprekers Koppelen','SpeakerToEvent','bigPop','first','');
         }
 		

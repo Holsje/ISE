@@ -18,7 +18,7 @@
 			$buttonEditSpeakerOfCongress = new Button("Aanpassen", null, "buttonEditSpeakerOfCongress", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpUpdateSpeakerOfCongress");
 			
 			
-			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpUpdateSpeaker");
+			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected ", false, false, "#popUpUpdateSpeaker");
 			
 			$buttonRemoveSpeaker = new Button("Verwijderen", null, "buttonDeleteSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpDeleteSpeaker");
 			echo $this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerLeft","Sprekers Congres",$tableRight,"listBoxSpeakerRight","Sprekers",false,false,array($buttonAddSpeaker,$buttonEditSpeakerOfCongress),array($buttonRemoveSpeaker,$buttonEditSpeaker),"spreker");
@@ -235,10 +235,10 @@
         }
 		
 		public function getSpeakerInfo($personNo,$user) {
-			$sqlSpeakers = "SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, P.phonenumber,s.Description,s.PicturePath ".
-														"FROM Person P " .
-														"INNER JOIN Speaker S ON S.PersonNo = P.PersonNo ".
-														"WHERE p.PersonNo = ? AND S.owner = ?";														
+			$sqlSpeakers = "SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, P.phonenumber, S.Description, S.PicturePath
+														FROM Person P 
+														INNER JOIN Speaker S ON S.PersonNo = P.PersonNo 
+														WHERE p.PersonNo = ? AND S.owner = ?";
             $params = array($personNo, $user);
             $resultSpeakersObject = $this->database->sendQuery($sqlSpeakers, $params);
             $arraySpeakers = array();
@@ -268,18 +268,6 @@
             return json_encode($arraySpeakers, JSON_FORCE_OBJECT);
          
         }
-   
-	
-		public function isDeleted() {
-			$result = $this->database->sendQuery("SELECT @@ROWCOUNT", null);		
-			if($result) {
-				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
-					$numChanges = $row[""];
-				}
-			}			
-			return ($numChanges>=1);			
-		}
-		
  } 
 	
 ?>

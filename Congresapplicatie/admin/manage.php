@@ -44,6 +44,9 @@ topLayoutManagement('Beheren Congres', $css, $js);
 				<?php
                     $manage->createAddSubjectScreen();
 					$manage->createManageScreen();
+                    $manageSpeakers->createCreateSpeakerScreen();
+                    $manageSpeakers->createEditSpeakerOfCongressScreen();
+                    $manageSpeakers->createEditSpeakerScreen();
 				?>
             </div>
         </div>

@@ -6,7 +6,7 @@ CREATE PROC spUpdateSpeakerSpeakerOfCongress
 	@phonenum D_telnr,
 	@agreement D_DESCRIPTION,
 	@description D_DESCRIPTION,
-	@fileExtension varchar(5),
+	@fileUploaded BIT,
 	@congressno D_CongressNo,
 	@owner D_Personno
 AS
@@ -30,10 +30,10 @@ BEGIN
 		SET Agreement = @agreement
 		WHERE PersonNo = @personNo AND CongressNo = @congressno
 
-		IF (@fileExtension IS NOT NULL AND @fileExtension != '')
+		IF (@fileUploaded = 1)
 		BEGIN
 			UPDATE Speaker 
-			SET PicturePath = 'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension
+			SET PicturePath = 'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.png'
 			WHERE PersonNo = @personNo
 		END
 

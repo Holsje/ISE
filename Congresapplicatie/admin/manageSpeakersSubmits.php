@@ -4,13 +4,17 @@
 	if(isset($_POST['toevoegen'])){
 		if($_POST['toevoegen'] == 'createSpeaker') {
 			require_once('fileUploadHandler.php');
+            $addedFile = 0;
+            if(isset($_FILES['upoadCreateSpeaker'])){
+                $addedFile = 1;
+            }
 			$params = array(
 				array($_POST['speakerName'],SQLSRV_PARAM_IN),
 				array($_POST['LastName'],SQLSRV_PARAM_IN),
 				array($_POST['mailAddress'],SQLSRV_PARAM_IN),
 				array($_POST['phoneNumber'],SQLSRV_PARAM_IN),
-				array($_SESSION['personno'],SQLSRV_PARAM_IN),
-				array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN),
+				array($_SESSION['personNo'],SQLSRV_PARAM_IN),
+				array($addedFile,SQLSRV_PARAM_IN),
 				array($_POST['description'],SQLSRV_PARAM_IN),		
 				array($manage->getCongressNo(), SQLSRV_PARAM_IN),
 				array($_POST['agreement'],SQLSRV_PARAM_IN),	
@@ -26,8 +30,13 @@
 		}
 	}
 	if(isset($_POST['aanpassen'])) {
+        $addedFile = 0;
+            if(isset($_FILES['uploadEditSpeaker'])){
+                $addedFile = 1;
+            }
 		if($_POST['aanpassen'] == "updateSpeakerOfCongress") {
 			require_once('fileUploadHandler.php');
+            
 			$params = array(
 				array($_POST['personNo'],SQLSRV_PARAM_IN),
 				array($_POST['speakerName'],SQLSRV_PARAM_IN),
@@ -36,9 +45,9 @@
 				array($_POST['phoneNumber'],SQLSRV_PARAM_IN),
 				array($_POST['agreement'],SQLSRV_PARAM_IN),
 				array($_POST['description'],SQLSRV_PARAM_IN),
-				array(pathinfo(basename($_FILES['uploadEditSpeakerOfCongress']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN),
+				array($addedFile,SQLSRV_PARAM_IN),
 				array($manage->getCongressNo(), SQLSRV_PARAM_IN),
-				array($_SESSION['personno'],SQLSRV_PARAM_IN)
+				array($_SESSION['personNo'],SQLSRV_PARAM_IN)
 			);
 			$EditSpeakers = $manageSpeakers->editSpeaker('spUpdateSpeakerSpeakerOfCongress',$params);
 			if($EditSpeakers != null){
@@ -56,7 +65,7 @@
 				array($_POST['mailAddress'],SQLSRV_PARAM_IN),
 				array($_POST['phoneNumber'],SQLSRV_PARAM_IN),
 				array($_POST['description'],SQLSRV_PARAM_IN),
-				array(pathinfo(basename($_FILES['uploadEditSpeaker']['name']),PATHINFO_EXTENSION),SQLSRV_PARAM_IN)
+				array($addedFile,SQLSRV_PARAM_IN)
 			);
 			$EditSpeakers = $manageSpeakers->editSpeaker('spUpdateSpeaker',$params);
 			if($EditSpeakers != null){
@@ -64,7 +73,7 @@
 			}else if($_POST["personNo"]) {
 				handleFile("img/speakers/","uploadEditSpeaker","speaker" . $_POST['personNo']);
 			}
-		}		
+		}
 	}
 	if(isset($_POST['buttonSaveSwapList'])) {
 		if($_POST['buttonSaveSwapList'] == 'spreker') {
@@ -114,20 +123,18 @@
 	}
 	if(isset($_POST['getSpeakerInfo'])) {	
 		if($_POST['getSpeakerInfo'] == "speakerOfCongress") {
-			echo $manageSpeakers->getSpeakerOfCongressInfo($_POST['personNo'],$_SESSION['personno']);
-			DIE();
+			echo $manageSpeakers->getSpeakerOfCongressInfo($_POST['personNo'],$_SESSION['personNo']);
+			die();
 		}else {
-			echo $manageSpeakers->getSpeakerInfo($_POST['personNo'],$_SESSION['personno']);
-			DIE();
+			echo $manageSpeakers->getSpeakerInfo($_POST['personNo'],$_SESSION['personNo']);
+			die();
 		}
 	}
-	if(isset($_POST['updateSpeakerOfCongress'])) {
-		
-					
-					
-		
-					
-		
+	if(isset($_POST['uploadCreateSpeaker'])) {
+        $addedFile = 0;
+            if(isset($_FILES['uploadCreateSpeaker'])){
+                $addedFile = 1;
+            }
 		$params = array(
 			/*
 				Mogelijk later voor lost updates
@@ -146,21 +153,30 @@
 			array($_POST["newPhoneNumber"],SQLSRV_PARAM_IN),
 			array($_POST["newAgreement"],SQLSRV_PARAM_IN),
 			array($_POST["newDescription"],SQLSRV_PARAM_IN),
-			array(pathinfo(basename($_FILES['uploadCreateSpeaker']['name'])),PATHINFO_EXTENSION,SQLSRV_PARAM_IN),
+			array($addedFile,SQLSRV_PARAM_IN),
 			array($manage->getCongressNo(),SQLSRV_PARAM_IN)		
 		);
 		
-		handleFile("speakers/","uploadCreateSpeaker","speaker" . $personNo);
+		handleFile("img/speakers/","uploadCreateSpeaker","speaker" . $personNo);
 		echo $manageSpeakers->addRecord("spUpdateSpeaker",$params);		
 		
 		
 		die();
 	}
-	if(isset($_POST['deleteSpeaker'])) {	
-	
-		$manageSpeakers->deleteRecord("DELETE FROM SpeakerOfCongress WHERE personNo = ?",array($_POST['personNo']));
-		$manageSpeakers->deleteRecord("DELETE S FROM Speaker S INNER JOIN PersonTypeOfPerson PTOP ON PTOP.PersonNo = ? WHERE S.PersonNo = ? AND (S.Owner = ? OR PTOP.TypeName='Algemene beheerder' )",array($_SESSION['personno'],$_POST['personNo'],$_SESSION['personno']));
-		echo $manageSpeakers->isDeleted();
+	if(isset($_POST['deleteSpeaker'])) {
+        
+		$result1 = $manageSpeakers->deleteRecord("DELETE FROM SpeakerOfCongress WHERE personNo = ? AND congressNo = ?",array($_POST['personNo'],$_SESSION['congressNo']));
+		$result2 = $manageSpeakers->deleteRecord("DELETE S
+                                       FROM Speaker S INNER JOIN PersonTypeOfPerson PTOP 
+	                                       ON PTOP.PersonNo = ?
+                                       WHERE S.PersonNo = ? AND (S.Owner = PTOP.PersonNo OR PTOP.TypeName='Algemene beheerder' )",array($_SESSION['personNo'],$_POST['personNo']));
+        if(gettype($result2) == 'string'){
+            echo 1;
+        }
+        elseif(sqlsrv_rows_affected($result2) === false){
+            echo 1;
+        }
+        
 		die();
 	}
 ?>

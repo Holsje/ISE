@@ -21,7 +21,10 @@
         $manageEvents->handleSubmitEdit($_POST['AanpassenEvent']);
     }
     if(isset($_POST['speakerOfEvent'])){
-        echo $manageEvents->getSpeakersOfEvent($_SESSION['congressNo'],$_POST['eventNo']);
+        $returnArray = array();
+        $returnArray['event'] = $manageEvents->getSpeakersOfEvent($_SESSION['congressNo'],$_POST['eventNo']);
+        $returnArray['congres'] = $manageEvents->getSpeakersOfCongress($_SESSION['congressNo'],$_POST['eventNo']);
+        echo json_encode($returnArray);
         die();
     }
     if(isset($_POST['addSpeakerOfEvent'])){

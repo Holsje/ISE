@@ -1,4 +1,5 @@
 var table;
+var thisEvent;
 $(document).ready(function () {
     table = $('#congresListBox').DataTable( {
 		"sScrollY": "500px",
@@ -12,13 +13,15 @@ $(document).ready(function () {
     $('#congresListBox_info').css('display', 'none');
 	
     $('.singleSelect.dataTable tbody').on('click', 'tr', function () {
+        var parent = $(this).parents('form').children('.onSelected');
+        console.log(parent);
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
+            parent.prop('disabled', true);
         } else {
             $('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
+            parent.prop('disabled', false);
         }
     });
 
@@ -28,7 +31,6 @@ $(document).ready(function () {
     });
 
 	$(".closePopup").on("click", function (event) {
-
 		$(".errorMsg").empty()
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
         $("body").css("overflow", "auto");
@@ -59,9 +61,9 @@ $(document).ready(function () {
 			var activeTab = 0;
 		break;
 	}
-	 $(function() {
-		$( "#tabs" ).tabs({active:activeTab});
-	  });
+		$( "#tabs" ).tabs({
+            
+        });
 });
 
 function parseDate(dateString) {
