@@ -94,6 +94,10 @@
 			if($result) {
 				echo json_encode($result);
 			}
+			else if (is_string($result)){
+				$err['err'] = $result;
+				echo json_encode($err);
+			}
 			die();
 		}
 	}
@@ -127,19 +131,27 @@
 		
 		if($result) {
 			echo json_encode($result);
-		}		
+		}
+		else if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();	
 	}
 	
 	if(isset($_POST['deleteRoom'])) {
-		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
+		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ?, City = ? AND BName = ? AND RName = ?";
 		$params = array($_SESSION['chosenLocationName'],$_SESSION['chosenLocationCity'],$_POST['BName'],$_POST['roomName']);
 		
 		$result = $dataBase->sendQuery($queryDeleteRoom, $params);
 		
 		if($result) {
 			echo json_encode($result);
-		}		
+		}
+		else if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();
 	}
 
@@ -147,6 +159,9 @@
 		$queryUpdateBuilding = "UPDATE Building SET BName = ?, Street = ?, HouseNo = ?, PostalCode = ? WHERE LocationName = ? AND City = ? AND BName = ?";
 		$params = array($_POST['buildingName'], $_POST['streetName'], $_POST['houseNo'], $_POST['postalCode'], $_POST['LocationName'], $_POST['cityName'], $_SESSION['BName']);
 		$result = $dataBase->sendQuery($queryUpdateBuilding, $params);
+		if (is_string($result)){
+			$_SESSION['errorMsgUpdateBuilding'] = $result;
+		}
 
 	}
 ?>

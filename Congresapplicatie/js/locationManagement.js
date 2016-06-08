@@ -7,7 +7,6 @@ $(document).ready(function () {
     $('#LocatieListBox_length').css('display', 'none');
     $('#LocatieListBox_paginate').css('display', 'none');
     $('#LocatieListBox_info').css('display', 'none');
-	
 	$('#LocatieListBox tbody').on('click', 'tr', function () {
 		var numSelectedRows = locationTable.rows(".selected").data().length;
 		if (numSelectedRows == 0) {
@@ -95,6 +94,11 @@ $(document).ready(function () {
             alert(request.responseText);
         }});
 	})
+
+	$("[name=buttonDeleteLocatie]").on("click", function(){
+		alert("U kunt vanaf hier geen gebouw verwijderen.");
+	});
+	/*
 	$("[name=buttonDeleteLocatie]").on("click", function(event) {
 		var dataArray = locationTable.rows(".selected");
 		var result = [];
@@ -115,6 +119,7 @@ $(document).ready(function () {
 			}
 		})
 	})
+	*/
 });
 
 
@@ -174,8 +179,10 @@ function createRoom() {
 				roomCapacity: roomCapacity
 			},
 			success: function (data) {
+				console.log(data);
 				if (data != null && data != '' &&  /\S/.test(data)) {
-					$("#errMsgCreateRoom").text(data);
+					data = JSON.parse(data);
+					document.getElementById('errMsgCreateRoom').innerHTML = '*' + data;
 				}
 				else {
 					$("#errMsgCreateRoom").text("");
@@ -243,7 +250,8 @@ function editRoom() {
 			},
 			success: function (data) {
 				if (data != null && data != '' &&  /\S/.test(data)) {
-					$("#errMsgUpdateRoom").text(data);
+					data = JSON.parse(data);
+					document.getElementById('errMsgUpdateRoom').innerHTML = '*' + data;
 				}
 				else {
 					$("#errMsgUpdateRoom").text("");
@@ -278,7 +286,12 @@ function deleteRooms() {
 					roomName: selectedRows.data()[i][0]			
 				},
 				success: function (data) {
-					
+					if (data != null && data != '' &&  /\S/.test(data)) {
+						data = JSON.parse(data);
+						document.getElementById('errMsgDeleteLocation').innerHTML = '*' + data;
+					}else{
+						selectedRows.remove().draw(false);
+					}
 				},
 				error: function (request, status, error) {
 					alert(request.responseText);
@@ -286,7 +299,7 @@ function deleteRooms() {
 			});
 		}
 		
-		selectedRows.remove().draw(false);
+
 	}
 }
 

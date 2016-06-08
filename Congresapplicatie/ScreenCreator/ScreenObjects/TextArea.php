@@ -34,7 +34,7 @@
             if ($this->required) {
                 $string .= 'required';
             }
-            $string .= '></textarea>';
+            $string .= '>'. $this->value .'</textarea>';
             return $string;
         }
     }

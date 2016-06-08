@@ -144,8 +144,6 @@ function isValidBuildingInput(formName, errMsg) {
 			return false;
 		}
 		else {
-			console.log(form);
-			alert(form);
 			form.submit();
 		}
 }
@@ -212,7 +210,8 @@ function createRoom() {
 			},
 			success: function (data) {
 				if (data != null && data != '' &&  /\S/.test(data)) {
-					$("#errMsgCreateRoom").text(data);
+					data = JSON.parse(data);
+					document.getElementById('errMsgCreateRoom').innerHTML = '*' + data;
 				}
 				else {
 					$("#errMsgCreateRoom").text("");
@@ -278,7 +277,8 @@ function editRoom() {
 			},
 			success: function (data) {
 				if (data != null && data != '' &&  /\S/.test(data)) {
-					$("#errMsgUpdateRoom").text(data);
+					data = JSON.parse(data);
+					document.getElementById('errMsgUpdateRoom').innerHTML = '*' + data;
 				}
 				else {
 					$("#errMsgUpdateRoom").text("");
@@ -313,14 +313,18 @@ function deleteRooms() {
 					roomName: selectedRows.data()[i][0]			
 				},
 				success: function (data) {
-					
+					if (data != null && data != '' &&  /\S/.test(data)) {
+						data = JSON.parse(data);
+						document.getElementById('errMsgDeleteRoom').innerHTML = '*' + data;
+					}else{
+						selectedRows.remove().draw(false);
+					}
 				},
 				error: function (request, status, error) {
 					alert(request.responseText);
 				}
 			});
 		}
-		
-		selectedRows.remove().draw(false);
+
 	}
 }

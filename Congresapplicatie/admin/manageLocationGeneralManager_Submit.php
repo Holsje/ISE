@@ -13,12 +13,20 @@
 			array_push($paramsDeleteSelectedLocations, $_POST['selectedLocationValues'][$i + 1]);
 		}
 		$result = $dataBase->sendQuery($queryDeleteSelectedLocations, $paramsDeleteSelectedLocations);
+
+		if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();
 	}
 	
 	if (isset($_POST['saveLocationGMButton'])) {
 		$queryInsertNewLocation = "INSERT INTO LOCATION(LocationName, City) VALUES(?, ?)";
 		$paramsInsertNewLocation = array($_POST['locationNameText'], $_POST['locationCityText']);
-		$result = $dataBase->sendQuery($queryInsertNewLocation, $paramsInsertNewLocation);	
+		$result = $dataBase->sendQuery($queryInsertNewLocation, $paramsInsertNewLocation);
+		if (is_string($result)){
+			$_SESSION['errorMsgInsertLocation'] = $result;
+		}
 	}
 ?>
