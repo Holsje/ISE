@@ -17,7 +17,7 @@ CREATE TRIGGER trRemovePersonTypeOfPersonOnSpeaker
 	END CATCH
   END
 
-
+/* Testdata */
 BEGIN TRAN
 	SELECT * FROM PersonTypeOfPerson
 	DELETE FROM SpeakerOfEvent
