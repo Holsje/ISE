@@ -13,7 +13,11 @@ $(document).ready(function () {
     subjectTableUpdate = $('#subjectListBoxUpdate').DataTable( {
         "sScrollY": "500px",
         "bPaginate": false,
-        "bInfo": false
+        "bInfo": false,
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
     });
 
 //Edit

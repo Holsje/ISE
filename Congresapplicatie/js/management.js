@@ -6,8 +6,14 @@ var eventTest;
 $(document).ready(function () {
     table = $('#congresListBox').DataTable( {
 		"sScrollY": "500px",
-		"bPaginate": false
+		"bPaginate": false,
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
 	});
+    $(".dataTables_scrollBody").removeAttr("style");
+	$(".dataTables_scrollBody").addClass("scrollBody");
 	$('.onSelected').length;
     if(!setDataTable){
         $('.onSelected').prop('disabled', true);
@@ -20,6 +26,7 @@ $(document).ready(function () {
 	
     $('.singleSelect.dataTable tbody').on('click', 'tr', function () {
         var parent = $(this).parents('form').children('.onSelected');
+        console.log(parent);
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             parent.prop('disabled', true);
@@ -27,7 +34,8 @@ $(document).ready(function () {
             if(!$(this.childNodes[0]).hasClass('dataTables_empty')){
                $('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
-                parent.prop('disabled', false); 
+                parent.prop('disabled', false);
+                console.log('test');
             }     
         }
     });
@@ -47,11 +55,6 @@ $(document).ready(function () {
 
 
 		}
-    });
-	$('.dataTables_empty').parent('tbody').on('click','tr',function(event){
-        alert("test");
-        console.log('test');
-        $('dataTables_empty').parent('tr').removeClass('selected');
     });
 	
 	switch(window.location.hash) {

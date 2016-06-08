@@ -81,18 +81,18 @@ class ManageLocations extends Management {
 		if (isset($_SESSION['errorMsgInsertBuilding'])) {
 			$errMsg = new Span($_SESSION['errorMsgInsertBuilding'],null,'errMsgInsertBuilding','errorMsg',true,true,null);
 			$nameTextField = new Text($_POST['buildingName'], "Naam", "buildingName", null, true, true, true);
-			$street = new Text($_POST['streetName'], "Straat + Huisnr", "streetName", "form-control col-xs-7 col-sm-7 col-md-7", true, false, false);
-			$houseNo = new Text($_POST['houseNo'], null, "houseNo", "form-control col-xs-1 col-sm-1 col-md-1", false, true, false);
-			$postalCode = new Text($_POST['postalCode'], "Postcode", "postalCode", null, true, true, false);
+			$street = new Text($_POST['streetName'], "Straat + Huisnr", "streetName", "form-control col-xs-7 col-sm-7 col-md-7", true, false, true);
+			$houseNo = new Text($_POST['houseNo'], null, "houseNo", "form-control col-xs-1 col-sm-1 col-md-1", false, true, true);
+			$postalCode = new Text($_POST['postalCode'], "Postcode", "postalCode", null, true, true, true);
 			unset($_SESSION['errorMsgInsertBuilding']);
 			$this->getCreateScreen()->createPopUp(array($errMsg, $nameTextField, $street, $houseNo, $postalCode, $saveButton), "Gebouw toevoegen", "AddLocatie", null, null, null, "#Locatie");
 		}
 		else{
 			$errMsg = new Span('',null,'errMsgInsertBuilding','errorMsg',true,true,null);
 			$nameTextField = new Text(null, "Naam", "buildingName", null, true, true, true);
-			$street = new Text(null, "Straat + Huisnr", "streetName", "form-control col-xs-7 col-sm-7 col-md-7", true, false, false);
-			$houseNo = new Text(null, null, "houseNo", "form-control col-xs-1 col-sm-1 col-md-1", false, true, false);
-			$postalCode = new Text(null, "Postcode", "postalCode", null, true, true, false);
+			$street = new Text(null, "Straat + Huisnr", "streetName", "form-control col-xs-7 col-sm-7 col-md-7", true, false, true);
+			$houseNo = new Text(null, null, "houseNo", "form-control col-xs-1 col-sm-1 col-md-1", false, true, true);
+			$postalCode = new Text(null, "Postcode", "postalCode", null, true, true, true);
 			$this->getCreateScreen()->createPopUp(array($errMsg, $nameTextField, $street, $houseNo, $postalCode, $saveButton), "Gebouw toevoegen", "AddLocatie", null, null, null, "#Locatie");
 		}
 	}
@@ -119,7 +119,7 @@ class ManageLocations extends Management {
 	public function createCreateRoomPopUp() {
 		$buildingName = new Identifier(null, "Gebouw", "BName", null, true, true, true);
 		$roomName = new Text(null, "Naam", "roomName", null, true, true, true);
-		$roomDescription = new Text(null, "Omschrijving", "roomDescription", null, true, true, true);
+		$roomDescription = new Text(null, "Omschrijving", "roomDescription", null, true, true, false);
 		$roomCapacity = new Text(null, "Capacity", "roomCapacity", null, true, true, true);
 		$errMsg = new Span('',null,'errMsgCreateRoom','errorMsg',true,true,null);
 		$saveButton = new Submit("Opslaan", null, "saveRoomButton", null, true, true);
@@ -134,7 +134,7 @@ class ManageLocations extends Management {
 		$cityName = new Identifier(null, "Plaats", "cityName", null, true, true, true);
 		$buildingName = new Identifier(null, "Gebouw", "BName", null, true, true, true);
 		$roomName = new Text(null, "Naam", "roomName", null, true, true, true);
-		$roomDescription = new Text(null, "Omschrijving", "roomDescription", null, true, true, true);
+		$roomDescription = new Text(null, "Omschrijving", "roomDescription", null, true, true, false);
 		$roomCapacity = new Text(null, "Capacity", "roomCapacity", null, true, true, true);
 		$saveButton = new Submit("Opslaan", null, "saveRoomButton", null, true, true);
 	

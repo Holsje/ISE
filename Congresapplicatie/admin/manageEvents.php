@@ -2,7 +2,7 @@
     global $manageEvents;
    
 
-    $manageEvents->createManagementScreen(array('EventNo','Naam', 'Type','Prijs','MaxVisitors','Description'),$manageEvents->getEventsByCongress());
+    $manageEvents->createManagementScreen(array('EventNo','Naam', 'Type','Prijs','Max bezoekers','Omschrijving'),$manageEvents->getEventsByCongress());
     $manageEvents->createCreateEventsScreen();
     $manageEvents->createEditEventsScreen();
     if(isset($_POST['eventNoReload'])){

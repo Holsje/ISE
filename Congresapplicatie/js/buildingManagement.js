@@ -1,7 +1,15 @@
 var buildingGMTable, roomTable;
 var selectedBuilding;
 $(document).ready(function () {
-	buildingGMTable = $('#BuildingGMListBox').DataTable();
+	buildingGMTable = $('#BuildingGMListBox').DataTable({
+        "sScrollY": "500px",
+        "bPaginate": false,
+        "bInfo": false,
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
+    });
 	$('#dataTables_length').css('display', 'none');
     $('#BuildingGMListBox_length').css('display', 'none');
     $('#BuildingGMListBox_paginate').css('display', 'none');
@@ -46,9 +54,14 @@ $(document).ready(function () {
 	})
 	
 	roomTable = $("#ZalenListBox").DataTable({
-		 "scrollY":        "500px",
+        "scrollY":        "500px",
         "scrollCollapse": true,
-        "paging":         false	
+        "paging":         false,
+        "bInfo": false,
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
 	});
 	$('#dataTables_length').css('display', 'none');
     $('#ZalenListBox_length').css('display', 'none');

@@ -134,20 +134,20 @@
 				$speakerNameObject = new Text($_POST['speakerName'],"Voornaam","speakerName",null, true, true, true);
 				$speakerLastNameObject = new Text($_POST['LastName'],"Achternaam","LastName",null, true, true, true);
 				$emailObject = new Text($_POST['mailAddress'], "Mailadres", "mailAddress", null, true, true, true);
-				$phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, true);
-				$descriptionObject = new Text($_POST['description'], "Description", "description", null, true, true, true);
-				$agreementObject = new Text($_POST['agreement'], "Agreement", "agreement", null, true, true, false);
+				$phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, false);
+				$descriptionObject = new Text($_POST['description'], "Omschrijving", "description", null, true, true, false);
+				$agreementObject = new Text($_POST['agreement'], "Overeenkomst", "agreement", null, true, true, false);
 				$errMsg = new Span($errorOnCreateSpeaker,null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
 				$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanmaken","AddSpeaker",null,null,'show',"#spreker");
 			}else {
 				$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
 				$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
 				$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
-				$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
-				$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
-				$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
+				$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, false);
+				$descriptionObject = new Text(null, "Omschrijving", "description", null, true, true, false);
+				$agreementObject = new Text(null, "Overeenkomst", "agreement", null, true, true, false);
 				$errMsg = new Span('',null,'errMsgAanmakenSpreker','errorMsg',true,true,null);
-				$this->createScreen->createPopup(array($speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanmaken","AddSpeaker",null,null,false,"#spreker");
+				$this->createScreen->createPopup(array($errMsg,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$uploadFile,$submitObject),"Spreker aanmaken","AddSpeaker",null,null,false,"#spreker");
 			}
 			
 		}
@@ -157,13 +157,13 @@
 			$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
 			$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
 			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
-			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
-			$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
+			$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, false);
+			$descriptionObject = new Text(null, "Omschrijving", "description", null, true, true, false);
 			$errMsg = new Span('',null,'errMsgBewerkenSpreker','errorMsg',true,true,null);
 			$uploadFile = new Upload(null,'Foto',"uploadEditSpeaker",null,true,true,null,"image");
 			$submitObject = new Submit("aanpassen","updateSpeaker","aanpassen",null, true, true);			
 
-			$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeaker",null,null,false,"#spreker");
+			$this->createScreen->createPopup(array($errMsg,$speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeaker",null,null,false,"#spreker");
 
 		}
 		
@@ -178,9 +178,9 @@
 				$speakerNameObject = new Text($_POST['speakerName'],"Voornaam","speakerName",null, true, true, true);
 				$speakerLastNameObject = new Text($_POST['LastName'],"Achternaam","LastName",null, true, true, true);
 				$emailObject = new Text($_POST['mailAddress'], "Mailadres", "mailAddress", null, true, true, true);
-				$phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, true);
-				$descriptionObject = new Text($_POST['description'], "Description", "description", null, true, true, true);
-				$agreementObject = new Text($_POST['agreement'], "Agreement", "agreement", null, true, true, false);
+				$phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, false);
+				$descriptionObject = new Text($_POST['description'], "Omschrijving", "description", null, true, true, false);
+				$agreementObject = new Text($_POST['agreement'], "Overeenkomst", "agreement", null, true, true, false);
 				$errMsg = new Span($editSpeakersError,null,'errMsgUpdateSpeakerOfCongress','errorMsg',true,true,null);
 				$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeakerOfCongress",null,null,'show',"#spreker");	
 			}else {
@@ -188,11 +188,11 @@
 				$speakerNameObject = new Text(null,"Voornaam","speakerName",null, true, true, true);
 				$speakerLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
 				$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
-				$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, true);
-				$descriptionObject = new Text(null, "Description", "description", null, true, true, true);
-				$agreementObject = new Text(null, "Agreement", "agreement", null, true, true, false);
+				$phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, false);
+				$descriptionObject = new Text(null, "Omschrijving", "description", null, true, true, false);
+				$agreementObject = new Text(null, "Overeenkomst", "agreement", null, true, true, false);
 				$errMsg = new Span('',null,'errMsgUpdateSpeakerOfCongress','errorMsg',true,true,null);
-				$this->createScreen->createPopup(array($speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$errMsg,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeakerOfCongress",null,null,false,"#spreker");	
+				$this->createScreen->createPopup(array($errMsg,$speakerNumberObject,$speakerNameObject,$speakerLastNameObject,$emailObject,$phoneNumberObject,$descriptionObject,$agreementObject,$uploadFile,$submitObject),"Spreker aanpassen","UpdateSpeakerOfCongress",null,null,false,"#spreker");	
 			}
 
 

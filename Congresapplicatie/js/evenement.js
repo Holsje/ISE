@@ -15,16 +15,31 @@ $(document).ready(function () {
     eventSubjectAddListBox = $('#EvenementenSubjectListBoxAdd').DataTable( {
 			         "sScrollY": "500px",
 			         "bPaginate": false,
-                     "retrieve": true
+                     "retrieve": true,
+                     "bInfo": false,
+                     "language": {
+                        "emptyTable": "Geen data beschikbaar",
+                        "sSearch": "Zoeken:"
+                     }
     });
 
     eventListBox =  $('#EvenementenListBox').DataTable( {
-			         "sScrollY": "500px",
-			         "bPaginate": false
+			        "sScrollY": "500px",
+			        "bPaginate": false,
+                    "bInfo": false,
+                    "language": {
+                        "emptyTable": "Geen data beschikbaar",
+                        "sSearch": "Zoeken:"
+                    }
     });
     eventSubjectEditListBox =  $('#EvenementenSubjectListBoxEdit').DataTable( {
 			         "sScrollY": "500px",
-			         "bPaginate": false
+			         "bPaginate": false,
+                     "bInfo": false,
+                     "language": {
+                        "emptyTable": "Geen data beschikbaar",
+                        "sSearch": "Zoeken:"
+                     }
     });
     
     if($('#listBoxSpeakerEventRight')) {
@@ -129,19 +144,39 @@ $(document).ready(function () {
     if(document.forms['formAddEvenementen']){
         document.forms['formAddEvenementen'].onsubmit = function () {
             if(!isValidName(document.forms['formAddEvenementen']['eventName'].value)){
-                $('errMsgInsertEvent').text ('Eventnaam is onjuist.');
+                $('#errMsgInsertEvent').text ('Eventnaam is onjuist.');
                 return false;
             }
             if(!isValidDescription(document.forms['formAddEvenementen']['eventDescription'].value)){
-                $('errMsgInsertEvent').text ('Omschrijving is onjuist.');
+                $('#errMsgInsertEvent').text ('Omschrijving is onjuist.');
                 return false;
             }
             if(!isValidPrice(document.forms['formAddEvenementen']['eventPrice'].value)){
-                $('errMsgInsertEvent').text ('Prijs is onjuist.');
+                $('#errMsgInsertEvent').text ('Prijs is onjuist.');
                 return false;
             }
-            if(!isValidSmallInt(document.forms['formAddEvenementen']['eventMaxVis'].value)){
-                $('errMsgInsertEvent').text ('Maximaal aantal bezoekers is onjuist.');
+            if(!isValidSmallIntNullable(document.forms['formAddEvenementen']['eventMaxVis'].value)){
+                $('#errMsgInsertEvent').text ('Maximaal aantal bezoekers is onjuist.');
+                return false;
+            }
+        }
+    }
+    if(document.forms['formUpdateEvenementen']){
+        document.forms['formUpdateEvenementen'].onsubmit = function () {
+            if(!isValidName(document.forms['formUpdateEvenementen']['eventName'].value)){
+                $('#errMsgUpdateEvent').text ('Eventnaam is onjuist.');
+                return false;
+            }
+            if(!isValidDescription(document.forms['formUpdateEvenementen']['eventDescription'].value)){
+                $('#errMsgUpdateEvent').text ('Omschrijving is onjuist.');
+                return false;
+            }
+            if(!isValidPrice(document.forms['formUpdateEvenementen']['eventPrice'].value)){
+                $('#errMsgUpdateEvent').text ('Prijs is onjuist.');
+                return false;
+            }
+            if(!isValidSmallIntNullable(document.forms['formUpdateEvenementen']['eventMaxVis'].value)){
+                $('#errMsgUpdateEvent').text ('Maximaal aantal bezoekers is onjuist.');
                 return false;
             }
         }
@@ -149,19 +184,20 @@ $(document).ready(function () {
 });
 
 function deleteEvent(){
-    var eventNo = $('#EvenementenListBox tbody .selected td').html();
-    $.ajax({
-        url: window.location.href,
-        type: 'POST',
-        data: {
-            deleteEvent: 'Action',
-            eventNo: eventNo
-        },
-        success: function(data){
-            console.log(data);
-            $('#EvenementenListBox tbody .selected').remove();
-        }
-    });
+    if(confirm('Weet u zeker dat u deze rij wilt verwijderen?')){
+        var eventNo = $('#EvenementenListBox tbody .selected td').html();
+        $.ajax({
+            url: window.location.href,
+            type: 'POST',
+            data: {
+                deleteEvent: 'Action',
+                eventNo: eventNo
+            },
+            success: function(data){
+                $('#EvenementenListBox tbody .selected').remove();
+            }
+        });
+    }
 }
 function getSelectedEventInfo(){
     var eventNo = $('#EvenementenListBox tbody .selected td').html();
