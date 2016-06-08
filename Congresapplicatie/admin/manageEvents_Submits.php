@@ -5,10 +5,10 @@
     }
     if(isset($_POST['deleteEvent'])){
         $sqlDelete = '  DELETE FROM Event
-                        WHERE congressNo = ? and eventNo = ?';
+                        WHERE CongressNo = ? and EventNo = ?';
         $params = array($_SESSION['congressNo'],$_POST['eventNo']);
         $result = $database->sendQuery($sqlDelete,$params);
-        $dir = 'Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo;
+        $dir = '../Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$_POST['eventNo'];
         require_once('fileUploadHandler.php');
         Delete($dir);
         die();

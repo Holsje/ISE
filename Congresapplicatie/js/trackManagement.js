@@ -1,10 +1,11 @@
 var oldTrackName,
     oldTrackDescription,
-    trackNo;
+    trackNo,
+    tableTracks;
 
 $(document).ready(function () {
 
-    table = $('#TracksListBox').DataTable( {
+    tableTracks = $('#TracksListBox').DataTable( {
         "sScrollY": "500px",
         "bPaginate": false,
         "bInfo": false,
@@ -61,7 +62,7 @@ $(document).ready(function () {
 
 
 function deleteTrack() {
-    var selectedRow = table.row('.selected');
+    var selectedRow = tableTracks.row('.selected');
     if (selectedRow.data()) {
         if (confirm("Weet u zeker dat u deze rij wilt verwijderen?")) {
             $.ajax({
@@ -83,7 +84,7 @@ function deleteTrack() {
 }
 
 function getTrackInfo(){
-    var selectedRow = table.row('.selected');
+    var selectedRow = tableTracks.row('.selected');
     trackNo = selectedRow.data()[0];
     $.ajax({
         url: window.location.href,

@@ -40,7 +40,7 @@ topLayoutManagement('Beheren Congres', $css, $js);
     <div class="row">
         <div class="container   col-md-12 col-xs-12">
             <div class="content col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
-                <h1>Aanpassen congres</h1>
+                <h1>Aanpassen congres - <?php echo $_SESSION['congressName'];?></h1>
 				<?php
                     $manage->createAddSubjectScreen();
 					$manage->createManageScreen();

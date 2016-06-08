@@ -9,14 +9,7 @@ $(document).ready(function () {
     $('#LocatieGMListBox_info').css('display', 'none');
 	
 	
-	$('#LocatieGMListBox tbody').on("click", "tr", function(event) {
-		if (locationGMTable.rows(".selected").data().length > 1) {
-			$("[name=buttonEditLocatieGM]").prop("disabled", true);
-		}
-		else if (locationGMTable.rows(".selected").data().length == 1) {
-			$("[name=buttonEditLocatieGM]").prop("disabled", false);
-		}
-	})
+
 	$("[name=buttonEditLocatieGM]").on("click", function(event) {
 		var dataArray = locationGMTable.rows(".selected");
 		var result = [];
