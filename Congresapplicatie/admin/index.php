@@ -25,7 +25,7 @@
                 }
                 else{
             ?>
-            <h4>Welkom <?php echo $_SESSION['user']; ?> in de congres beheerapplicatie!</h4></br>
+            <h4>Welkom <?php echo $_SESSION['userName']; ?> in de congres beheerapplicatie!</h4></br>
             <h4>Maak hier boven in het menu een keuze om verder te gaan.</h4>
             <?php
                     $login->createLoginScreenLoggedIn();

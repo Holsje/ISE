@@ -78,9 +78,15 @@ require_once('ScreenObjects/TextArea.php');
 			}
 			echo ">";
 				echo '<input type="hidden" value="'. $trackno . '-'. $eventId . '" name="eventno[]">';
-				
-				echo '<h3 class="eventName col-xs-12 col-sm-12 col-md-12">' . $eventName ;
-				echo'</h3>';
+				if ((100/strlen($eventName)) > 5){
+					$eventTitleSize = 5;
+				}
+				else{
+					$eventTitleSize = 100/strlen($eventName);
+				}
+
+				echo '<h3 class="eventName col-xs-12 col-sm-12 col-md-12"><font size="'. $eventTitleSize .'">' . $eventName ;
+				echo'</font></h3>';
 				echo '<div class="row">';
 					echo '<div class="eventText col-md-7 col-xs-12 col-sm-7">';
 					echo '<p>';

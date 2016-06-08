@@ -19,7 +19,7 @@
                 }
                 if (isset($_SESSION['user'])){
                     echo '<form method="post" class="logoutForm" action="'.$_SERVER['PHP_SELF'].'">';
-                    echo '<span class="welcomeText">Welkom ' . $_SESSION['user'] . '</span>';
+                    echo '<span class="welcomeText">Welkom ' . $_SESSION['userName'] . '</span>';
                     echo '<input type="submit" name="logout" value="Uitloggen">';
                     echo '</form>';
                 }

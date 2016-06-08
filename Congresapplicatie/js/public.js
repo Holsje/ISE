@@ -90,9 +90,11 @@ function getEventInfo(eventNo) {
             eventNo: eventNo
         },
         success: function (data) {
+
 			data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['EName']);
-            $('#thumbnail').attr('src', data['FileDirectory'] + 'thumbnail.png');
+            var filename = data['FileDirectory'] + 'thumbnail.png';
+            $('img#thumbnail').attr('src', data['FileDirectory'] + 'thumbnail.png');
             $('#eventDescription').html(data['Description']);
             var size = 0;
             for (var value in data['speakers']) {
