@@ -27,7 +27,7 @@ $(document).ready(function () {
 	roomTable = $("#ZalenListBox").DataTable({
 		 "scrollY":        "500px",
         "scrollCollapse": true,
-        "paging":         false	
+        "paging":         false
 	});
 	$('#dataTables_length').css('display', 'none');
     $('#ZalenListBox_length').css('display', 'none');
@@ -147,7 +147,9 @@ function refreshRoom(rooms) {
 	document.forms['formUpdateLocatie']['cityName'].value = rooms[0]['City'];
 
 	for(var i = 0;i<rooms.length;i++) {
-		roomTable.row.add([rooms[i]["RName"],rooms[i]["Description"],rooms[i]["MaxNumberOfParticipants"]]);
+        if(rooms[i]["RName"] != null){
+		  roomTable.row.add([rooms[i]["RName"],rooms[i]["Description"],rooms[i]["MaxNumberOfParticipants"]]);
+        }
 	}
 	roomTable.row().draw();
 }

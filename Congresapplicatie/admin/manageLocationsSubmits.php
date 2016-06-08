@@ -60,8 +60,10 @@
 	
 	if(isset($_POST['getRooms'])) {
 		if($_POST['getRooms'] == 'rooms') {			
-			$queryRoomInfo = "SELECT LocationName, City, BName, RName, Description, MaxNumberOfParticipants " .
-							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ?";
+			$queryRoomInfo = "  SELECT B.LocationName, B.City, B.BName, RName, Description, MaxNumberOfParticipants 
+                                FROM ROOM R RIGHT JOIN Building B 
+                                    ON R.BName = B.BName AND R.LocationName = B.LocationName AND R.City = B.City 
+                                WHERE B.LocationName = ? AND B.City = ? AND B.BName = ?";
 			$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['building']);
 			
 			$result = $database->sendQuery($queryRoomInfo, $params);

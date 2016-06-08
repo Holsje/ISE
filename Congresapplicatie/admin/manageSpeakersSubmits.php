@@ -5,7 +5,7 @@
 		if($_POST['toevoegen'] == 'createSpeaker') {
 			require_once('fileUploadHandler.php');
             $addedFile = 0;
-            if(isset($_FILES['upoadCreateSpeaker'])){
+            if(isset($_FILES['uploadCreateSpeaker'])){
                 $addedFile = 1;
             }
 			$params = array(

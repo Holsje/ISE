@@ -18,7 +18,8 @@
 	else if (isset($_POST['goToEdit'])){
 		$_SESSION['congressNo'] = $_POST['congressNo'];
 		$_SESSION['congressName'] = $_POST['congressName'];
-		header('Location: manage.php');
+        echo 'testdasdsda'.$_POST['congressName'];
+		//header('Location: manage.php');
 		die();
 	}
 	

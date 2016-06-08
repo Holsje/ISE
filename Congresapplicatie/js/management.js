@@ -2,6 +2,7 @@ var table;
 var thisEvent;
 var setDataTable = false;
 var eventNo = 0;
+var eventTest;
 $(document).ready(function () {
     table = $('#congresListBox').DataTable( {
 		"sScrollY": "500px",
@@ -23,9 +24,11 @@ $(document).ready(function () {
             $(this).removeClass('selected');
             parent.prop('disabled', true);
         } else {
-            $('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            parent.prop('disabled', false);
+            if(!$(this.childNodes[0]).hasClass('dataTables_empty')){
+               $('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                parent.prop('disabled', false); 
+            }     
         }
     });
 
@@ -45,7 +48,11 @@ $(document).ready(function () {
 
 		}
     });
-	
+	$('.dataTables_empty').parent('tbody').on('click','tr',function(event){
+        alert("test");
+        console.log('test');
+        $('dataTables_empty').parent('tr').removeClass('selected');
+    });
 	
 	switch(window.location.hash) {
 		case "#Locatie":

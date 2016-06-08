@@ -126,6 +126,26 @@ $(document).ready(function () {
         $('.onSelected').prop('disabled',false);
         fillSpeakersOfEvent();
     }
+    if(document.forms['formAddEvenementen']){
+        document.forms['formAddEvenementen'].onsubmit = function () {
+            if(!isValidName(document.forms['formAddEvenementen']['eventName'].value)){
+                $('errMsgInsertEvent').text ('Eventnaam is onjuist.');
+                return false;
+            }
+            if(!isValidDescription(document.forms['formAddEvenementen']['eventDescription'].value)){
+                $('errMsgInsertEvent').text ('Omschrijving is onjuist.');
+                return false;
+            }
+            if(!isValidPrice(document.forms['formAddEvenementen']['eventPrice'].value)){
+                $('errMsgInsertEvent').text ('Prijs is onjuist.');
+                return false;
+            }
+            if(!isValidSmallInt(document.forms['formAddEvenementen']['eventMaxVis'].value)){
+                $('errMsgInsertEvent').text ('Maximaal aantal bezoekers is onjuist.');
+                return false;
+            }
+        }
+    }
 });
 
 function deleteEvent(){
