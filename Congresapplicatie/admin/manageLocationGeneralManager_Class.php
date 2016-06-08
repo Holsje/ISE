@@ -22,7 +22,7 @@ class manageLocationGeneralManager extends Management {
 		$errMsg = new Span(null, null, 'errMsgCreateLocation', 'errorMsg', true, true, null);
 		$locationNameText = new Text(null, "Locatienaam", "locationNameText", null, true, true, true);
 		$locationCityText = new Text(null, "Plaats", "locationCityText", null, true, true, true);
-		$submitButton = new Submit("Opslaan", null, "saveLocationGMButton", null, true, true);
+		$submitButton = new Submit("Toevoegen", null, "saveLocationGMButton", null, true, true);
 		$this->getCreateScreen()->createPopUp(array($errMsg, $locationNameText, $locationCityText, $submitButton),"Locatie toevoegen","AddLocatieGM",null,null,null, "#LocatieGM");
 	}
 	

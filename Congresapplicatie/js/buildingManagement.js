@@ -55,23 +55,34 @@ $(document).ready(function () {
     $('#ZalenListBox_paginate').css('display', 'none');
     $('#ZalenListBox_info').css('display', 'none');
 	
-	$('#ZalenListBox tbody').on('click', 'tr', function () {
-		$(this).toggleClass('selected');
-		var numSelectedRows = roomTable.rows(".selected").data().length;
-		if (numSelectedRows == 0) {
-			$("[name=buttonEditZalen]").prop("disabled", true);
-			$("[name=buttonDeleteZalen]").prop("disabled", true);
-		}
-		else if (numSelectedRows == 1) {
-			$("[name=buttonEditZalen]").prop("disabled", false);
-			$("[name=buttonDeleteZalen]").prop("disabled", false);
-		}
-		else {
-			$("[name=buttonEditZalen]").prop("disabled", true);
-			$("[name=buttonDeleteZalen]").prop("disabled", false);
-		}
-    });
-	document.forms['formAddBuildingGM'].onsubmit = isValidBuildingInput;
+
+
+
+
+
+
+
+	if(document.forms["formAddBuildingGM"]) {
+		document.forms['formAddBuildingGM'].onsubmit = function () {
+			if (isValidBuildingInput('formAddBuildingGM', '#errMsgCreateBuilding')){
+				return true;
+			}
+			else{
+				return false;
+			}
+		};
+	}
+
+	if(document.forms["formUpdateBuildingGM"]) {
+		document.forms['formUpdateBuildingGM'].onsubmit = function () {
+			if (isValidBuildingInput('formUpdateBuildingGM', '#errMsgUpdateBuilding')){
+				return true;
+			}
+			else{
+				return false;
+			}
+		};
+	}
 	document.forms['formCreateBuildingGM']['buttonEditBuildingGM'].onclick = getRooms;
 	document.forms['formUpdateBuildingGM']['buttonAddZalen'].onclick = updateCreateRoom;
 	document.forms['formUpdateBuildingGM']['buttonEditZalen'].onclick = getRoomInfo;
@@ -114,25 +125,27 @@ $(document).ready(function () {
 	}
 });
 
-function isValidBuildingInput() {
-		var form = document.forms['formAddBuildingGM'];
+function isValidBuildingInput(formName, errMsg) {
+		var form = document.forms[formName];
 		if (!isValidLocationName(form['buildingName'].value)) {
-			$('#errMsgCreateBuilding').html("Gebouwnaam is niet geldig.");
+			$(errMsg).text("Gebouwnaam is niet geldig.");
 			return false;
 		}
 		else if (!isValidLocationName(form['streetName'].value)) {
-			$("#errMsgCreateBuilding").html("Straatnaam is niet geldig.");
+			$(errMsg).text("Straatnaam is niet geldig.");
 			return false;
 		}
 		else if (!isValidSmallInt(form['houseNo'].value)) {
-			$('#errMsgCreateBuilding').html("Huisnummer is niet geldig");
+			$(errMsg).text("Huisnummer is niet geldig");
 			return false;
 		}
 		else if (!isValidPostalCode(form['postalCode'].value)) {
-			$('#errMsgCreateBuilding').html("Postcode is niet geldig.");
+			$(errMsg).text("Postcode is niet geldig.");
 			return false;
 		}
 		else {
+			console.log(form);
+			alert(form);
 			form.submit();
 		}
 }
@@ -142,7 +155,9 @@ function getRooms() {
 	roomTable.row.add(["Loading","Loading","Loading","Loading"]).draw(false);
 	
 	selectedBuilding = buildingGMTable.row(".selected").data()[0];
-	document.forms['formUpdateBuildingGM']['BName'].value = selectedBuilding;
+	document.forms['formUpdateBuildingGM']['buildingName'].value = selectedBuilding;
+
+
 	 $.ajax({
 			url: window.location.href,
 			type: 'POST',
@@ -151,7 +166,14 @@ function getRooms() {
 				building: selectedBuilding
 			},
 			success: function (data) {
+				console.log(data);
 				data = JSON.parse(data);
+				document.forms['formUpdateBuildingGM']['LocationName'].value = data[0]['LocationName'];
+				document.forms['formUpdateBuildingGM']['cityName'].value = data[0]['City'];
+				document.forms['formUpdateBuildingGM']['buildingName'].value = data[0]['BName'];
+				document.forms['formUpdateBuildingGM']['streetName'].value = data[0]['Street'];
+				document.forms['formUpdateBuildingGM']['houseNo'].value = data[0]['HouseNo'];
+				document.forms['formUpdateBuildingGM']['postalCode'].value = data[0]['PostalCode'];
 				refreshRoom(data);
 			},
 			error: function (request, status, error) {
@@ -163,7 +185,7 @@ function getRooms() {
 function refreshRoom(rooms) {
 	roomTable.rows().remove().draw(false);
 	
-	for(var i = 0;i<rooms.length;i++) {
+	for(var i = 1;i<rooms.length;i++) {
 		roomTable.row.add([rooms[i]["RName"],rooms[i]["Description"],rooms[i]["MaxNumberOfParticipants"]]);
 	}
 	roomTable.row().draw();
