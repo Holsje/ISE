@@ -299,9 +299,10 @@ function deleteRooms() {
 					roomName: selectedRows.data()[i][0]			
 				},
 				success: function (data) {
+					console.log(data);
 					if (data != null && data != '' &&  /\S/.test(data)) {
 						data = JSON.parse(data);
-						document.getElementById('errMsgDeleteLocation').innerHTML = '*' + data;
+						document.getElementById('errMsgDeleteRoom').innerHTML = '*' + data;
 					}else{
 						selectedRows.remove().draw(false);
 					}
