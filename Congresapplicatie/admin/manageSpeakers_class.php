@@ -8,7 +8,7 @@
         }
 
         public function createManagementScreen() {
-			$columnList = array("Nummer","Voornaam","Achternaam","Email","CanSwap");
+			$columnList = array("Nummer","Voornaam","Achternaam","Email");
 			$valueListLeft = $this->getSpeakersOfCongress($this->congressNo);
 			$valueListRight = $this->getSpeakersNotInCongress($this->congressNo);
 			
@@ -26,18 +26,16 @@
         }
         
         public function getSpeakersOfCongress($congressNo) {
-			 $result = parent::getDatabase()->sendQuery("SELECT P.PersonNo,P.FirstName,P.LastName,P.MailAddress, 
-															CASE WHEN NOT EXISTS(SELECT 1 FROM SpeakerOfEvent SOE WHERE SOE.PersonNo = SOC.PersonNo AND SOE.CongressNo = SOC.CongressNo) THEN 'True' ELSE 'False' END AS CanSwap
-															FROM SpeakerOfCongress SOC
-															INNER JOIN Person P ON P.PersonNo = SOC.PersonNo
-															WHERE SOC.CongressNo = 1
-															",array($congressNo));
+			 $result = parent::getDatabase()->sendQuery("SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress ".
+														"FROM SpeakerOfCongress SOC " .
+														"INNER JOIN Person P ON P.PersonNo = SOC.PersonNo " .
+														"WHERE SOC.CongressNo = ?",array($congressNo));
 														
 			 if ($result){
 				$array = array();
 				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
 				{
-					array_push($array,array($row['PersonNo'],$row['FirstName'],$row['LastName'],$row['MailAddress'],$row['CanSwap']));
+					array_push($array,array($row['personNo'],$row['FirstName'],$row['LastName'],$row['MailAddress']));
 				}
 				return $array;
 			}
@@ -45,17 +43,17 @@
 		}
 		
 		public function getSpeakersNotInCongress($congressNo) {
-			 $result = parent::getDatabase()->sendQuery("SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress, 'False' AS CanSwap
-														FROM Speaker S
-														INNER JOIN Person P ON P.PersonNo = S.PersonNo
-														WHERE NOT EXISTS(SELECT 1 
-														FROM SpeakerOfCongress SOC 
-														WHERE SOC.PersonNo = S.PersonNo AND SOC.CongressNo = ?)",array($congressNo));																											
+			 $result = parent::getDatabase()->sendQuery("SELECT P.personNo,P.FirstName, P.LastName, P.MailAddress ".
+														"FROM Speaker S ".
+														"INNER JOIN Person P ON P.PersonNo = S.PersonNo ".
+														"WHERE NOT EXISTS(SELECT 1 " .
+														"FROM SpeakerOfCongress SOC " .
+														"WHERE SOC.PersonNo = S.PersonNo AND SOC.CongressNo = ?)",array($congressNo));																											
 			 if ($result){
 				$array = array();
 				while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
 				{
-					array_push($array,array($row['personNo'],$row['FirstName'],$row['LastName'],$row['MailAddress'],$row['CanSwap']));
+					array_push($array,array($row['personNo'],$row['FirstName'],$row['LastName'],$row['MailAddress']));
 				}
 				return $array;
 			}

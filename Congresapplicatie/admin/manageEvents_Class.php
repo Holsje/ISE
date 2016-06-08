@@ -116,14 +116,8 @@
                         VALUES(?,?,?,?,?,?,?,?)';
             $paramsEvent = array($_SESSION['congressNo'],$eventNo,$_POST['eventName'],$_POST['eventType'],$_POST['eventMaxVis'],$eventPrice, $_POST['eventDescription'],'Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo . '/');
             $result = $this->database->sendQuery($sqlEvents,$paramsEvent);
-            if($result !== true){
-                if( ($errors = sqlsrv_errors() ) != null) {
-                    foreach( $errors as $error ) {
-                        echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-                        echo "code: ".$error[ 'code']."<br />";
-                        echo "message: ".$error[ 'message']."<br />";
-                     }
-                }   
+            if (is_string($result)){
+                $_SESSION['errorMsgInsertEvent'] = $result;
             }
             if(isset($_POST['subjects'])){
                 foreach($_POST['subjects'] as $value){
@@ -148,7 +142,7 @@
                 }
             }
             $sqlUpdate = 'UPDATE Event
-                          SET EName = ? , Type = ?, MaxVisitors = ?, Price = ?, FileDirectory = ?, Description = ?
+                          SET EName = ?, Type = ?, MaxVisitors = ?, Price = ?, FileDirectory = ?, Description = ?
                           WHERE EventNo = ? AND CongressNo = ?';
             $eventPrice = $_POST['eventPrice'];
             if($_POST['eventType'] == 'Lezing'){
@@ -156,6 +150,10 @@
             }
             $paramsUpdate = array($_POST['eventName'], $_POST['eventType'], $_POST['eventMaxVis'], $eventPrice, 'Congresses/Congress' . $_SESSION['congressNo'] . '/Event'.$eventNo.'/', $_POST['eventDescription'], $eventNo, $_SESSION['congressNo']);
             $result = $this->database->sendQuery($sqlUpdate,$paramsUpdate);
+
+            if (is_string($result)){
+                $_SESSION['errorMsgUpdateEvent'] = $result;
+            }
             $sqlSubjectsEvent ='SELECT Subject
                                 FROM SubjectOfEvent
                                 WHERE EventNo = ? AND CongressNo = ?'; 
@@ -250,46 +248,77 @@
         public function createManagementScreen($columnList, $valueList) {
             //Voeg extra buttons toe in $buttonArray
             //($value, $label, $name, $classes, $startRow, $endRow, $datafile)
+            if (isset($_SESSION['errorMsgDeleteEvent'])){
+                $errMsg = new Span($_SESSION['errorMsgDeleteEvent'],null,'errMsgDeleteEvent','errorMsg',true,true,null);
+                $errMsg->getObjectCode();
+            }
             $SpeakerToEvent = new Button('Spreker koppelen','','speakerToEvent','form-control btn btn-default col-xs-3 col-md-3 col-sm-3 popupButton onSelected',false,false,'#popUpSpeakerToEvent');
             $buttonArray=array($SpeakerToEvent);
             parent::createManagementScreen($columnList, $valueList, 'Evenementen' ,$buttonArray);
         }
         
 		public function createCreateEventsScreen() {
-            //($value, $label, $name, $classes, $startRow, $endRow, $required)
-            //$congressName = new Span('Komt nog een session','Congress','congres','',true,true);
-            $eventName = new Text('','Naam','eventName','',true,true,true);
-            //($value, $label, $name, $classes, $startRow, $endRow, $list, $button, $firstRowEmpty, $id)
-            $eventType = new Select('', 'Type','eventType','',true,true,array('Workshop','Lezing'),false,false,'eventType');
-            $eventPrice = new Text('', 'Prijs', 'eventPrice','form-control col-xs-10 col-sm-8 col-md-8 eventPrice',true,true,false);
-            $eventMaxVis = new Text('', 'Max bezoekers','eventMaxVis','',true,true,false);
-            $eventDescription = new TextArea('', 'Omschrijving','eventDescription','form-control col-xs-12 col-sm-8 col-md-8 description',true,true,false);
+            $eventToevoegenBtn = new Submit("Toevoegen","createEvent","ToevoegenEvent","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAddEvenementen');
             $eventFileUpload = new Upload('','Afbeelding','eventPicture','form-control col-xs-12 col-sm-8 col-md-8','true',true,'','image');
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $eventSubject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 subjectListBox", true, true, $columnList, $valueList, "EvenementenSubjectListBoxAdd");
             $addSubjectObject = new Button("+",null,"addSubjectEventButton","form-control btn btn-default popupButton subjectAdd", true, true, "#popUpSubjectListBoxAdd");
-            $eventToevoegenBtn = new Submit("Toevoegen","createEvent","ToevoegenEvent","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAddEvenementen');
-            $screenObjecten = array($eventName,$eventDescription,$eventType,$eventPrice,$eventMaxVis,$eventFileUpload,$eventSubject,$addSubjectObject,$eventToevoegenBtn);
-            //Maak screen objecten aan.
-			$this->createScreen->createPopup($screenObjecten,"Evenement aanmaken","AddEvenementen",'smallPop','first','','#Evenementen');
+
+            if (isset($_SESSION['errorMsgInsertEvent'])){
+                $errMsg = new Span($_SESSION['errorMsgInsertEvent'],null,'errMsgInsertEvent','errorMsg',true,true,null);
+                $eventName = new Text($_POST['eventName'],'Naam','eventName','',true,true,true);
+                $eventType = new Select($_POST['eventType'], 'Type','eventType','',true,true,array('Workshop','Lezing'),false,false,'eventType');
+                $eventPrice = new Text($_POST['eventPrice'], 'Prijs', 'eventPrice','form-control col-xs-10 col-sm-8 col-md-8 eventPrice',true,true,false);
+                $eventMaxVis = new Text($_POST['eventMaxVis'], 'Max bezoekers','eventMaxVis','',true,true,false);
+                $eventDescription = new TextArea($_POST['eventDescription'], 'Omschrijving','eventDescription','form-control col-xs-12 col-sm-8 col-md-8 description',true,true,false);
+                $screenObjecten = array($errMsg,$eventName,$eventDescription,$eventType,$eventPrice,$eventMaxVis,$eventFileUpload,$eventSubject,$addSubjectObject,$eventToevoegenBtn);
+                $this->createScreen->createPopup($screenObjecten,"Evenement aanmaken","AddEvenementen",'smallPop','first','show','#Evenementen');
+                unset($_SESSION['errorMsgInsertEvent']);
+            }
+            else{
+                $errMsg = new Span(null,null,'errMsgInsertEvent','errorMsg',true,true,null);
+                $eventName = new Text('','Naam','eventName','',true,true,true);
+                $eventType = new Select('', 'Type','eventType','',true,true,array('Workshop','Lezing'),false,false,'eventType');
+                $eventPrice = new Text('', 'Prijs', 'eventPrice','form-control col-xs-10 col-sm-8 col-md-8 eventPrice',true,true,false);
+                $eventMaxVis = new Text('', 'Max bezoekers','eventMaxVis','',true,true,false);
+                $eventDescription = new TextArea('', 'Omschrijving','eventDescription','form-control col-xs-12 col-sm-8 col-md-8 description',true,true,false);
+                $screenObjecten = array($errMsg,$eventName,$eventDescription,$eventType,$eventPrice,$eventMaxVis,$eventFileUpload,$eventSubject,$addSubjectObject,$eventToevoegenBtn);
+                $this->createScreen->createPopup($screenObjecten,"Evenement aanmaken","AddEvenementen",'smallPop','first','','#Evenementen');
+            }
+
+
 		}
         
         public function createEditEventsScreen() {
-            $eventName = new Text('','Naam','eventName','',true,true,true);
-            $eventType = new Select('', 'Type','eventType','',true,true,array('Workshop','Lezing'),false,false,'eventType');
-            $eventPrice = new Text('', 'Prijs', 'eventPrice','form-control col-xs-10 col-sm-8 col-md-8 eventPrice',true,true,false);
-            $eventMaxVis = new Text('', 'Max bezoekers','eventMaxVis','',true,true,false);
-            $eventDescription = new TextArea('', 'Omschrijving','eventDescription','form-control col-xs-12 col-sm-8 col-md-8 description',true,true,false);
+            $eventToevoegenBtn = new Submit("Aanpassen","editEvent","AanpassenEvent","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAddEvenementen');
             $eventFileUpload = new Upload('','Afbeelding','editEventPicture','form-control col-xs-12 col-sm-8 col-md-8','true',true,'','image');
             $columnList = array("Onderwerp");
             $valueList = $this->getSubjects();
             $eventSubject = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 subjectListBox", true, true, $columnList, $valueList, "EvenementenSubjectListBoxEdit");
-            $eventToevoegenBtn = new Submit("Aanpassen","editEvent","AanpassenEvent","form-control col-md-4 pull-right btn btn-default", true, true, '#popUpAddEvenementen');
             $addSubjectObject = new Button("+",null,"addSubjectEventButton","form-control btn btn-default popupButton subjectAdd", true, true, "#popUpSubjectListBoxAdd");
-            $screenObjecten = array($eventName,$eventDescription,$eventType,$eventPrice,$eventMaxVis,$eventFileUpload,$eventSubject,$addSubjectObject,$eventToevoegenBtn);
-            //Maak screen objecten aan.
-			$this->createScreen->createPopup($screenObjecten,"Evenement aanpassen","UpdateEvenementen",'smallPop','first','','#Evenementen');
+
+            if (isset($_SESSION['errorMsgUpdateEvent'])){
+                $errMsg = new Span($_SESSION['errorMsgUpdateEvent'],null,'errMsgUpdateEvent','errorMsg',true,true,null);
+                $eventName = new Text($_POST['eventName'],'Naam','eventName','',true,true,true);
+                $eventType = new Select($_POST['eventType'], 'Type','eventType','',true,true,array('Workshop','Lezing'),false,false,'eventType');
+                $eventPrice = new Text($_POST['eventPrice'], 'Prijs', 'eventPrice','form-control col-xs-10 col-sm-8 col-md-8 eventPrice',true,true,false);
+                $eventMaxVis = new Text($_POST['eventMaxVis'], 'Max bezoekers','eventMaxVis','',true,true,false);
+                $eventDescription = new TextArea($_POST['eventDescription'], 'Omschrijving','eventDescription','form-control col-xs-12 col-sm-8 col-md-8 description',true,true,false);
+                $screenObjecten = array($errMsg,$eventName,$eventDescription,$eventType,$eventPrice,$eventMaxVis,$eventFileUpload,$eventSubject,$addSubjectObject,$eventToevoegenBtn);
+                $this->createScreen->createPopup($screenObjecten,"Evenement aanpassen","UpdateEvenementen",'smallPop','first','show','#Evenementen');
+                unset($_SESSION['errorMsgUpdateEvent']);
+            }
+            else{
+                $errMsg = new Span(null,null,'errMsgUpdateEvent','errorMsg',true,true,null);
+                $eventName = new Text('','Naam','eventName','',true,true,true);
+                $eventType = new Select('', 'Type','eventType','',true,true,array('Workshop','Lezing'),false,false,'eventType');
+                $eventPrice = new Text('', 'Prijs', 'eventPrice','form-control col-xs-10 col-sm-8 col-md-8 eventPrice',true,true,false);
+                $eventMaxVis = new Text('', 'Max bezoekers','eventMaxVis','',true,true,false);
+                $eventDescription = new TextArea('', 'Omschrijving','eventDescription','form-control col-xs-12 col-sm-8 col-md-8 description',true,true,false);
+                $screenObjecten = array($errMsg,$eventName,$eventDescription,$eventType,$eventPrice,$eventMaxVis,$eventFileUpload,$eventSubject,$addSubjectObject,$eventToevoegenBtn);
+                $this->createScreen->createPopup($screenObjecten,"Evenement aanpassen","UpdateEvenementen",'smallPop','first','','#Evenementen');
+            }
 
 		}
         

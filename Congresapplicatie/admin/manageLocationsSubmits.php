@@ -5,6 +5,7 @@
 		$_SESSION['selectedLocation'] = $_POST['SelectedValue'];
 		die();
 	}
+	/*
 	if (isset($_POST['confirmButton'])) {
 		$queryDeleteSelection = "DELETE FROM Building WHERE ";
 		$paramsDeleteSelection = array();
@@ -20,7 +21,7 @@
 			array_push($paramsDeleteSelection, $_SESSION['currentLocationCity']);
 		}
 		$result = $database->sendQuery($queryDeleteSelection, $paramsDeleteSelection);
-	}
+	}*/
 	
 	if (isset($_POST['selectedBuildingValues'])) {
 		$_SESSION['selectedBuildingValues'] = $_POST['selectedBuildingValues'];
@@ -37,6 +38,9 @@
 										 $_POST['postalCode']);
 
 		$result = $database->sendQuery($queryInsertNewBuilding, $paramsInsertNewBuilding);
+		if (is_string($result)){
+			$_SESSION['errorMsgInsertBuilding'] = $result;
+		}
 		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 	
@@ -55,6 +59,9 @@
 			var_dump($queryUpdateCongressLocation);
 			var_dump($paramsUpdateCongressLocation);
 			$result = $database->sendQuery($queryUpdateCongressLocation, $paramsUpdateCongressLocation);
+			if (is_string($result)){
+				$_SESSION['errorMsgLinkToCongress'] = $result;
+			}
 		}
 	}
 	
@@ -86,6 +93,10 @@
 			if($result) {
 				echo json_encode($result);
 			}
+			else if (is_string($result)){
+				$err['err'] = $result;
+				echo json_encode($err);
+			}
 			die();
 		}
 	}
@@ -108,7 +119,7 @@
 	}
 	
 	if(isset($_POST['editRoom'])) {
-		$queryUpdateRoom = " UPDATE ROOM SET RName = ?, [Description] = ?, MaxNumberOfParticipants = ? ".
+		$queryUpdateRoom = " UPDATE ROOM SET RName = ? AND [Description] = ?, MaxNumberOfParticipants = ? ".
 							" WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
 							
 							
@@ -119,19 +130,27 @@
 		
 		if($result) {
 			echo json_encode($result);
-		}		
+		}
+		else if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();	
 	}
 	
 	if(isset($_POST['deleteRoom'])) {
-		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
+		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ?, City = ? AND BName = ? AND RName = ?";
 		$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['BName'],$_POST['roomName']);
 		
 		$result = $database->sendQuery($queryDeleteRoom, $params);
 		
 		if($result) {
 			echo json_encode($result);
-		}		
+		}
+		else if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();
 	}
 	
