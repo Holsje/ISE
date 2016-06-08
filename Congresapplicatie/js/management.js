@@ -1,5 +1,7 @@
 var table;
 var thisEvent;
+var setDataTable = false;
+var eventNo = 0;
 $(document).ready(function () {
     table = $('#congresListBox').DataTable( {
 		"sScrollY": "500px",
