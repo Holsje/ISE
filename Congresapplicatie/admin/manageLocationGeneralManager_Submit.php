@@ -13,7 +13,6 @@
 			array_push($paramsDeleteSelectedLocations, $_POST['selectedLocationValues'][$i + 1]);
 		}
 		$result = $dataBase->sendQuery($queryDeleteSelectedLocations, $paramsDeleteSelectedLocations);
-
 		if (is_string($result)){
 			$err['err'] = $result;
 			echo json_encode($err);

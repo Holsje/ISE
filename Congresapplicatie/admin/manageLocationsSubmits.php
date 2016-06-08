@@ -139,7 +139,7 @@
 	}
 	
 	if(isset($_POST['deleteRoom'])) {
-		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ?, City = ? AND BName = ? AND RName = ?";
+		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
 		$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['BName'],$_POST['roomName']);
 		
 		$result = $database->sendQuery($queryDeleteRoom, $params);

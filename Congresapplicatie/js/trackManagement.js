@@ -41,7 +41,7 @@ $(document).ready(function () {
             }
             return true;
         }
-    }
+    };
 
     if(document.forms["formUpdateTracks"]) {
         document.forms["formUpdateTracks"].onsubmit = function() {
