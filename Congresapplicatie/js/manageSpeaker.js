@@ -1,6 +1,6 @@
 var oldSpeakersOfCongress = new Array();
 var oldFirstName,oldLastName,oldMailAddress,oldPhoneNumber,oldDescription,oldAgreement,personNo;
-var onSubmitAddres;
+var onSubmitAddres = 'manage.php#spreker';
 $(document).ready(function () {	
 	if($('#listBoxSpeakerLeft')) {
 		$('#listBoxSpeakerLeft').on('click', 'tr', function () {
@@ -66,7 +66,7 @@ $(document).ready(function () {
 				$("#errMsgAanmakenSpreker").text("Telefoonnummer onjuist.");
 				return false;
 			}
-            
+            document.forms['formAddSpeaker'].setAttribute('action',onSubmitAddres);
 			return true;
 		}
 	}
@@ -113,7 +113,8 @@ $(document).ready(function () {
 			if(!isValidTelephoneNumber(document.forms["formUpdateSpeaker"]["phoneNumber"].value)) {
 				$("#errMsgBewerkenSpreker").text("Telefoonnummer onjuist.");
 				return false;
-			}			
+			}
+            document.forms['formUpdateSpeaker'].setAttribute('action',onSubmitAddres);
 			return true;
 		}
 	}
@@ -125,6 +126,14 @@ $(document).ready(function () {
 	$(".listBoxSpeakerLeft .dataTables_scrollBody").addClass("noScrollBody");
 });
 
+function setLocation (event){
+    onSubmitAddres = $(event.target).parents('form').attr('name');
+    if(onSubmitAddres == 'formsprekerEvent'){
+        onSubmitAddres = 'manage.php#Evenementen';
+    }else{
+        onSubmitAddres = 'manage.php#spreker';
+    }
+}
 
 function refreshSpeaker(){
 	if(window.location.hash == "#spreker") {
@@ -163,12 +172,7 @@ function getSpeakersOfCongress() {
 }
 
 function getSpeakerInfo(speakerType,event) {
-    onSubmitAddres = $(event.target).parents('form').attr('name');
-    if(onSubmitAddres == 'formsprekerEvent'){
-        onSubmitAddres = 'manage.php#sprekerEvent';
-    }else{
-        onSubmitAddres = 'manage.php#Speaker';
-    }
+    setLocation(event);
     var thisEvent = $(event.target).parents('form').children('.dataSwapList');
     var leftTable = $(thisEvent[0]).find('table')[1];
     var rightTable = $(thisEvent[1]).find('table')[1];
@@ -216,6 +220,11 @@ function getSpeakerInfo(speakerType,event) {
                 alert(request.responseText);
             }
         });
+         if(!hiddenMade){
+            document.forms['formAddSpeaker'].appendChild(createHiddenEvent());
+            document.forms['formUpdateSpeaker'].appendChild(createHiddenEvent());
+            document.forms['formUpdateSpeakerOfCongress'].appendChild(createHiddenEvent());
+        }     
     }
     else{
         alert("Er is geen selectie gemaakt");

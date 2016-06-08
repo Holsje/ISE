@@ -3,12 +3,13 @@ var eventSubjectAddListBox;
 var eventSubjectEditListBox;
 var selectedTable;
 var oldSpeakers = [];
-
+var hiddenMade = false;
+var setDataTable = false;
+var eventNo = 0;
 $(document).ready(function () {
     $('#popUpSpeakerToEvent .closePopup').on('click',function(){
         $('#listBoxSpeakerEventLeft').DataTable().clear();
         $('#listBoxSpeakerEventRight').DataTable().clear();
-        console.log("test");
     });
    
     eventSubjectAddListBox = $('#EvenementenSubjectListBoxAdd').DataTable( {
@@ -102,6 +103,14 @@ $(document).ready(function () {
     if(document.forms["formsprekerEvent"]) {
 		document.forms["formsprekerEvent"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0,event)};
 		document.forms["formsprekerEvent"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1,event)};
+        document.forms["formsprekerEvent"]["buttonAddSpeakerOfCongress"].onclick = function(event){
+            setLocation(event);
+             if(!hiddenMade){
+                document.forms['formAddSpeaker'].appendChild(createHiddenEvent());
+                document.forms['formUpdateSpeaker'].appendChild(createHiddenEvent());
+                document.forms['formUpdateSpeakerOfCongress'].appendChild(createHiddenEvent());
+            }
+        }
 	}
 
     
@@ -112,7 +121,11 @@ $(document).ready(function () {
 	$(".listBoxSpeakerEventRight .dataTables_scrollBody").addClass("noScrollBody");
 	$(".listBoxSpeakerEventLeft .dataTables_scrollBody").addClass("noScrollBody");
     
-    
+    if(setDataTable){
+        $($('#EvenementenListBox').DataTable().columns(0).search(eventNo).row().node()).addClass('selected');
+        $('.onSelected').prop('disabled',false);
+        fillSpeakersOfEvent();
+    }
 });
 
 function deleteEvent(){
@@ -183,16 +196,29 @@ function fillSpeakersOfEvent(){
             for(i = 0; i< data['congres'].length; i++){
                 tableRight.row.add([data['congres'][i][0],data['congres'][i][1],data['congres'][i][2],data['congres'][i][3]]);
             }
+            if(!hiddenMade){
+                document.forms['formAddSpeaker'].appendChild(createHiddenEvent());
+                document.forms['formUpdateSpeaker'].appendChild(createHiddenEvent());
+                document.forms['formUpdateSpeakerOfCongress'].appendChild(createHiddenEvent());
+            }
             
             tableLeft.rows().draw();
             tableRight.rows().draw();
             
             
         }
+        
     });
 }
 
-
+function createHiddenEvent(){
+    var hiddenEventNo = document.createElement('input');
+    hiddenEventNo.name = 'eventNoReload';
+    hiddenEventNo.style.visibility = 'hidden';
+    hiddenEventNo.setAttribute('value',$('#EvenementenListBox tbody .selected td').html());
+    hiddenMade = true;
+    return hiddenEventNo;
+}
 
 function addNewSpeakers(){
     var table = $('#listBoxSpeakerEventLeft').DataTable();
@@ -209,7 +235,7 @@ function addNewSpeakers(){
             eventNo: eventNo
         },
         success: function(data){
-            window.location.reload();
+            window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname;
         }
     });
 }

@@ -74,6 +74,7 @@
 				handleFile("img/speakers/","uploadEditSpeaker","speaker" . $_POST['personNo']);
 			}
 		}
+        
 	}
 	if(isset($_POST['buttonSaveSwapList'])) {
 		if($_POST['buttonSaveSwapList'] == 'spreker') {

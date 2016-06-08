@@ -6,7 +6,10 @@ $(document).ready(function () {
 		"bPaginate": false
 	});
 	$('.onSelected').length;
-    $('.onSelected').prop('disabled', true);
+    if(!setDataTable){
+        $('.onSelected').prop('disabled', true);
+        setDataTable = false;
+    }
     $('#dataTables_length').css('display', 'none');
     $('#congresListBox_length').css('display', 'none');
     //$('#congresListBox_paginate').css('display', 'none');
@@ -61,7 +64,7 @@ $(document).ready(function () {
 		break;
 	}
 		$( "#tabs" ).tabs({
-            
+            active:activeTab
         });
 });
 

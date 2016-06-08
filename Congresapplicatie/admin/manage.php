@@ -52,6 +52,7 @@ topLayoutManagement('Beheren Congres', $css, $js);
         </div>
     </div>
 
-    <?php     
+    <?php
+    
     bottomLayout();
 ?>

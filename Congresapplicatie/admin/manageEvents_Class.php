@@ -323,10 +323,17 @@
             $result = parent::changeRecord($storedProcName,$params);
         }
         
-        public function createAddSpeakerToEvent(){
+        public function createAddSpeakerToEvent($css,$valueL,$valueR){
             $columnList = array("PersonNo","Voornaam","Achternaam","Email");
+            
 			$valueListLeft = array();
 			$valueListRight = array();
+            if($valueL != null ){
+                $valueListLeft = $valueL;
+            }
+            if($valueR != null){
+                $valueListRight = $valueR;
+            }
 			
 			$tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", true, false, $columnList, $valueListLeft, "listBoxSpeakerEventLeft");
 			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", false, true, $columnList, $valueListRight, "listBoxSpeakerEventRight");
@@ -335,7 +342,7 @@
 			
 			$buttonEditSpeaker = new Button("Aanpassen", null, "buttonEditSpeaker", "form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected", false, false, "#popUpUpdateSpeaker");
 			$dataSwapList = $this->createScreen->createDataSwapList($tableLeft,"listBoxSpeakerEventLeft","Sprekers Evenement",$tableRight,"listBoxSpeakerEventRight","Sprekers",false,false,array($buttonEditSpeakerOfCongress),array($buttonAddSpeaker,$buttonEditSpeaker),"sprekerEvent");
-            $this->createScreen->createPopupByHtml($dataSwapList,'Sprekers Koppelen','SpeakerToEvent','bigPop','first','');
+            $this->createScreen->createPopupByHtml($dataSwapList,'Sprekers Koppelen','SpeakerToEvent','bigPop','first',$css);
         }
 		
     }
