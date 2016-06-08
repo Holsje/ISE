@@ -1,6 +1,6 @@
 <?php
 require_once('SessionHandler.php');
-sessionHandler(false, false);
+sessionHandler(true, false);
 require_once('Manage_Class.php');
 require_once('Management.php');
 require_once('ManageSpeakers_class.php');
@@ -44,11 +44,15 @@ topLayoutManagement('Beheren Congres', $css, $js);
 				<?php
                     $manage->createAddSubjectScreen();
 					$manage->createManageScreen();
+                    $manageSpeakers->createCreateSpeakerScreen();
+                    $manageSpeakers->createEditSpeakerOfCongressScreen();
+                    $manageSpeakers->createEditSpeakerScreen();
 				?>
             </div>
         </div>
     </div>
 
-    <?php     
+    <?php
+    
     bottomLayout();
 ?>

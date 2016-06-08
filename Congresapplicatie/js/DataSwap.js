@@ -18,11 +18,16 @@ $(document).ready(function () {
 		dataSwapTables[listBoxes[i].id] =  $('#' + listBoxes[i].id).DataTable( {
 			"sScrollY": "500px",
 			"bPaginate": false,
+            "bInfo": false,
 			"columnDefs": [ {
 				"targets": [0],
 				"visible": false,
 				"searchable": false			
-			}]
+			}],
+            "language": {
+                "emptyTable": "Geen data beschikbaar",
+                "sSearch": "Zoeken:"
+            }
 		});
         
 	}

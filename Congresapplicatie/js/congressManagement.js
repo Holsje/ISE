@@ -15,13 +15,21 @@ $(document).ready(function () {
     subjectTableAdd = $('#subjectListBoxAdd').DataTable( {
         "sScrollY": "500px",
         "bPaginate": false,
-        "bInfo": false
+        "bInfo": false,
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
     });
 
 	table = $('#ListBox').DataTable( {
         "sScrollY": "500px",
         "bPaginate": false,
-        "bInfo": false
+        "bInfo": false,
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
     });
 
 

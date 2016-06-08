@@ -15,7 +15,11 @@ $(document).ready(function () {
                 "visible": false,
                 "searchable": false
             }
-        ]
+        ],
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
     });
 
     document.forms["formCreateTracks"]["buttonDeleteTracks"].onclick = deleteTrack;
@@ -31,7 +35,7 @@ $(document).ready(function () {
 
     if(document.forms["formAddTracks"]) {
         document.forms["formAddTracks"].onsubmit = function() {
-            if(!isValidName(document.forms["formAddTracks"]["trackName"].value)) {
+            if(!isValidLocationName(document.forms["formAddTracks"]["trackName"].value)) {
                 $("#errMsgInsertTrack").text("Tracknaam is onjuist.");
                 return false;
             }

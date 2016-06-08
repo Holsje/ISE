@@ -8,6 +8,10 @@ function isValidName(name) {
 }
 
 function isValidTelephoneNumber(telnr) {
+    console.log(telnr);
+    if(telnr == ""){
+        return true;
+    }
 	return /^[+0-9-\.() ]{6,25}$/.test(telnr);
 }
 
@@ -20,10 +24,16 @@ function isValidCongressName(name) {
 }
 
 function isValidDate(date){
+    if(date == ""){
+        return true;
+    }
     return /^(\d{4})-(\d{2})-(\d{2})$/.test(date);
 }
 
 function isValidPrice(price){
+    if(price == ""){
+        return true;
+    }
     return (/^(\d{1,})[.](\d{1,})$/.test(price) || /^([0-9]{1,})$/.test(price));
 }
 
@@ -44,10 +54,25 @@ function isValidSmallInt(capacity) {
 		return false;
 }
 
+function isValidSmallIntNullable(capacity) {
+    if(capacity == ""){
+        return true;
+    }
+    if(capacity == parseInt(capacity)) {
+		if((capacity > -32768) && (capacity < 32767)) {
+			return true;
+		}
+	}
+		return false;
+}
+
 function isValidPostalCode(postalCode) {
 	return /^[a-zA-Z0-9]{1,6}$/.test(postalCode);
 } 
 
 function isValidDescription(description){
+    if(description == ""){
+        return true;
+    }
     return (/^[a-zA-Z0-9-_+/-\=.,!@#$%^&*();\/\\|<>"' ~`€{}\[\]?’‘ÆÐƎƏƐƔĲŊŒẞÞǷȜæðǝəɛɣĳŋœĸſßþƿȝĄƁÇĐƊĘĦĮƘŁØƠŞȘŢȚŦŲƯY̨Ƴąɓçđɗęħįƙłøơşșţțŧųưy̨ƴÁÀÂÄǍĂĀÃÅǺĄÆǼǢƁĆĊĈČÇĎḌĐƊÐÉÈĖÊËĚĔĒĘẸƎƏƐĠĜǦĞĢƔáàâäǎăāãåǻąæǽǣɓćċĉčçďḍđɗðéèėêëěĕēęẹǝəɛġĝǧğģɣĤḤĦIÍÌİÎÏǏĬĪĨĮỊĲĴĶƘĹĻŁĽĿʼNŃN̈ŇÑŅŊÓÒÔÖǑŎŌÕŐỌØǾƠŒĥḥħıíìiîïǐĭīĩįịĳĵķƙĸĺļłľŀŉńn̈ňñņŋóòôöǒŏōõőọøǿơœŔŘŖŚŜŠŞȘṢẞŤŢṬŦÞÚÙÛÜǓŬŪŨŰŮŲỤƯẂẀŴẄǷÝỲŶŸȲỸƳŹŻŽẒŕřŗſśŝšşșṣßťţṭŧþúùûüǔŭūũűůųụưẃẁŵẅƿýỳŷÿȳỹƴźżžẓ]{1,1000}$/.test(description));
 }

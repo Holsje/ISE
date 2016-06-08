@@ -110,7 +110,7 @@ require_once('ScreenObjects/TextArea.php');
 		
 		public function createDataSwapList($tableLeft,$tableLeftId,$titleLeft,$tableRight,$tableRightId,$titleRight,$keepRight,$removeLeft,$buttonsLeft,$buttonsRight,$pageName) {
             
-			$string = '<form name="form' . $pageName . '" method="post"  class="formPopup row col-sm-12 col-xs-12 col-md-12"  action="'.$_SERVER['PHP_SELF']. '#' . $pageName . '">';
+			$string = '<form name="form' . $pageName . '" method="post"  class="row col-sm-12 col-xs-12 col-md-12"  action="'.$_SERVER['PHP_SELF']. '#' . $pageName . '">';
 				$string .= '<div class="col-sm-5 col-xs-5 col-md-5 dataSwapList ' . $tableLeftId . '"> ';
 				$string .= '<h2>' . $titleLeft . '</h2>';
 				$string .= $tableLeft->getObjectCode();

@@ -3,24 +3,77 @@ var eventSubjectAddListBox;
 var eventSubjectEditListBox;
 var selectedTable;
 var oldSpeakers = [];
-
+var hiddenMade = false;
+var setDataTable = false;
+var eventNo = 0;
 $(document).ready(function () {
+    $('#popUpSpeakerToEvent .closePopup').on('click',function(){
+        $('#listBoxSpeakerEventLeft').DataTable().clear();
+        $('#listBoxSpeakerEventRight').DataTable().clear();
+    });
+   
     eventSubjectAddListBox = $('#EvenementenSubjectListBoxAdd').DataTable( {
 			         "sScrollY": "500px",
 			         "bPaginate": false,
-                     "retrieve": true
+                     "retrieve": true,
+                     "bInfo": false,
+                     "language": {
+                        "emptyTable": "Geen data beschikbaar",
+                        "sSearch": "Zoeken:"
+                     }
     });
 
     eventListBox =  $('#EvenementenListBox').DataTable( {
-			         "sScrollY": "500px",
-			         "bPaginate": false
+			        "sScrollY": "500px",
+			        "bPaginate": false,
+                    "bInfo": false,
+                    "language": {
+                        "emptyTable": "Geen data beschikbaar",
+                        "sSearch": "Zoeken:"
+                    }
     });
     eventSubjectEditListBox =  $('#EvenementenSubjectListBoxEdit').DataTable( {
 			         "sScrollY": "500px",
-			         "bPaginate": false
-    });    
+			         "bPaginate": false,
+                     "bInfo": false,
+                     "language": {
+                        "emptyTable": "Geen data beschikbaar",
+                        "sSearch": "Zoeken:"
+                     }
+    });
     
-
+    if($('#listBoxSpeakerEventRight')) {
+		$('#listBoxSpeakerEventRight').on('click', 'tr', function () {
+			var numSelectedRows = dataSwapTables['listBoxSpeakerEventRight'].rows(".selected").data().length;
+			if (numSelectedRows == 0) {
+				$("[name=buttonEditSpeaker]").prop("disabled", true);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", true);
+			}
+			else if (numSelectedRows == 1) {
+				$("[name=buttonEditSpeaker]").prop("disabled", false);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", false);
+			}
+			else {
+				$("[name=buttonEditSpeaker]").prop("disabled", true);
+				$("[name=buttonDeleteSpeaker]").prop("disabled", true);
+			}
+		});
+	}
+    
+    if($('#listBoxSpeakerEventLeft')) {
+		$('#listBoxSpeakerEventLeft').on('click', 'tr', function () {
+			var numSelectedRows = dataSwapTables['listBoxSpeakerEventLeft'].rows(".selected").data().length;
+			if (numSelectedRows == 0) {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", true);
+			}
+			else if (numSelectedRows == 1) {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", false);
+			}
+			else {
+				$("[name=buttonEditSpeakerOfCongress]").prop("disabled", true);
+			}
+		});	
+	}
     $('#EvenementenSubjectListBoxAdd tbody').on('click','tr',function(){
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -51,7 +104,6 @@ $(document).ready(function () {
         }
     });
     $('.subjectInput').change(function(event){
-        console.log(event.target.value);
         if(event.target.value == 'Lezing'){
             $('.eventPrice').parent().css('display','none');
         }else{
@@ -62,6 +114,19 @@ $(document).ready(function () {
     document.forms['formCreateEvenementen']['buttonDeleteEvenementen'].onclick = deleteEvent;
     document.forms['formCreateEvenementen']['buttonEditEvenementen'].onclick = getSelectedEventInfo;
     document.forms['formCreateEvenementen']['speakerToEvent'].onclick = fillSpeakersOfEvent;
+    
+    if(document.forms["formsprekerEvent"]) {
+		document.forms["formsprekerEvent"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0,event)};
+		document.forms["formsprekerEvent"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1,event)};
+        document.forms["formsprekerEvent"]["buttonAddSpeakerOfCongress"].onclick = function(event){
+            setLocation(event);
+             if(!hiddenMade){
+                document.forms['formAddSpeaker'].appendChild(createHiddenEvent());
+                document.forms['formUpdateSpeaker'].appendChild(createHiddenEvent());
+                document.forms['formUpdateSpeakerOfCongress'].appendChild(createHiddenEvent());
+            }
+        }
+	}
 
     
     document.forms['formsprekerEvent']['buttonSaveSwapListsprekerEvent'].onclick = addNewSpeakers;
@@ -71,23 +136,68 @@ $(document).ready(function () {
 	$(".listBoxSpeakerEventRight .dataTables_scrollBody").addClass("noScrollBody");
 	$(".listBoxSpeakerEventLeft .dataTables_scrollBody").addClass("noScrollBody");
     
-    
+    if(setDataTable){
+        $($('#EvenementenListBox').DataTable().columns(0).search(eventNo).row().node()).addClass('selected');
+        $('.onSelected').prop('disabled',false);
+        fillSpeakersOfEvent();
+    }
+    if(document.forms['formAddEvenementen']){
+        document.forms['formAddEvenementen'].onsubmit = function () {
+            if(!isValidName(document.forms['formAddEvenementen']['eventName'].value)){
+                $('#errMsgInsertEvent').text ('Eventnaam is onjuist.');
+                return false;
+            }
+            if(!isValidDescription(document.forms['formAddEvenementen']['eventDescription'].value)){
+                $('#errMsgInsertEvent').text ('Omschrijving is onjuist.');
+                return false;
+            }
+            if(!isValidPrice(document.forms['formAddEvenementen']['eventPrice'].value)){
+                $('#errMsgInsertEvent').text ('Prijs is onjuist.');
+                return false;
+            }
+            if(!isValidSmallIntNullable(document.forms['formAddEvenementen']['eventMaxVis'].value)){
+                $('#errMsgInsertEvent').text ('Maximaal aantal bezoekers is onjuist.');
+                return false;
+            }
+        }
+    }
+    if(document.forms['formUpdateEvenementen']){
+        document.forms['formUpdateEvenementen'].onsubmit = function () {
+            if(!isValidName(document.forms['formUpdateEvenementen']['eventName'].value)){
+                $('#errMsgUpdateEvent').text ('Eventnaam is onjuist.');
+                return false;
+            }
+            if(!isValidDescription(document.forms['formUpdateEvenementen']['eventDescription'].value)){
+                $('#errMsgUpdateEvent').text ('Omschrijving is onjuist.');
+                return false;
+            }
+            if(!isValidPrice(document.forms['formUpdateEvenementen']['eventPrice'].value)){
+                $('#errMsgUpdateEvent').text ('Prijs is onjuist.');
+                return false;
+            }
+            if(!isValidSmallIntNullable(document.forms['formUpdateEvenementen']['eventMaxVis'].value)){
+                $('#errMsgUpdateEvent').text ('Maximaal aantal bezoekers is onjuist.');
+                return false;
+            }
+        }
+    }
 });
 
 function deleteEvent(){
-    var eventNo = $('#EvenementenListBox tbody .selected td').html();
-    $.ajax({
-        url: window.location.href,
-        type: 'POST',
-        data: {
-            deleteEvent: 'Action',
-            eventNo: eventNo
-        },
-        success: function(data){
-            console.log(data);
-            $('#EvenementenListBox tbody .selected').remove();
-        }
-    });
+    if(confirm('Weet u zeker dat u deze rij wilt verwijderen?')){
+        var eventNo = $('#EvenementenListBox tbody .selected td').html();
+        $.ajax({
+            url: window.location.href,
+            type: 'POST',
+            data: {
+                deleteEvent: 'Action',
+                eventNo: eventNo
+            },
+            success: function(data){
+                $('#EvenementenListBox tbody .selected').remove();
+            }
+        });
+    }
 }
 function getSelectedEventInfo(){
     var eventNo = $('#EvenementenListBox tbody .selected td').html();
@@ -100,7 +210,6 @@ function getSelectedEventInfo(){
         },
         success: function(data){
             data = JSON.parse(data);
-            console.log(data);
             document.forms['formUpdateEvenementen']['eventName'].value = data[0];
             document.forms['formUpdateEvenementen']['eventDescription'].value = data[5];
             document.forms['formUpdateEvenementen']['eventType'].value = data[1];
@@ -111,7 +220,6 @@ function getSelectedEventInfo(){
             }
             document.forms['formUpdateEvenementen']['eventMaxVis'].value = data[2];
             $('#editEventPictureBtn').css("background-image", "url(../" + data[4] + 'thumbnail.png' + ")");
-            console.log($('#editEventPictureBtn'));
             for(var i = 0; i<data['Subjects'].length;i++){
                $("#EvenementenSubjectListBoxEdit").find('[name="' + data['Subjects'][i] + '"]').parent().addClass('selected');
                 var child = document.createElement('input');
@@ -136,17 +244,38 @@ function fillSpeakersOfEvent(){
         },
         success: function(data){
             data = JSON.parse(data);
-            var table = $('#listBoxSpeakerEventLeft').DataTable();
-            for(i = 0; i< data.length; i++){
-                oldSpeakers.push(data[i]);
-                table.row.add([data[i][0],data[i][1],data[i][2],data[i][3]]);
+            var tableLeft = $('#listBoxSpeakerEventLeft').DataTable();
+            for(i = 0; i< data['event'].length; i++){
+                oldSpeakers.push(data['event'][i]);
+                tableLeft.row.add([data['event'][i][0],data['event'][i][1],data['event'][i][2],data['event'][i][3]]);
             }
-            table.rows().draw();
+            var tableRight = $('#listBoxSpeakerEventRight').DataTable();
+            for(i = 0; i< data['congres'].length; i++){
+                tableRight.row.add([data['congres'][i][0],data['congres'][i][1],data['congres'][i][2],data['congres'][i][3]]);
+            }
+            if(!hiddenMade){
+                document.forms['formAddSpeaker'].appendChild(createHiddenEvent());
+                document.forms['formUpdateSpeaker'].appendChild(createHiddenEvent());
+                document.forms['formUpdateSpeakerOfCongress'].appendChild(createHiddenEvent());
+            }
+            
+            tableLeft.rows().draw();
+            tableRight.rows().draw();
+            
+            
         }
+        
     });
 }
 
-
+function createHiddenEvent(){
+    var hiddenEventNo = document.createElement('input');
+    hiddenEventNo.name = 'eventNoReload';
+    hiddenEventNo.style.visibility = 'hidden';
+    hiddenEventNo.setAttribute('value',$('#EvenementenListBox tbody .selected td').html());
+    hiddenMade = true;
+    return hiddenEventNo;
+}
 
 function addNewSpeakers(){
     var table = $('#listBoxSpeakerEventLeft').DataTable();
@@ -163,7 +292,7 @@ function addNewSpeakers(){
             eventNo: eventNo
         },
         success: function(data){
-            
+            window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname;
         }
     });
 }

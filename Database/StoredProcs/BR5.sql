@@ -4,9 +4,8 @@ CREATE PROC spAddSpeakerToCongress
 @MailAddress D_Mail,
 @PhoneNumber D_TELNR ,
 @Owner D_Personno,
-@fileExtension D_FILE, 
+@fileUploaded BIT, 
 @Description D_Description,
-@Owner D_PERSONNO,
 
 @CongressNo D_CongressNO, 
 @Agreement D_Description 
@@ -25,8 +24,13 @@ BEGIN
 
 	BEGIN TRY
 -----------Begin Eigen implementatie
-		INSERT INTO Person(FirstName, LastName, MailAddress, PhoneNumber)
-		VALUES(@FirstName, @LastName, @MailAddress, @PhoneNumber)
+		IF NOT EXISTS(	SELECT 1
+						FROM Person
+						WHERE MailAddress = @MailAddress)
+		BEGIN
+			INSERT INTO Person(FirstName, LastName, MailAddress, PhoneNumber)
+			VALUES(@FirstName, @LastName, @MailAddress, @PhoneNumber)
+		END
 		DECLARE @PersonNo D_PersonNo
 		SET @PersonNo = (SELECT PersonNo
 						FROM Person
@@ -35,7 +39,7 @@ BEGIN
 		INSERT INTO PersonTypeOfPerson(PersonNo, TypeName)
 		VALUES(@PersonNo, 'Spreker')
 
-		IF (@fileExtension IS NOT NULL AND @fileExtension != '') 
+		IF (@fileUploaded = 1) 
 		BEGIN
 			INSERT INTO Speaker(PersonNo, Description, PicturePath,[Owner])
 			VALUES(@PersonNo, @Description,'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension,@Owner)
