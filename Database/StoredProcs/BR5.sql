@@ -42,7 +42,7 @@ BEGIN
 		IF (@fileUploaded = 1) 
 		BEGIN
 			INSERT INTO Speaker(PersonNo, Description, PicturePath,[Owner])
-			VALUES(@PersonNo, @Description,'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension,@Owner)
+			VALUES(@PersonNo, @Description,'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.png' ,@Owner)
 		END
 		ELSE
 		BEGIN
