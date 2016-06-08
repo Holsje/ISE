@@ -48,13 +48,18 @@ $(document).ready(function () {
 					selectedLocationValues: result
 				},
 				success: function(data) {
-					console.log(data);
+					if (data != null && data != '' &&  /\S/.test(data)) {
+						data = JSON.parse(data);
+						document.getElementById('errMsgDeleteLocation').innerHTML = '*' + data['err'];
+					}else{
+						dataArray.remove().draw(false);
+					}
 				},
 				error: function (request, status, error) {
 					alert(request.responseText);
 				}
 			})
-			dataArray.remove().draw(false);
+
 		}
 	})
 	document.forms['formAddLocatieGM'].onsubmit = isValidInput;
