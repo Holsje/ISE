@@ -23,10 +23,10 @@ DELETE FROM Person
 DELETE FROM PersonType
 GO
 
-
+/* On first run CHECKIDENT in comment!!!
 DBCC CHECKIDENT ('Person', RESEED, 0);
 DBCC CHECKIDENT ('Congress', RESEED, 0);
-
+*/
 
 INSERT INTO PersonType (TypeName) VALUES ('Algemene beheerder'),
 										 ('Congresbeheerder'),
