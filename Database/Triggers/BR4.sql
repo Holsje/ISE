@@ -68,24 +68,3 @@ BEGIN TRAN
 	SET RName = 203
 	WHERE CongressNo = 2 AND ((TrackNo = 1 AND EventNo = 1) OR (TrackNo = 2 AND EventNo = 4))
 ROLLBACK TRAN
-
-
---Voorbeeld van de query resultaat in de trigger wanneer de volgende query wordt uitgevoerd 
---(eerst trigger uitzetten en dan onderstaande update uitvoeren):
-/*UPDATE EventInRoom 
-  SET RName = 101 
-  WHERE EVENTNO = 5 AND TrackNo = 2 AND CongressNo = 1 
-*/
-SELECT *
-FROM EventInRoom EIR INNER JOIN (SELECT * FROM EventInRoom WHERE RName = 101 AND EVENTNO = 5 AND TRACKNO = 2 AND CONGRESSNO = 1) I 
-ON EIR.LocationName = I.LocationName AND EIR.City = I.City 
-	AND EIR.BName = I.BName AND EIR.RName = I.RName
-WHERE EIR.EventNo IN (SELECT ET.EventNo
-					  FROM EventInTrack ET INNER JOIN EventInTrack ET2
-						ON ET.EventNo != ET2.EventNo AND ET2.EventNo = (SELECT EventNo 
-																		FROM EventInRoom 
-																		WHERE RName = 102 AND EVENTNO = 5 
-																		AND TRACKNO = 2 AND CONGRESSNO = 1)
-					  WHERE (ET2.Start > ET.Start AND ET2.Start < ET.[End]) OR
-						  (ET2.[End] > ET.Start AND ET2.[End] < ET.[End]) OR
-						  (ET2.Start <= ET.Start AND ET2.[End] >= ET.[End]))

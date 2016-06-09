@@ -31,6 +31,7 @@ BEGIN
 			INSERT INTO Person(FirstName, LastName, MailAddress, PhoneNumber)
 			VALUES(@FirstName, @LastName, @MailAddress, @PhoneNumber)
 		END
+
 		DECLARE @PersonNo D_PersonNo
 		SET @PersonNo = (SELECT PersonNo
 						FROM Person
@@ -77,9 +78,8 @@ EXEC spAddSpeakerToCongress
 @MailAddress = 'Email@Test1.nl',
 @PhoneNumber = '0612345678',
 @Owner = 3,
-@fileExtension = 'png', 
+@fileUploaded = 1, 
 @Description = 'Dit is een korte beschrijving van een spreker',
-@Owner = 1,
 
 @CongressNo = 1, 
 @Agreement = 'Dit zijn de afspraken met een spreker'
@@ -102,9 +102,8 @@ EXEC spAddSpeakerToCongress
 @MailAddress = 'Email@Test1.nl',
 @PhoneNumber = '0612345678',
 @owner = 1,
-@fileExtension = 'png', 
+@fileUploaded = 1,
 @Description = 'Dit is een korte beschrijving van een spreker',
-@Owner = 1,
 
 @CongressNo = 543, 
 @Agreement = 'Dit zijn de afspraken met een spreker'
