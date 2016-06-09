@@ -16,8 +16,7 @@
 						 array($_POST['lastName'], SQLSRV_PARAM_IN),
 						 array($_POST['mailAddress'], SQLSRV_PARAM_IN),
 						 array($_POST['phoneNum'], SQLSRV_PARAM_IN),
-						 array(hash("sha256", $_POST['password']), SQLSRV_PARAM_IN),
-						 array(0, SQLSRV_PARAM_IN), //haspaid
+						 array(hash("sha256", $_POST['password']), SQLSRV_PARAM_IN)
 					   );
 			echo $registration->addRecord("spRegisterVisitor",$params);
 			die();
