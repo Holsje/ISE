@@ -1,4 +1,11 @@
-ALTER PROC spAddCongressManagerToCongress
+CREATE PROC spAddCongressManagerToCongress
+
+/*  Isolation level: read committed
+	
+	Er kan in deze stored procedure weinig fout gaan op het gebied van concurrency. In de eerste select wordt er op personNo gezocht. 
+	Dit is een identity column en daardoor kan deze niet tussentijds veranderen.
+*/
+
 @PersonNo D_PersonNo, @CongressNo D_CongressNo
 AS
 BEGIN
@@ -17,11 +24,7 @@ BEGIN
 						FROM CongressManager
 						WHERE PersonNo = @PersonNo)
 		BEGIN
-			DECLARE @password VARCHAR(64)=
-		 (SELECT password 
-						FROM GeneralManager 
-						WHERE PersonNo = @personNo)
-			INSERT INTO CongressManager (PersonNo, Password) VALUES (@PersonNo, @password)
+			INSERT INTO CongressManager (PersonNo, Password) VALUES (@PersonNo, (SELECT password FROM GeneralManager WHERE PersonNo = @personNo))
 		END
 
 		INSERT INTO CongressManagerOfCongress(PersonNo,CongressNo)

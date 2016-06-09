@@ -128,7 +128,7 @@
                         <?php
                             }else{
                         ?>
-                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="../img/logo%20template.PNG"  alt="logo">
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="../img/defaultBanner.png"  alt="logo">
                         <?php
                             }
                         ?>

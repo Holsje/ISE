@@ -244,7 +244,7 @@ GO
 CREATE TABLE CongressManagerOfCongress (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
-   CONSTRAINT PK_CONGRESSMANAGEROFCONGRESS PRIMARY KEY (PersonNo, CongressNo),
+   CONSTRAINT PK_CONGRESSMANAGEROFCONGRESS PRIMARY KEY (CongressNo, PersonNo),
    CONSTRAINT FK_CONGRESS_RT_CONGRE_CONGRESS FOREIGN KEY (PersonNo)
       REFERENCES CongressManager (PersonNo)
 							ON UPDATE CASCADE
@@ -342,7 +342,7 @@ CREATE TABLE EventInRoom (
    City                 D_LOCATION           NOT NULL,
    BName                D_NAME               NOT NULL,
    RName                D_NAME               NOT NULL,
-   CONSTRAINT PK_EVENTINROOM PRIMARY KEY (LocationName, TrackNo, City, BName, CongressNo, EventNo, RName),
+   CONSTRAINT PK_EVENTINROOM PRIMARY KEY (CongressNo, LocationName, TrackNo, City, BName, EventNo, RName),
    CONSTRAINT FK_EVENTINR_RT_EVENT__EVENTINT FOREIGN KEY (CongressNo, TrackNo, EventNo)
       REFERENCES EventInTrack (CongressNo, TrackNo, EventNo)
 							ON UPDATE CASCADE
@@ -375,7 +375,7 @@ CREATE TABLE VisitorOfCongress (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    HasPaid              D_BOOLEAN            NOT NULL,
-   CONSTRAINT PK_VISITOROFCONGRESS PRIMARY KEY (PersonNo, CongressNo),
+   CONSTRAINT PK_VISITOROFCONGRESS PRIMARY KEY (CongressNo, PersonNo),
    CONSTRAINT FK_VISITORO_RT_VISITO_VISITOR FOREIGN KEY (PersonNo)
       REFERENCES Visitor (PersonNo)
 							ON UPDATE CASCADE
@@ -395,7 +395,7 @@ CREATE TABLE EventOfVisitorOfCongress (
    CongressNo           D_CONGRESSNO         NOT NULL,
    TrackNo              D_TRACKNO            NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
-   CONSTRAINT PK_EVENTOFVISITOROFCONGRESS PRIMARY KEY (PersonNo, CongressNo, TrackNo, EventNo),
+   CONSTRAINT PK_EVENTOFVISITOROFCONGRESS PRIMARY KEY (CongressNo, PersonNo, TrackNo, EventNo),
    CONSTRAINT FK_EVENTOFV_RT_EVENT__VISITORO FOREIGN KEY (PersonNo, CongressNo)
       REFERENCES VisitorOfCongress (PersonNo, CongressNo)
 							ON UPDATE CASCADE
@@ -468,7 +468,7 @@ GO
 CREATE TABLE ReviewboardOfCongress (
    PersonNo             D_PERSONNO           NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
-   CONSTRAINT PK_REVIEWBOARDOFCONGRESS PRIMARY KEY (PersonNo, CongressNo),
+   CONSTRAINT PK_REVIEWBOARDOFCONGRESS PRIMARY KEY (CongressNo, PersonNo),
    CONSTRAINT FK_REVIEWBO_RT_REVIEW_REVIEWBO FOREIGN KEY (PersonNo)
       REFERENCES Reviewboard (PersonNo)
 							ON UPDATE CASCADE
@@ -507,7 +507,7 @@ CREATE TABLE SpeakerOfCongress (
    PersonNo             D_PERSONNO			 NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
    Agreement            D_DESCRIPTION        NULL,
-   CONSTRAINT PK_SPEAKEROFCONGRESS PRIMARY KEY (PersonNo, CongressNo),
+   CONSTRAINT PK_SPEAKEROFCONGRESS PRIMARY KEY (CongressNo, PersonNo),
    CONSTRAINT FK_SPEAKERO_RT_SPEAKE_SPEAKER FOREIGN KEY (PersonNo)
       REFERENCES Speaker (PersonNo)
 							ON UPDATE CASCADE
@@ -553,7 +553,7 @@ GO
 CREATE TABLE SubjectOfCongress (
    Subject              D_SUBJECT            NOT NULL,
    CongressNo           D_CONGRESSNO         NOT NULL,
-   CONSTRAINT PK_SUBJECTOFCONGRESS PRIMARY KEY (Subject, CongressNo),
+   CONSTRAINT PK_SUBJECTOFCONGRESS PRIMARY KEY (CongressNo, Subject),
    CONSTRAINT FK_SUBJECTO_RT_CONGRE_SUBJECT FOREIGN KEY (Subject)
       REFERENCES Subject (Subject)
 							ON UPDATE CASCADE
