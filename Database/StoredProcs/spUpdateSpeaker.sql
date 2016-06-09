@@ -5,7 +5,7 @@ CREATE PROC spUpdateSpeaker
 	@mailAddress D_Mail, 
 	@phonenum D_telnr,
 	@description D_DESCRIPTION,
-	@fileExtension varchar(5)
+	@fileUploaded BIT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -17,10 +17,10 @@ BEGIN
 	ELSE
 		BEGIN TRANSACTION;
 	BEGIN TRY		
-		IF (@fileExtension IS NOT NULL AND @fileExtension != '')
+		IF (@fileUploaded = 1)
 		BEGIN
 			UPDATE Speaker 
-			SET PicturePath = 'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.' +  @fileExtension
+			SET PicturePath = 'img/Speakers/speaker' + CAST(@personNo AS VARCHAR) + '.png'
 			WHERE PersonNo = @personNo
 		END
 		
@@ -47,3 +47,22 @@ BEGIN
 		THROW;
 	END CATCH
 END
+
+--Testdata
+--Update van speaker 1, verwacht dat Erik verandert naar Testnaam en dat description NULL wordt
+BEGIN TRAN
+SELECT * FROM Speaker WHERE personNo = 1
+SELECT * FROM Person WHERE PersonNo = 1
+EXECUTE spUpdateSpeaker 1, 'Testnaam', 'Testnaam', 'testmail@mail.com', '123456789', null, 0
+SELECT * FROM Speaker WHERE personNo = 1
+SELECT * FROM Person WHERE PersonNo = 1
+ROLLBACK TRAN
+
+--Update van speaker 1
+BEGIN TRAN
+SELECT * FROM Speaker WHERE personNo = 1
+SELECT * FROM Person WHERE PersonNo = 1
+EXECUTE spUpdateSpeaker 1, 'Testnaam', 'Testnaam', 'testmail@mail.com', '123456789', null, 1
+SELECT * FROM Speaker WHERE personNo = 1
+SELECT * FROM Person WHERE PersonNo = 1
+ROLLBACK TRAN

@@ -54,3 +54,55 @@ ALTER PROC spRegisterSpeaker
 			THROW;
 		END CATCH
 	END
+
+	--Testdata
+--Insert waarbij de persoon al in Person bestaat en ook al in PersonTypeOfPerson. Verwacht een UNIQUE constraint
+BEGIN TRAN
+	SELECT * FROM Person
+	SELECT * FROM PersonTypeOfPerson
+	SELECT * FROM Speaker
+
+	EXECUTE spRegisterSpeaker 'Erik', 'Evers', 'erikevers1996@gmail.com', '0613334002', 'Omschrijving van erik', 1, null
+
+	SELECT * FROM Person
+	SELECT * FROM PersonTypeOfPerson
+	SELECT * FROM Speaker
+ROLLBACK TRAN
+
+--Insert waarbij de persoon nog niet in Person bestaat en waar geen file geupload is. Verwacht null In speaker - Picturepath. Owner is Erik met personNo 1
+BEGIN TRAN
+	SELECT * FROM Person WHERE MailAddress = 'testmail@mail.com'
+
+	DECLARE @personNoSpeaker INT = (SELECT PersonNo FROM Person WHERE MailAddress = 'testmail@mail.com')
+
+	SELECT * FROM PersonTypeOfPerson WHERE PersonNo = @personNoSpeaker
+	SELECT * FROM Speaker WHERE PersonNo = @personNoSpeaker
+
+	EXECUTE spRegisterSpeaker 'TestnaamSP', 'TestnaamSP', 'testmail@mail.com', '0613334002', 'Omschrijving', 0, 1
+
+	SELECT * FROM Person WHERE MailAddress = 'testmail@mail.com'
+	
+	DECLARE @personNoSpeaker2 INT = (SELECT PersonNo FROM Person WHERE MailAddress = 'testmail@mail.com')
+
+	SELECT * FROM PersonTypeOfPerson WHERE PErsonNo = @personNoSpeaker2
+	SELECT * FROM Speaker WHERE PersonNo = @personNoSpeaker2
+ROLLBACK TRAN
+
+--Insert waarbij er wel een file geupload is
+BEGIN TRAN
+	SELECT * FROM Person WHERE MailAddress = 'testmail@mail.com'
+
+	DECLARE @personNoSpeaker3 INT = (SELECT PersonNo FROM Person WHERE MailAddress = 'testmail@mail.com')
+
+	SELECT * FROM PersonTypeOfPerson WHERE PersonNo = @personNoSpeaker3
+	SELECT * FROM Speaker WHERE PersonNo = @personNoSpeaker3
+
+	EXECUTE spRegisterSpeaker 'TestnaamSP', 'TestnaamSP', 'testmail@mail.com', '0613334002', 'Omschrijving', 1, 1
+
+	SELECT * FROM Person WHERE MailAddress = 'testmail@mail.com'
+	
+	DECLARE @personNoSpeaker4 INT = (SELECT PersonNo FROM Person WHERE MailAddress = 'testmail@mail.com')
+
+	SELECT * FROM PersonTypeOfPerson WHERE PErsonNo = @personNoSpeaker4
+	SELECT * FROM Speaker WHERE PersonNo = @personNoSpeaker4
+ROLLBACK TRAN
