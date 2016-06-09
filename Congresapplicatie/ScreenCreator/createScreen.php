@@ -105,14 +105,15 @@ require_once('ScreenObjects/Identifier.php');
 			echo '</div>';
 		}
 		
-		public function createEventPlanningPopUp() {
+		public function createEventPlanningPopUp($selectValueListBuilding) {
+			$dataTable = new Listbox(null, null, null, "col-xs-12 col-sm-12 col-md-12", true, true, array("Zaalnaam"), null, "roomListBox");
+			$errMsg = new Span(null,null, "errMsgEventPlanning", null, true, true);
 			$startTime = new Text(null, "Starttijd", "startTimeEvent", null, true, true, true);
 			$endTime = new Text(null, "Eindtijd", "endTimeEvent", null, true, true, true);
-			$room = new Select(null, "Zaal", "roomSelect", null, true, true, null, null, true, null);
+			$buildingSelect = new Select(null, "Gebouw", "buildingSelect", null, true, true, $selectValueListBuilding, null, true, null);
 			$submit = new button("Opslaan", null, "saveEventPlanningButton", "btn btn-default form-control pull-right", true, true,null);
 			echo '<div class="eventPlanningPopUp">';
-				
-				$this->createForm(array($startTime, $endTime, $room, $submit), "formEditEventInfo", null, null);
+				$this->createForm(array($errMsg, $buildingSelect, $startTime, $endTime, $dataTable, $submit), "EditEventInfo", null, null);
 			echo '</div>';
 		}
 		

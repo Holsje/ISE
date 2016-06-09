@@ -5,8 +5,8 @@
 		private $inschrijven;
 		private $tracks;
 		private $events;
+		private $location;
 		//private $eventsInTrack;
-
 		private $daysOfCongress;
 		
 		private $congressNo;
@@ -16,17 +16,21 @@
 		public function __construct($congressNo) {
 			$this->congressNo = $congressNo;
 			parent::__construct();
+			
 			$this->inschrijven = new Inschrijven($congressNo);
-			$this->tracks = $this->inschrijven->getTracks();
-			$this->events = $this->getEvents();
-			//$this->eventsInTrack = $this->getEventsInTrack();
-			$this->getEventsInTrack();
-			$this->hourHeight = 100;
+			
 			$this->daysOfCongress = $this->getAllCongressDays();
 			if (!isset($_SESSION['pageCountPlanning'])) {
 				$_SESSION['pageCountPlanning'] = 0;
 			}
 			$this->currentDay = $this->daysOfCongress[$_SESSION['pageCountPlanning']];
+			
+			$this->tracks = $this->inschrijven->getTracks();
+			$this->events = $this->getEvents();
+			$this->location = $this->getCongressLocation();
+			$this->getEventsInTrack();
+			$this->hourHeight = 100;
+			
 		}
 		
 		public function createManageCongressTrackScreen() {
@@ -69,7 +73,8 @@
 						echo '<h2>' . $track["TNAME"] . '</h2>';
 					echo '</div>';
 					echo '<div class="eventBoxPlanning col-xs-12 col-sm-12 col-md-12" style="height:' . (24*$this->hourHeight) . 'px;" id=' . $track['TRACKNO'] . '>';
-						if(isset($track['events'])) {
+						echo "<script>console.log(JSON.parse('". json_encode($track) . "'));</script>";
+						if(isset($track['EVENTS'])) {
 							foreach($track['EVENTS'] AS $event) {
 								
 								$time = explode('-',$event['START']->format("H-i-s"));
@@ -84,11 +89,39 @@
 								echo $this->createScreen->createSmallEventInfo($event["EVENTNO"], $event["ENAME"], $height,$topOffset);
 							}
 						}
-						echo $this->createScreen->createEventPlanningPopUp();
 					echo '</div>';
 					
 				echo '</div>';
 			}
+		}
+		
+		public function getBuildingsByCongressLocation() {
+			$queryGetBuildingsByLocation = "SELECT BName
+											FROM Building
+											WHERE LocationName = ? AND City = ?";
+			$params = array($this->location['LocationName'], $this->location['City']);
+			$result = $this->database->sendQuery($queryGetBuildingsByLocation, $params);
+			$resultArray = array();
+			if ($result) {
+				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					array_push($resultArray, $row['BName']);
+				}
+			}
+			return $resultArray;
+		}
+		
+		public function getRoomsByBuilding($buildingName) {
+			$queryRooms = "SELECT RName FROM Room WHERE BName = ?";
+			$paramsRooms = array($buildingName);
+			
+			$result = $this->database->sendQuery($queryRooms, $paramsRooms);
+			$rooms = array();
+			if ($result) {
+				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					array_push($rooms, $row['RName']);
+				}
+			}
+			return $rooms;
 		}
 		
 		private function getAllCongressDays() {
@@ -156,8 +189,8 @@
 								INNER JOIN EVENT E 
 									ON E.EVENTNO = EIT.EVENTNO
 									AND E.CongressNo = T.CongressNo
-								WHERE T.CONGRESSNO = ? AND EIT.Start IS NOT NULL AND EIT.[End] IS NOT NULL AND DATEDIFF(day,start,'2016-10-10') = 0";
-			$paramsEventInTrack = array($this->congressNo);
+								WHERE T.CONGRESSNO = ? AND EIT.Start IS NOT NULL AND EIT.[End] IS NOT NULL AND DATEDIFF(day,start,?) = 0";
+			$paramsEventInTrack = array($this->congressNo,$this->currentDay);
 			$result = $this->database->sendQuery($queryEventInTrack, $paramsEventInTrack);
 			//$eventsInTrack = array();
 			if ($result) {
@@ -173,8 +206,62 @@
 			//return $eventsInTrack;
 		}
 		
+		public function addEventToTrack($trackNo, $congressNo, $eventNo, $startTime, $endTime, $buildingName, $rooms) {
+			$startTimeDateTime = new DateTime($this->currentDay . ' ' . $startTime);
+			$endTimeDateTime = new DateTime($this->currentDay . ' ' . $endTime);
+
+			if (sqlsrv_begin_transaction($this->database->getConn()) == false) { //BEGIN TRANSACTION
+				die( print_r( sqlsrv_errors(), true ));
+			}
+			
+			$resultArray = array();
+			
+			$queryEventInTrack = "INSERT INTO EventInTrack(TrackNo, CongressNo, EventNo, Start, [End]) VALUES(?, ?, ?, ?, ?)";
+			$paramsEventInTrack = array($trackNo, $congressNo, $eventNo, $startTimeDateTime->format("Y-m-d H:i:s"), $endTimeDateTime->format("Y-m-d H:i:s"));
+			$resultEventInTrack = $this->database->sendQuery($queryEventInTrack, $paramsEventInTrack);
+			array_push($resultArray, $resultEventInTrack);
+			
+			if (isset($rooms) && $rooms != '') {
+				foreach($rooms as $room) {
+					$queryEventInRoom = "INSERT INTO EventInRoom(CongressNo, TrackNo, EventNo, LocationName, City, BName, RName) VALUES(?, ?, ?, ?, ?, ?, ?)";
+					$paramsEventInRoom = array($congressNo, $trackNo, $eventNo, $this->location['LocationName'], $this->location['City'], $buildingName, $room);
+					$resultEventInRoom = $this->database->sendQuery($queryEventInRoom, $paramsEventInRoom);
+					array_push($resultArray, $resultEventInRoom);
+				}
+			}
+			
+			foreach($resultArray as $result) {
+				if (!is_string($result)) {
+					sqlsrv_commit($this->database->getConn()); //COMMIT TRANSACTION
+				}
+				else {
+					echo $result;
+					sqlsrv_rollback($this->database->getConn()); //ROLLBACK TRANSACTION
+				}
+			}
+		}
+		
+		public function getCongressLocation() {
+			$queryLocations = "SELECT LocationName, City FROM Congress WHERE CongressNo = ?";
+			$result = $this->database->sendQuery($queryLocations, array($this->getCongressNo()));
+			$resultArray = array();
+			if ($result) {
+				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					$resultArray = $row;
+				}
+			}
+			return $resultArray;
+		}
+		
 		public function getInschrijven() {
 			return $this->inschrijven;
+		}
+		
+		public function getCongressNo() {
+			return $this->congressNo;
+		}
+		public function getAllLocations() {
+			return $this->allLocations;
 		}
 	}
 ?>
