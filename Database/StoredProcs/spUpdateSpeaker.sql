@@ -58,7 +58,7 @@ SELECT * FROM Speaker WHERE personNo = 1
 SELECT * FROM Person WHERE PersonNo = 1
 ROLLBACK TRAN
 
---Update van speaker 1, verwacht dat PicturePath
+--Update van speaker 1
 BEGIN TRAN
 SELECT * FROM Speaker WHERE personNo = 1
 SELECT * FROM Person WHERE PersonNo = 1
