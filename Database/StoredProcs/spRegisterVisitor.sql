@@ -1,4 +1,16 @@
 CREATE PROC spRegisterVisitor 
+	
+/*	Isolation level: read committed
+
+	Er kan in deze stored procedure weinig fout gaan op het gebied van concurrency.
+	Tussen de checks en de insert zou er in een andere transactie een person met dezelfde naam toegevoegd kunnen worden.
+	In dit geval geeft de stored procedure een primary key error en wordt de transactie gerollbackt.
+
+	Deze stored procedure zorgt ervoor dat bij het toevoegen van een bezoeker, er tegelijkertijd geinsert wordt in de tabellen Person, PersonTypeOfPerson En Visitor. 
+	Dit is nodig omdat Visitor een foreign key relatie heeft met Person. De insert in PersontypeOfPerson is nodig voor de consistentie van de database. 
+	In PersonTypeOfPerson staat dan dat de persoon een bezoeker is en daarom kan de bezoeker ook in de tabel Visitor komen.
+*/
+
 	@firstname D_Name, 
 	@lastname D_Name, 
 	@mailAddress D_Mail, 

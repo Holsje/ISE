@@ -1,4 +1,11 @@
 CREATE PROC spUpdateTrack
+
+/*	Isolation level: repeatable read
+
+	Nadat de oude data gecontroleerd is, mag dit record niet tussentijds gewijzigd worden om te voorkomen dat er alsnog een lost update plaatsvindt.
+*/
+
+
 	@congressNo D_CongressNo,
 	@trackNo D_TrackNo,
 	@trackName D_Name,

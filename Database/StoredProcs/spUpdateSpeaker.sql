@@ -1,4 +1,11 @@
 CREATE PROC spUpdateSpeaker
+
+/*	Isolation level: read committed
+
+	In deze stored procedure is er kans op lost updates. 
+	Dit moet je oplossen door in de tweede en derde update statements in de WHERE clause ook de oude waarden te zetten.
+*/
+
 	@personNo D_Personno,
 	@firstname D_Name, 
 	@lastname D_Name, 

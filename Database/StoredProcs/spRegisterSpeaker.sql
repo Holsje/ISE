@@ -1,4 +1,14 @@
-ALTER PROC spRegisterSpeaker 
+CREATE PROC spRegisterSpeaker 
+
+
+/*	Isolation level: read committed
+
+	Er kan in deze stored procedure weinig fout gaan op het gebied van concurrency.
+	Tussen de check of er al een person is en de insert zou er in een andere transactie een person met dezelfde naam toegevoegd kunnen worden.
+	In dit geval geeft de stored procedure een primary key error en wordt de transactie gerollbackt, maar dit is niet erg.
+	 
+*/
+
 		@firstname D_Name, 
 		@lastname D_Name, 
 		@mailAddress D_Mail, 

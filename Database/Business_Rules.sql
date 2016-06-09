@@ -26,6 +26,7 @@ BEGIN
 	Uitgaande van repeatable read:
 	Wanneer alle waardes gecontroleerd worden en er wordt een nieuwe 
 	bijvoorbeeld track toegevoegd die leeg is dan zit er geen range lock op.
+	Wanneer het Serializable is, dan komt er wel een range lock op.
 
 */
 	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
@@ -218,6 +219,15 @@ BEGIN
  /* BR5: Wanneer er een spreker wordt toegevoegd moet hij/zij direct aan een congres worden toegewezen. */
 
 CREATE PROC spAddSpeakerToCongress
+
+/*  Isolation level: Read committed
+	
+	Bij het gebruik van deze isolation level zijn er wel een aantal gevallen waar het mis kan gaan. 
+	Er is echter gekozen voor read committed, omdat deze gevallen vrij klein zijn en waarschijnlijk nooit zullen voorkomen. 
+	Het kan zijn dat lost updates optreden, vanwege het gebruik van de personNo variabele in deze sp. 
+	Aangezien congressen niet elke dag worden gemaakt, is de impact van lost updates minimaal en vond de opdrachtgever het niet belangrijk.
+*/
+
 @FirstName D_Name, 
 @LastName D_Name, 
 @MailAddress D_Mail,
@@ -250,11 +260,13 @@ BEGIN
 			INSERT INTO Person(FirstName, LastName, MailAddress, PhoneNumber)
 			VALUES(@FirstName, @LastName, @MailAddress, @PhoneNumber)
 		END
+
+
 		DECLARE @PersonNo D_PersonNo
 		SET @PersonNo = (SELECT PersonNo
 						FROM Person
 						WHERE MailAddress = @MailAddress)
-
+		
 		INSERT INTO PersonTypeOfPerson(PersonNo, TypeName)
 		VALUES(@PersonNo, 'Spreker')
 
@@ -292,6 +304,13 @@ GO
 /* BR6: Een onderwerp moet altijd bij een congres of evenement horen. */
 
 CREATE TRIGGER trDeleteSubjectFromEvent
+
+/*
+	Isolation level: Read committed
+
+	In deze trigger wordt er een S-lock aangevraagd tot het einde van de query. Dit is genoeg om het record te verwijderen
+*/
+
 ON SubjectOfEvent
 AFTER UPDATE,DELETE
 AS 
@@ -318,6 +337,13 @@ END
 GO
 
 CREATE TRIGGER trDeleteSubjectFromCongress
+
+/*
+	Isolation level: Read committed
+
+	In deze trigger wordt er een S-lock aangevraagd tot het einde van de query. Dit is genoeg om het record te verwijderen
+*/
+
 ON SubjectOfCongress
 AFTER UPDATE,DELETE
 AS 
@@ -535,11 +561,47 @@ BEGIN
 END
 GO
 
-/* BR12: */
+/* BR12: Een congres moet altijd een congresbeheerder hebben*/
 
-/* BR13: Als een spreker verwijdert wordt dan moet deze ook uit de PersonTypeOfPerson verwijdert worden. */ 
+CREATE TRIGGER trCongressAlwaysHasCongressManager_BR12
+
+/*	Isolation level: read committed
+	
+	Het isolation level is bij deze trigger niet van toepassing, omdat er niets aangepast wordt en het maar één query is.
+	Er wordt een S-lock aangevraagd en deze duurt tot de data gelezen is. 
+	In de trigger wordt verder niets meer gedaan met de data, dus hiervoor is read committed voldoende. 
+*/
+
+  ON CongressManagerOfCongress
+  AFTER UPDATE, DELETE
+  AS 
+  BEGIN
+	IF @@ROWCOUNT = 0 RETURN;
+	SET NOCOUNT ON;
+
+	BEGIN TRY
+		IF NOT EXISTS(SELECT 1 
+					 FROM Congress C INNER JOIN deleted d 
+					 ON d.CongressNo = C.CongressNo INNER JOIN CongressManagerOfCongress CMOC
+					 ON CMOC.CongressNo = C.CongressNo)
+		BEGIN
+			RAISERROR('Een congres moet altijd een congresbeheerder hebben.', 16, 1);
+		END
+	END TRY
+	BEGIN CATCH
+		THROW;
+	END CATCH
+END
+
+/* BR13: Als een spreker verwijderd wordt, dan moet deze ook uit de PersonTypeOfPerson verwijderd worden. */ 
 
 CREATE TRIGGER trRemovePersonTypeOfPersonOnSpeaker
+
+/*  Isolation level: read committed
+	
+	Er wordt een X-lock gezet op de data in de delete query. Deze duurt tot aan het einde van de transactie. Dan is de data verwijderd.
+	Hiervoor is read committed voldoende.
+*/
 ON Speaker
 AFTER DELETE
 AS 

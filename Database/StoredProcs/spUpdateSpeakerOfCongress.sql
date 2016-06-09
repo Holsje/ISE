@@ -1,4 +1,9 @@
-ALTER PROC spUpdateSpeakerSpeakerOfCongress
+CREATE PROC spUpdateSpeakerSpeakerOfCongress
+
+/*	Isolation level: read committed
+	
+	In deze sp is er sprake van mogelijke lost updates. Dit kan opgelost worden door in de WHERE clause de oude waarden mee te geven. 
+*/
 	@personNo D_Personno,
 	@firstname D_Name, 
 	@lastname D_Name, 
