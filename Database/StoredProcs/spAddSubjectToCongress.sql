@@ -1,4 +1,12 @@
 CREATE PROC spAddSubjectToCongress
+
+/*	Isolation level: read committed
+	
+	Er kan in deze stored procedure weinig fout gaan op het gebied van concurrency. 
+	Tussen de check of er al een subject is en de insert zou er in een andere transactie een subject met dezelfde naam toegevoegd kunnen worden.
+	In dit geval geeft de stored procedure een primary key error en wordt de transactie gerollbackt. 
+*/
+
 @Subject D_Subject, @CongressNo D_CongressNo
 AS
 BEGIN
