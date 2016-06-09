@@ -9,7 +9,7 @@
 	$createScreen = new CreateScreen();
 	include('inschrijven_Submit.php');
 	require_once('ScreenCreator/CreateScreen.php');
-	require_once('connectDatabase.php');
+	require_once('connectDatabasePublic.php');
 	require_once('pageConfig.php');
 	require_once('inschrijven_class.php');
 	$inschrijven = new Inschrijven($_SESSION['congressNo'], $dataBase, $createScreen);

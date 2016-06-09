@@ -2,7 +2,7 @@
     require_once('pageConfig.php');
     require_once('database.php');
     require_once('ScreenCreator/CreateScreen.php');
-    require_once('connectDatabase.php');
+    require_once('connectDatabasePublic.php');
 
     class Index{
         protected $createScreen;
@@ -11,7 +11,7 @@
         public function __construct(){
             global $server, $databaseName, $uid, $password,$databaseHeader;
             $this->createScreen = new CreateScreen();
-            $this->database = $databaseHeader;
+            $this->database = new Database($server,$databaseName,$uid,$password);
         }
         
         public function getEventInfo($eventNo,$congresNo){

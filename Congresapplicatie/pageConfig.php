@@ -1,29 +1,30 @@
 <?php
-    require_once('connectDatabase.php');
-	require_once('database.php');
+	function topLayout($pageName,$css,$javaScript) {
+        require_once('connectDatabasePublic.php');
+        require_once('database.php');
+        global $server, $databaseName, $uid, $password;
+        
+        if(isset($_GET['congressNo'])){
+            $_SESSION['congressNo'] = $_GET['congressNo'];
+        }
 
-    if(isset($_GET['congressNo'])){
-        $_SESSION['congressNo'] = $_GET['congressNo'];
-    }
-
-    if (isset($_SESSION['congressNo'])) {
-        $databaseHeader = new Database($server, $databaseName, $uid, $password);
         if (isset($_SESSION['congressNo'])) {
-            $sqlBanner = 'SELECT banner
-                      FROM Congress
-                      WHERE CongressNo = ?';
-            $bannerPath = '';
-            $param = array($_SESSION['congressNo']);
-            $result = $databaseHeader->sendQuery($sqlBanner, $param);
-            if ($result) {
-                if ($banner = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
-                    $bannerPath = $banner['banner'];
+            $databaseHeader = new Database($server, $databaseName, $uid, $password);
+            if (isset($_SESSION['congressNo'])) {
+                $sqlBanner = 'SELECT banner
+                          FROM Congress
+                          WHERE CongressNo = ?';
+                $bannerPath = '';
+                $param = array($_SESSION['congressNo']);
+                $result = $databaseHeader->sendQuery($sqlBanner, $param);
+                if ($result) {
+                    if ($banner = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                        $bannerPath = $banner['banner'];
+                    }
                 }
             }
-        }
-    }
-	function topLayout($pageName,$css,$javaScript) {
-    global $bannerPath;
+        }  
+        $bannerPath;
 ?>
     <head>
         <title>
@@ -59,7 +60,32 @@
 	
 	
 	function topLayoutManagement($pageName,$css,$javaScript) {
-        global $bannerPath;
+        global $server, $databaseName, $uid, $password;
+        require_once('admin/connectDatabaseManage.php');
+        require_once('database.php');
+
+        if(isset($_GET['congressNo'])){
+            $_SESSION['congressNo'] = $_GET['congressNo'];
+        }
+
+        if (isset($_SESSION['congressNo'])) {
+            $databaseHeader = new Database($server, $databaseName, $uid, $password);
+            if (isset($_SESSION['congressNo'])) {
+                $sqlBanner = 'SELECT banner
+                          FROM Congress
+                          WHERE CongressNo = ?';
+                $bannerPath = '';
+                $param = array($_SESSION['congressNo']);
+                $result = $databaseHeader->sendQuery($sqlBanner, $param);
+                if ($result) {
+                    if ($banner = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                        $bannerPath = $banner['banner'];
+                    }
+                }
+            }
+        }
+        
+        $bannerPath;
 		?>
         <html lang='nl'>
             <head>

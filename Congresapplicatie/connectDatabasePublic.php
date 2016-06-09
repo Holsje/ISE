@@ -1,6 +1,6 @@
 <?php
 	$server = "groep1.ise.icaprojecten.nl";
 	$databaseName = "CongressDB";
-	$uid = "sa";
+	$uid = "websiteUser";
 	$password = "wachtwoord";
 ?>
