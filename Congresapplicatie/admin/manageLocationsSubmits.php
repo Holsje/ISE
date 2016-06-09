@@ -121,7 +121,7 @@
 	}
 	
 	if(isset($_POST['editRoom'])) {
-		$queryUpdateRoom = " UPDATE ROOM SET RName = ? AND [Description] = ?, MaxNumberOfParticipants = ? ".
+		$queryUpdateRoom = " UPDATE ROOM SET RName = ?, [Description] = ?, MaxNumberOfParticipants = ? ".
 							" WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
 							
 							
