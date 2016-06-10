@@ -190,11 +190,11 @@ function selectEventOnSubject(subject){
 function resize() {
 	if (fileName == "inschrijven.php") {
 		$('.moreInfoButton').removeClass('pull-right');
-		$('.plan').html("Terug naar homepagina");
-		$('.plan').removeClass("col-md-1");
-		$('.plan').on("click", function() {
-			window.location.href = "index.php?congressNo=1";
-		}) 
+		//$('.plan').html("Terug naar homepagina");
+		//$('.plan').removeClass("col-md-1");
+		//$('.plan').on("click", function() {
+		//	window.location.href = "index.php";
+		//})
 	}
 	else {
 		$('.eventImage').css("display", "block");
