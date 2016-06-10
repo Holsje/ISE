@@ -396,8 +396,8 @@ CREATE TABLE EventOfVisitorOfCongress (
    TrackNo              D_TRACKNO            NOT NULL,
    EventNo              D_EVENTNO            NOT NULL,
    CONSTRAINT PK_EVENTOFVISITOROFCONGRESS PRIMARY KEY (CongressNo, PersonNo, TrackNo, EventNo),
-   CONSTRAINT FK_EVENTOFV_RT_EVENT__VISITORO FOREIGN KEY (PersonNo, CongressNo)
-      REFERENCES VisitorOfCongress (PersonNo, CongressNo)
+   CONSTRAINT FK_EVENTOFV_RT_EVENT__VISITORO FOREIGN KEY (CongressNo, PersonNo)
+      REFERENCES VisitorOfCongress (CongressNo, PersonNo)
 							ON UPDATE CASCADE
 							ON DELETE CASCADE,
    CONSTRAINT FK_EVENTOFV_RT_EVENT__EVENTINT FOREIGN KEY (CongressNo, TrackNo, EventNo)

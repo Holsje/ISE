@@ -143,7 +143,7 @@ $(document).ready(function () {
     }
     if(document.forms['formAddEvenementen']){
         document.forms['formAddEvenementen'].onsubmit = function () {
-            if(!isValidName(document.forms['formAddEvenementen']['eventName'].value)){
+            if(!isValidLocationName(document.forms['formAddEvenementen']['eventName'].value)){
                 $('#errMsgInsertEvent').text ('Eventnaam is onjuist.');
                 return false;
             }
@@ -163,7 +163,7 @@ $(document).ready(function () {
     }
     if(document.forms['formUpdateEvenementen']){
         document.forms['formUpdateEvenementen'].onsubmit = function () {
-            if(!isValidName(document.forms['formUpdateEvenementen']['eventName'].value)){
+            if(!isValidLocationName(document.forms['formUpdateEvenementen']['eventName'].value)){
                 $('#errMsgUpdateEvent').text ('Eventnaam is onjuist.');
                 return false;
             }
