@@ -22,11 +22,11 @@ require_once('pageConfig.php');
         }
 
         public function createLoginScreen($css) {
-            $inputUsername = new Text(null, "Gebruikersnaam", "input-username", null, true, true, true);
-            $inputPassword = new Password(null, "Wachtwoord", "input-password", null, true, true);
-            $submitLogin = new Submit("Inloggen", null, "submitLogin", null, false, true);
+            $inputUsername = new Text(null, $_SESSION['translations']['emailLabel'], "input-username", null, true, true, true);
+            $inputPassword = new Password(null, $_SESSION['translations']['passwordLabel'], "input-password", null, true, true);
+            $submitLogin = new Submit($_SESSION['translations']['submitLogin'], null, "submitLogin", null, false, true);
             //public function __construct($value, $label, $name, $classes, $startRow, $endRow, $datafile){
-            $openRegistration = new Button('Registreren',null,"Registreren",'col-md-4 btn btn-default popupButton',true,false,'#popUpRegistration');
+            $openRegistration = new Button($_SESSION['translations']['Registreren'],null,"Registreren",'col-md-4 btn btn-default popupButton',true,false,'#popUpRegistration');
             $loginScreenObjects = array($inputUsername, $inputPassword);
             if(isset($_SESSION['loginFail'])){
                 $errorText = new Span($_SESSION['loginFail'],'','','col-md-offset-4 col-md-8 col-xs-12 errText',true,true);
@@ -34,7 +34,7 @@ require_once('pageConfig.php');
             }
             array_push($loginScreenObjects,$openRegistration, $submitLogin);
             
-            $this->createScreen->createPopup($loginScreenObjects, "Inloggen", "Login", 'smallPop','first',$css,'');
+            $this->createScreen->createPopup($loginScreenObjects, $_SESSION['translations']['loginTitle'], "Login", 'smallPop','first',$css,'');
         }
 
         public function checkLogin($username, $password){

@@ -294,7 +294,7 @@ GO
 	REVOKE UPDATE ON PersonTypeOfPerson TO [Manager]
 	GO
 	
-	REVOKE INSERT ON PersonTypeOfPerson TO [Manager]
+	GRANT INSERT ON PersonTypeOfPerson TO [Manager]
 	GO
 
 	REVOKE DELETE ON PersonTypeOfPerson TO [Manager]
