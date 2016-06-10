@@ -7,6 +7,7 @@ require_once('ManageSpeakers_class.php');
 require_once("manageLocations_Class.php");
 require_once('ManageTracks_Class.php');
 require_once('manageEvents_Class.php');
+require_once('manageVisitors_Class.php');
 global $server, $databaseName, $uid, $password;
 $database = new Database($server,$databaseName,$uid,$password);
 
@@ -22,6 +23,7 @@ include('ManageCongressDetailsSubmits.php');
 include('manageSpeakersSubmits.php');
 include('manageLocationsSubmits.php');
 include('manageTracksSubmits.php');
+include('manageVisitorsSubmits.php');
 
 
 $js = '<script src="../js/editCongressManagement.js"></script>';
@@ -29,6 +31,7 @@ $js .= '<script src="../js/evenement.js"></script>';
 $js .= "<script src='../js/locationManagement.js'></script>";
 $js .= "<script src='../js/manageSpeaker.js'></script>";
 $js .= "<script src='../js/trackManagement.js'></script>";
+$js .= "<script src='../js/manageVisitors.js'></script>";
 $js .= "<script src='../js/manage.js'></script>";
 $js .= "<script src='../js/subjects.js'></script>"; 
 
