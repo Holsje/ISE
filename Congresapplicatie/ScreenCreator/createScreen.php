@@ -21,6 +21,7 @@ require_once('ScreenObjects/TableRow.php');
 require_once('ScreenObjects/TableData.php');
 require_once('ScreenObjects/Upload.php');
 require_once('ScreenObjects/Identifier.php');
+require_once('ScreenObjects/Time.php');
 
     class CreateScreen{
 
@@ -96,23 +97,28 @@ require_once('ScreenObjects/Identifier.php');
 		}
 		
 		public function createSmallEventInfo($eventNo, $eventName, $height,$topOffset) {
-			echo '<div class="eventInEventBox col-xs-12 col-sm-12 col-md-12" id="' . $eventNo . '" style="height: '. $height . ';';
+			echo '<div class="eventInEventBox col-xs-12 col-sm-12 col-md-12" value="' . $eventNo . '" id="' . $eventNo . '" style="height: '. $height . ';';
 			if(isset($topOffset)){
 				echo 'top:' . $topOffset . ';';
 			}
 			echo '">';
-				echo '<p class="SmallEventName">'. $eventName . '</p>';
+				$infoButton = new Button(null, null, "moreInfoButton", "popupButton moreInfoButton glyphicon glyphicon-info-sign infoGlyphPlanning", true, true, "#popUpeventInfo");
+				echo '<button type="button" class="deleteEventFromPlanning glyphicon glyphicon-remove" data-file=""></button>'; 
+				echo $infoButton->getObjectCode();
+				echo '<p class="SmallEventName">'. $eventName;
+				echo '</p>';
 			echo '</div>';
 		}
 		
 		public function createEventPlanningPopUp($selectValueListBuilding) {
 			$dataTable = new Listbox(null, null, null, "col-xs-12 col-sm-12 col-md-12", true, true, array("Zaalnaam"), null, "roomListBox");
 			$errMsg = new Span(null,null, "errMsgEventPlanning", null, true, true);
-			$startTime = new Text(null, "Starttijd", "startTimeEvent", null, true, true, true);
-			$endTime = new Text(null, "Eindtijd", "endTimeEvent", null, true, true, true);
+			$startTime = new Time(null, "Starttijd", "startTimeEvent", null, true, true, true);
+			$endTime = new Time(null, "Eindtijd", "endTimeEvent", null, true, true, true);
 			$buildingSelect = new Select(null, "Gebouw", "buildingSelect", null, true, true, $selectValueListBuilding, null, true, null);
 			$submit = new button("Opslaan", null, "saveEventPlanningButton", "btn btn-default form-control pull-right", true, true,null);
-			echo '<div class="eventPlanningPopUp">';
+			echo '<div id="planningPopup" class="eventPlanningPopUp">';
+				echo '<button type="button" class="closePlanningPopup closePopup glyphicon glyphicon-remove" data-file="#planningPopup"></button>';
 				$this->createForm(array($errMsg, $buildingSelect, $startTime, $endTime, $dataTable, $submit), "EditEventInfo", null, null);
 			echo '</div>';
 		}

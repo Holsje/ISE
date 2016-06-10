@@ -44,6 +44,13 @@ function isValidSmallInt(capacity) {
 		return false;
 }
 
+function isValidStartAndEndTime(startTime, endTime) {
+	if (isNaN(startTime) || isNaN(endTime)) {
+		return false;
+	}
+	return startTime < endTime;
+}
+
 function isValidPostalCode(postalCode) {
 	return /^[a-zA-Z0-9]{1,6}$/.test(postalCode);
 } 

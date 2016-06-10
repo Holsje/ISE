@@ -92,10 +92,13 @@ function getEventInfo(eventNo) {
         success: function (data) {
 			data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['EName']);
+			if(window.location.pathname.match(/admin/i) != null) {
+				data['FileDirectory'] = "../" + data['FileDirectory'];
+			}
             $('#thumbnail').attr('src', data['FileDirectory'] + 'thumbnail.png');
             $('#eventDescription').html(data['Description']);
-            var size = 0;
-            for (var value in data['speakers']) {
+            var size = 0;data
+            for (var value in ['speakers']) {
                 size++;
             }
 
@@ -109,6 +112,9 @@ function getEventInfo(eventNo) {
                 formGroup.setAttribute("data-file", '#popUpspeaker');
                 var img = document.createElement('IMG');
                 img.className += 'col-md-12';
+				if(window.location.pathname.match(/admin/i) != null) {
+					data['speakers'][i]['PicturePath'] = "../" + data['speakers'][i]['PicturePath'];
+				}
                 img.src = data['speakers'][i]['PicturePath'];
                 img.setAttribute('id', data['speakers'][i]['PersonNo']);
                 formGroup.appendChild(img);
@@ -145,7 +151,7 @@ var test;
 
 function speakerPopup(event) {
     $.ajax({
-        url: 'index.php',
+        url: window.location.href,
         type: 'POST',
         data: {
             speakerPop: 'GO',
@@ -155,7 +161,12 @@ function speakerPopup(event) {
             console.log(data);
             data = JSON.parse(data);
             $('#popUpspeaker .popupTitle h1').html(data['FirstName'] + ' ' + data['LastName']);
-            $('#thumbnail').attr('src', data['PicturePath']);
+			if(window.location.pathname.match(/admin/i) != null) {
+				data['PicturePath'] = "../" + data['PicturePath'];
+			}
+				$('#thumbnail').attr('src', data['PicturePath']);
+			
+			
             $('#speakerDescription').html(data['Description']);
             $('#popUpspeaker').fadeToggle();
         }

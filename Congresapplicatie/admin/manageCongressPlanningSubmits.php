@@ -14,5 +14,9 @@
 		echo json_encode($manageCongressPlanning->getRoomsByBuilding($_POST['buildingName']));
 		die();
 	}
-
+	
+	if (isset($_POST['deleteEventFromPlanning'])) {
+		$manageCongressPlanning->deleteEventFromTrack($_POST['eventNo'], $_POST['trackNo']);
+		die();
+	}
 ?>

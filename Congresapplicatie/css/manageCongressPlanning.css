@@ -3,6 +3,9 @@
 	margin-right: 20px;
 }
 
+#planningPopup .closePopup {
+	left: 0px !important;
+}
 
 .eventPlanningBox {
 	border-style: solid;
@@ -19,6 +22,24 @@
 	margin-top:3px;
 	margin-bottom: 3px;
 	left:0;
+	background-color: #FFFFFF;
+}
+
+.eventPlanningBox .eventInEventBox .deleteEventFromPlanning {
+	display: none;
+}
+
+.deleteEventFromPlanning {
+	-webkit-appearance: none;
+    border: 0;
+    background: 0;
+    top: 10px;
+    float: right;
+    color: #dbdbdb;
+}
+
+.beingAdded .deleteEventFromPlanning {
+	display: none;
 }
 
 .eventPlanningBox .eventInEventBox {
@@ -28,6 +49,10 @@
 
 .eventBoxPlanning  .eventInEventBox {
 	position:absolute;
+}
+
+.track {
+	margin-right: 10px;
 }
 
 .smallEventName {
@@ -50,7 +75,19 @@
 }
 
 .eventPlanningPopUp form {
-	margin: 10px 0px 0px 0px;
+	
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	padding-left: 0px;
+}
+
+.infoGlyphPlanning {
+	border:none;
+	background-color: transparent;
+	font-size: 30px;
+	text-align: center;
+	float:right;	
 }
 
 .roomSelect {

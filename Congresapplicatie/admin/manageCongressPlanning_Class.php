@@ -1,5 +1,5 @@
 <?php 
-
+	
 	class manageCongressPlanning extends Management {
 		
 		private $inschrijven;
@@ -8,29 +8,38 @@
 		private $location;
 		//private $eventsInTrack;
 		private $daysOfCongress;
+		private $numDayOfCongress;
 		
 		private $congressNo;
 		private $hourHeight;
-		private $currentDay;
+		public $currentDay;
 		
 		public function __construct($congressNo) {
 			$this->congressNo = $congressNo;
 			parent::__construct();
-			
-			$this->inschrijven = new Inschrijven($congressNo);
-			
+				
 			$this->daysOfCongress = $this->getAllCongressDays();
-			if (!isset($_SESSION['pageCountPlanning'])) {
-				$_SESSION['pageCountPlanning'] = 0;
+			if (!isset($_GET['day'])) {
+				$_GET['day'] = 0;
 			}
-			$this->currentDay = $this->daysOfCongress[$_SESSION['pageCountPlanning']];
+			$this->currentDay = $this->determineCurrentDay();
 			
-			$this->tracks = $this->inschrijven->getTracks();
+			$this->tracks = $this->getTracks();
 			$this->events = $this->getEvents();
 			$this->location = $this->getCongressLocation();
 			$this->getEventsInTrack();
 			$this->hourHeight = 100;
 			
+		}
+		
+		public function determineCurrentDay() {
+			$this->numDayOfCongress = $_GET['day'];
+			if (isset($this->daysOfCongress[$_GET['day']])) {
+				return $this->daysOfCongress[$_GET['day']];
+			}
+			else {
+				return $this->daysOfCongress[0];
+			}
 		}
 		
 		public function createManageCongressTrackScreen() {
@@ -52,10 +61,10 @@
 		public function createSchedule() {
 			$this->createTimeBar();
 			
-			$this->makeCarouselItem($this->daysOfCongress[$_SESSION['pageCountPlanning']], true);
+			$this->makeCarouselItem(true);
 		}
 		
-		private function makeCarouselItem($dayKey, $active) {
+		private function makeCarouselItem($active) {
 			if ($active) {
 				echo '<div class="item active">';
 			}
@@ -72,8 +81,7 @@
 					echo '<div class="trackTitle col-xs-12 col-sm-12 col-md-12">';
 						echo '<h2>' . $track["TNAME"] . '</h2>';
 					echo '</div>';
-					echo '<div class="eventBoxPlanning col-xs-12 col-sm-12 col-md-12" style="height:' . (24*$this->hourHeight) . 'px;" id=' . $track['TRACKNO'] . '>';
-						echo "<script>console.log(JSON.parse('". json_encode($track) . "'));</script>";
+					echo '<div class="eventBoxPlanning eventBox col-xs-12 col-sm-12 col-md-12" style="height:' . (24*$this->hourHeight) . 'px;" id=' . $track['TRACKNO'] . '>';
 						if(isset($track['EVENTS'])) {
 							foreach($track['EVENTS'] AS $event) {
 								
@@ -93,6 +101,21 @@
 					
 				echo '</div>';
 			}
+		}
+		
+		public function getTracks() {
+				$result  = $this->database->sendQuery("SELECT TRACKNO,DESCRIPTION,TNAME " . 
+														"FROM TRACK " . 
+														"WHERE CongressNo = ?",array($this->congressNo));
+				$tracks = array();
+				if($result) {
+					while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+						$tracks[$row['TRACKNO']] = $row;
+					}
+				}else {
+					return;
+				}
+				return $tracks;
 		}
 		
 		public function getBuildingsByCongressLocation() {
@@ -140,6 +163,7 @@
 			foreach($period as $dt) {
 				array_push($daysOfCongress, $dt->format("Y-m-d"));
 			}
+			array_push($daysOfCongress, $congressDates["ENDDATE"]->format("Y-m-d"));
 			return $daysOfCongress;
 		}
 		
@@ -149,6 +173,26 @@
 					$this->createScreen->createSmallEventInfo($event[0], $event[1], 1*$this->hourHeight,null);
 				}
 			echo '</div>';
+		}
+		
+		public function createPreviousDayButton() {
+			if ($this->currentDay == $this->daysOfCongress[0]) {
+				return;
+			}
+			else {
+				$previousDay = new Submit("Vorige dag", ($this->numDayOfCongress-1), "day", "btn btn-default", true, true);
+				echo $previousDay->getObjectCode();
+			}
+		}
+		
+		public function createNextDayButton() {
+			if ($this->currentDay == end($this->daysOfCongress)) {
+				return;
+			}
+			else {
+				$nextDay = new Submit("Volgende dag", ($this->numDayOfCongress+1), "day", "btn btn-default", true, true);
+				echo $nextDay->getObjectCode();
+			}
 		}
 		
 		public function createTimeBar() {
@@ -164,6 +208,13 @@
 				echo ':00</div>';
 			}
 			echo '</div>';
+		}
+		
+		public function deleteEventFromTrack($eventNo, $trackNo) {
+			$queryDeleteEventFromTrack = "DELETE FROM EventInTrack WHERE EventNo = ? AND TrackNo = ? AND CongressNo = ?";
+			$paramsDeleteEventFromTrack = array($eventNo, $trackNo, $this->congressNo);
+			
+			$this->database->sendQuery($queryDeleteEventFromTrack, $paramsDeleteEventFromTrack);
 		}
 		
 		public function getEvents() {
@@ -192,18 +243,14 @@
 								WHERE T.CONGRESSNO = ? AND EIT.Start IS NOT NULL AND EIT.[End] IS NOT NULL AND DATEDIFF(day,start,?) = 0";
 			$paramsEventInTrack = array($this->congressNo,$this->currentDay);
 			$result = $this->database->sendQuery($queryEventInTrack, $paramsEventInTrack);
-			//$eventsInTrack = array();
 			if ($result) {
 				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
 					if(!isset($this->tracks[$row['TRACKNO']]['EVENTS'])) {
 						$this->tracks[$row['TRACKNO']]['EVENTS'] = array();						
 					}
 					array_push($this->tracks[$row['TRACKNO']]['EVENTS'],array('EVENTNO' => $row['EVENTNO'], 'ENAME' => $row['ENAME'], 'START' => $row['START'], 'END' => $row['END']));
-					//array_push($eventsInTrack, array('TRACKNO' => $row['TRACKNO'], 'EVENTNO' => $row['EVENTNO'], 'ENAME' => $row['ENAME'], 'START' => $row['START'], 'END' => $row['END']));
 				}
 			}
-			//echo '<script>console.log(JSON.parse(\'' . json_encode($this->tracks) . '\'));</script>';
-			//return $eventsInTrack;
 		}
 		
 		public function addEventToTrack($trackNo, $congressNo, $eventNo, $startTime, $endTime, $buildingName, $rooms) {
@@ -251,10 +298,6 @@
 				}
 			}
 			return $resultArray;
-		}
-		
-		public function getInschrijven() {
-			return $this->inschrijven;
 		}
 		
 		public function getCongressNo() {
