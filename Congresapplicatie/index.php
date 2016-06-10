@@ -1,11 +1,17 @@
 <?php
     require_once('admin/SessionHandler.php');
     sessionHandlerWeb(false);
+	if(isset($_GET['congressNo'])){
+		$_SESSION['congressNo'] = $_GET['congressNo'];
+	}
+
 	require_once('Index_Class.php');
     $indexClass = new Index();
-    require_once('index_Submit.php');
+    $_SESSION['translations'] = $indexClass->getTranslations();
+	require_once('index_Submit.php');
 echo'<div id="wrapper">';
     topLayout('Index','','');
+
 ?>
     <div class="row">
         <div class="container col-md-12 col-xs-12">

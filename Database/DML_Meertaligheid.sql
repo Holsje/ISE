@@ -1,0 +1,90 @@
+DELETE FROM ScreenObject
+DELETE FROM Language
+
+INSERT INTO [LANGUAGE] VALUES ('NL'),
+							  ('EN'),
+							  ('DE')
+
+								  /* Nederlands */
+INSERT INTO [SCREENOBJECT] VALUES ('NL', 'planCongress', 'Plan je Congres', 'Button'),
+								  ('NL', 'backToHome', 'Terug naar homepagina', 'Button'),
+								  ('NL', 'login', 'Login', 'Button'),
+								  ('NL', 'moreInfo', 'Meer Info', 'Button'),
+								  ('NL', 'Registreren', 'Registreren', 'Button'),
+								  ('NL', 'submitLogin', 'Inloggen', 'Button'),
+								  ('NL', 'NextDayButton', 'Volgende dag', 'Button'),
+								  ('NL', 'previousDayButton', 'Vorige dag', 'Button'),
+								  ('NL', 'signUpForCongressButton', 'Inschrijven', 'Button'),
+
+								  ('NL', 'congressInfo', 'Congres Informatie', 'Text'),
+								  ('NL', 'congressSubjects', 'Onderwerpen', 'Text'),
+								  ('NL', 'loginTitle', 'Inloggen', 'Text'),
+								  
+								  ('NL', 'emailLabel', 'E-mailadres', 'Label'),
+								  ('NL', 'passwordLabel', 'Wachtwoord', 'Label'),
+								  ('NL', 'ConName', 'Naam', 'Label'),
+								  ('NL', 'ConDescription', 'Omschrijving', 'Label'),
+								  ('NL', 'ConStart', 'Begindatum', 'Label'),
+								  ('NL', 'ConEnd', 'Eindatum', 'Label'),
+								  ('NL', 'ConLocation', 'Locatie', 'Label'),
+								  ('NL', 'ConCity', 'Plaats', 'Label'),
+								  ('NL', 'ConPrice', 'Prijs', 'Label'),
+								  ('NL', 'eventDescription', 'Over evenement', 'Label'),
+								  ('NL', 'subjects', 'Onderwerp(en)', 'Label'),
+								  ('NL', 'speakers', 'Spreker(s)', 'Label'),
+
+								  /* Engels */
+								  ('EN', 'planCongress', 'Plan Congress', 'Button'),
+								  ('EN', 'backToHome', 'Back to homepage', 'Button'),
+								  ('EN', 'login', 'Sign up', 'Button'),
+								  ('EN', 'moreInfo', 'More Info', 'Button'),
+								  ('EN', 'Registreren', 'Register', 'Button'),
+								  ('EN', 'submitLogin', 'Sign up', 'Button'),
+								  ('EN', 'nextDayButton', 'Next day', 'Button'),
+								  ('EN', 'previousDayButton', 'Previous day', 'Button'),
+								  ('EN', 'signUpForCongressButton', 'Submit', 'Button'),
+									
+								  ('EN', 'congressInfo', 'Congress Information', 'Text'),
+								  ('EN', 'congressSubjects', 'Subjects', 'Text'),
+								  ('EN', 'loginTitle', 'Sign up', 'Text'),
+								
+								  ('EN', 'emailLabel', 'E-mailadress', 'Label'),
+								  ('EN', 'passwordLabel', 'Password', 'Label'),
+								  ('EN', 'ConName', 'Name', 'Label'),
+								  ('EN', 'ConDescription', 'Description', 'Label'),
+								  ('EN', 'ConStart', 'Startdate', 'Label'),
+								  ('EN', 'ConEnd', 'Enddate', 'Label'),
+								  ('EN', 'ConLocation', 'Location', 'Label'),
+								  ('EN', 'ConCity', 'City', 'Label'),
+								  ('EN', 'ConPrice', 'Price', 'Label'),
+								  ('EN', 'eventDescription', 'About event', 'Label'),
+								  ('EN', 'subjects', 'Subject(s)', 'Label'),
+								  ('EN', 'speakers', 'Speaker(s)', 'Label'),
+
+								  /* Duits */
+								  ('DE', 'planCongress', 'Plan Kongress', 'Button'),
+								  ('DE', 'backToHome', 'Zurück zur Startseite', 'Button'),
+								  ('DE', 'login', 'Login', 'Button'),
+								  ('DE', 'moreInfo', 'Weitere Infos', 'Button'),
+								  ('DE', 'Registreren', 'Registrieren', 'Button'),
+								  ('DE', 'submitLogin', 'Login', 'Button'),
+								  ('DE', 'nextDayButton', 'Nächsten Tag', 'Button'),
+								  ('DE', 'previousDayButton', 'Vortag', 'Button'),
+								  ('DE', 'signUpForCongressButton', 'Registrieren', 'Button'),
+									
+								  ('DE', 'congressInfo', 'Kongress Informationen', 'Text'),
+								  ('DE', 'congressSubjects', 'Themas', 'Text'),
+								  ('DE', 'loginTitle', 'Login', 'Text'),
+								
+								  ('DE', 'emailLabel', 'E-Mail', 'Label'),
+								  ('DE', 'passwordLabel', 'Passwort', 'Label'),
+								  ('DE', 'ConName', 'Name', 'Label'),
+								  ('DE', 'ConDescription', 'Umschreibung', 'Label'),
+								  ('DE', 'ConStart', 'Startdatum', 'Label'),
+								  ('DE', 'ConEnd', 'Enddatum', 'Label'),
+								  ('DE', 'ConLocation', 'Lokation', 'Label'),
+								  ('DE', 'ConCity', 'Ort', 'Label'),
+								  ('DE', 'ConPrice', 'Preis', 'Label'),
+								  ('DE', 'eventDescription', 'Über Event', 'Label'),
+								  ('DE', 'subjects', 'Thema(s)', 'Label'),
+								  ('DE', 'speakers', 'Sprecher', 'Label')
