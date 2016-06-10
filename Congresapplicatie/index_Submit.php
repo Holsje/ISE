@@ -20,4 +20,18 @@
         die();
     }
 
+    if (!isset($_POST['previewCongress'])){
+        if (!$indexClass->congressPublic($_SESSION['congressNo']) && !isset($_SESSION['preview'])){
+            die("Dit congres bestaat niet of is nog niet publiek gemaakt!");
+        }
+    }
+    else{
+        $_SESSION['preview'] = 'preview';
+    }
+
+    if (isset($_POST['quitPreview'])){
+        unset($_SESSION['preview']);
+        header('Location: admin/manage.php?congressNo='. $_SESSION['congressNo']);
+    }
+
 ?>
