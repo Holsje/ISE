@@ -90,7 +90,7 @@ function getEventInfo(eventNo) {
             eventNo: eventNo
         },
         success: function (data) {
-
+			console.log(data);
 			data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['EName']);
             var filename = data['FileDirectory'] + 'thumbnail.png';
