@@ -210,20 +210,20 @@
         public function getTranslations(){
             if (isset($_GET['lang'])){
                 if ($_GET['lang'] == 'NL' || $_GET['lang'] == 'EN' || $_GET['lang'] == 'DE'){
-                    $language = $_GET['lang'];
+                    $_SESSION['lang'] = $_GET['lang'];
                 }
                 else{
                     die("De gekozen taal is niet beschikbaar.");
                 }
 
             }else{
-                $language = 'NL';
+                $_SESSION['lang'] = 'NL';
             }
 
             $sqlStmt = "SELECT Name, Value
                         FROM ScreenObject
                         WHERE Language = ?";
-            $params = array($language);
+            $params = array($_SESSION['lang']);
             $translationsArray = array();
 
             $result = $this->databaseTranslations->sendQuery($sqlStmt, $params);

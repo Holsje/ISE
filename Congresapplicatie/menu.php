@@ -3,7 +3,7 @@
         <div class="input-group col-xs-12 col-sm-12 col-md-12">
             <?php
 				if ($_SERVER['PHP_SELF'] == '/ISE/Congresapplicatie/inschrijven.php'){
-					echo'<button type="button" name="planCongress" class="col-md-2 btn btn-default plan" onClick="location.href=&quot;index.php&quot;">'.$_SESSION['translations']['backToHome'].'</button>';
+					echo'<button type="button" name="planCongress" class="col-md-2 btn btn-default plan" onClick="location.href=&quot;index.php?lang='.$_SESSION["lang"].'&quot;">'.$_SESSION['translations']['backToHome'].'</button>';
 				}else{
 					echo'<button type="button" name="planCongress" class="col-md-2 btn btn-default plan" onClick="location.href=&quot;inschrijven.php&quot;">'.$_SESSION['translations']['planCongress'].'</button>';
                 }
