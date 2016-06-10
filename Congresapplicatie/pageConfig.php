@@ -4,9 +4,6 @@
         require_once('database.php');
         global $server, $databaseName, $uid, $password;
         
-        if(isset($_GET['congressNo'])){
-            $_SESSION['congressNo'] = $_GET['congressNo'];
-        }
 
         if (isset($_SESSION['congressNo'])) {
             $databaseHeader = new Database($server, $databaseName, $uid, $password);
