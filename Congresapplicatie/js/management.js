@@ -69,7 +69,10 @@ $(document).ready(function () {
 		break;
 		case "#spreker":
 			var activeTab = 4;
-		break;		
+		break;
+        case "#Bezoekers":
+            var activeTab = 5;
+        break;
 		case "#Congresgegevens":
 		default:
 			var activeTab = 0;
