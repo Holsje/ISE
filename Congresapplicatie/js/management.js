@@ -1,24 +1,42 @@
 var table;
+var thisEvent;
+var setDataTable = false;
+var eventNo = 0;
+var eventTest;
 $(document).ready(function () {
     table = $('#congresListBox').DataTable( {
 		"sScrollY": "500px",
-		"bPaginate": false
+		"bPaginate": false,
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
 	});
+    $(".dataTables_scrollBody").removeAttr("style");
+	$(".dataTables_scrollBody").addClass("scrollBody");
 	$('.onSelected').length;
-    $('.onSelected').prop('disabled', true);
+    if(!setDataTable){
+        $('.onSelected').prop('disabled', true);
+        setDataTable = false;
+    }
     $('#dataTables_length').css('display', 'none');
     $('#congresListBox_length').css('display', 'none');
     //$('#congresListBox_paginate').css('display', 'none');
     $('#congresListBox_info').css('display', 'none');
 	
     $('.singleSelect.dataTable tbody').on('click', 'tr', function () {
+        var parent = $(this).parents('form').children('.onSelected');
+        console.log(parent);
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
+            parent.prop('disabled', true);
         } else {
-            $('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
+            if(!$(this.childNodes[0]).hasClass('dataTables_empty')){
+               $('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                parent.prop('disabled', false);
+                console.log('test');
+            }     
         }
     });
 
@@ -35,10 +53,12 @@ $(document).ready(function () {
 		if(document.getElementById(event.target.attributes.getNamedItem('data-file').value.substring(1)).classList.contains('show')){
 			$(event.target.attributes.getNamedItem("data-file").value).removeClass('show');
 
-
 		}
+
+        if (event.target.attributes.getNamedItem('data-file').value == "#popUpUpdateVisitor"){
+            $("hr").remove();
+        }
     });
-	
 	
 	switch(window.location.hash) {
 		case "#Locatie":
@@ -52,15 +72,18 @@ $(document).ready(function () {
 		break;
 		case "#spreker":
 			var activeTab = 4;
-		break;		
+		break;
+        case "#Bezoekers":
+            var activeTab = 5;
+        break;
 		case "#Congresgegevens":
 		default:
 			var activeTab = 0;
 		break;
 	}
-	 $(function() {
-		$( "#tabs" ).tabs({active:activeTab});
-	  });
+		$( "#tabs" ).tabs({
+            active:activeTab
+        });
 });
 
 function parseDate(dateString) {

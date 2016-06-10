@@ -9,6 +9,7 @@ BEGIN
 	Uitgaande van repeatable read:
 	Wanneer alle waardes gecontroleerd worden en er wordt een nieuwe 
 	bijvoorbeeld track toegevoegd die leeg is dan zit er geen range lock op.
+	Wanneer het Serializable is dan komt er wel een range lock op.
 
 */
 	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;

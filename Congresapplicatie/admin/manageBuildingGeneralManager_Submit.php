@@ -5,7 +5,7 @@
 		die();
 	}
 	
-	if (isset($_POST['buildingName']) && isset($_POST['streetName'])) {	
+	if (isset($_POST['saveBuildingButton'])) {
 		$queryInsertNewBuilding = "INSERT INTO Building (LocationName, City, BName, Street, HouseNo, PostalCode) VALUES(?, ?, ?, ?, ?, ?)";
 		$paramsInsertNewBuilding = array($_SESSION['chosenLocationName'], 
 										 $_SESSION['chosenLocationCity'], 
@@ -53,19 +53,33 @@
 	}
 	
 	if(isset($_POST['getRooms'])) {
-		if($_POST['getRooms'] == 'rooms') {			
-			$queryRoomInfo = "SELECT BName, RName, Description, MaxNumberOfParticipants " .
-							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ?";
-			$params = array($_SESSION['chosenLocationName'],$_SESSION['chosenLocationCity'],$_POST['building']);
-			
-			$result = $dataBase->sendQuery($queryRoomInfo, $params);
+		if($_POST['getRooms'] == 'rooms') {
 			$rooms = array();
+			$queryBuildingInfo = "SELECT LocationName, City, BName, Street, HouseNo, PostalCode
+			 				 FROM Building WHERE Locationname = ? AND City = ? AND BName = ?";
+			$params = array($_SESSION['chosenLocationName'],$_SESSION['chosenLocationCity'],$_POST['building']);
+
+			$resultBuildingInfo = $dataBase->sendQuery($queryBuildingInfo, $params);
+			if ($resultBuildingInfo) {
+				if ($row = sqlsrv_fetch_array($resultBuildingInfo, SQLSRV_FETCH_ASSOC)){
+					$_SESSION['BName'] = $row['BName'];
+					array_push($rooms,$row);
+				}
+
+			}
+
+			$queryRoomInfo = "SELECT RName, Description, MaxNumberOfParticipants " .
+							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ?";
+
+			$result = $dataBase->sendQuery($queryRoomInfo, $params);
+
 			if($result) {
 				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
 					array_push($rooms,$row);
 				}
 				echo json_encode($rooms);
 			}
+
 			die();
 		}
 	}
@@ -79,6 +93,10 @@
 			$result = $dataBase->sendQuery($queryRoomInfo, $params);
 			if($result) {
 				echo json_encode($result);
+			}
+			else if (is_string($result)){
+				$err['err'] = $result;
+				echo json_encode($err);
 			}
 			die();
 		}
@@ -113,19 +131,37 @@
 		
 		if($result) {
 			echo json_encode($result);
-		}		
+		}
+		else if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();	
 	}
 	
 	if(isset($_POST['deleteRoom'])) {
-		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
+		$queryDeleteRoom = "DELETE FROM ROOM WHERE LocationName = ?, City = ? AND BName = ? AND RName = ?";
 		$params = array($_SESSION['chosenLocationName'],$_SESSION['chosenLocationCity'],$_POST['BName'],$_POST['roomName']);
 		
 		$result = $dataBase->sendQuery($queryDeleteRoom, $params);
 		
 		if($result) {
 			echo json_encode($result);
-		}		
+		}
+		else if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();
+	}
+
+	if (isset($_POST['buttonSaveUpdateBuilding'])){
+		$queryUpdateBuilding = "UPDATE Building SET BName = ?, Street = ?, HouseNo = ?, PostalCode = ? WHERE LocationName = ? AND City = ? AND BName = ?";
+		$params = array($_POST['buildingName'], $_POST['streetName'], $_POST['houseNo'], $_POST['postalCode'], $_POST['LocationName'], $_POST['cityName'], $_SESSION['BName']);
+		$result = $dataBase->sendQuery($queryUpdateBuilding, $params);
+		if (is_string($result)){
+			$_SESSION['errorMsgUpdateBuilding'] = $result;
+		}
+
 	}
 ?>

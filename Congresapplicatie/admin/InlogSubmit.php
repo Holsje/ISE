@@ -11,9 +11,10 @@
             if ($login->checkLogin($_POST['input-username'], $_POST['input-password'])){
                 //setcookie('user', $_POST['input-username'], time() + (14*24*60*60));
                 $_SESSION['user'] = $_POST['input-username'];
+                $_SESSION['userName'] = $login->getName($_SESSION['user']);
                 echo "Ingevulde inloggegevens zijn juist!";
                 $_SESSION['liberties'] = $login->checkUser($_SESSION['user']);
-                $_SESSION['personno'] = $login->getPersonNo($_SESSION['user']);
+                $_SESSION['personNo'] = $login->getPersonNo($_SESSION['user']);
                 header('Location: index.php');
             }
             else{

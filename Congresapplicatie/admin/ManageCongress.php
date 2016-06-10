@@ -3,6 +3,8 @@
 require_once('sessionHandler.php');
 sessionHandler(true, false);
 unset($_SESSION['congressNo']);
+unset($_SESSION['currentLocationName']);
+unset($_SESSION['currentLocationCity']);
 require_once('ManageCongress_Class.php');
 $manageCongress = new ManageCongress();
 include('ManageCongressSubmits.php');
@@ -24,8 +26,8 @@ topLayoutManagement('Beheren Congres',null,$js);
     </div>
 
     <?php 
-    $manageCongress->createCreateCongressScreen(); 
-    //$manageCongress->createEditCongressScreen();
+    $manageCongress->createCreateCongressScreen();
+    $manageCongress->createAddSubjectScreen();
     
     bottomLayout();
 

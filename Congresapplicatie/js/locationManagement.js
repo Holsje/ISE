@@ -2,14 +2,19 @@ var locationTable,roomTable;
 var selectedBuilding,roomName,roomDescription,roomCapacity;
 
 $(document).ready(function () {
-	locationTable =  $('#LocatieListBox').DataTable();
+	locationTable =  $('#LocatieListBox').DataTable({
+        "scrollY":        "500px",
+        "scrollCollapse": true,
+        "paging":         false,
+        "language": {
+           "emptyTable": "Geen data beschikbaar"
+        } 
+    });
 	$('#dataTables_length').css('display', 'none');
     $('#LocatieListBox_length').css('display', 'none');
     $('#LocatieListBox_paginate').css('display', 'none');
     $('#LocatieListBox_info').css('display', 'none');
-	
 	$('#LocatieListBox tbody').on('click', 'tr', function () {
-		$(this).toggleClass('selected');
 		var numSelectedRows = locationTable.rows(".selected").data().length;
 		if (numSelectedRows == 0) {
 			$("[name=buttonEditLocatie]").prop("disabled", true);
@@ -26,9 +31,12 @@ $(document).ready(function () {
     });
 	
 	roomTable = $("#ZalenListBox").DataTable({
-		 "scrollY":        "500px",
+        "scrollY":        "500px",
         "scrollCollapse": true,
-        "paging":         false	
+        "paging":         false,
+        "language": {
+           "emptyTable": "Geen data beschikbaar"
+        }
 	});
 	$('#dataTables_length').css('display', 'none');
     $('#ZalenListBox_length').css('display', 'none');
@@ -36,7 +44,6 @@ $(document).ready(function () {
     $('#ZalenListBox_info').css('display', 'none');
 	
 	$('#ZalenListBox tbody').on('click', 'tr', function () {
-		$(this).toggleClass('selected');
 		var numSelectedRows = roomTable.rows(".selected").data().length;
 		if (numSelectedRows == 0) {
 			$("[name=buttonEditZalen]").prop("disabled", true);
@@ -62,10 +69,35 @@ $(document).ready(function () {
 		if(!isValidSmallInt(document.forms['formAddZalen']['roomCapacity'].value)) {
 			$("#errMsgCreateRoom").text("Capaciteit mag niet groter zijn dan 32767");
 			return false;
+		}
+        if(!isValidLocationName(document.forms['formAddZalen']['roomName'].value)) {
+			$("#errMsgCreateRoom").text("Zaalnaam is onjuist.");
+			return false;
 		}	
 		createRoom();
 		return false;	
 	}
+    
+    document.forms['formAddLocatie'].onsubmit = function () {
+        if(!isValidLocationName(document.forms['formAddLocatie']['buildingName'].value)){
+            $('#errMsgInsertBuilding').text('Gebouwnaam is onjuist.');
+            return false;
+        }
+        if(!isValidLocationName(document.forms['formAddLocatie']['streetName'].value)){
+            $('#errMsgInsertBuilding').text('Straatnaam is onjuist.');
+            return false;
+        }
+        if(!isValidSmallInt(document.forms['formAddLocatie']['houseNo'].value)){
+            $('#errMsgInsertBuilding').text('Huisnummer is onjuist.');
+            return false;
+        }
+        if(!isValidPostalCode(document.forms['formAddLocatie']['postalCode'].value)){
+            $('#errMsgInsertBuilding').text('Postcode is onjuist.');
+            return false;
+        }else{
+            form.submit();
+        }
+    }
 	
 	document.forms['formUpdateZalen'].onsubmit = function() {
 		
@@ -97,26 +129,10 @@ $(document).ready(function () {
             alert(request.responseText);
         }});
 	})
-	$("[name=buttonDeleteLocatie]").on("click", function(event) {
-		var dataArray = locationTable.rows(".selected");
-		var result = [];
-		for(var i = 0; i < dataArray.data().length; i++) {
-			result.push(dataArray.data()[i][0]);
-		}
-		$.ajax({
-			url: 'manage.php#Locatie',
-			type: 'POST',
-			data: {
-				selectedBuildingValues: result
-			},
-			success: function(data) {
-				
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
-			}
-		})
-	})
+
+	$("[name=buttonDeleteLocatie]").on("click", function(){
+		alert("U kunt vanaf hier geen gebouw verwijderen.");
+	});
 });
 
 
@@ -145,9 +161,13 @@ function getRooms() {
 
 function refreshRoom(rooms) {
 	roomTable.rows().remove().draw(false);
-	
+	document.forms['formUpdateLocatie']['LocationName'].value = rooms[0]['LocationName'];
+	document.forms['formUpdateLocatie']['cityName'].value = rooms[0]['City'];
+
 	for(var i = 0;i<rooms.length;i++) {
-		roomTable.row.add([rooms[i]["RName"],rooms[i]["Description"],rooms[i]["MaxNumberOfParticipants"]]);
+        if(rooms[i]["RName"] != null){
+		  roomTable.row.add([rooms[i]["RName"],rooms[i]["Description"],rooms[i]["MaxNumberOfParticipants"]]);
+        }
 	}
 	roomTable.row().draw();
 }
@@ -172,8 +192,10 @@ function createRoom() {
 				roomCapacity: roomCapacity
 			},
 			success: function (data) {
+				console.log(data);
 				if (data != null && data != '' &&  /\S/.test(data)) {
-					$("#errMsgCreateRoom").text(data);
+					data = JSON.parse(data);
+					document.getElementById('errMsgCreateRoom').innerHTML = '*' + data;
 				}
 				else {
 					$("#errMsgCreateRoom").text("");
@@ -212,6 +234,8 @@ function getRoomInfo() {
 }
 
 function refreshEditRoom(roomInfo) {
+	document.forms['formUpdateZalen']['LocationName'].value = roomInfo[0]['LocationName'];
+	document.forms['formUpdateZalen']['cityName'].value = roomInfo[0]['City'];
 	document.forms['formUpdateZalen']['BName'].value = roomInfo[0]['BName'];
 	document.forms['formUpdateZalen']['roomName'].value = roomInfo[0]['RName'];
 	document.forms['formUpdateZalen']['roomDescription'].value = roomInfo[0]['Description'];
@@ -239,7 +263,8 @@ function editRoom() {
 			},
 			success: function (data) {
 				if (data != null && data != '' &&  /\S/.test(data)) {
-					$("#errMsgUpdateRoom").text(data);
+					data = JSON.parse(data);
+					document.getElementById('errMsgUpdateRoom').innerHTML = '*' + data;
 				}
 				else {
 					$("#errMsgUpdateRoom").text("");
@@ -274,7 +299,13 @@ function deleteRooms() {
 					roomName: selectedRows.data()[i][0]			
 				},
 				success: function (data) {
-					
+					console.log(data);
+					if (data != null && data != '' &&  /\S/.test(data)) {
+						data = JSON.parse(data);
+						document.getElementById('errMsgDeleteRoom').innerHTML = '*' + data;
+					}else{
+						selectedRows.remove().draw(false);
+					}
 				},
 				error: function (request, status, error) {
 					alert(request.responseText);
@@ -282,7 +313,7 @@ function deleteRooms() {
 			});
 		}
 		
-		selectedRows.remove().draw(false);
+
 	}
 }
 

@@ -13,14 +13,14 @@ $(document).ready(function () {
     subjectTableUpdate = $('#subjectListBoxUpdate').DataTable( {
         "sScrollY": "500px",
         "bPaginate": false,
-        "bInfo": false
+        "bInfo": false,
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
+        }
     });
 
-
-
-
 //Edit
-    document.forms['formAddSubjectFromEdit']['Bewerken'].onclick = submitAddSubjectEdit;
     document.forms['formUpdateCongress']['updateCongress'].onclick = isValidInput;
 
     //Edit
@@ -45,7 +45,7 @@ function updateCongressInfo(congressName, congressStartDate, congressEndDate, co
     document.forms["formUpdateCongress"]["congressName"].value = congressName;
     document.forms["formUpdateCongress"]["congressStartDate"].value = congressStartDate;
     document.forms["formUpdateCongress"]["congressEndDate"].value = congressEndDate;
-    document.forms["formUpdateCongress"]["congressPrice"].value = congressPrice;
+    document.forms["formUpdateCongress"]["congressPrice"].value = parseInt(congressPrice).toFixed(2);
 
     if (congressPublic == 0) {
         document.forms["formUpdateCongress"]["congressPublic"].value = "Nee";
@@ -60,7 +60,9 @@ function updateCongressInfo(congressName, congressStartDate, congressEndDate, co
     for (var key in congressSubjects){
         var obj = congressSubjects[key];
         arraySubjectsOld.push(obj.Subject);
-        $("#subjectListBoxUpdate td:contains(" + obj.Subject + ")").parent('tr').addClass("selected");
+
+
+        $("#subjectListBoxUpdate").find('[name="' + obj.Subject + '"]').parent().addClass('selected');
     }
 
     oldCongressSubjects = arraySubjectsOld;
@@ -94,7 +96,6 @@ function onUpdateCongress() {
 
         },
         success: function (data) {
-
             if (data != null && data != '' &&  /\S/.test(data)) {
                 data = JSON.parse(data);
                 document.getElementById('errMsgUpdateCongress').innerHTML = '*' + data['err'];
@@ -130,14 +131,6 @@ function getSelectedSubjects(){
     return array;
 }
 
-//Edit
-function submitAddSubjectEdit() {
-    $('#popUpAddSubjectFromEdit .closePopUp').click();
-    var newSubject = document.forms['formAddSubjectFromEdit']['subjectName'].value;
-    console.log([newSubject]);
-    subjectTableUpdate.row.add([newSubject]).draw(true).nodes().to$().addClass('selected');
-}
-
 
 function getCongressInfo(){
         $.ajax({
@@ -168,20 +161,23 @@ function getCongressInfo(){
 function isValidInput(){
     var form = document.forms["formUpdateCongress"];
     if (!isValidCongressName(form['congressName'].value)) {
-        alert('Congresnaam is niet geldig');
+        $("#errMsgUpdateCongress").text('Congresnaam is niet geldig');
         return;
     }
     else if (!isValidDate(form['congressStartDate'].value)) {
-        alert('Startdatum is niet geldig');
+        $("#errMsgUpdateCongress").text('Startdatum is niet geldig');
         return;
     }
     else if (!isValidDate(form['congressEndDate'].value)) {
-        alert('Einddatum is niet geldig');
+        $("#errMsgUpdateCongress").text('Einddatum is niet geldig');
         return;
     }
     else if (!isValidPrice(form['congressPrice'].value)) {
-        alert('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
+        $("#errMsgUpdateCongress").text('Prijs is niet geldig. Let op een prijs moet met een punt ingevuld worden niet met een komma.');
         return;
+    }
+    else if (form['congressStartDate'].value > form['congressEndDate'].value){
+        $("#errMsgUpdateCongress").text('Eind datum mag niet voor begin datum liggen.');
     }
     else {
         onUpdateCongress();

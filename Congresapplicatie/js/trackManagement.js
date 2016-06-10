@@ -1,10 +1,11 @@
 var oldTrackName,
     oldTrackDescription,
-    trackNo;
+    trackNo,
+    tableTracks;
 
 $(document).ready(function () {
 
-    table = $('#TracksListBox').DataTable( {
+    tableTracks = $('#TracksListBox').DataTable( {
         "sScrollY": "500px",
         "bPaginate": false,
         "bInfo": false,
@@ -14,17 +15,10 @@ $(document).ready(function () {
                 "visible": false,
                 "searchable": false
             }
-        ]
-    });
-
-    $('#TracksListBox tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
-        } else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
+        ],
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
         }
     });
 
@@ -41,7 +35,7 @@ $(document).ready(function () {
 
     if(document.forms["formAddTracks"]) {
         document.forms["formAddTracks"].onsubmit = function() {
-            if(!isValidName(document.forms["formAddTracks"]["trackName"].value)) {
+            if(!isValidLocationName(document.forms["formAddTracks"]["trackName"].value)) {
                 $("#errMsgInsertTrack").text("Tracknaam is onjuist.");
                 return false;
             }
@@ -51,7 +45,7 @@ $(document).ready(function () {
             }
             return true;
         }
-    }
+    };
 
     if(document.forms["formUpdateTracks"]) {
         document.forms["formUpdateTracks"].onsubmit = function() {
@@ -72,7 +66,7 @@ $(document).ready(function () {
 
 
 function deleteTrack() {
-    var selectedRow = table.row('.selected');
+    var selectedRow = tableTracks.row('.selected');
     if (selectedRow.data()) {
         if (confirm("Weet u zeker dat u deze rij wilt verwijderen?")) {
             $.ajax({
@@ -94,7 +88,7 @@ function deleteTrack() {
 }
 
 function getTrackInfo(){
-    var selectedRow = table.row('.selected');
+    var selectedRow = tableTracks.row('.selected');
     trackNo = selectedRow.data()[0];
     $.ajax({
         url: window.location.href,

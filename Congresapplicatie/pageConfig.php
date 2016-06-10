@@ -1,31 +1,37 @@
 <?php
-    require_once('connectDatabase.php');
-	require_once('database.php');
+	function topLayout($pageName,$css,$javaScript) {
+        require_once('connectDatabasePublic.php');
+        require_once('database.php');
+        global $server, $databaseName, $uid, $password;
+        
+        if(isset($_GET['congressNo'])){
+            $_SESSION['congressNo'] = $_GET['congressNo'];
+        }
 
-    if(isset($_GET['congressNo'])){
-        $_SESSION['congressNo'] = $_GET['congressNo'];
-    }
-
-    if (isset($_SESSION['congressNo'])) {
-        $databaseHeader = new Database($server, $databaseName, $uid, $password);
         if (isset($_SESSION['congressNo'])) {
-            $sqlBanner = 'SELECT banner
-                      FROM Congress
-                      WHERE CongressNo = ?';
-            $bannerPath = '';
-            $param = array($_SESSION['congressNo']);
-            $result = $databaseHeader->sendQuery($sqlBanner, $param);
-            if ($result) {
-                if ($banner = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
-                    $bannerPath = $banner['banner'];
+            $databaseHeader = new Database($server, $databaseName, $uid, $password);
+            if (isset($_SESSION['congressNo'])) {
+                $sqlBanner = 'SELECT banner
+                          FROM Congress
+                          WHERE CongressNo = ?';
+                $bannerPath = '';
+                $param = array($_SESSION['congressNo']);
+                $result = $databaseHeader->sendQuery($sqlBanner, $param);
+                if ($result) {
+                    if ($banner = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                        $bannerPath = $banner['banner'];
+                    }
                 }
             }
         }
-    }
-	function topLayout($pageName,$css,$javaScript) {
-    global $bannerPath;
-?>
 
+        if (isset($_SESSION['preview']) && isset($_SESSION['congressNo'])){
+            if ($_SESSION['preview'] != $_SESSION['congressNo']){
+                die("U kunt deze pagina niet bezoeken!");
+            }
+        }
+        $bannerPath;
+?>
     <head>
         <title>
             <?php echo $pageName; ?>
@@ -60,9 +66,34 @@
 	
 	
 	function topLayoutManagement($pageName,$css,$javaScript) {
-        global $bannerPath;
-		?>
+        global $server, $databaseName, $uid, $password;
+        require_once('admin/connectDatabaseManage.php');
+        require_once('database.php');
 
+        if(isset($_GET['congressNo'])){
+            $_SESSION['congressNo'] = $_GET['congressNo'];
+        }
+
+        if (isset($_SESSION['congressNo'])) {
+            $databaseHeader = new Database($server, $databaseName, $uid, $password);
+            if (isset($_SESSION['congressNo'])) {
+                $sqlBanner = 'SELECT banner
+                          FROM Congress
+                          WHERE CongressNo = ?';
+                $bannerPath = '';
+                $param = array($_SESSION['congressNo']);
+                $result = $databaseHeader->sendQuery($sqlBanner, $param);
+                if ($result) {
+                    if ($banner = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                        $bannerPath = $banner['banner'];
+                    }
+                }
+            }
+        }
+        
+        $bannerPath;
+		?>
+        <html lang='nl'>
             <head>
                 <title>
                     <?php echo $pageName; ?>
@@ -73,7 +104,7 @@
                 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
                 <link rel="stylesheet" href="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.css">
                 <link rel="stylesheet" href="../css/dataTables/css/dataTables.bootstrap.min.css">
-                <link rel="stylesheet" href="../css/management.css">
+                <link rel="stylesheet" href="../css/management.css?version=1">
                 <?php echo $css; ?>
                     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
                     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -81,8 +112,6 @@
                     <script src="../js/headerfunctions.js"></script>
                     <script src="../js/regex.js"></script>
                     <script src="../js/DataSwap.js"></script>
-                    <script src="../js/evenement.js"></script>
-                    <script src="../js/management.js"></script>
                     <script src="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.js"></script>
                     <script src="../js/dataTables/js/jquery.dataTables.min.js"></script>
                     <script src="../js/dataTables/js/dataTables.bootstrap.min.js"></script>
@@ -91,6 +120,8 @@
 
 
                     <?php echo $javaScript; ?>
+                    
+                    <script src="../js/management.js"></script>
             </head>
 
             <body>
@@ -103,7 +134,7 @@
                         <?php
                             }else{
                         ?>
-                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="../img/logo%20template.PNG"  alt="logo">
+                                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="../img/defaultBanner.png"  alt="logo">
                         <?php
                             }
                         ?>

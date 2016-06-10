@@ -1,4 +1,11 @@
 CREATE PROC spUpdateLocation 
+
+/*	Isolation level: read committed
+
+	Er wordt een error opgegooid bij de eerste check en anders wordt er een update statement gedaan.
+	Er kan hier niets misgaan op het gebied van concurrency.
+*/
+
 	@locationName D_NAME, 
 	@city D_LOCATION, 
 	@oldLocationName D_NAME,

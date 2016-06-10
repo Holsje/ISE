@@ -29,6 +29,7 @@
 				echo '<li><a href="#tabs-Tracks">Tracks</a></li>';
 				echo '<li><a href="#tabs-Events">Evenementen</a></li>';
 				echo '<li><a href="#tabs-Speakers">Sprekers</a></li>';
+				echo '<li><a href="#tabs-Visitors">Bezoekers</a></li>';
 			  echo '</ul>';
 			  echo '<div id="tabs-CongressDetails">';
 				echo '<div class="tabs-content">';
@@ -55,8 +56,14 @@
 					include("manageSpeakers.php");
 				echo '</div>';
 			  echo '</div>';
+			  echo '<div id="tabs-Visitors">';
+				echo '<div class="tabs-content">';
+					include("manageVisitors.php");
+				echo '</div>';
+			  echo '</div>';
 			echo '</div>';
 		}
+
 
 
 	}

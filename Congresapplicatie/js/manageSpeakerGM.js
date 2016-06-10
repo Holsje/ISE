@@ -1,7 +1,7 @@
- 	var table;
+ 	var tableSpeakerGM;
 $(document).ready(function () {	
 	
-	table = $('#ListBox').DataTable( {
+	tableSpeakerGM = $('#ListBox').DataTable( {
         "sScrollY": "500px",
         "bPaginate": false,
         "bInfo": false,
@@ -9,20 +9,12 @@ $(document).ready(function () {
 				"targets": [0],
 				"visible": false,
 				"searchable": false			
-			}]
-	});
-	
-	
-	 $('.singleSelect.dataTable tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
-        } else {
-            $('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
+			}],
+        "language": {
+            "emptyTable": "Geen data beschikbaar",
+            "sSearch": "Zoeken:"
         }
-    });
+	});
 	
 	
 	document.forms["formCreate"]["buttonEdit"].onclick = getSpeakerInfo;
@@ -83,7 +75,7 @@ $(document).ready(function () {
 
 
 function getSpeakerInfo() {
-	var selectedRow = table.row('.selected');
+	var selectedRow = tableSpeakerGM.row('.selected');
     if(selectedRow.data()) {
         $.ajax({
             url: window.location.href,
@@ -129,7 +121,7 @@ function updateSpeakerInfo(){
 
 function deleteSpeakers() {
 	if (confirm("Weet u zeker dat u deze rij wilt verwijderen?")) {
-		var selectedRows = table.rows(".selected");
+		var selectedRows = tableSpeakerGM.rows(".selected");
 		
 		for(var i = 0;i<selectedRows.data().length;i++) {
 			$.ajax({

@@ -3,7 +3,7 @@
 	sessionHandlerWeb(true);
 	require_once('pageConfig.php');	
 	require_once('database.php');
-	require_once('connectDatabase.php');
+	require_once('connectDatabasePublic.php');
 	require_once('confirm_Class.php');
 	global $server, $databaseName, $uid, $password;
 	$dataBase = new Database($server,$databaseName,$uid,$password);

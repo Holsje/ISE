@@ -1,7 +1,7 @@
 <?php
 require_once('../database.php');
 require_once('../ScreenCreator/CreateScreen.php');
-require_once('../connectDatabase.php');
+require_once('connectDatabaseManage.php');
 require_once('../pageConfig.php');
 
 
@@ -100,7 +100,11 @@ require_once('../pageConfig.php');
 			return $this->createScreen;
 		}
 
-
+        public function createAddSubjectScreen(){
+            $buttonAddSubjectObject = new Button("Toevoegen","","ToevoegenSubject","form-control col-md-4 pull-right btn btn-default", true, true,'#SubjectListBoxAdd');
+            $subjectNameObject = new Text(null,"Onderwerp","subjectName",null, true, true, false);
+            $this->createScreen->createPopup(array($subjectNameObject,$buttonAddSubjectObject),"Onderwerp toevoegen","SubjectListBoxAdd",null, true, true,"");
+        }
 
     }
 ?>

@@ -8,25 +8,8 @@ $(document).ready(function () {
     $('#LocatieGMListBox_paginate').css('display', 'none');
     $('#LocatieGMListBox_info').css('display', 'none');
 	
-	$('#LocatieGMListBox tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            $('.onSelected').prop('disabled', true);
-        } else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            $('.onSelected').prop('disabled', false);
-        }
-    });
 	
-	$('#LocatieGMListBox tbody').on("click", "tr", function(event) {
-		if (locationGMTable.rows(".selected").data().length > 1) {
-			$("[name=buttonEditLocatieGM]").prop("disabled", true);
-		}
-		else if (locationGMTable.rows(".selected").data().length == 1) {
-			$("[name=buttonEditLocatieGM]").prop("disabled", false);
-		}
-	})
+
 	$("[name=buttonEditLocatieGM]").on("click", function(event) {
 		var dataArray = locationGMTable.rows(".selected");
 		var result = [];
@@ -65,13 +48,18 @@ $(document).ready(function () {
 					selectedLocationValues: result
 				},
 				success: function(data) {
-					console.log(data);
+					if (data != null && data != '' &&  /\S/.test(data)) {
+						data = JSON.parse(data);
+						document.getElementById('errMsgDeleteLocation').innerHTML = '*' + data['err'];
+					}else{
+						dataArray.remove().draw(false);
+					}
 				},
 				error: function (request, status, error) {
 					alert(request.responseText);
 				}
 			})
-			dataArray.remove().draw(false);
+
 		}
 	})
 	document.forms['formAddLocatieGM'].onsubmit = isValidInput;

@@ -14,16 +14,33 @@ class manageLocationGeneralManager extends Management {
 	
 	public function createManageLocationScreenGM() {
 		echo '<div class="locationContent">';
+
+		$errMsg2 = new Span(null,null,'errMsgDeleteLocation','errorMsg',true,true,null);
+		echo $errMsg2->getObjectCode();
 		$this->createManagementScreen($this->columnList, $this->allLocations, "LocatieGM", null);
 		echo '</div>';
 	}
 	
 	public function createCreateLocationPopUp() {
-		$errMsg = new Span(null, null, 'errMsgCreateLocation', 'errorMsg', true, true, null);
-		$locationNameText = new Text(null, "Locatienaam", "locationNameText", null, true, true, true);
-		$locationCityText = new Text(null, "Plaats", "locationCityText", null, true, true, true);
-		$submitButton = new Submit("Opslaan", null, "saveLocationGMButton", null, true, true);
-		$this->getCreateScreen()->createPopUp(array($errMsg, $locationNameText, $locationCityText, $submitButton),"Locatie toevoegen","AddLocatieGM",null,null,null, "#LocatieGM");
+		$submitButton = new Submit("Toevoegen", null, "saveLocationGMButton", null, true, true);
+
+		if ($_SESSION['errorMsgInsertLocation']){
+			$errMsg = new Span($_SESSION['errorMsgInsertLocation'], null, 'errMsgCreateLocation', 'errorMsg', true, true, null);
+			$locationNameText = new Text($_POST['locationNameText'], "Locatienaam", "locationNameText", null, true, true, true);
+			$locationCityText = new Text($_POST['locationCityText'], "Plaats", "locationCityText", null, true, true, true);
+			$this->getCreateScreen()->createPopUp(array($errMsg, $locationNameText, $locationCityText, $submitButton),"Locatie toevoegen","AddLocatieGM",null,null,'show', "#LocatieGM");
+		}
+		else{
+			$errMsg = new Span(null, null, 'errMsgCreateLocation', 'errorMsg', true, true, null);
+			$locationNameText = new Text(null, "Locatienaam", "locationNameText", null, true, true, true);
+			$locationCityText = new Text(null, "Plaats", "locationCityText", null, true, true, true);
+			$this->getCreateScreen()->createPopUp(array($errMsg, $locationNameText, $locationCityText, $submitButton),"Locatie toevoegen","AddLocatieGM",null,null,null, "#LocatieGM");
+		}
+
+
+
+
+
 	}
 	
 	public function createDeleteLocationPopUp() {

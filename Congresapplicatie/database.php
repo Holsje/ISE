@@ -83,6 +83,7 @@ class Database
             {
                 return false;
             }
+            
         }
 
         $result = sqlsrv_query($this->conn, $sql, $param);
@@ -91,7 +92,7 @@ class Database
         {
             return $this->getError();
         }
-
+        
         return $result;
     }
 
@@ -107,6 +108,9 @@ class Database
 				if($error['code'] == 2627) {
 					return 'Deze waarden komen al voor in de database';
 				}
+                else if ($error['code'] == 547){
+                    return 'Deze waarde kan niet verwijderd worden, de waarde wordt nog ergens anders in de database gebruikt.';
+                }
                 $err=substr($error['message'],54,strlen($error['message'])-54).'<br>';
             }
         }

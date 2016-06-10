@@ -2,7 +2,7 @@
     require_once('pageConfig.php');
     require_once('database.php');
     require_once('ScreenCreator/CreateScreen.php');
-    require_once('connectDatabase.php');
+    require_once('connectDatabasePublic.php');
 
     class Index{
         protected $createScreen;
@@ -11,7 +11,7 @@
         public function __construct(){
             global $server, $databaseName, $uid, $password,$databaseHeader;
             $this->createScreen = new CreateScreen();
-            $this->database = $databaseHeader;
+            $this->database = new Database($server,$databaseName,$uid,$password);
         }
         
         public function getEventInfo($eventNo,$congresNo){
@@ -177,6 +177,26 @@
             $image = new Img('','','thumbnail','col-md-3',true,false);
             $spanDescription = new Span('','Over spreker','speakerDescription','col-md-8 col-sm-6 col-xs-12',false,true);
             $this->createScreen->createPopup(array($image,$spanDescription),"","speaker","smallPop",'','','');
+        }
+
+        public function congressPublic($congressNo){
+            $sqlStmt = "SELECT [Public] FROM Congress WHERE CongressNo = ?";
+            $params = array($congressNo);
+
+            $result = $this->database->sendQuery($sqlStmt, $params);
+
+            if ($result){
+                if ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+                    if ($row['Public'] == 1){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+            }else{
+                return false;
+            }
         }
     }
 ?>

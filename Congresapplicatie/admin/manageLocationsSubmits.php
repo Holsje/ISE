@@ -5,6 +5,7 @@
 		$_SESSION['selectedLocation'] = $_POST['SelectedValue'];
 		die();
 	}
+	/*
 	if (isset($_POST['confirmButton'])) {
 		$queryDeleteSelection = "DELETE FROM Building WHERE ";
 		$paramsDeleteSelection = array();
@@ -20,7 +21,7 @@
 			array_push($paramsDeleteSelection, $_SESSION['currentLocationCity']);
 		}
 		$result = $database->sendQuery($queryDeleteSelection, $paramsDeleteSelection);
-	}
+	}*/
 	
 	if (isset($_POST['selectedBuildingValues'])) {
 		$_SESSION['selectedBuildingValues'] = $_POST['selectedBuildingValues'];
@@ -37,6 +38,9 @@
 										 $_POST['postalCode']);
 
 		$result = $database->sendQuery($queryInsertNewBuilding, $paramsInsertNewBuilding);
+		if (is_string($result)){
+			$_SESSION['errorMsgInsertBuilding'] = $result;
+		}
 		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 	
@@ -48,16 +52,25 @@
 			$congress['city'] = $row['City'];
 		}
 		if (!is_string($result)) {
-			$queryUpdateCongressLocation = "UPDATE Congress SET LocationName = ?, City = ? WHERE LocationName = ? AND City = ? AND CongressNo = ?";
-			$paramsUpdateCongressLocation = array($_SESSION['currentLocationName'], $_SESSION['currentLocationCity'], $congress['locationName'], $congress['city'], $manage->getCongressNo());
+
+			$queryUpdateCongressLocation = "UPDATE Congress SET LocationName = ?, City = ? WHERE CongressNo = ?";
+
+			$paramsUpdateCongressLocation = array($_SESSION['currentLocationName'], $_SESSION['currentLocationCity'], $manage->getCongressNo());
+			var_dump($queryUpdateCongressLocation);
+			var_dump($paramsUpdateCongressLocation);
 			$result = $database->sendQuery($queryUpdateCongressLocation, $paramsUpdateCongressLocation);
+			if (is_string($result)){
+				$_SESSION['errorMsgLinkToCongress'] = $result;
+			}
 		}
 	}
 	
 	if(isset($_POST['getRooms'])) {
 		if($_POST['getRooms'] == 'rooms') {			
-			$queryRoomInfo = "SELECT BName, RName, Description, MaxNumberOfParticipants " .
-							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ?";
+			$queryRoomInfo = "  SELECT B.LocationName, B.City, B.BName, RName, Description, MaxNumberOfParticipants 
+                                FROM ROOM R RIGHT JOIN Building B 
+                                    ON R.BName = B.BName AND R.LocationName = B.LocationName AND R.City = B.City 
+                                WHERE B.LocationName = ? AND B.City = ? AND B.BName = ?";
 			$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['building']);
 			
 			$result = $database->sendQuery($queryRoomInfo, $params);
@@ -82,12 +95,16 @@
 			if($result) {
 				echo json_encode($result);
 			}
+			else if (is_string($result)){
+				$err['err'] = $result;
+				echo json_encode($err);
+			}
 			die();
 		}
 	}
 	
 	if(isset($_POST['getRoomInfo'])){
-		$queryRoomInfo = "SELECT BName, RName, Description, MaxNumberOfParticipants " .
+		$queryRoomInfo = "SELECT LocationName, City, BName, RName, Description, MaxNumberOfParticipants " .
 							"FROM ROOM WHERE LocationName = ? AND City = ? AND BName = ? AND RName = ?";
 		$params = array($_SESSION['currentLocationName'],$_SESSION['currentLocationCity'],$_POST['building'],$_POST['RName']);
 		
@@ -115,7 +132,11 @@
 		
 		if($result) {
 			echo json_encode($result);
-		}		
+		}
+		else if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();	
 	}
 	
@@ -127,7 +148,11 @@
 		
 		if($result) {
 			echo json_encode($result);
-		}		
+		}
+		else if (is_string($result)){
+			$err['err'] = $result;
+			echo json_encode($err);
+		}
 		die();
 	}
 	

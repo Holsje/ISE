@@ -43,6 +43,16 @@
             }
         }
 
+        public function getName($mailAddress){
+            $result = parent::getDatabase()->sendQuery("Select FirstName, LastName FROM Person WHERE MailAddress=?", array($mailAddress));
+            if ($result){
+                if ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+                    return $row['FirstName'] . ' ' . $row['LastName'];
+                }
+            }
+
+        }
+
         public function checkUser($username){
             $result = parent::getDatabase()->sendQuery("SELECT TypeName FROM Person P INNER JOIN PersonTypeOfPerson PTOP ON P.PersonNo = PTOP.PersonNo WHERE MailAddress = ?", array($username));
             if ($result){

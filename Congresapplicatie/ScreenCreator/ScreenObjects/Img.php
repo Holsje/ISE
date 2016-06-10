@@ -11,7 +11,7 @@
 			if($this->classes != null) {
 				$string.= $this->classes;
 			}
-			$string .= '" alt="empty">';
+			$string .= '" >';
             return $string;
         }
     }
