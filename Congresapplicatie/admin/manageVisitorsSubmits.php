@@ -14,7 +14,7 @@ $manageVisitors = new ManageVisitors();
         if ($_POST['visitorHasPaid'] == "Ja"){
             $hasPaid = 1;
         }
-        else{
+        else if ($_POST['visitorHasPaid'] == "Nee"){
             $hasPaid = 0;
         }
         $params = array($hasPaid, $_POST['visitorPersonNo'], $_SESSION['congressNo']);
