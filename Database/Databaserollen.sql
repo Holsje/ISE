@@ -326,6 +326,49 @@ GO
 	REVOKE ALTER ON PersonTypeOfPerson TO [Web]
 	GO
 
+/* Table Visitor */
+	
+	/* Manager */
+	
+	GRANT SELECT ON Visitor TO [Web]
+	GO
+
+	REVOKE UPDATE ON Visitor TO [Web]
+	GO
+
+	REVOKE INSERT ON Visitor TO [Web]
+	GO
+
+	REVOKE DELETE ON Visitor TO [Web]
+	GO
+
+	REVOKE REFERENCES ON Visitor TO [Web]
+	GO
+
+	REVOKE ALTER ON Visitor TO [Web]
+	GO
+
+	/* Website */
+
+	GRANT SELECT ON Visitor TO [Web]
+	GO
+
+	REVOKE UPDATE ON Visitor TO [Web]
+	GO
+
+	GRANT INSERT ON Visitor TO [Web]
+	GO
+
+	REVOKE DELETE ON Visitor TO [Web]
+	GO
+
+	REVOKE REFERENCES ON Visitor TO [Web]
+	GO
+
+	REVOKE ALTER ON Visitor TO [Web]
+	GO
+
+
 /* Table VisitorOfCongress */
 	
 	/* Manager */
