@@ -22,11 +22,11 @@
 
     if (!isset($_POST['previewCongress'])){
         if (!$indexClass->congressPublic($_SESSION['congressNo']) && !isset($_SESSION['preview'])){
-            die("Dit congres bestaat niet of is nog niet publiek gemaakt!");
+            die("U kunt deze pagina niet bezoeken!");
         }
     }
     else{
-        $_SESSION['preview'] = 'preview';
+        $_SESSION['preview'] = $_SESSION['congressNo'];
     }
 
     if (isset($_POST['quitPreview'])){
