@@ -20,4 +20,18 @@
         die();
     }
 
+    if (!isset($_POST['previewCongress'])){
+        if (!$indexClass->congressPublic($_SESSION['congressNo']) && !isset($_SESSION['preview'])){
+            die("U kunt deze pagina niet bezoeken!");
+        }
+    }
+    else{
+        $_SESSION['preview'] = $_SESSION['congressNo'];
+    }
+
+    if (isset($_POST['quitPreview'])){
+        unset($_SESSION['preview']);
+        header('Location: admin/manage.php?congressNo='. $_SESSION['congressNo']);
+    }
+
 ?>

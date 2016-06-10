@@ -15,9 +15,9 @@
                 setcookie('userWeb', '', 1);
             }
 			if (isset($_SESSION['pageCount'])) {
-				$congressNo = $_SESSION['congressNo'];
-				session_unset();
-				header('Location: index.php?congressNo=' . $congressNo);
+				unset($_SESSION['runningFormData']);
+				unset($_SESSION['pageCount']);
+				header('Location: index.php?congressNo=' . $_SESSION['congressNo']);
 			}
 			else {
 				header('Location: index.php?' . $_SERVER['QUERY_STRING']);

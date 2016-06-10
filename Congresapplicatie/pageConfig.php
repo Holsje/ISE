@@ -23,7 +23,13 @@
                     }
                 }
             }
-        }  
+        }
+
+        if (isset($_SESSION['preview']) && isset($_SESSION['congressNo'])){
+            if ($_SESSION['preview'] != $_SESSION['congressNo']){
+                die("U kunt deze pagina niet bezoeken!");
+            }
+        }
         $bannerPath;
 ?>
     <head>
