@@ -42,7 +42,7 @@
 				$this->tracksPerCarouselSlide = 3;
 			}
 			if (empty($this->congress[2]["DAYS"][$dayKey]["EVENTS"])) {
-				echo '<p class="noEventsText">Er zijn geen evenementen ingepland voor deze dag</p>';
+				echo '<p class="noEventsText">'. $_SESSION['translations']['noEventsOnDay'].'</p>';
 				return;
 			}
 			

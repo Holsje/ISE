@@ -23,9 +23,9 @@
                 <?php
                 }
                 else if (isset($_SESSION['userWeb'])){
-                    echo '<form method="post" class="logoutForm col-md-offset-9" action="'.$_SERVER['PHP_SELF'].'">';
-                    echo '<span class="welcomeText col-md-6">Welkom ' . $_SESSION['userWeb'] . '</span>';
-                    echo '<input type="submit" class="logout btn btn-default col-md-4" name="logout" value="Uitloggen">';
+                    echo '<form method="post" class="logoutForm col-md-offset-9" action="'.$_SERVER['PHP_SELF'].'?lang='. $_SESSION['lang'] .'">';
+                    echo '<span class="welcomeText col-md-6">'. $_SESSION['translations']['welcomeText'] . ' ' . $_SESSION['userWeb'] . '</span>';
+                    echo '<input type="submit" class="logout btn btn-default col-md-4" name="logout" value="'. $_SESSION['translations']['logout'] .'">';
                     echo '</form>';
                 }
             

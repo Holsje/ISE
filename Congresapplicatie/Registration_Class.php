@@ -16,13 +16,13 @@
         }
 		
 		public function createRegistrationScreen() {
-			$firstNameObject = new Text(null, "Voornaam", "firstName", null, true, true, true);
-			$lastNameObject = new Text(null, "Achternaam", "lastName", null, true, true, true);
-			$emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
-			$phoneNum = new Text(null, "Telefoonnummer", "phoneNum", null, true, true, true);
-			$password = new Password(null, "Wachtwoord", "password", null, true, true);
-			$submit = new Button("Registreer", null, "registrationSubmit", "btn btn-default pull-right", true, true, null);
-			$this->screenCreator->createPopUp(array($firstNameObject, $lastNameObject, $emailObject, $phoneNum, $password, $submit), "Registreren", "Registration",'smallPop','','','');
+			$firstNameObject = new Text(null, $_SESSION['translations']['firstNameRegister'], "firstName", null, true, true, true);
+			$lastNameObject = new Text(null, $_SESSION['translations']['lastNameRegister'], "lastName", null, true, true, true);
+			$emailObject = new Text(null, $_SESSION['translations']['emailLabel'], "mailAddress", null, true, true, true);
+			$phoneNum = new Text(null, $_SESSION['translations']['phoneNumberRegister'], "phoneNum", null, true, true, true);
+			$password = new Password(null, $_SESSION['translations']['passwordLabel'], "password", null, true, true);
+			$submit = new Button($_SESSION['translations']['sendRegister'], null, "registrationSubmit", "btn btn-default pull-right", true, true, null);
+			$this->screenCreator->createPopUp(array($firstNameObject, $lastNameObject, $emailObject, $phoneNum, $password, $submit), $_SESSION['translations']['registerTitle'], "Registration",'smallPop','','','');
 		}
 		
 		public function addRecord($storedProcName, $params) {
