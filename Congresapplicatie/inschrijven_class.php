@@ -42,7 +42,7 @@
 				$this->tracksPerCarouselSlide = 3;
 			}
 			if (empty($this->congress[2]["DAYS"][$dayKey]["EVENTS"])) {
-				echo '<p class="noEventsText">Er zijn geen evenementen ingepland voor deze dag</p>';
+				echo '<p class="noEventsText">'. $_SESSION['translations']['noEventsOnDay'].'</p>';
 				return;
 			}
 			
@@ -375,20 +375,20 @@
 		public function createNextDayButton() {
 			if ($_SESSION['pageCount'] + 1 >= sizeof($this->daysOfCongress)) {
 				if (empty($_SESSION['runningFormData'])) {
-					echo '<button value="confirmation" disabled type="button" name="signUpForCongressButton" class="btn btn-default signUpForCongressButton popUpButton" data-file="#popUpLogin">Inschrijven</button>';
+					echo '<button value="confirmation" disabled type="button" name="signUpForCongressButton" class="btn btn-default signUpForCongressButton popUpButton" data-file="#popUpLogin">'.$_SESSION['translations']['signUpForCongressButton'].'</button>';
 				} 
 				else {
-					echo '<button value="confirmation" type="button" name="signUpForCongressButton" class="btn btn-default signUpForCongressButton popUpButton" data-file="#popUpLogin">Inschrijven</button>';
+					echo '<button value="confirmation" type="button" name="signUpForCongressButton" class="btn btn-default signUpForCongressButton popUpButton" data-file="#popUpLogin">'.$_SESSION['translations']['signUpForCongressButton'].'</button>';
 				}
 			}
 			else {
-				echo '<button value="nextDay" type="submit" name="nextDayButton" class="btn btn-default nextDayButton">Volgende dag</button>';
+				echo '<button value="nextDay" type="submit" name="nextDayButton" class="btn btn-default nextDayButton">'.$_SESSION['translations']['nextDayButton'].'</button>';
 			}
 		}
 		
 		public function createPreviousDayButton() {
 			if ($_SESSION['pageCount'] > 0) {
-				echo '<button value="previous" type="submit" name="previousDayButton" class="btn btn-default previousDayButton">Vorige dag</button>';
+				echo '<button value="previous" type="submit" name="previousDayButton" class="btn btn-default previousDayButton">'.$_SESSION['translations']['previousDayButton'].'</button>';
 			}
 		}
 		
