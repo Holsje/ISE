@@ -164,7 +164,7 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
             if(isset($_POST['isCM'])){
                 $isCM = new CheckBox(null,'Congresbeheerder','isCM',null,false,true,true);
             }else{
-                $isCM = new CheckBox(null,'Congresbeheerder','isCM',null,false,true,false);
+                $isCM = new CheckBox(null,'Congresbeheerder','isCM',null,false,true,true);
             }
            
             if(isset($_SESSION['errMsgAddManager'])){

@@ -177,7 +177,6 @@ function getRooms() {
 				building: selectedBuilding
 			},
 			success: function (data) {
-				console.log(data);
 				data = JSON.parse(data);
 				document.forms['formUpdateBuildingGM']['LocationName'].value = data[0]['LocationName'];
 				document.forms['formUpdateBuildingGM']['cityName'].value = data[0]['City'];

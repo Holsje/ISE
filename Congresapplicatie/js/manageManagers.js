@@ -63,10 +63,20 @@ $(document).ready(function () {
             }
         }
     }
+    
+    $('#popUpUpdatemanageManagers .closePopup').on('click',function(){clearManagerInfo('formUpdatemanageManagers');});
+    
+    $('.checkBoxManager').change(function(event){
+        if($(event.target.parentElement).children('.checkBoxManager:checkbox:checked').length <= 0){
+            event.target.checked = true;
+        }
+    });
+    
+    
+    
     document.forms['formCreatemanageManagers']['buttonEditmanageManagers'].onclick = getManagerInfo;
     document.forms['formCreatemanageManagers']['buttonDeletemanageManagers'].onclick = deleteManager;
 });
-
 function getManagerInfo(){
     var data = managerTable.row('.selected').data();
     document.forms['formUpdatemanageManagers']['FirstName'].value = data[1];
@@ -89,6 +99,16 @@ function getManagerInfo(){
             document.forms['formUpdatemanageManagers']['isCM'].checked = false;
             break;
     }
+}
+
+function clearManagerInfo(formName){
+    document.forms[formName]['FirstName'].value = '';
+    document.forms[formName]['LastName'].value = '';
+    document.forms[formName]['mailAddress'].value = '';
+    document.forms[formName]['phoneNumber'].value = '';
+    document.forms[formName]['AanpassenManager'].value = '';
+    document.forms[formName]['isGM'].checked = false;
+    document.forms[formName]['isCM'].checked = true;
 }
 
 function deleteManager(){

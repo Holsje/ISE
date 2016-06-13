@@ -75,4 +75,23 @@
         $result = $manageCongress->getDatabase()->sendQuery($sqlStmt, $params);
         header("Refresh:0");
     }
+
+    if(isset($_POST['getManagerInfo'])){
+        $returnArray = array();
+        $returnArray['congress'] = $manageCongress->getManagersOfCongress();
+        $returnArray['all'] =  $manageCongress->getManagers();
+        echo json_encode($returnArray);
+        die();
+    }
+
+    if(isset($_POST['addManagerOfCongress'])){
+        foreach($_POST['deletingManagers'] as $personNo){
+            if($personNo == $_SESSION['personNo']){
+                echo 'err';
+                die();
+            }
+        }
+        $manageCongress->handleCongressManagerEdit();
+        die();
+    }
 ?>

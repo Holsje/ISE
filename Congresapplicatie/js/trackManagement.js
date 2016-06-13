@@ -77,7 +77,6 @@ function deleteTrack() {
                     trackNo: selectedRow.data()[0]
                 },
                 success: function(data){
-                    console.log(data);
                 }
             });
             selectedRow.remove().draw(false);
@@ -98,7 +97,6 @@ function getTrackInfo(){
             trackNo: trackNo
         },
         success: function (data) {
-            console.log(data);
             data = JSON.parse(data);
             oldTrackName = data['TName'];
             oldTrackDescription = data['Description'];
@@ -114,50 +112,3 @@ function updateTrackInfo(trackName, trackDescription){
     document.forms["formUpdateTracks"]["trackName"].value = trackName;
     document.forms["formUpdateTracks"]["trackDescription"].value = trackDescription;
 }
-
-
-
-
-/*function onUpdateTrack() {
-    $.ajax({
-        url: window.location.href,
-        type: 'POST',
-        data: {
-            editTrack: 'action',
-            trackNo: trackNo,
-            newTrackName: document.forms['formUpdateTracks']["trackName"].value,
-            newTrackDescription: document.forms['formUpdateTracks']["trackDescription"].value
-        },
-        success: function (data) {
-            if (data != null && data != '' &&  /\S/.test(data)) {
-                console.log(data);
-                data = JSON.parse(data);
-                document.getElementById('errMsgTrack').innerHTML = '*' + data['err'];
-            }
-            else{
-                $('#popUpUpdateTracks button')[0].click();
-                //location.reload();
-            }
-
-            if (data != null && data != '' &&  /\S/.test(data)) {
-                data = JSON.parse(data);
-                document.getElementById('errMsgTrack').innerHTML = '*' + data['err'];
-                var confirmBox = confirm(data['err'] + 'De pagina wordt opnieuw geladen met de nieuwe gegevens.');
-                if (confirmBox) {
-                    location.reload();
-                } else {
-                    oldTrackName = data['oldTrackName'];
-                    oldTrackDescription = data['oldTrackDescription'];
-                }
-            } else {
-                location.reload();
-            }
-
-
-
-        }
-
-    });
-
-}
- */

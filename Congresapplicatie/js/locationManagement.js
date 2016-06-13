@@ -192,7 +192,6 @@ function createRoom() {
 				roomCapacity: roomCapacity
 			},
 			success: function (data) {
-				console.log(data);
 				if (data != null && data != '' &&  /\S/.test(data)) {
 					data = JSON.parse(data);
 					document.getElementById('errMsgCreateRoom').innerHTML = '*' + data;
@@ -299,7 +298,6 @@ function deleteRooms() {
 					roomName: selectedRows.data()[i][0]			
 				},
 				success: function (data) {
-					console.log(data);
 					if (data != null && data != '' &&  /\S/.test(data)) {
 						data = JSON.parse(data);
 						document.getElementById('errMsgDeleteRoom').innerHTML = '*' + data;

@@ -69,7 +69,6 @@ function editRunningFormData() {
 			ajaxRequest: 'inschrijven'
 		},
 		success: function (data) {
-			console.log(data);
 			if (data == 'logged in') {
 				location.reload();
 			}
@@ -140,11 +139,6 @@ function getEventInfo(eventNo) {
     });
 }
 
-function createSpeakerElement(index) {
-    console.log(index);
-}
-var test;
-
 function speakerPopup(event) {
     $.ajax({
         url: 'index.php',
@@ -154,7 +148,6 @@ function speakerPopup(event) {
             personID: event.target.attributes.getNamedItem('id').value
         },
         success: function (data) {
-            console.log(data);
             data = JSON.parse(data);
             $('#popUpspeaker .popupTitle h1').html(data['FirstName'] + ' ' + data['LastName']);
             $('#thumbnail').attr('src', data['PicturePath']);
