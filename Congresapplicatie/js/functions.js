@@ -5,19 +5,23 @@ $(document).ready(function () {
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
         $("#wrapper").css("overflow", "hidden");
         $("body").css("overflow", "hidden");
-
+        $("body").css("position", "relative");
+        $("body").css("height", "100%");
     });
 
     $(".closePopup").on("click", function (event) {
-        eventTest = event;
+        $(".successMsg").empty()
+
         $(event.target.attributes.getNamedItem("data-file").value).fadeToggle();
         if(event.target.attributes.getNamedItem("data-file").value == '#popUpLogin'){
             window.location.href = window.location;
         }
-        if(document.getElementById(eventTest.target.attributes.getNamedItem('data-file').value.substring(1)).classList.contains('show')){
+
+        if(document.getElementById(event.target.attributes.getNamedItem('data-file').value.substring(1)).classList.contains('show')){
             $(event.target.attributes.getNamedItem("data-file").value).removeClass('show');
-            
+
         }
+
 
     });
     $(".first").on("click", function (event) {

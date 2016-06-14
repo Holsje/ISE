@@ -10,7 +10,7 @@
     $_SESSION['translations'] = $indexClass->getTranslations();
 	require_once('index_Submit.php');
 echo'<div id="wrapper">';
-    topLayout('Index','','');
+    topLayout('Index',null,null);
 
 ?>
     <div class="row">

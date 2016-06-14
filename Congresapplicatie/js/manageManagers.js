@@ -55,7 +55,7 @@ $(document).ready(function () {
                 $('#errMsgEditManager').text ('Mailadres is onjuist.');
                 return false;
             }
-            if(!isValidPassword(document.forms['formUpdatemanageManagers']['password'].value)){
+            if(!isValidPasswordNullable(document.forms['formUpdatemanageManagers']['password'].value)){
                 $('#errMsgEditManager').text ('Wachtwoord is onjuist.');
                 return false;
             }

@@ -90,3 +90,11 @@
 .previewObject{
     margin-top: 30px;
 }
+
+#errMsgManagersToCongress{
+    position: relative;
+    width: 100%;
+    height: 20px;
+    top: 72px;
+    margin-left: 17px;
+}

@@ -155,7 +155,7 @@
 					$distanceFromTop = ($startTimeInHours - ($this->congress['TIMES'][$dayKey]['STARTTIME']))*$hourHeight;
 					$height = ($endTimeInHours-$startTimeInHours)*$hourHeight;
 					$distanceFromTop += 100;
-					echo $this->createScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","eventBoxSignUp","top:" . $distanceFromTop ."px; height:" . $height . "px;overflow: auto;width: 87%;",$event['FILEDIRECTORY'] . 'thumbnail.png', substr($event['START'], 0, 5) . " -  " . substr($event['END'], 0, 5));
+					echo $this->createScreen->createEventInfo($event['ENAME'],$event["SUBJECTS"],$event["PRICE"],$event["TYPE"],$event["EVENTNO"], $track['TRACKNO'], "#popUpeventInfo","eventBoxSignUp","top:" . $distanceFromTop ."px; height:" . $height . "px;overflow: auto;",$event['FILEDIRECTORY'] . 'thumbnail.png', substr($event['START'], 0, 5) . " -  " . substr($event['END'], 0, 5));
 				}
 				echo '</div>';
 				echo '</div>';

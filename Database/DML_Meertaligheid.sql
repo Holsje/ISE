@@ -19,7 +19,7 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('NL', 'signUpForCongressButton', 'Inschrijven', 'Button'),
 
 								  ('NL', 'congressInfo', 'Congres Informatie', 'Text'),
-								  ('NL', 'congressSubjects', 'Onderwerpen', 'Text'),
+								  ('NL', 'eventSubjects', 'Evenement Onderwerpen', 'Text'),
 								  ('NL', 'loginTitle', 'Inloggen', 'Text'),
 								  
 								  ('NL', 'emailLabel', 'E-mailadres', 'Label'),
@@ -31,6 +31,7 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('NL', 'ConLocation', 'Locatie', 'Label'),
 								  ('NL', 'ConCity', 'Plaats', 'Label'),
 								  ('NL', 'ConPrice', 'Prijs', 'Label'),
+								  ('NL', 'ConSubjects', 'Congres Onderwerpen', 'Label'),
 								  ('NL', 'eventDescription', 'Over evenement', 'Label'),
 								  ('NL', 'subjects', 'Onderwerp(en)', 'Label'),
 								  ('NL', 'speakers', 'Spreker(s)', 'Label'),
@@ -50,6 +51,10 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('NL', 'confirmButton', 'Bevestigen', 'Button'),
 								  ('NL', 'cancelButton', 'Annuleren', 'Button'),
 
+
+								  ('NL', 'errorMail', 'Er is al iemand geregistreerd onder dit mailadres.', 'Text'),
+								  ('NL', 'registrationSucces', 'Registreren gelukt.', 'Text'),
+
 								  ('NL', 'loginFailed', 'Gebruikersnaam en/of wachtwoord zijn onjuist', 'Text'),
 								  /* Engels */
 								  ('EN', 'welcomeText', 'Welcome', 'Text'),
@@ -65,7 +70,7 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('EN', 'signUpForCongressButton', 'Submit', 'Button'),
 									
 								  ('EN', 'congressInfo', 'Congress Information', 'Text'),
-								  ('EN', 'congressSubjects', 'Subjects', 'Text'),
+								  ('EN', 'eventSubjects', 'Event Subjects', 'Text'),
 								  ('EN', 'loginTitle', 'Sign up', 'Text'),
 								
 								  ('EN', 'emailLabel', 'E-mailadress', 'Label'),
@@ -77,6 +82,7 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('EN', 'ConLocation', 'Location', 'Label'),
 								  ('EN', 'ConCity', 'City', 'Label'),
 								  ('EN', 'ConPrice', 'Price', 'Label'),
+								  ('EN', 'ConSubjects', 'Congress Subjects', 'Label'),
 								  ('EN', 'eventDescription', 'About event', 'Label'),
 								  ('EN', 'subjects', 'Subject(s)', 'Label'),
 								  ('EN', 'speakers', 'Speaker(s)', 'Label'),
@@ -96,6 +102,9 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('EN', 'confirmButton', 'Confirm', 'Button'),
 								  ('EN', 'cancelButton', 'Cancel', 'Button'),
 								  
+								  ('EN', 'errorMail', 'Somebody already registered under this mailaddress.', 'Text'),
+								  ('EN', 'registrationSucces', 'Registration was succesfull.', 'Text'),
+
 								  ('EN', 'loginFailed', 'Username and/or password are incorrect', 'Text'),
 								  /* Duits */
 								  ('DE', 'welcomeText', 'Willkommen', 'Text'),
@@ -111,7 +120,7 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('DE', 'signUpForCongressButton', 'Registrieren', 'Button'),
 									
 								  ('DE', 'congressInfo', 'Konferenz Informationen', 'Text'),
-								  ('DE', 'congressSubjects', 'Themas', 'Text'),
+								  ('DE', 'eventSubjects', 'Event Themas', 'Text'),
 								  ('DE', 'loginTitle', 'Login', 'Text'),
 								
 								  ('DE', 'emailLabel', 'E-Mail', 'Label'),
@@ -123,6 +132,7 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('DE', 'ConLocation', 'Lokation', 'Label'),
 								  ('DE', 'ConCity', 'Ort', 'Label'),
 								  ('DE', 'ConPrice', 'Preis', 'Label'),
+								  ('DE', 'ConSubjects', 'Konferenz Themas', 'Label'),
 								  ('DE', 'eventDescription', 'Über Event', 'Label'),
 								  ('DE', 'subjects', 'Thema(s)', 'Label'),
 								  ('DE', 'speakers', 'Sprecher', 'Label'),
@@ -141,5 +151,8 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('DE', 'chosenEventsText', 'Sie haben die folgenden Events gewählt:', 'Text'),
 								  ('DE', 'confirmButton', 'Bestätigen', 'Button'),
 								  ('DE', 'cancelButton', 'Stornieren', 'Button'),
+
+								  ('DE', 'errorMail', 'Jemand hat beretis unter dieser Mail Adresse registriert.', 'Text'),
+								  ('DE', 'registrationSucces', 'Registrierung war erfolgreich.', 'Text'),
 
 								  ('DE', 'loginFailed', 'Benutzername und/oder Passwort sind falsch', 'Text')

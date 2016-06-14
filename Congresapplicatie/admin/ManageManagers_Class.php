@@ -75,12 +75,28 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
             
             if(isset($_POST['isGM'])){
                 $PostGM = 1;
+                $GM = $PostGM - $GM;
+                if($GM == 0){
+                    if(isset($_POST['password']) and  !empty($_POST['password'])){
+                        $sqlUpdateGm = 'UPDATE GeneralManager
+                                        SET password = ?
+                                        WHERE personNo = ?';
+                        $this->database->sendQuery($sqlUpdateGm,array(hash('sha256',$_POST['password']),$_POST['AanpassenManager']));
+                    }
+                }
             }
             if(isset($_POST['isCM'])){
                 $PostCM = 1;
+                $CM = $PostCM - $CM;
+                if($CM == 0){
+                    if(isset($_POST['password']) and  !empty($_POST['password'])){
+                        $sqlUpdateCm = 'UPDATE CongressManager
+                                        SET password = ?
+                                        WHERE personNo = ?';
+                        $this->database->sendQuery($sqlUpdateCm,array(hash('sha256',$_POST['password']),$_POST['AanpassenManager']));
+                    }
+                }
             }
-            $GM = $PostGM - $GM;
-            $CM = $PostCM - $CM;
             $param = array($_POST['AanpassenManager'],hash('sha256',$_POST['password']));
             
             $resultInsertGM = true;
@@ -185,7 +201,7 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
                 $this->createScreen->createPopup($screenObjects,"Beheerders aanmaken","AddmanageManagers",'','','show','');
                 unset($_SESSION['errMsgAddManager']);
             }else{
-                $errMsg = new Span(null,null,'errMsgAddManager','errorMsgAddManager',true,true,null);
+                $errMsg = new Span(null,null,'errMsgAddManager','errorMsg',true,true,null);
                 $manageNameObject = new Text(null,"Voornaam","FirstName",null, true, true, true);
                 $manageLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
                 $emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
@@ -215,17 +231,17 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
                 $manageNameObject = new Text($_POST['FirstName'],"Voornaam","FirstName",null, true, true, true);
                 $manageLastNameObject = new Text($_POST['LastName'],"Achternaam","LastName",null, true, true, true);
                 $emailObject = new Text($_POST['mailAddress'], "Mailadres", "mailAddress", null, true, true, true);
-                $passwordObject = new Password($_POST['password'], "Wachtwoord", "password", null, true, true, true);
+                $passwordObject = new Password($_POST['password'], "Wachtwoord", "password", null, true, true, false);
                 $phoneNumberObject = new Text($_POST['phoneNumber'], "Telefoonnr", "phoneNumber", null, true, true, false);
                 $screenObjects = array($errMsg,$manageNameObject, $manageLastNameObject, $emailObject, $passwordObject,$phoneNumberObject, $isGM,$isCM,$managerAddBtn);
                 $this->createScreen->createPopup($screenObjects,"Beheerders aanpassen","UpdatemanageManagers",'','','show','');
                 unset($_SESSION['errMsgEditManager']);
             }else{
-                $errMsg = new Span(null,null,'errMsgEditManager','errorMsgEditManager',true,true,null);
+                $errMsg = new Span(null,null,'errMsgEditManager','errorMsg',true,true,null);
                 $manageNameObject = new Text(null,"Voornaam","FirstName",null, true, true, true);
                 $manageLastNameObject = new Text(null,"Achternaam","LastName",null, true, true, true);
                 $emailObject = new Text(null, "Mailadres", "mailAddress", null, true, true, true);
-                $passwordObject = new Password(null, "Wachtwoord", "password", null, true, true, true);
+                $passwordObject = new Password(null, "Wachtwoord", "password", null, true, true, false);
                 $phoneNumberObject = new Text(null, "Telefoonnr", "phoneNumber", null, true, true, false);
                 $screenObjects = array($errMsg,$manageNameObject, $manageLastNameObject, $emailObject, $passwordObject,$phoneNumberObject, $isGM,$isCM,$managerAddBtn);
                 $this->createScreen->createPopup($screenObjects,"Beheerders aanpassen","UpdatemanageManagers",'','','','');

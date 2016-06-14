@@ -52,7 +52,7 @@ function getManagerInfo(){
         data: {
           getManagerInfo: 'action' 
         },
-        success(data){
+        success: function(data){
             data = JSON.parse(data);
             var tableLeft = $('#listBoxCongressManagerLeft').DataTable();
             for(i = 0; i< data['congress'].length; i++){
@@ -87,9 +87,16 @@ function updateCongressManagers(){
             deletingManagers: deleteManagers
         },
         success: function(data){
-            if(data == 'err'){
-                alert('U kunt niet u zelf verwijderen als congres beheerder van dit congres. \nEr zijn geen wijzigingen doorgevoerd. \nNeem contact op met algemene beheerder als u deze actie toch wilt uitvoeren.');
-            }else{
+            console.log(data);
+            if (data != null && data != '' &&  /\S/.test(data)) {
+                if(data == 'err'){
+                    alert('U kunt niet u zelf verwijderen als congres beheerder van dit congres. \nEr zijn geen wijzigingen doorgevoerd. \nNeem contact op met algemene beheerder als u deze actie toch wilt uitvoeren.');
+                }
+                else{
+                    $('#errMsgManagersToCongress').text(data);
+                }
+            }
+            else{
                 window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname;
             }
         }

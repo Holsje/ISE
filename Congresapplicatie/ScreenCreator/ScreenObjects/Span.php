@@ -18,7 +18,7 @@
         public function getObjectCode(){
             $string = "";
             if ($this->label != null) {
-                $string .= '<label class="col-xs-8 col-sm-4 col-md-4">' . $this->label . ':</label>';
+                $string .= '<label class="col-xs-8 col-sm-12 col-md-4">' . $this->label . ':</label>';
             }
             $string .= '<span id="' . $this->name . '" class="';
             if($this->classes != null){

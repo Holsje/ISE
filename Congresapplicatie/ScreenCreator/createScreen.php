@@ -64,6 +64,7 @@ require_once('ScreenObjects/Checkbox.php');
 						echo '<h1 class="col-md-8 col-xs-8 col-sm-8">' . $title . '</h1>';
 						echo '<button type="button" class="closePopup '.$firstWindow.' glyphicon glyphicon-remove" data-file="#popUp' . $popupId . '"></button>';
 					echo '</div>';
+			        echo '<span id="errMsg'.$popupId .'" class="errorMsg"></span>';
 			         echo $html;
 				echo '</div>';
             echo '</div>';
@@ -89,7 +90,7 @@ require_once('ScreenObjects/Checkbox.php');
 
 				echo '<h3 class="eventName col-xs-12 col-sm-12 col-md-12"><font size="'. $eventTitleSize .'">' . $eventName ;
 				echo'</font></h3>';
-				echo '<div class="row">';
+				echo '<div class="row eventInfoInner">';
 					echo '<div class="eventText col-md-7 col-xs-12 col-sm-7">';
 					echo '<p>';
 					for($i = 0;$i<sizeof($subjects)-1;$i++) {

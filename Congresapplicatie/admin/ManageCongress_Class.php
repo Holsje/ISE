@@ -46,9 +46,19 @@
                 $array = array();
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
                 {
+<<<<<<< Updated upstream
 
                     $array[$row['CongressNo']] = array($row['CongressNo'], $row['CName'], $row['Startdate']->format('Y-m-d'), $row['Enddate']->format('Y-m-d'), $row['Public']);
                 }	
+=======
+                    if ($row['Public'] == 1){
+                        $public = "Ja";
+                    }else{
+                        $public = "Nee";
+                    }
+                    $array[$row['CongressNo']] = array($row['CongressNo'], $row['CName'], $row['Startdate']->format('Y-m-d'), $row['Enddate']->format('Y-m-d'), $public);
+                }
+>>>>>>> Stashed changes
                 return $array;
             }
             return false;
@@ -80,10 +90,11 @@
         
         public function getManagers(){
             $sqlManager = 'SELECT P.PersonNo, P.FirstName, P.LastName, P.MailAddress
-                            FROM CongressManagerOfCongress CMOC RIGHT JOIN CongressManager CM
-                                ON CMOC.PersonNo = CM.PersonNo INNER JOIN Person P 
+                            FROM CongressManager CM INNER JOIN Person P
                                     ON P.PersonNo = CM.PersonNo
-                            WHERE CMOC.CongressNo != ? OR CMOC.CongressNo IS NULL';
+                            WHERE CM.PersonNo NOT IN (SELECT PersonNo
+												   FROM CongressManagerOfCongress
+												   WHERE CongressNo = ?)';
             $paramsManager = array($_SESSION['congressNo']);
             $result = $this->database->sendQuery($sqlManager,$paramsManager);
             if($result){
@@ -152,20 +163,27 @@
                 }
             }
             if(isset($_POST['deletingManagers'])){
-                if(sizeof($_POST['deletingManagers']) > 0){
-                    $sqlDeleteManager = 'DELETE FROM CongressManagerOfCongress
-                                       WHERE CongressNo = ? AND(';
-                    $params = array($_SESSION['congressNo']);
-                    foreach($_POST['deletingManagers'] as $value){
-                        $sqlDeleteManager .= 'PersonNo = ? OR';
-                        array_push($params,$value);
-                    }
-                    $sqlDeleteManager = substr($sqlDeleteManager,0,-2);
-                    $sqlDeleteManager .= ')';
-                    $resultDelete = $this->database->sendQuery($sqlDeleteManager,$params);
+                if (sqlsrv_begin_transaction($this->database->getConn()) === false) {
+                    die(print_r(sqlsrv_errors(), true));
                 }
+
+                for ($i=0;$i<sizeof($_POST['deletingManagers']);$i++){
+                    $result = $this->deleteRecord("spDeleteCongressManagerOfCongress", array(array($_SESSION['congressNo'], SQLSRV_PARAM_IN), array($_POST['deletingManagers'][$i], SQLSRV_PARAM_IN)));
+                    if (is_string($result)){
+                        $err['err'] = $result;
+                        echo $err['err'];
+                        sqlsrv_rollback($this->database->getConn());
+                        die();
+                    }
+                }
+
+                sqlsrv_commit($this->database->getConn());
+
+                die();
+
+
             }
-            die();
+
         }
 
 		
@@ -364,6 +382,11 @@
                     }
                 }
             }
+        }
+
+        public function deleteRecord($storedProcName, $params){
+            $result = parent::changeRecord($storedProcName, $params);
+            return $result;
         }
 
     }

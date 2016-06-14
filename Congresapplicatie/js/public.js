@@ -1,7 +1,6 @@
 var lastEvent;
 var fileName = location.href.split("/").slice(-1);
 $(document).ready(resize);
-$(window).resize(resize);
 $(document).ready(function () {	
 	if ($('.noEventsText').length > 0) {
 		$('#myCarousel a').css("display", "none");

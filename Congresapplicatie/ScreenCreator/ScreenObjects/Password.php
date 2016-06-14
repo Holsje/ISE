@@ -7,6 +7,7 @@
  */
 
     class Password extends ScreenObject{
+        private $required;
         /**
          * Password constructor.
          * @param $value
@@ -14,8 +15,9 @@
          * @param $name
          * @param $classes
          */
-        public function __construct($value, $label, $name, $classes, $startRow, $endRow){
-            parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
+        public function __construct($value, $label, $name, $classes, $startRow, $endRow, $required){
+        parent::__construct($value, $label, $name, $classes, $startRow, $endRow);
+            $this->required = $required;
         }
 
         /**
@@ -33,7 +35,11 @@
 			else {
 				$string.= $this->classDictionary["Password"];
 			}
-			$string .= '" required>';
+            $string .= '"';
+            if ($this->required) {
+                $string .= 'required';
+            }
+            $string .= '>';
             return $string;
         }
     }

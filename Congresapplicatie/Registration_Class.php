@@ -20,9 +20,9 @@
 			$lastNameObject = new Text(null, $_SESSION['translations']['lastNameRegister'], "lastName", null, true, true, true);
 			$emailObject = new Text(null, $_SESSION['translations']['emailLabel'], "mailAddress", null, true, true, true);
 			$phoneNum = new Text(null, $_SESSION['translations']['phoneNumberRegister'], "phoneNum", null, true, true, true);
-			$password = new Password(null, $_SESSION['translations']['passwordLabel'], "password", null, true, true);
+			$password = new Password(null, $_SESSION['translations']['passwordLabel'], "password", null, true, true, true);
 			$submit = new Button($_SESSION['translations']['sendRegister'], null, "registrationSubmit", "btn btn-default pull-right", true, true, null);
-			$this->screenCreator->createPopUp(array($firstNameObject, $lastNameObject, $emailObject, $phoneNum, $password, $submit), $_SESSION['translations']['registerTitle'], "Registration",'smallPop','','','');
+			$this->screenCreator->createPopUp(array($firstNameObject, $lastNameObject, $phoneNum, $emailObject, $password, $submit), $_SESSION['translations']['registerTitle'], "Registration",'smallPop','','','');
 		}
 		
 		public function addRecord($storedProcName, $params) {
