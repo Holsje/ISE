@@ -33,7 +33,6 @@ echo $indexClass->createEventInfoPopup();
 					</form>
 				</div>
 				
-				<!--<form name="formCongressPlanning" method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">-->
 				<div id="trackCarousel" class="carousel slide col-xs-8 col-sm-8 col-md-8" data-ride="carousel" data-interval="false">
 				    <div id = "carousel" class="carousel-inner" role="listbox">
 						<?php
@@ -51,7 +50,6 @@ echo $indexClass->createEventInfoPopup();
 				<?php 
 					$manageCongressPlanning->createManageCongressEventScreen();
 				?>
-				<!--</form>-->
             </div>
         </div>
     </div>
