@@ -22,6 +22,7 @@ require_once('ScreenObjects/TableData.php');
 require_once('ScreenObjects/Upload.php');
 require_once('ScreenObjects/Identifier.php');
 require_once('ScreenObjects/TextArea.php');
+require_once('ScreenObjects/Checkbox.php');
 
     class CreateScreen{
 

@@ -12,7 +12,7 @@
         ?>
             <li class="col-sm-2 col-md-2"><a href="ManageSpeakersGM.php">Sprekers</a></li>
             <li class="col-sm-2 col-md-2"><a href="ManageLocationGeneralManager.php">Locaties</a></li>
-            <li class="col-sm-2 col-md-2"><a href="#">Medewerkers beheren</a></li>
+            <li class="col-sm-2 col-md-2"><a href="ManageManagers.php">Medewerkers beheren</a></li>
 
             <div class="col-sm-4 col-md-4">
             <?php

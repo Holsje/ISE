@@ -59,7 +59,41 @@
         }
 
 
-
+        
+        public function getManagersOfCongress(){
+            $sqlManagerOfCongress ='SELECT P.PersonNo, P.FirstName, P.LastName, P.MailAddress
+                                    FROM CongressManagerOfCongress CMOC INNER JOIN Person P
+                                        ON CMOC.PersonNo = P.PersonNo AND CMOC.CongressNo = ?';
+            $paramsManagerOfCongress = array($_SESSION['congressNo']);
+            $result = $this->database->sendQuery($sqlManagerOfCongress,$paramsManagerOfCongress);
+            if($result){
+                $returnArray = array();
+                while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
+                    array_push($returnArray,array($row['PersonNo'],$row['FirstName'],$row['LastName'], $row['MailAddress']));
+                }
+                return $returnArray;
+            }
+            return false;
+        }
+        
+        public function getManagers(){
+            $sqlManager = 'SELECT P.PersonNo, P.FirstName, P.LastName, P.MailAddress
+                            FROM CongressManagerOfCongress CMOC RIGHT JOIN CongressManager CM
+                                ON CMOC.PersonNo = CM.PersonNo INNER JOIN Person P 
+                                    ON P.PersonNo = CM.PersonNo
+                            WHERE CMOC.CongressNo != ? OR CMOC.CongressNo IS NULL';
+            $paramsManager = array($_SESSION['congressNo']);
+            $result = $this->database->sendQuery($sqlManager,$paramsManager);
+            if($result){
+                $returnArray = array();
+                while($row = sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
+                    array_push($returnArray,array($row['PersonNo'],$row['FirstName'],$row['LastName'], $row['MailAddress']));
+                }
+                return $returnArray;
+            }
+            return false;
+        }
+        
 		public function getSubjects() {
 
             $result = parent::getDatabase()->sendQuery("SELECT Subject FROM Subject",null);
@@ -99,6 +133,38 @@
                 }
             }
         }
+        
+        public function handleCongressManagerEdit(){
+        //addingManagers
+        //deletingManagers
+            if(isset($_POST['addingManagers'])){
+                if(sizeof($_POST['addingManagers'])> 0){
+                    $sqlInsertManager = 'INSERT INTO CongressManagerOfCongress(PersonNo,CongressNo) VALUES';
+                    $params = array();
+                    foreach($_POST['addingManagers'] as $value){
+                        $sqlInsertManager .= '(?,?), ';
+                        array_push($params,$value, $_SESSION['congressNo']);
+                    }
+                    $sqlInsertManager = substr($sqlInsertManager,0,-2);
+                    $resultManager = $this->database->sendQuery($sqlInsertManager,$params);
+                }
+            }
+            if(isset($_POST['deletingManagers'])){
+                if(sizeof($_POST['deletingManagers']) > 0){
+                    $sqlDeleteManager = 'DELETE FROM CongressManagerOfCongress
+                                       WHERE CongressNo = ? AND(';
+                    $params = array($_SESSION['congressNo']);
+                    foreach($_POST['deletingManagers'] as $value){
+                        $sqlDeleteManager .= 'PersonNo = ? OR';
+                        array_push($params,$value);
+                    }
+                    $sqlDeleteManager = substr($sqlDeleteManager,0,-2);
+                    $sqlDeleteManager .= ')';
+                    $resultDelete = $this->database->sendQuery($sqlDeleteManager,$params);
+                }
+            }
+            die();
+        }
 
 		
 		public function createCreateCongressScreen() {
@@ -137,9 +203,10 @@
             $priceObject = new Text(null,"Prijs","congressPrice","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
             $publicObject = new Text(null,"Publiek","congressPublic","form-control col-xs-12 col-sm-8 col-md-8",true,true,false);
             $bannerEditObject = new Button("Banner aanpassen",null,"editCongressBanner","form-control btn btn-default popupButton",true,false,'#popUpBanner');
+            $addManagers = new Button("Beheerders aanpassen",null,"editCongressManagers","form-control btn btn-default popupButton",false,false,'#popUpManagersToCongress');
 			$submitObject = new Button("Opslaan","Bewerken","updateCongress","form-control col-md-4 pull-right btn btn-default",false, true, '#popUpUpdate');
 			//$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$addSubjectObject,$errMsg,$submitObject),"Congres bewerken","Update",null, "", true, false);
-			$this->createScreen->createForm(array($errMsg,$congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$subjectObject,$addSubjectObject,$bannerEditObject,$submitObject),"UpdateCongress", null,"");
+			$this->createScreen->createForm(array($errMsg,$congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$subjectObject,$addSubjectObject,$bannerEditObject,$addManagers,$submitObject),"UpdateCongress", null,"");
 
             $this->createEditBannerPopUp();
 		}
@@ -148,6 +215,14 @@
             $bannerObject = new Upload('','','bannerPic', 'bannerPic', true, true, '', 'image');
             $submitObject = new Submit('Opslaan', '', 'saveBanner', null, true, true);
             $this->createScreen->createPopup(array($bannerObject,$submitObject), "Banner aanpassen", "Banner", null, "", true, false);
+        }
+        
+        public function createEditManagerPopUp(){
+            $columnList = array('PersonNo', 'Voornaam','Achternaam','Email');
+            $tableLeft = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", true, false, $columnList, array(), "listBoxCongressManagerLeft");
+			$tableRight = new Listbox(null, null, null, "col-xs-3 col-md-3 col-sm-3 listBoxDataSwap", false, true, $columnList, array(), "listBoxCongressManagerRight");
+            $dataSwapList = $this->createScreen->createDataSwapList($tableLeft,"listBoxCongressManagerLeft","Beheerders van dit Congres",$tableRight,"listBoxCongressManagerRight","Beheerders",false,false,array(),array(),"congresBeheerders");
+            $this->createScreen->createPopupByHtml($dataSwapList,'Congres beheerders','ManagersToCongress','bigPop','first','');
         }
 
         public function addRecord($paramsCongress, $paramsSubjects)

@@ -42,7 +42,8 @@
 									"Submit"=>"form-control col-md-4 pull-right btn btn-default",
 									"Text"=>"form-control col-xs-12 col-sm-8 col-md-8",
 									"Date"=>"form-control col-xs-12 col-sm-8 col-md-8",
-                                    "File"=>"form-control col-xs-12 col-sm-8 col-md-8");
+                                    "File"=>"form-control col-xs-12 col-sm-8 col-md-8",
+                                    "Checkbox"=>"checkBoxManager");
         /**
          * ScreenObject constructor.
          * @param $value

@@ -6,7 +6,7 @@ var oldCongressName,
     oldCongressBanner,
     subjectTableUpdate,
     congressNo;
-
+var oldManagers = [];
 $(document).ready(function () {
 
     // /Edit
@@ -22,6 +22,8 @@ $(document).ready(function () {
 
 //Edit
     document.forms['formUpdateCongress']['updateCongress'].onclick = isValidInput;
+    document.forms['formUpdateCongress']['editCongressManagers'].onclick = getManagerInfo;
+    document.forms['formcongresBeheerders']['buttonSaveSwapListcongresBeheerders'].onclick = updateCongressManagers;
 
     //Edit
     $('#subjectListBoxUpdate tbody').on('click', 'tr', function () {
@@ -35,11 +37,64 @@ $(document).ready(function () {
         }
     });
 
-
+    $('#popUpManagersToCongress .closePopup').on('click',function(){
+        $('#listBoxCongressManagerLeft').DataTable().clear();
+        $('#listBoxCongressManagerRight').DataTable().clear();
+    });
     getCongressInfo();
 
 });
 
+function getManagerInfo(){
+    $.ajax({
+        url: window.location.href,
+        type: 'POST',
+        data: {
+          getManagerInfo: 'action' 
+        },
+        success(data){
+            data = JSON.parse(data);
+            var tableLeft = $('#listBoxCongressManagerLeft').DataTable();
+            for(i = 0; i< data['congress'].length; i++){
+                oldManagers.push(data['congress'][i]);
+                tableLeft.row.add([data['congress'][i][0],data['congress'][i][1],data['congress'][i][2],data['congress'][i][3]]);
+            }
+            var tableRight = $('#listBoxCongressManagerRight').DataTable();
+            for(i = 0; i< data['all'].length; i++){
+                tableRight.row.add([data['all'][i][0],data['all'][i][1],data['all'][i][2],data['all'][i][3]]);
+            }
+            
+            tableLeft.rows().draw();
+            tableRight.rows().draw();
+            
+            
+        }
+    });
+}
+
+function updateCongressManagers(){
+    var table = $('#listBoxCongressManagerLeft').DataTable();
+    var newManagers= calcNewManagers(table);
+    var deleteManagers = calcDeleteManagers(table);
+    console.log('new:' + newManagers);
+    console.log('del:' + deleteManagers);
+    $.ajax({
+        url: window.location.href,
+        type: 'POST',
+        data: {
+            addManagerOfCongress: 'Action',
+            addingManagers: newManagers,
+            deletingManagers: deleteManagers
+        },
+        success: function(data){
+            if(data == 'err'){
+                alert('U kunt niet u zelf verwijderen als congres beheerder van dit congres. \nEr zijn geen wijzigingen doorgevoerd. \nNeem contact op met algemene beheerder als u deze actie toch wilt uitvoeren.');
+            }else{
+                window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname;
+            }
+        }
+    });
+}
 
 function updateCongressInfo(congressName, congressStartDate, congressEndDate, congressPrice, congressBanner, congressPublic, congressSubjects) {
     document.forms["formUpdateCongress"]["congressName"].value = congressName;
@@ -182,4 +237,38 @@ function isValidInput(){
     else {
         onUpdateCongress();
     }
+}
+
+function calcNewManagers(dataTable){
+    var returnArray =[];
+    for(i =0; i< dataTable.rows().data().length; i++){
+        var continueLoop = true;
+        for(j = 0; j < oldManagers.length; j++){
+            if(continueLoop){
+                if(dataTable.rows().data()[i][0] == oldManagers[j][0]){
+                    continueLoop = false;
+                }
+            }
+        }if(continueLoop){
+            returnArray.push(dataTable.rows().data()[i][0]);
+        }
+    }
+    return returnArray;
+}
+
+function calcDeleteManagers(dataTable){
+    var returnArray =[];
+    for(i =0; i< oldManagers.length; i++){
+        var continueLoop = true;
+        for(j = 0; j < dataTable.rows().data().length; j++){
+            if(continueLoop){
+                if(dataTable.rows().data()[j][0] == oldManagers[i][0]){
+                    continueLoop = false;
+                }
+            }
+        }if(continueLoop){
+            returnArray.push(oldManagers[i][0]);
+        }
+    }
+    return returnArray;
 }

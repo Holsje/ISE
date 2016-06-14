@@ -17,7 +17,6 @@ $(document).ready(function () {
 			result.push(dataArray.data()[i][0]);
 			result.push(dataArray.data()[i][1]);
 		}
-		console.log(result);
 		$.ajax({
 			url: 'manageBuildingGeneralManager.php',
 			type: 'POST',

@@ -85,7 +85,6 @@
                     }
                     $sqlInsertEvent = substr($sqlInsertEvent,0,-2);
                     $resultInsert = $this->database->sendQuery($sqlInsertEvent,$params);
-                    echo 'add:' .$resultInsert;
                 }
             }
             if(isset($_POST['deletingSpeakers'])){
@@ -101,7 +100,6 @@
                     $sqlDeleteEvent .= ')';
                     $resultDelete = $this->database->sendQuery($sqlDeleteEvent,$params);
                     echo 'delete'. $sqlDeleteEvent . ', result'. $resultDelete;
-                    var_dump($params);
                 }
             }
             die();
