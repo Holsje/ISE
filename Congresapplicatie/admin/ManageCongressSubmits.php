@@ -22,4 +22,11 @@
 		die();
 	}
 	
+	if (isset($_POST[''])) {
+		$_SESSION['congressNo'] = $_POST['congressNo'];
+		$_SESSION['congressName'] = $_POST['congressName'];
+		header('Location: manageCongressPlanning.php');
+		die();
+	}
+	
 ?>

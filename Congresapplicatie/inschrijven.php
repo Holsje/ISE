@@ -3,6 +3,9 @@
 	sessionHandlerWeb(false, false);
 	require_once('Index_Class.php');
 	$indexClass = new Index();
+	global $server, $databaseName, $uid, $password;
+	$dataBase = new Database($server,$databaseName,$uid,$password);
+	$createScreen = new CreateScreen();
 	include('inschrijven_Submit.php');
 	require_once('ScreenCreator/CreateScreen.php');
 	require_once('connectDatabasePublic.php');

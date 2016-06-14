@@ -25,6 +25,10 @@
 	background-color: #FFFFFF;
 }
 
+.moreInfoButton {
+	top: 0px !important;
+}
+
 .eventPlanningBox .eventInEventBox .deleteEventFromPlanning {
 	display: none;
 }

@@ -1,16 +1,14 @@
 <?php  
 require_once('SessionHandler.php');
-sessionHandler(false, false);
+sessionHandler(false, true);
 require_once('Management.php');
-require_once('../Inschrijven_Class.php');
 require_once('manageCongressPlanning_Class.php');
-require_once('../Index_Class.php');
-$indexClass = new Index();
-require_once('../index_Submit.php');
-$manageCongressPlanning = new manageCongressPlanning(2);
+
+$manageCongressPlanning = new manageCongressPlanning($_SESSION['congressNo']);
 require_once('manageCongressPlanningSubmits.php');
 
-
+require_once('../Index_Class.php');
+$indexClass = new Index();
 
 $css = '<link rel="stylesheet" href="../css/manageCongressPlanning.css">';
 $css .= '<link rel="stylesheet" href="../css/public.css">';
@@ -19,8 +17,8 @@ $js .= '<script src="../js/public.js"> </script>';
 topLayoutManagement('Beheren Congres', $css, $js);
 
 echo $manageCongressPlanning->getCreateScreen()->createEventPlanningPopUp($manageCongressPlanning->getBuildingsByCongressLocation());
-echo $indexClass->createSpeakerInfoPopup();
-echo $indexClass->createEventInfoPopup();
+//echo $indexClass->createSpeakerInfoPopup();
+//echo $indexClass->createEventInfoPopup();
 ?>
     <div class="row">
         <div class="container col-md-12 col-xs-12">

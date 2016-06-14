@@ -1,6 +1,5 @@
 <?php
 	require_once('ScreenCreator/CreateScreen.php');
-	require_once('connectDatabase.php');
 	require_once('database.php');
 	class Inschrijven {
 		public $createScreen;

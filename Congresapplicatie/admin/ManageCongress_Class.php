@@ -48,14 +48,16 @@
                 {
 
                     $array[$row['CongressNo']] = array($row['CongressNo'], $row['CName'], $row['Startdate']->format('Y-m-d'), $row['Enddate']->format('Y-m-d'), $row['Public']);
-                }
+                }	
                 return $array;
             }
             return false;
         }
 
         public function createManagementScreen($columnList, $valueList) {
-            parent::createManagementScreen($columnList, $valueList, "", null);
+            $congressPlanningButton = new Button("Inplannen congres", null, "congressPlanningButton", 'form-control btn btn-default col-xs-3 col-md-3 col-sm-3 onSelected', false, false, null);
+			parent::createManagementScreen($columnList, $valueList, "", array($congressPlanningButton));
+			
         }
 
 

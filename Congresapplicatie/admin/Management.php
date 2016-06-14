@@ -4,7 +4,6 @@ require_once('../ScreenCreator/CreateScreen.php');
 require_once('connectDatabaseManage.php');
 require_once('../pageConfig.php');
 
-
     class Management{
 
         protected $database;

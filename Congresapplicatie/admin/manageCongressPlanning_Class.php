@@ -2,7 +2,6 @@
 	
 	class manageCongressPlanning extends Management {
 		
-		private $inschrijven;
 		private $tracks;
 		private $events;
 		private $location;

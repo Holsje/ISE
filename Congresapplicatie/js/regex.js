@@ -60,6 +60,7 @@ function isValidStartAndEndTime(startTime, endTime) {
 		return false;
 	}
 	return startTime < endTime;
+}
 
 function isValidSmallIntNullable(capacity) {
     if(capacity == ""){
