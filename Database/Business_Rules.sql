@@ -592,6 +592,7 @@ CREATE TRIGGER trCongressAlwaysHasCongressManager_BR12
 		THROW;
 	END CATCH
 END
+GO
 
 /* BR13: Als een spreker verwijderd wordt, dan moet deze ook uit de PersonTypeOfPerson verwijderd worden. */ 
 
