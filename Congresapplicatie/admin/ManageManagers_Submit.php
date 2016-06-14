@@ -22,7 +22,10 @@
         }
     }
     if(isset($_POST['VerwijderManager'])){
-        $manageManagers->handleDeleteManager();
+        $result = $manageManagers->handleDeleteManager();
+        if(is_string($result)){
+            echo $err['err'] = $result;
+        }
         die();
     }
 

@@ -128,12 +128,16 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
         
         public function handleDeleteManager(){
             if($_POST['personType'] == 'Beide'){
-                $sqlDeleteGM =' DELETE FROM GeneralManager
-                                WHERE PersonNo = ?';
-                $resultDelGM = $this->database->sendQuery($sqlDeleteGM,array($_POST['personNo']));
                 $sqlDeleteCM =' DELETE FROM CongressManager
                                     WHERE PersonNo = ?';
                 $resultDelCM = $this->database->sendQuery($sqlDeleteCM,array($_POST['personNo']));
+                if(is_string($resultDelCM)){
+                    return $resultDelCM;
+                }
+                $sqlDeleteGM =' DELETE FROM GeneralManager
+                                WHERE PersonNo = ?';
+                $resultDelGM = $this->database->sendQuery($sqlDeleteGM,array($_POST['personNo']));
+                
             }
             if($_POST['personType'] == 'Algemene beheerder'){
                 $sqlDeleteGM =' DELETE FROM GeneralManager
@@ -144,6 +148,9 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
                 $sqlDeleteCM =' DELETE FROM CongressManager
                                 WHERE PersonNo = ?';
                 $resultDelCM = $this->database->sendQuery($sqlDeleteCM,array($_POST['personNo']));
+                 if(is_string($resultDelCM)){
+                    return $resultDelCM;
+                }
             }     
         }
 

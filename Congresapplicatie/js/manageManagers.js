@@ -5,8 +5,10 @@ $(document).ready(function () {
         "scrollY":        "500px",
         "scrollCollapse": true,
         "paging":         false,
+        "bInfo":          false,
         "language": {
-           "emptyTable": "Geen data beschikbaar"
+           "emptyTable": "Geen data beschikbaar",
+           "sSearch":    "Zoeken:"
         },
         "columnDefs": [{
 				"targets": [0],
@@ -124,7 +126,11 @@ function deleteManager(){
             personType: type 
         },
         success: function(data){
-            managerTable.row('.selected').remove().draw();
+            if (data != null && data != '' &&  /\S/.test(data)) {
+                alert(data);
+            }else{
+              managerTable.row('.selected').remove().draw();  
+            }
         }
     });
 }
