@@ -1,7 +1,6 @@
 <?php
 	include('admin/sessionHandler.php');
 	sessionHandlerWeb(false, false);
-	require_once('database.php');
 	require_once('Index_Class.php');
 	$indexClass = new Index();
 	global $server, $databaseName, $uid, $password;

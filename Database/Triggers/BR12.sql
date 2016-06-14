@@ -20,6 +20,8 @@ CREATE TRIGGER trCongressAlwaysHasCongressManager_BR12
 	END CATCH
 END
 
+
+
 --Testdata
 --Mag niet, want anders zou Congres 1 geen congresmanager hebben
   BEGIN TRAN

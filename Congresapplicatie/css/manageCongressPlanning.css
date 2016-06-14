@@ -1,0 +1,142 @@
+#trackCarousel {
+	border-style: solid;
+	margin-right: 20px;
+}
+
+#planningPopup .closePopup {
+	left: 0px !important;
+}
+
+.eventPlanningBox {
+	border-style: solid;
+}
+
+.eventBoxPlanning {
+	border-style: solid;
+	position:absolute;
+	top:100px;
+}
+
+.eventInEventBox {
+	border-style: solid;
+	margin-top:3px;
+	margin-bottom: 3px;
+	left:0;
+	background-color: #FFFFFF;
+}
+
+.moreInfoButton {
+	top: 0px !important;
+}
+
+.eventPlanningBox .eventInEventBox .deleteEventFromPlanning {
+	display: none;
+}
+
+.eventPlanningBox .eventInEventBox .editEventInPlanning {
+	display: none;
+}
+
+.deleteEventFromPlanning {
+	-webkit-appearance: none;
+    border: 0;
+    background: 0;
+    top: 10px;
+    float: right;
+    color: #dbdbdb;
+}
+
+.publishCongressButton {
+	float:right;
+	margin-top: 20px;
+}
+
+.currentDay {
+	padding: 0px;
+}
+
+.currentDay h1 {
+	padding: 0px;
+}
+
+.editEventInPlanning {
+	float:right;
+	font-size: 30px;
+	-webkit-appearance: none;
+    border: 0;
+    background: 0;
+}
+
+.eventPlanningBox .eventNotInTrack {
+	background-color: #FF0000 !important;
+}
+
+.eventBoxPlanning .eventNotInRoom {
+	background-color: #FFA500 !important;
+}
+
+.eventBoxPlanning .timesPlannedString {
+	display:none;
+}
+
+.beingAdded .deleteEventFromPlanning {
+	display: none;
+}
+
+.eventPlanningBox .eventInEventBox {
+	z-index:6;
+	background-color:#ffffff;
+}
+
+.eventBoxPlanning  .eventInEventBox {
+	position:absolute;
+}
+
+.track {
+	margin-right: 10px;
+}
+
+.smallEventName {
+	font-size: 18px;
+}
+
+#timeBarPlanning {
+	margin-top: 100px;
+}
+
+.eventPlanningPopUp {
+	position:absolute;
+	display: none;
+	width: 130%;
+	left:-15%;
+	background-color: #FFFFFF;
+	border-style: solid;
+	border-radius: 25px;
+	z-index:5;
+}
+
+.eventPlanningPopUp form {
+	
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	padding-left: 0px;
+}
+
+.infoGlyphPlanning {
+	border:none;
+	background-color: transparent;
+	font-size: 30px;
+	text-align: center;
+	float:right;	
+}
+
+.roomSelect {
+	display:none;
+}
+
+.scrollBody {
+	position: relative;
+	overflow:auto;
+	width: 100%;
+}
