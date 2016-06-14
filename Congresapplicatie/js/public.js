@@ -100,7 +100,7 @@ function getEventInfo(eventNo) {
             $('img#thumbnail').attr('src', data['FileDirectory'] + 'thumbnail.png');
 
             $('#eventDescription').html(data['Description']);
-            var size = 0;data
+            var size = 0;
             for (var value in ['speakers']) {
                 size++;
             }
@@ -196,11 +196,6 @@ function selectEventOnSubject(subject){
 function resize() {
 	if (fileName == "inschrijven.php") {
 		$('.moreInfoButton').removeClass('pull-right');
-		//$('.plan').html("Terug naar homepagina");
-		//$('.plan').removeClass("col-md-1");
-		//$('.plan').on("click", function() {
-		//	window.location.href = "index.php";
-		//})
 	}
 	else {
 		$('.eventImage').css("display", "block");
