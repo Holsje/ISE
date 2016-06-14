@@ -8,8 +8,16 @@ DELETE FROM EventInRoom
 DELETE FROM EventInTrack
 DELETE FROM Event
 DELETE FROM Track
-DELETE FROM CongressManagerOfCongress
+exec sp_configure 'nested triggers',0
+GO
+RECONFIGURE
+GO
 DELETE FROM Congress
+exec sp_configure 'nested triggers',1
+GO
+RECONFIGURE
+GO
+DELETE FROM CongressManagerOfCongress
 DELETE FROM Room
 DELETE FROM Building
 DELETE FROM Location
@@ -23,10 +31,10 @@ DELETE FROM Person
 DELETE FROM PersonType
 GO
 
-/* On first run CHECKIDENT in comment!!!
+/* On first run CHECKIDENT in comment!!!*/
 DBCC CHECKIDENT ('Person', RESEED, 0);
 DBCC CHECKIDENT ('Congress', RESEED, 0);
-*/
+
 
 INSERT INTO PersonType (TypeName) VALUES ('Algemene beheerder'),
 										 ('Congresbeheerder'),

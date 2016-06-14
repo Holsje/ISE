@@ -1,4 +1,4 @@
-var congressNo,
+	var congressNo,
     oldCongressName,
     oldCongressStartDate,
     oldCongressEndDate,
@@ -36,6 +36,7 @@ $(document).ready(function () {
 //Create
     document.forms["formCreate"]["buttonDelete"].onclick = deleteCongress;
     document.forms["formCreate"]["buttonEdit"].onclick = goToEditCongress;
+    document.forms["formCreate"]["congressPlanningButton"].onclick = goToCongressPlanning;
     document.forms['formAdd']['Toevoegen'].onclick = isValidInput;
 
 
@@ -136,6 +137,33 @@ function goToEditCongress(){
             },
             success: function (data) {
                 window.location.href = "manage.php";
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    } else{
+        alert("Er is geen selectie gemaakt");
+        return false;
+    }
+}
+
+function goToCongressPlanning(){
+    var selectedRow = $('#ListBox').DataTable().row('.selected');
+    var congressNo = selectedRow.data()[0];
+    var congressName = selectedRow.data()[1];
+
+    if (selectedRow.data()) {
+        $.ajax({
+            url: window.location.href,
+            type: 'POST',
+            data: {
+                goToEdit: 'action',
+                congressNo: congressNo,
+                congressName: congressName
+            },
+            success: function (data) {
+                window.location.href = "manageCongressPlanning.php";
             },
             error: function (request, status, error) {
                 alert(request.responseText);

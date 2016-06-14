@@ -53,6 +53,14 @@ function isValidSmallInt(capacity) {
 		return false;
 }
 
+
+function isValidStartAndEndTime(startTime, endTime) {
+	if (isNaN(startTime) || isNaN(endTime)) {
+		return false;
+	}
+	return startTime < endTime;
+}
+
 function isValidSmallIntNullable(capacity) {
     if(capacity == ""){
         return true;

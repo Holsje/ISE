@@ -21,6 +21,7 @@ require_once('ScreenObjects/TableRow.php');
 require_once('ScreenObjects/TableData.php');
 require_once('ScreenObjects/Upload.php');
 require_once('ScreenObjects/Identifier.php');
+require_once('ScreenObjects/Time.php');
 require_once('ScreenObjects/TextArea.php');
 require_once('ScreenObjects/Checkbox.php');
 
@@ -112,6 +113,53 @@ require_once('ScreenObjects/Checkbox.php');
 				echo '</div>';
 				$button = new Button($_SESSION['translations']['moreInfo'], null, null, "btn btn-default moreInfoButton popupButton pull-right", true, true, $dataFile);
 				echo $button->getObjectCode();
+			echo '</div>';
+		}
+		
+		public function createSmallEventInfo($eventNo, $eventName, $height,$topOffset, $building, $rooms, $timesPlanned) {
+			echo '<div class="eventInEventBox col-xs-12 col-sm-12 col-md-12';
+			if($timesPlanned == 0 && !is_null($timesPlanned)) {
+				echo ' eventNotInTrack';
+			}
+			if (empty($rooms)) {
+				echo ' eventNotInRoom';
+			}
+			
+			echo '" value="' . $eventNo . '" gebouw="'. $building . '" zaal="'; 
+			if (isset($rooms)) {
+				foreach($rooms as $room) {
+					
+					echo $room . ' ';
+				}
+			}
+			
+			
+			echo '" id="' . $eventNo . '" style="height: '. $height . ';';
+			if(isset($topOffset)){
+				echo 'top:' . $topOffset . ';';
+			}
+			echo '">';
+				$infoButton = new Button(null, null, "moreInfoButton", "popupButton moreInfoButton glyphicon glyphicon-info-sign infoGlyphPlanning", true, true, "#popUpeventInfo");
+				echo '<button type="button" class="deleteEventFromPlanning glyphicon glyphicon-remove" data-file=""></button>'; 
+				echo '<button type="button" class="editEventInPlanning glyphicon glyphicon-pencil" data-file=""></button>'; 
+				echo $infoButton->getObjectCode();
+				echo '<p class="SmallEventName">'. $eventName;
+				echo '</p>';
+				if(!is_null($timesPlanned))
+					echo '<p class="timesPlannedString"> Aantal keer ingepland: <span class="timesPlanned">'. $timesPlanned . '</span></p>';
+			echo '</div>';
+		}
+		
+		public function createEventPlanningPopUp($selectValueListBuilding) {
+			$dataTable = new Listbox(null, null, null, "col-xs-12 col-sm-12 col-md-12", true, true, array("Zaalnaam"), null, "roomListBox");
+			$errMsg = new Span(null,null, "errMsgEventPlanning", null, true, true);
+			$startTime = new Time(null, "Starttijd", "startTimeEvent", null, true, true, true);
+			$endTime = new Time(null, "Eindtijd", "endTimeEvent", null, true, true, true);
+			$buildingSelect = new Select(null, "Gebouw", "buildingSelect", null, true, true, $selectValueListBuilding, null, true, null);
+			$submit = new button("Opslaan", null, "saveEventPlanningButton", "btn btn-default form-control pull-right", true, true,null);
+			echo '<div id="planningPopup" class="eventPlanningPopUp">';
+				echo '<button type="button" class="closePlanningPopup closePopup glyphicon glyphicon-remove" data-file="#planningPopup"></button>';
+				$this->createForm(array($errMsg, $buildingSelect, $startTime, $endTime, $dataTable, $submit), "EditEventInfo", null, null);
 			echo '</div>';
 		}
 		
