@@ -7,6 +7,7 @@
 			$_POST['selectedSubjects'] = null;
 		}
 		echo $manageCongress->addRecord($paramsCongress, $_POST['selectedSubjects']);
+
 		die();
 	}	
 

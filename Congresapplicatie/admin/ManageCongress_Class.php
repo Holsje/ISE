@@ -46,11 +46,7 @@
                 $array = array();
                 while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC))
                 {
-<<<<<<< Updated upstream
 
-                    $array[$row['CongressNo']] = array($row['CongressNo'], $row['CName'], $row['Startdate']->format('Y-m-d'), $row['Enddate']->format('Y-m-d'), $row['Public']);
-                }	
-=======
                     if ($row['Public'] == 1){
                         $public = "Ja";
                     }else{
@@ -58,7 +54,6 @@
                     }
                     $array[$row['CongressNo']] = array($row['CongressNo'], $row['CName'], $row['Startdate']->format('Y-m-d'), $row['Enddate']->format('Y-m-d'), $public);
                 }
->>>>>>> Stashed changes
                 return $array;
             }
             return false;
@@ -288,6 +283,7 @@
             if($resultCongress && $resultCongressSubjects && $resultCongressNo && $resultCongressManager) {
                 sqlsrv_commit($this->database->getConn());
                 $_SESSION['congressNo'] = $congressNo;
+                $_SESSION['congressName'] = $_POST['congressName'];
             } else {
                 sqlsrv_rollback($this->database->getConn());
                 $err['err'] = "";

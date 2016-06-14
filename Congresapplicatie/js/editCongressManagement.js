@@ -107,6 +107,9 @@ function updateCongressInfo(congressName, congressStartDate, congressEndDate, co
     document.forms["formUpdateCongress"]["congressName"].value = congressName;
     document.forms["formUpdateCongress"]["congressStartDate"].value = congressStartDate;
     document.forms["formUpdateCongress"]["congressEndDate"].value = congressEndDate;
+    if (congressPrice = .0000) {
+        congressPrice = 0;
+    }
     document.forms["formUpdateCongress"]["congressPrice"].value = parseInt(congressPrice).toFixed(2);
 
     if (congressPublic == 0) {
