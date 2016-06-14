@@ -303,6 +303,11 @@ h1 {
 	text-align:center;
 }
 
+.countryFlag{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 @media(max-width: 460px) {
 	.eventName {
 		text-align: center;

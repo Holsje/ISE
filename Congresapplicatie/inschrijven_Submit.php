@@ -13,9 +13,9 @@
 				$personNo = $row['PersonNo'];
 			}
 			if (!empty($personNo)) {
-				echo '<h1>U kunt zich niet inschrijven.</h1>';
-				echo '<p class="errText">U bent al ingeschreven voor dit congres. U wordt doorverwezen naar de homepagina.</p>';
-				header("refresh:5;url='index.php?congressNo=". $_SESSION['congressNo'] . '');
+				echo '<h1>'. $_SESSION['translations']['alreadyRegisteredCongress'].'</h1>';
+				echo '<p class="errText">' . $_SESSION['translations']['referralHome'] . '</p>';
+				header("refresh:5;url='index.php?congressNo=". $_SESSION['congressNo'] . '&lang=' . $_SESSION['lang']);
 				die();
 			}
 		}
@@ -31,7 +31,7 @@
 			if (empty($congressNo)) {
 				echo '<h1>Dit congres bestaat niet.</h1>';
 				echo '<p class="errText">U wordt doorverwezen naar de homepagina.</p>';
-				header("refresh:2;url='index.php?congressNo=". $_SESSION['congressNo'] . '');
+				header("refresh:2;url='index.php?congressNo=". $_SESSION['congressNo'] . '&lang=' . $_SESSION['lang']);
 				die();
 			}
 		}

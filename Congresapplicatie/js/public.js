@@ -69,7 +69,6 @@ function editRunningFormData() {
 			ajaxRequest: 'inschrijven'
 		},
 		success: function (data) {
-			console.log(data);
 			if (data == 'logged in') {
 				location.reload();
 			}
@@ -90,7 +89,7 @@ function getEventInfo(eventNo) {
             eventNo: eventNo
         },
         success: function (data) {
-
+			console.log(data);
 			data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['EName']);
 			if(window.location.pathname.match(/admin/i) != null) {
@@ -148,11 +147,6 @@ function getEventInfo(eventNo) {
     });
 }
 
-function createSpeakerElement(index) {
-    console.log(index);
-}
-var test;
-
 function speakerPopup(event) {
     $.ajax({
         url: window.location.href,
@@ -162,7 +156,6 @@ function speakerPopup(event) {
             personID: event.target.attributes.getNamedItem('id').value
         },
         success: function (data) {
-            console.log(data);
             data = JSON.parse(data);
             $('#popUpspeaker .popupTitle h1').html(data['FirstName'] + ' ' + data['LastName']);
 			if(window.location.pathname.match(/admin/i) != null) {
@@ -203,11 +196,11 @@ function selectEventOnSubject(subject){
 function resize() {
 	if (fileName == "inschrijven.php") {
 		$('.moreInfoButton').removeClass('pull-right');
-		$('.plan').html("Terug naar homepagina");
-		$('.plan').removeClass("col-md-1");
-		$('.plan').on("click", function() {
-			window.location.href = "index.php?congressNo=1";
-		}) 
+		//$('.plan').html("Terug naar homepagina");
+		//$('.plan').removeClass("col-md-1");
+		//$('.plan').on("click", function() {
+		//	window.location.href = "index.php";
+		//})
 	}
 	else {
 		$('.eventImage').css("display", "block");

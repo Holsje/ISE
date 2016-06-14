@@ -110,7 +110,6 @@ function onCreateCongress() {
             selectedSubjects: getSelectedSubjects("Add")
         },
         success: function (data) {
-            console.log(data);
             if (data != null && data != '' &&  /\S/.test(data)) {
                 data = JSON.parse(data);
                 document.getElementById('errMsgInsertCongress').innerHTML = '*' + data['err'];

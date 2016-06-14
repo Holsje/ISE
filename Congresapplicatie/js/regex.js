@@ -8,7 +8,6 @@ function isValidName(name) {
 }
 
 function isValidTelephoneNumber(telnr) {
-    console.log(telnr);
     if(telnr == ""){
         return true;
     }

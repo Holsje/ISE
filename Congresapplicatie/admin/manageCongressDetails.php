@@ -12,6 +12,7 @@ if(isset($_POST['getCongressInfo'])){
     die();
 }
 $manageCongress->createEditCongressScreen();
+$manageCongress->createEditManagerPopUp();
 
 
 

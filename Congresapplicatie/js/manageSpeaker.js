@@ -200,8 +200,7 @@ function getSpeakerInfo(speakerType,event) {
 				if(data['error']){
 					alert("U kunt deze spreker niet aanpassen. \nNeem contact op met de eigenaar van deze spreker: \n" + data['error']);
 					return;
-				}				
-				console.log(data);
+				}	
                 personNo = data[0]['personNo'];
 				oldFirstName = data[0]['FirstName'];
 				oldLastName = data[0]['LastName'];

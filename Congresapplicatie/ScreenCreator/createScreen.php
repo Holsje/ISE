@@ -23,6 +23,7 @@ require_once('ScreenObjects/Upload.php');
 require_once('ScreenObjects/Identifier.php');
 require_once('ScreenObjects/Time.php');
 require_once('ScreenObjects/TextArea.php');
+require_once('ScreenObjects/Checkbox.php');
 
     class CreateScreen{
 
@@ -110,7 +111,7 @@ require_once('ScreenObjects/TextArea.php');
 						echo '</div>';
 					}
 				echo '</div>';
-				$button = new Button("Meer Info", null, null, "btn btn-default moreInfoButton popupButton pull-right", true, true, $dataFile);
+				$button = new Button($_SESSION['translations']['moreInfo'], null, null, "btn btn-default moreInfoButton popupButton pull-right", true, true, $dataFile);
 				echo $button->getObjectCode();
 			echo '</div>';
 		}

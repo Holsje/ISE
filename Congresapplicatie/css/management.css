@@ -172,3 +172,11 @@ h1 {
 	width:50%;
 	margin-top:40px;
 }
+input[type=checkbox].checkBoxManager{
+    margin: 10px 0px;
+    float: left;
+    -ms-transform: scale(1.2); /* IE */
+  -moz-transform: scale(1.2); /* FF */
+  -webkit-transform: scale(1.2); /* Safari and Chrome */
+  -o-transform: scale(1.2); 
+}
