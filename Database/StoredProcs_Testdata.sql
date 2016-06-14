@@ -23,10 +23,6 @@ BEGIN TRAN
 	SELECT * FROM CongressManagerOfCongress
 ROLLBACK TRAN
 
-	EXEC spAddCongressManagerToCongress
-	@PersonNo = 3,
-	@CongressNo = 40
-
 -- Goed moet nieuw subject 'test' toevoegen in Subject en SubjectOfEvent.
 BEGIN TRAN
 	EXEC addSubjectToEvent
@@ -52,7 +48,7 @@ ROLLBACK
 
 -- Goed moet nieuw subject toevoegen in Subject en SubjectOfCongress.
 BEGIN TRAN
-	EXEC addSubjectToCongress
+	EXEC spAddSubjectToCongress
 	@CongressNo = 1,
 	@Subject = 'test'
 
@@ -63,7 +59,7 @@ ROLLBACK
 
 --Goed moet toevoegen in SubjectOfCongress niet in Subject.
 BEGIN TRAN
-	EXEC addSubjectToCongress
+	EXEC spAddSubjectToCongress
 	@CongressNo = 1,
 	@Subject = 'Data'
 
@@ -81,7 +77,7 @@ EXEC spAddManager
 @managerType = 'A'
 ROLLBACK
 
---Goed
+--Goed WERKT NOG NIET MET BANNER?
 BEGIN TRAN
 EXEC spUpdateCongress
 	@congressNo = 1,
@@ -98,7 +94,7 @@ EXEC spUpdateCongress
 	@oldbanner = 'img/Banners/Congress1.png'
 ROLLBACK
 
---Fout Oude waardes komen niet overeen met de waardes in congres.
+--Fout Oude waardes komen niet overeen met de waardes in congres. WERKT NOG NIET MET BANNER?
 BEGIN TRAN
 EXEC spUpdateCongress
 	@congressNo = 2,
