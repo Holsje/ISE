@@ -17,7 +17,7 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  ('NL', 'moreInfo', 'Meer Info', 'Button'),
 								  ('NL', 'Registreren', 'Registreren', 'Button'),
 								  ('NL', 'submitLogin', 'Inloggen', 'Button'),
-								  ('NL', 'NextDayButton', 'Volgende dag', 'Button'),
+								  ('NL', 'nextDayButton', 'Volgende dag', 'Button'),
 								  ('NL', 'previousDayButton', 'Vorige dag', 'Button'),
 								  ('NL', 'signUpForCongressButton', 'Inschrijven', 'Button'),
 
