@@ -54,6 +54,8 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 
 								  ('NL', 'errorMail', 'Er is al iemand geregistreerd onder dit mailadres.', 'Text'),
 								  ('NL', 'registrationSucces', 'Registreren gelukt.', 'Text'),
+								  ('NL', 'registerForCongressSuccess', 'Je registratie voor het congres is succesvol opgeslagen.', 'Text'),
+								  ('NL', 'registerForCongressFail', 'Je registratie voor het congres is niet succesvol opgeslagen.', 'Text'),
 
 								  ('NL', 'loginFailed', 'Gebruikersnaam en/of wachtwoord zijn onjuist', 'Text'),
 								  /* Engels */
@@ -104,6 +106,8 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 								  
 								  ('EN', 'errorMail', 'Somebody already registered under this mailaddress.', 'Text'),
 								  ('EN', 'registrationSucces', 'Registration was succesfull.', 'Text'),
+								  ('EN', 'registerForCongressSuccess', 'Your registration for the congress is succesfully saved.', 'Text'),
+								  ('EN', 'registerForCongressFail', 'Your registration for the congress is not succesfully saved.', 'Text'),
 
 								  ('EN', 'loginFailed', 'Username and/or password are incorrect', 'Text'),
 								  /* Duits */
@@ -154,5 +158,6 @@ INSERT INTO [SCREENOBJECT] VALUES ('NL', 'welcomeText', 'Welkom', 'Text'),
 
 								  ('DE', 'errorMail', 'Jemand hat beretis unter dieser Mail Adresse registriert.', 'Text'),
 								  ('DE', 'registrationSucces', 'Registrierung war erfolgreich.', 'Text'),
-
+								  ('DE', 'registerForCongressSuccess', 'Die Anmeldung für die Konferenz wurde erfolgreich gespeichert.', 'Text'),
+								  ('DE', 'registerForCongressFail', 'Die Anmeldung für die Konferenz ist nicht erfolgreich gespeichert.', 'Text'),
 								  ('DE', 'loginFailed', 'Benutzername und/oder Passwort sind falsch', 'Text')

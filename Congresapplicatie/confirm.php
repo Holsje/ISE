@@ -8,7 +8,7 @@
 	global $server, $databaseName, $uid, $password;
 	$dataBase = new Database($server,$databaseName,$uid,$password);
 	$confirm = new Confirmation($_SESSION['congressNo'], $dataBase);
-	topLayout('Bevestiging',"css/confirm.css", null);
+	topLayout('Bevestiging','<link href="css/confirm.css" rel="stylesheet">', null);
 ?>
 
 <div class="row">

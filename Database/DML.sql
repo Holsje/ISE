@@ -8,15 +8,9 @@ DELETE FROM EventInRoom
 DELETE FROM EventInTrack
 DELETE FROM Event
 DELETE FROM Track
-exec sp_configure 'nested triggers',0
-GO
-RECONFIGURE
-GO
+
 DELETE FROM Congress
-exec sp_configure 'nested triggers',1
-GO
-RECONFIGURE
-GO
+
 DELETE FROM CongressManagerOfCongress
 DELETE FROM Room
 DELETE FROM Building
@@ -34,7 +28,6 @@ GO
 /* On first run CHECKIDENT in comment!!!*/
 DBCC CHECKIDENT ('Person', RESEED, 0);
 DBCC CHECKIDENT ('Congress', RESEED, 0);
-
 
 INSERT INTO PersonType (TypeName) VALUES ('Algemene beheerder'),
 										 ('Congresbeheerder'),
@@ -65,13 +58,13 @@ INSERT INTO PersonTypeOfPerson (PersonNo, TypeName) VALUES (1, 'Algemene beheerd
 														   (6, 'Spreker'),
 														   (7, 'Spreker');
 
-INSERT INTO Speaker (PersonNo, Description, PicturePath, Owner) VALUES (1, 'Erik Evers is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker1.jpg', 1),
-																	   (2, 'Daniel de Jong is een ervaren projectleider die veel projecten tot een goed einde heeft gebracht.', 'img/Speakers/Speaker2.jpg', 1),
-															   	       (3, 'Niels Bergervoet is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker3.jpg', 1),
-															   	       (4, 'Enzo van Arum is een informatieanalist die veel kennis heeft van BPMN.', 'img/Speakers/Speaker4.jpg', 1),
-															   	       (5, 'Onno Hols is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker5.jpg', 1),
-															   	       (6, 'Dave Snowden is the founder and chief scientific officer...', 'img/Speakers/Speaker6.jpg', 1),
-															   	       (7, 'Dr. Barry Devlin is among the foremost authorities on...', 'img/Speakers/Speaker7.jpg', 1);
+INSERT INTO Speaker (PersonNo, Description, PicturePath, Owner) VALUES (1, 'Erik Evers is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker1.png', 1),
+																	   (2, 'Daniel de Jong is een ervaren projectleider die veel projecten tot een goed einde heeft gebracht.', 'img/Speakers/Speaker2.png', 1),
+															   	       (3, 'Niels Bergervoet is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker3.png', 1),
+															   	       (4, 'Enzo van Arum is een informatieanalist die veel kennis heeft van BPMN.', 'img/Speakers/Speaker4.png', 1),
+															   	       (5, 'Onno Hols is een ervaren PHP en JavaScript developer en komt vertellen over web development.', 'img/Speakers/Speaker5.png', 1),
+															   	       (6, 'Dave Snowden is the founder and chief scientific officer...', 'img/Speakers/Speaker6.png', 1),
+															   	       (7, 'Dr. Barry Devlin is among the foremost authorities on...', 'img/Speakers/Speaker7.png', 1);
 
 
 
@@ -80,7 +73,12 @@ INSERT INTO GeneralManager (PersonNo, Password) VALUES (1, 'dc00c903852bb19eb250
 													   (4, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937');
 
 INSERT INTO Visitor (PersonNo, Password) VALUES (1, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937'),
-												(2, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937');
+												(2, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937'),
+												(3, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937'),
+												(4, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937'),
+												(5, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937'),
+												(6, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937'),
+												(7, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937');
 
 INSERT INTO CongressManager (PersonNo, Password) VALUES (5, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937'),
 														(3, 'dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937');

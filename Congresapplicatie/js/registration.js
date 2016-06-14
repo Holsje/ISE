@@ -25,7 +25,6 @@ function sendFormData() {
 			}
 			else {
 				$('#popUpRegistration').find('.closePopup').trigger("click");
-				location.reload();
 			}
         }
 	});

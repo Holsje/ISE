@@ -28,11 +28,6 @@ require_once('pageConfig.php');
             //public function __construct($value, $label, $name, $classes, $startRow, $endRow, $datafile){
             $openRegistration = new Button($_SESSION['translations']['Registreren'],null,"Registreren",'col-md-4 btn btn-default popupButton',true,false,'#popUpRegistration');
             $loginScreenObjects = array();
-            if (isset($_SESSION['registrationSucces'])){
-                $registrationSucces = new Span($_SESSION['translations']['registrationSuccess'],'','','col-md-offset-4 col-md-8 col-xs-12 successMsg',true,true);
-                array_push($loginScreenObjects, $registrationSucces);
-
-            }
             array_push($loginScreenObjects, $inputUsername);
             array_push($loginScreenObjects, $inputPassword);
             if(isset($_SESSION['loginFail'])){
@@ -41,13 +36,7 @@ require_once('pageConfig.php');
             }
             array_push($loginScreenObjects,$openRegistration, $submitLogin);
 
-            if (isset($_SESSION['registrationSucces'])){
-                $this->createScreen->createPopup($loginScreenObjects, $_SESSION['translations']['loginTitle'], "Login", 'smallPop','first','show','');
-                unset($_SESSION['registrationSucces']);
-            }else{
-                $this->createScreen->createPopup($loginScreenObjects, $_SESSION['translations']['loginTitle'], "Login", 'smallPop','first',$css,'');
-            }
-
+            $this->createScreen->createPopup($loginScreenObjects, $_SESSION['translations']['loginTitle'], "Login", 'smallPop','first',$css,'');
         }
 
         public function checkLogin($username, $password){
