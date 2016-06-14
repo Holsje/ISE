@@ -1,6 +1,3 @@
---ALTER TABLE ScreenObject
---ALTER COLUMN VALUE varchar(75) NOT NULL
-
 DELETE FROM ScreenObject
 DELETE FROM Language
 
