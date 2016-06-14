@@ -2,7 +2,7 @@
 	if (isset($_POST['cancelSignUp'])) {
 		unset($_SESSION['lastPage']);
 		unset($_SESSION['runningFormData']);
-		header('Location: index.php?congressNo=' . $_SESSION['congressNo']);
+		header('Location: index.php?congressNo=' . $_SESSION['congressNo'] . '&lang=' . $_SESSION['lang']);
 	}
 	if (!isset($_SESSION['userPersonNo'])) {
 		header('Location: inschrijven.php');

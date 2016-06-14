@@ -6,7 +6,7 @@
 					header('Location: '. $_SERVER['HTTP_REFERER']);
 			}
 			else {
-                $_SESSION['loginFail'] = "Gebruikersnaam en/of wachtwoord zijn onjuist";
+                $_SESSION['loginFail'] = $_SESSION['translations']['loginFailed'];
 			}
 		}
         else if (isset($_POST['logout'])){
@@ -15,9 +15,9 @@
                 setcookie('userWeb', '', 1);
             }
 			if (isset($_SESSION['pageCount'])) {
-				$congressNo = $_SESSION['congressNo'];
-				session_unset();
-				header('Location: index.php?congressNo=' . $congressNo);
+				unset($_SESSION['runningFormData']);
+				unset($_SESSION['pageCount']);
+				header('Location: index.php?congressNo=' . $_SESSION['congressNo'] . '&lang=' . $_SESSION['lang']);
 			}
 			else {
 				header('Location: index.php?' . $_SERVER['QUERY_STRING']);

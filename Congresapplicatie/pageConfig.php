@@ -4,9 +4,6 @@
         require_once('database.php');
         global $server, $databaseName, $uid, $password;
         
-        if(isset($_GET['congressNo'])){
-            $_SESSION['congressNo'] = $_GET['congressNo'];
-        }
 
         if (isset($_SESSION['congressNo'])) {
             $databaseHeader = new Database($server, $databaseName, $uid, $password);
@@ -23,7 +20,13 @@
                     }
                 }
             }
-        }  
+        }
+
+        if (isset($_SESSION['preview']) && isset($_SESSION['congressNo'])){
+            if ($_SESSION['preview'] != $_SESSION['congressNo']){
+                die("U kunt deze pagina niet bezoeken!");
+            }
+        }
         $bannerPath;
 ?>
     <head>

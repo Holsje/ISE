@@ -51,8 +51,11 @@ $(document).ready(function () {
 		if(document.getElementById(event.target.attributes.getNamedItem('data-file').value.substring(1)).classList.contains('show')){
 			$(event.target.attributes.getNamedItem("data-file").value).removeClass('show');
 
-
 		}
+
+        if (event.target.attributes.getNamedItem('data-file').value == "#popUpUpdateVisitor"){
+            $("hr").remove();
+        }
     });
 	
 	switch(window.location.hash) {
@@ -67,7 +70,10 @@ $(document).ready(function () {
 		break;
 		case "#spreker":
 			var activeTab = 4;
-		break;		
+		break;
+        case "#Bezoekers":
+            var activeTab = 5;
+        break;
 		case "#Congresgegevens":
 		default:
 			var activeTab = 0;

@@ -17,12 +17,12 @@
 		public function createConfirmationScreen() {
 			echo '<div class="col-sm-12 col-md-12 col-xs-12 event">';
 				echo '<h1>';
-					echo 'Bevestiging inschrijven voor congres:';
+					echo $_SESSION['translations']['confirmRegistrationCongress'];
 				echo '<h1>';
 			echo '</div>';
 			echo '<form name="formConfirm" method="POST" action="'. $_SERVER['PHP_SELF'].'" class="col-sm-12 col-md-12 col-xs-12 eventBox">';
 					$this->getEventData();
-					echo 'U heeft gekozen voor de volgende evenementen: <br>';
+					echo $_SESSION['translations']['chosenEventsText'] .'<br>';
 					echo '<br>';
 
 					echo '<ul id="eventList">';
@@ -32,8 +32,8 @@
 					echo '</ul>';
 					echo '<br>';
 					echo '<input type="hidden" value="'. $_SESSION['congressNo']. '" name="cancelSignUpValue">';
-					echo '<button value="cancel" type="submit" name="cancelSignUp" class="btn btn-default cancelSignUp">Annuleren</button>';
-					echo '<button value="confirmation" type="submit" name="confirmSignUp" class="btn btn-default confirmSignUp">Bevestigen</button>';
+					echo '<button value="cancel" type="submit" name="cancelSignUp" class="btn btn-default cancelSignUp">' . $_SESSION['translations']['cancelButton'] . '</button>';
+					echo '<button value="confirmation" type="submit" name="confirmSignUp" class="btn btn-default confirmSignUp">' . $_SESSION['translations']['confirmButton'] . '</button>';
 
 				//echo '</div>';
 			echo '</form>';
