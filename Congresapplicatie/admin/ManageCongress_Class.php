@@ -163,7 +163,7 @@
                 }
 
                 for ($i=0;$i<sizeof($_POST['deletingManagers']);$i++){
-                    $result = $this->deleteRecord("spDeleteCongressManagerOfCongress", array(array($_SESSION['congressNo'], SQLSRV_PARAM_IN), array($_POST['deletingManagers'][$i], SQLSRV_PARAM_IN)));
+                    $result = $this->deleteRecordCongressManagerOfCongress("spDeleteCongressManagerOfCongress", array(array($_SESSION['congressNo'], SQLSRV_PARAM_IN), array($_POST['deletingManagers'][$i], SQLSRV_PARAM_IN)));
                     if (is_string($result)){
                         $err['err'] = $result;
                         echo $err['err'];
@@ -380,7 +380,7 @@
             }
         }
 
-        public function deleteRecord($storedProcName, $params){
+        public function deleteRecordCongressManagerOfCongress($storedProcName, $params){
             $result = parent::changeRecord($storedProcName, $params);
             return $result;
         }

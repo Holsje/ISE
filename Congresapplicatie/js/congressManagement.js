@@ -73,12 +73,15 @@ function deleteCongress() {
                 data: {
                     verwijderen: 'Verwijderen',
                     congressNo: selectedRow.data()[0]
+                },
+                success: function (data) {
+                    console.log(data);
+                    selectedRow.remove().draw(false);
                 }
             });
-            selectedRow.remove().draw(false);
+        } else {
+            alert("Er is geen selectie gemaakt");
         }
-    } else {
-        alert("Er is geen selectie gemaakt");
     }
 }
 
