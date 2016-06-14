@@ -13,6 +13,7 @@
 				$personNo = $row['PersonNo'];
 			}
 			if (!empty($personNo)) {
+				header('Location: confirm.php');
 				echo '<h1>'. $_SESSION['translations']['alreadyRegisteredCongress'].'</h1>';
 				echo '<p class="errText">' . $_SESSION['translations']['referralHome'] . '</p>';
 				header("refresh:5;url='index.php?congressNo=". $_SESSION['congressNo'] . '&lang=' . $_SESSION['lang']);

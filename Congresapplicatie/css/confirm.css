@@ -1,3 +1,26 @@
+@media(max-width: 480px) {
+	.eventInfo p, .eventInfo ul li, .eventInfo h2 {
+		text-align: center;
+	}
+}
+
 .cancelSignUp {
 	margin-right: 20px;
 }
+
+.backToHome {
+	margin: 0px 0px 20px 20px;
+}
+
+.roomList {
+	padding: 0px;
+}
+
+.eventInfo p {
+	margin-left: 20px;
+}
+
+.eventInfo h2 {
+	margin-left: 5px;
+}
+
