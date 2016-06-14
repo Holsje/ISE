@@ -65,13 +65,11 @@ EXEC spUpdateCongress
 	@startDate = '11-11-11',
 	@endDate = '12-12-12',
 	@price = 950.00,
-	@banner = 'img/Banners/Congress1.png',
 
 	@oldName = 'Data Modeling Zone',
 	@oldstartDate = '2016-10-10',
 	@oldEndDate = '2016-10-11',
-	@oldprice = 950.00,
-	@oldbanner = 'img/Banners/Congress1.png'
+	@oldprice = 950.00
 ROLLBACK
 
 --Fout Oude waardes komen niet overeen met de waardes in congres.
@@ -82,11 +80,9 @@ EXEC spUpdateCongress
 	@startDate = '11-11-11',
 	@endDate = '12-12-12',
 	@price = 500.00,
-	@banner = 'img/Banners/Congress2.png',
 
 	@oldName = 'Data Modeling Zone',
 	@oldstartDate = '2016-10-10',
 	@oldEndDate = '2016-10-11',
-	@oldprice = 950.00,
-	@oldbanner = 'img/Banners/Congress1.png'
+	@oldprice = 950.00
 ROLLBACK
