@@ -1,13 +1,28 @@
 <?php 
 	if(isset($_POST['startTime']) && isset($_POST['endTime']) && isset($_POST['trackNo']) && isset($_POST['eventNo'])) {
-		$manageCongressPlanning->addEventToTrack($_POST['trackNo'], 
+		if (isset($_POST['eventUpdate'])) {
+			if ($_POST['eventUpdate'] != 'false') {
+				$manageCongressPlanning->updateEventInTrack($_POST['trackNo'], 
+															 $manageCongressPlanning->getCongressNo(), 
+															 $_POST['eventNo'], 
+															 $_POST['startTime'], 
+															 $_POST['endTime'], 
+															 $_POST['buildingName'],
+															 $_POST['rooms']);
+				die();
+			}
+			else {
+				$manageCongressPlanning->addEventToTrack($_POST['trackNo'], 
 												 $manageCongressPlanning->getCongressNo(), 
 												 $_POST['eventNo'], 
 												 $_POST['startTime'], 
 												 $_POST['endTime'], 
 												 $_POST['buildingName'],
 												 $_POST['rooms']);
-		die();
+				die();
+			}
+		}
+		
 	}
 	
 	if(isset($_POST['changeRoomsOnSelectChange'])) {
@@ -28,4 +43,12 @@
         echo $indexClass->getSpeakerInfo($_POST['personID']);
         die();
     }
+	
+	if (isset($_POST['publishCongressButton'])) {
+		$result = $manageCongressPlanning->changeRecord("spPublishCongress", array($manageCongressPlanning->getCongressNo()));
+		if(is_string($result))
+			echo '<script>alert("' . $result . '".replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("[NR]","\n").replace("<br>","").replace("ERROR",""));</script>';
+		else	
+			echo '<script>alert("Congres is gepubliceerd");</script>';
+	}
 ?>

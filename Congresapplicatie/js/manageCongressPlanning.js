@@ -12,7 +12,11 @@ var endHours;
 var startScrollY;
 var endScrollY;
 var newScrollTop;
+
+var isUpdate;
+
  $(document).ready(function(){
+	 isUpdate = false;
 	 usingPopup = $(".eventPlanningPopUp");
 	usingPopup.find("input[name=startTimeEvent]").on("change", function() {
 		var hoursStartTring = this.value.split(":");
@@ -93,7 +97,7 @@ var newScrollTop;
 	 
 	$(".eventBoxPlanning").droppable({ 
 		drop: function(event,ui) {
-			
+			isUpdate = false;
 			track = $(this);  
 			eventOfTrack = $(ui.draggable); 
 			offSetTop = eventOfTrack.offset().top - track.offset().top;
@@ -106,7 +110,7 @@ var newScrollTop;
 			newEvent.css("top",offSetTop);
 			newEvent.css("height",100);
 			newEvent.addClass("beingAdded");
-	
+			
 			var d = new Date(Math.round((offSetTop-100)/hourHeight*4)*900*1000);
 			endHours = (Math.round((offSetTop+100)/hourHeight*4)*900*1000)/3600/1000;
 			startHours = (Math.round((offSetTop-100)/hourHeight*4)*900*1000)/3600/1000;
@@ -114,9 +118,11 @@ var newScrollTop;
 			usingPopup.find("input[name=startTimeEvent]").val(d.toTimeString().split(' ')[0]);
 			d.setHours(d.getHours()+1);
 			usingPopup.find("input[name=endTimeEvent]").val(d.toTimeString().split(' ')[0]);
-			usingPopup.css("top", (offSetTop+100));
+			usingPopup.css("top", (offSetTop+hourHeight));
 			usingPopup.appendTo(track);
 			$("#errMsgEventPlanning").text('');
+			usingPopup.find("select[name=buildingSelect]").val('');
+			roomTable.clear();
 			usingPopup.show();
 			roomTable.draw(); 
 		}
@@ -152,6 +158,11 @@ var newScrollTop;
 			}
 		});
 		$(this).parents('.eventInEventBox').hide("fade",function() { $(".beingAdded").remove();});
+		eventOfTrack = $(".eventPlanningBox").children("div[value=" + $(this).parents('.eventInEventBox').attr("value") + "]");
+		eventOfTrack.find(".timesPlanned").text(parseInt(eventOfTrack.find(".timesPlanned").html())-1);
+		if(parseInt(eventOfTrack.find(".timesPlanned").html()) == 0)
+			eventOfTrack.addClass("eventNotInTrack");
+				
 	});
 	
 	document.forms['formEditEventInfo']['buildingSelect'].onchange = function() {
@@ -170,7 +181,49 @@ var newScrollTop;
 			}
 		})
 	}
+	
+	$(".editEventInPlanning").on("click", function() {
+		newEvent = $(this).parents(".eventInEventBox");
+		
+		var thisTop = parseInt(newEvent.css("top"));
+		var thisHeight = parseInt(newEvent.css("height"));
+		
+		var d = new Date(((thisTop-100)/hourHeight)*3600*1000);
+		startHours = ((thisTop-100)/hourHeight);
+		usingPopup.find("input[name=startTimeEvent]").val(d.toTimeString().split(' ')[0]);
+		var d = new Date((((thisTop+thisHeight)-100)/hourHeight)*3600*1000);
+		endHours = (((thisTop+thisHeight)-100)/hourHeight);
+		usingPopup.find("input[name=endTimeEvent]").val(d.toTimeString().split(' ')[0]);
+		$("#errMsgEventPlanning").text('');
+		usingPopup .css("top",thisTop + thisHeight);
+		track = $(this).parents(".eventBoxPlanning");
+		usingPopup.appendTo(track);
+		usingPopup.find("select[name=buildingSelect]").val(newEvent.attr("gebouw"));
+		usingPopup.show();
+		var selectedRooms = newEvent.attr("zaal").split(" ");
+		editEventInPlanning(selectedRooms); 	
+		roomTable.draw();
+	});	
+	
+	
  });
+ 
+ function editEventInPlanning(selectedRooms) {
+	var selectedValue = usingPopup.find("select[name=buildingSelect]").val();
+	isUpdate = true;
+	$.ajax( {
+		url: window.location.href,
+		type: 'POST',
+		data: {
+			changeRoomsOnSelectChange: 'true',
+			buildingName: selectedValue
+		},
+		success: function(data) {
+			dataJSON = JSON.parse(data);
+			refreshEditEventInPlanningRoomTable(dataJSON,selectedRooms);
+		}
+	});
+ }
  
  function isValidInput() {
 	if (!isValidStartAndEndTime(startHours, endHours)) {
@@ -181,10 +234,21 @@ var newScrollTop;
  }
  
  function refreshRoomTable(data) {
-	 console.log(data);
 	 roomTable.rows().remove().draw(false);
 	for(var i = 0;i < data.length; i++) {
 		roomTable.row.add([data[i]]);
+	}
+	roomTable.row().draw();
+ }
+ 
+ 
+ function refreshEditEventInPlanningRoomTable(data,selectedRows) {
+	 roomTable.rows().remove().draw(false);
+	for(var i = 0;i < data.length; i++) {
+		if($.inArray(data[i], selectedRows) != -1)
+			roomTable.row.add([data[i]]).nodes().to$().addClass("selected");
+		else
+			roomTable.row.add([data[i]]);
 	}
 	roomTable.row().draw();
  }
@@ -207,9 +271,10 @@ function sendEventPopUpData() {
 			startTime: usingPopup.find("input[name=startTimeEvent]").val(),
 			endTime: usingPopup.find("input[name=endTimeEvent]").val(),
 			buildingName: usingPopup.find("select[name=buildingSelect]").val(),
+			eventUpdate: isUpdate,
 			rooms: rooms,
 			trackNo: track.attr("id"),
-			eventNo: eventOfTrack.attr("id")
+			eventNo: newEvent.attr("id")
 		},
 		success: function(data) {
 			if (data != null && data != '' &&  /\S/.test(data)) {
@@ -230,6 +295,23 @@ function sendEventPopUpData() {
 						$(this).parents('.eventInEventBox').hide("fade",function() { $(".beingAdded").remove();});
 				});
 				newEvent.removeClass("beingAdded");
+				if(rooms.length == 0) {
+					newEvent.addClass("eventNotInRoom");
+				}else {
+					newEvent.removeClass("eventNotInRoom");
+				}
+				if(!isUpdate) {
+					eventOfTrack.removeClass("eventNotInTrack");
+					eventOfTrack.find(".timesPlanned").text(parseInt(eventOfTrack.find(".timesPlanned").html())+1);
+				}
+				newEvent.attr("gebouw", usingPopup.find("select[name=buildingSelect]").val());
+				var roomString = '';
+				
+				for(var i = 0; i < rooms.length; i++) {
+					roomString += rooms[i] + ' ';
+				}
+				
+				newEvent.attr("zaal", roomString);
 			}
 		}
 	})

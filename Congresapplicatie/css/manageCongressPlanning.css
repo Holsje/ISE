@@ -33,6 +33,10 @@
 	display: none;
 }
 
+.eventPlanningBox .eventInEventBox .editEventInPlanning {
+	display: none;
+}
+
 .deleteEventFromPlanning {
 	-webkit-appearance: none;
     border: 0;
@@ -40,6 +44,39 @@
     top: 10px;
     float: right;
     color: #dbdbdb;
+}
+
+.publishCongressButton {
+	float:right;
+	margin-top: 20px;
+}
+
+.currentDay {
+	padding: 0px;
+}
+
+.currentDay h1 {
+	padding: 0px;
+}
+
+.editEventInPlanning {
+	float:right;
+	font-size: 30px;
+	-webkit-appearance: none;
+    border: 0;
+    background: 0;
+}
+
+.eventPlanningBox .eventNotInTrack {
+	background-color: #FF0000 !important;
+}
+
+.eventBoxPlanning .eventNotInRoom {
+	background-color: #FFA500 !important;
+}
+
+.eventBoxPlanning .timesPlannedString {
+	display:none;
 }
 
 .beingAdded .deleteEventFromPlanning {

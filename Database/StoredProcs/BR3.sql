@@ -117,7 +117,7 @@ BEGIN
 
 		--Check if every event have atleast one room
 		IF EXISTS(SELECT 1 FROM EventInTrack E
-					LEFT JOIN EventInRoom EIR ON E.CongressNo = EIR.CongressNo AND E.EventNo = EIR.EventNo
+					LEFT JOIN EventInRoom EIR ON E.CongressNo = EIR.CongressNo AND E.EventNo = EIR.EventNo AND E.TrackNo = EIR.TrackNo
 					WHERE E.CongressNo = @congressno AND EIR.RName IS NULL)
 		BEGIN
 			SET @test+= 'Een evenement heeft geen zaal';
@@ -136,7 +136,7 @@ BEGIN
 		END
 		ELSE
 		BEGIN
-			UPDATE Congress SET [Public] = 1 WHERE CongressNo = 1
+			UPDATE Congress SET [Public] = 1 WHERE CongressNo = @congressno
 		END
 
 

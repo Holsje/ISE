@@ -115,17 +115,37 @@ require_once('ScreenObjects/TextArea.php');
 			echo '</div>';
 		}
 		
-		public function createSmallEventInfo($eventNo, $eventName, $height,$topOffset) {
-			echo '<div class="eventInEventBox col-xs-12 col-sm-12 col-md-12" value="' . $eventNo . '" id="' . $eventNo . '" style="height: '. $height . ';';
+		public function createSmallEventInfo($eventNo, $eventName, $height,$topOffset, $building, $rooms, $timesPlanned) {
+			echo '<div class="eventInEventBox col-xs-12 col-sm-12 col-md-12';
+			if($timesPlanned == 0 && !is_null($timesPlanned)) {
+				echo ' eventNotInTrack';
+			}
+			if (empty($rooms)) {
+				echo ' eventNotInRoom';
+			}
+			
+			echo '" value="' . $eventNo . '" gebouw="'. $building . '" zaal="'; 
+			if (isset($rooms)) {
+				foreach($rooms as $room) {
+					
+					echo $room . ' ';
+				}
+			}
+			
+			
+			echo '" id="' . $eventNo . '" style="height: '. $height . ';';
 			if(isset($topOffset)){
 				echo 'top:' . $topOffset . ';';
 			}
 			echo '">';
 				$infoButton = new Button(null, null, "moreInfoButton", "popupButton moreInfoButton glyphicon glyphicon-info-sign infoGlyphPlanning", true, true, "#popUpeventInfo");
 				echo '<button type="button" class="deleteEventFromPlanning glyphicon glyphicon-remove" data-file=""></button>'; 
+				echo '<button type="button" class="editEventInPlanning glyphicon glyphicon-pencil" data-file=""></button>'; 
 				echo $infoButton->getObjectCode();
 				echo '<p class="SmallEventName">'. $eventName;
 				echo '</p>';
+				if(!is_null($timesPlanned))
+					echo '<p class="timesPlannedString"> Aantal keer ingepland: <span class="timesPlanned">'. $timesPlanned . '</span></p>';
 			echo '</div>';
 		}
 		
