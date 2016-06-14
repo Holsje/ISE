@@ -1,7 +1,6 @@
  var track;
  var eventOfTrack;
  var hourHeight = 100;
- var asdfds;
  var offSetTop;
 var usingPopup;
 var roomTable;
