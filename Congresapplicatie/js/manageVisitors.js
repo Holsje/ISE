@@ -58,7 +58,6 @@ $(document).ready(function () {
                     personNo: selectedRow.data()[0]
                 },
                 success: function (data) {
-                    console.log(data);
                     data = JSON.parse(data);
                     document.forms["formUpdateVisitor"]["visitorPersonNo"].value = selectedRow.data()[0];
                     document.forms["formUpdateVisitor"]["congressPriceVisitor"].value = selectedRow.data()[1];

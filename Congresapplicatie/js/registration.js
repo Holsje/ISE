@@ -18,7 +18,6 @@ function sendFormData() {
 			password: form['password'].value
 		},
         success: function(data){
-			console.log(data);
 			if (data != null && data != '' &&  /\S/.test(data)) {
 				$("[name=formRegistration]").append('<p class="errText">'+data+'</p>');
 

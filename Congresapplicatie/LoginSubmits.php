@@ -1,5 +1,4 @@
 <?php
-
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['submitLogin'])) {
 			if ($login->checkLogin($_POST['input-username'], $_POST['input-password'])){
@@ -17,6 +16,7 @@
 			if (isset($_SESSION['pageCount'])) {
 				unset($_SESSION['runningFormData']);
 				unset($_SESSION['pageCount']);
+                unset($_SESSION['userPersonNo']);
 				header('Location: index.php?congressNo=' . $_SESSION['congressNo'] . '&lang=' . $_SESSION['lang']);
 			}
 			else {

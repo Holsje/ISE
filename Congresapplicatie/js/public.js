@@ -72,9 +72,6 @@ function editRunningFormData() {
 				location.reload();
 			}
 			
-		},
-		error: function (request, status, error) {
-			console.log(status);
 		}
 	});
 }
@@ -88,7 +85,6 @@ function getEventInfo(eventNo) {
             eventNo: eventNo
         },
         success: function (data) {
-			console.log(data);
 			data = JSON.parse(data);
             $('#popUpeventInfo .popupTitle h1').html(data['EName']);
 			if(window.location.pathname.match(/admin/i) != null) {
@@ -139,9 +135,6 @@ function getEventInfo(eventNo) {
             }
             $('#subjects').html(subjects);
 
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
         }
     });
 }
@@ -215,17 +208,14 @@ function resize() {
 			type: 'POST',
 			data: {
 				tracksPerCarouselSlide: 2
-			},
-			success: function(data) {
-
 			}
-		})
+		});
 	}
 	else if (window.matchMedia("(min-width: 800px)").matches) {
 		if (fileName == "inschrijven.php") {
 			$('.moreInfoButton').removeClass('infoGlyph glyphicon glyphicon-info-sign');
 			$('.moreInfoButton').addClass('btn btn-default pull-right');
-			$('.moreInfoButton').html('Meer info');
+			
 		}
 			$.ajax({
 				url: 'inschrijven.php',
@@ -234,9 +224,9 @@ function resize() {
 					tracksPerCarouselSlide: 3
 				},
 				success: function(data) {
-			
+			         $('.moreInfoButton').html(data);
 				}
-			})
+			});
 	}
 }
 

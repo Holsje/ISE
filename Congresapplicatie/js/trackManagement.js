@@ -101,9 +101,6 @@ function getTrackInfo(){
             oldTrackName = data['TName'];
             oldTrackDescription = data['Description'];
             updateTrackInfo(oldTrackName, oldTrackDescription);
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
         }
     });
 }

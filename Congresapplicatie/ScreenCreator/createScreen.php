@@ -112,7 +112,7 @@ require_once('ScreenObjects/Checkbox.php');
 						echo '</div>';
 					}
 				echo '</div>';
-				$button = new Button($_SESSION['translations']['moreInfo'], null, null, "btn btn-default moreInfoButton popupButton pull-right", true, true, $dataFile);
+				$button = new Button( $_SESSION['translations']['moreInfo'],null, null, "btn btn-default moreInfoButton popupButton pull-right", true, true, $dataFile);
 				echo $button->getObjectCode();
 			echo '</div>';
 		}

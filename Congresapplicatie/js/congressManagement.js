@@ -75,7 +75,6 @@ function deleteCongress() {
                     congressNo: selectedRow.data()[0]
                 },
                 success: function (data) {
-                    console.log(data);
                     selectedRow.remove().draw(false);
                 }
             });
@@ -140,9 +139,6 @@ function goToEditCongress(){
             },
             success: function (data) {
                 window.location.href = "manage.php";
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
     } else{
@@ -167,9 +163,6 @@ function goToCongressPlanning(){
             },
             success: function (data) {
                 window.location.href = "manageCongressPlanning.php";
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
     } else{

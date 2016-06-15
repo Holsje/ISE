@@ -155,9 +155,6 @@ function updateSpeakersOfCongress() {
 			},
 			success: function (data) {
 				refreshSpeaker();
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
 			}
 		});
 }
@@ -214,9 +211,6 @@ function getSpeakerInfo(speakerType,event) {
 					document.getElementById("uploadEditSpeakerBtn").style.backgroundImage= "url('../" + data[0]['PicturePath'] + "')";
 				}
                 updateSpeakerInfo(speakerType,event);
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
          if(!hiddenMade){
@@ -275,9 +269,6 @@ function deleteSpeakers() {
                 }else {
                     selectedRow.remove().draw(false);
                 }
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
 	}

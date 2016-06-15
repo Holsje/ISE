@@ -76,8 +76,6 @@ function updateCongressManagers(){
     var table = $('#listBoxCongressManagerLeft').DataTable();
     var newManagers= calcNewManagers(table);
     var deleteManagers = calcDeleteManagers(table);
-    console.log('new:' + newManagers);
-    console.log('del:' + deleteManagers);
     $.ajax({
         url: window.location.href,
         type: 'POST',
@@ -87,7 +85,6 @@ function updateCongressManagers(){
             deletingManagers: deleteManagers
         },
         success: function(data){
-            console.log(data);
             if (data != null && data != '' &&  /\S/.test(data)) {
                 if(data == 'err'){
                     alert('U kunt niet u zelf verwijderen als congres beheerder van dit congres. \nEr zijn geen wijzigingen doorgevoerd. \nNeem contact op met algemene beheerder als u deze actie toch wilt uitvoeren.');
@@ -216,9 +213,6 @@ function getCongressInfo(){
                 oldCongressSubjects = data['subjects'];
                 $('#bannerPicBtn').css("background-image", 'url(../' + oldCongressBanner + ')');
                 updateCongressInfo(oldCongressName, oldCongressStartDate, oldCongressEndDate, oldCongressPrice, oldCongressBanner, oldCongressPublic, oldCongressSubjects);
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
 }
