@@ -18,14 +18,15 @@
 
 	else if (isset($_POST['goToEdit'])){
 		$_SESSION['congressNo'] = $_POST['congressNo'];
-		$_SESSION['congressName'] = $_POST['congressName'];
-		header('Location: manage.php');
+		$_SESSION['congressName'] = $_POST['congressName'];;
+        $_SESSION['Public'] = $_POST['public'];
 		die();
 	}
 	
 	if (isset($_POST[''])) {
 		$_SESSION['congressNo'] = $_POST['congressNo'];
 		$_SESSION['congressName'] = $_POST['congressName'];
+
 		header('Location: manageCongressPlanning.php');
 		die();
 	}

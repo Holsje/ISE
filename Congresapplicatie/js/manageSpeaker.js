@@ -137,11 +137,10 @@ function setLocation (event){
 
 function refreshSpeaker(){
 	if(window.location.hash == "#spreker") {
-		window.location.reload();
+        window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname;
 	}
 	else {
-		window.location.href = window.location.href.replace(window.location.hash,"") + "#spreker";
-		window.location.reload();
+		window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname + "#spreker";
 	}
 }
 function updateSpeakersOfCongress() {

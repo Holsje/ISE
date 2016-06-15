@@ -83,6 +83,9 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
                         $this->database->sendQuery($sqlUpdateGm,array(hash('sha256',$_POST['password']),$_POST['AanpassenManager']));
                     }
                 }
+            }else{
+                $PostGM = 0;
+                $GM = $PostGM - $GM;
             }
             if(isset($_POST['isCM'])){
                 $PostCM = 1;
@@ -95,9 +98,11 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
                         $this->database->sendQuery($sqlUpdateCm,array(hash('sha256',$_POST['password']),$_POST['AanpassenManager']));
                     }
                 }
+            }else{
+                $PostCM = 0;
+                $CM = $PostCM - $CM; 
             }
             $param = array($_POST['AanpassenManager'],hash('sha256',$_POST['password']));
-            
             $resultInsertGM = true;
             if($GM == 1){
                 $sqlInsertGM = 'INSERT INTO GeneralManager

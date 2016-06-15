@@ -5,7 +5,7 @@ var selectedTable;
 var oldSpeakers = [];
 var hiddenMade = false;
 var setDataTable = false;
-var eventNo = 0;
+var eventNoSubmit = 0;
 $(document).ready(function () {
     $('#popUpSpeakerToEvent .closePopup').on('click',function(){
         $('#listBoxSpeakerEventLeft').DataTable().clear();
@@ -136,8 +136,10 @@ $(document).ready(function () {
 	$(".listBoxSpeakerEventRight .dataTables_scrollBody").addClass("noScrollBody");
 	$(".listBoxSpeakerEventLeft .dataTables_scrollBody").addClass("noScrollBody");
     
+    
+
     if(setDataTable){
-        $($('#EvenementenListBox').DataTable().columns(0).search(eventNo).row().node()).addClass('selected');
+        getRow('EvenementenListBox',eventNoSubmit).addClass('selected');
         $('.onSelected').prop('disabled',false);
         fillSpeakersOfEvent();
     }
@@ -329,4 +331,20 @@ function calcDeleteSpeakers(dataTable){
         }
     }
     return returnArray;
+}
+
+function getRow(table_id, arg1) {
+    var oTable = $('#' + table_id).dataTable(),
+        data = oTable.fnGetData(),
+        row, i, l = data.length;
+
+    for ( i = 0; i < l; i++ ) {
+        row = data[i];
+
+        // columns to search are hard-coded, but you could easily pass this in as well
+        if ( data[i][0] == arg1) {
+            return $('#' + table_id + ' tr').eq(i+1);
+        }
+    }
+    return false;
 }

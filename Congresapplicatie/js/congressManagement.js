@@ -127,6 +127,7 @@ function goToEditCongress(){
     var selectedRow = $('#ListBox').DataTable().row('.selected');
     var congressNo = selectedRow.data()[0];
     var congressName = selectedRow.data()[1];
+    var congressPublic = selectedRow.data()[4];
 
     if (selectedRow.data()) {
         $.ajax({
@@ -135,7 +136,8 @@ function goToEditCongress(){
             data: {
                 goToEdit: 'action',
                 congressNo: congressNo,
-                congressName: congressName
+                congressName: congressName,
+                public: congressPublic
             },
             success: function (data) {
                 window.location.href = "manage.php";

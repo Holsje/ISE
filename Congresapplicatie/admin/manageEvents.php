@@ -8,7 +8,7 @@
     if(isset($_POST['eventNoReload'])){
        $manageEvents->createAddSpeakerToEvent('show',null,null);
         echo "<script> setDataTable = true;
-                       eventNo = ". $_POST['eventNoReload'] ."</script>";
+                       eventNoSubmit = ". $_POST['eventNoReload'] ."; </script>";
     }else{
         $manageEvents->createAddSpeakerToEvent('',null,null);
     }

@@ -42,8 +42,12 @@ GO
 	REVOKE REFERENCES ON Congress TO [Manager]
 	GO
 
-	GRANT ALTER ON Congress TO [Manager]
+	REVOKE ALTER ON Congress TO [Manager]
 	GO
+
+	GRANT UPDATE ON Congress TO [Manager]
+	GO
+
 
 	/* Website */
 

@@ -45,9 +45,14 @@ topLayoutManagement('Beheren Congres', $css, $js);
             <div class="content col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
                 <div class="row">
                     <h1 class="col-md-9">Aanpassen congres - <?php echo $_SESSION['congressName'];?></h1>
+                    
                     <form name="previewCongressForm" class="col-md-3" method="POST" action="../index.php?congressNo=<?php echo $_SESSION['congressNo']?>">
                         <button type="submit" class=" col-md-offset-10 btn btn-default previewObject" value="Preview" name="previewCongress">Preview</button>
                     </form>
+                    <?php 
+                    $_SESSION['Public'];if($_SESSION['Public'] == 'Ja'){ ?>
+                    <span class="col-md-6 errorMsg">Let op alle wijzigingen die u doorvoert zijn meteen zichtbaar op de website.</span>
+                    <?php } ?>
                 </div>
                 <div class="row">
                     <?php
