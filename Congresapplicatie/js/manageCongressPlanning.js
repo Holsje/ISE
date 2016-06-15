@@ -74,7 +74,9 @@ var isUpdate;
 		}else {
 			newScrollTop = window.scrollY+((endHours-oldEndHours)*hourHeight);
 		}
-		
+		if(topOffsetPopUp >= 1900){
+            topOffsetPopUp = 1900;
+        }
 		usingPopup.animate({top:topOffsetPopUp},500);
 		$("html, body").animate({scrollTop:(newScrollTop)},500);
 	});

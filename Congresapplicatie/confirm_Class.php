@@ -98,7 +98,7 @@
 			
 			echo '<br>';
 			
-			echo '<div class="eventBox">';
+			echo '<div class="col-sm-12 col-xs-12 col-md-12 eventBox">';
 			
 			foreach($this->eventsRegisteredUser as $event) {
 				echo '<div class="eventInfo col-xs-12 col-sm-6 col-md-6">';

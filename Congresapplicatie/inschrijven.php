@@ -12,7 +12,8 @@
 	require_once('pageConfig.php');
 	require_once('inschrijven_class.php');
 	$inschrijven = new Inschrijven($_SESSION['congressNo'], $dataBase, $createScreen);
-	topLayout('Inschrijven',null,null);	
+    $js = '<script src="js/inschrijven.js"></script>';
+	topLayout('Inschrijven',null,$js);	
 ?>
 	 <div class="row">
         <div class="container col-sm-12 col-md-12 col-xs-12">

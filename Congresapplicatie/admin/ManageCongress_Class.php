@@ -220,7 +220,6 @@
             $bannerEditObject = new Button("Banner aanpassen",null,"editCongressBanner","form-control btn btn-default popupButton",true,false,'#popUpBanner');
             $addManagers = new Button("Beheerders aanpassen",null,"editCongressManagers","form-control btn btn-default popupButton",false,false,'#popUpManagersToCongress');
 			$submitObject = new Button("Opslaan","Bewerken","updateCongress","form-control col-md-4 pull-right btn btn-default",false, true, '#popUpUpdate');
-			//$this->createScreen->createPopup(array($congressNameObject,$startDateObject,$endDateObject,$subjectObject,$addSubjectObject,$errMsg,$submitObject),"Congres bewerken","Update",null, "", true, false);
 			$this->createScreen->createForm(array($errMsg,$congressNameObject,$startDateObject,$endDateObject,$priceObject,$publicObject,$subjectObject,$addSubjectObject,$bannerEditObject,$addManagers,$submitObject),"UpdateCongress", null,"");
 
             $this->createEditBannerPopUp();

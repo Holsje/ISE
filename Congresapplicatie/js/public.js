@@ -1,6 +1,6 @@
 var lastEvent;
 var fileName = location.href.split("/").slice(-1);
-$(document).ready(resize);
+
 $(document).ready(function () {	
 	if ($('.noEventsText').length > 0) {
 		$('#myCarousel a').css("display", "none");
@@ -185,50 +185,7 @@ function selectEventOnSubject(subject){
     });
 }
 
-function resize() {
-	if (fileName == "inschrijven.php") {
-		$('.moreInfoButton').removeClass('pull-right');
-	}
-	else {
-		$('.eventImage').css("display", "block");
-		$('.eventText').removeClass("col-xs-12");
-		$('.eventText').addClass("col-xs-6");
-		$('.eventImage').removeClass("col-xs-6");
-		$('.eventImage').addClass("col-xs-5");
-		$('.eventImage').addClass("pull-right");
-	}
-	if (window.matchMedia("(max-width: 768px)").matches) {
-		if (fileName == "inschrijven.php") {
-			$('.moreInfoButton').removeClass('btn btn-default pull-right');
-			$('.moreInfoButton').addClass('infoGlyph glyphicon glyphicon-info-sign');
-			$('.moreInfoButton').html('');
-		}
-		$.ajax({
-			url: 'inschrijven.php',
-			type: 'POST',
-			data: {
-				tracksPerCarouselSlide: 2
-			}
-		});
-	}
-	else if (window.matchMedia("(min-width: 800px)").matches) {
-		if (fileName == "inschrijven.php") {
-			$('.moreInfoButton').removeClass('infoGlyph glyphicon glyphicon-info-sign');
-			$('.moreInfoButton').addClass('btn btn-default pull-right');
-			
-		}
-			$.ajax({
-				url: 'inschrijven.php',
-				type: 'POST',
-				data: {
-					tracksPerCarouselSlide: 3
-				},
-				success: function(data) {
-			         $('.moreInfoButton').html(data);
-				}
-			});
-	}
-}
+
 
 function redirect() {
 	window.location.href = "index.php?congressNo=1"

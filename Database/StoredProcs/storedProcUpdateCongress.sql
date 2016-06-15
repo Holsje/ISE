@@ -38,7 +38,7 @@ BEGIN
 		END
 	
 		
-		UPDATE Congress SET CName = @name, Price = @oldprice, StartDate = @startDate, EndDate = @endDate WHERE CongressNo = @congressNo	
+		UPDATE Congress SET CName = @name, Price = @price, StartDate = @startDate, EndDate = @endDate WHERE CongressNo = @congressNo	
 	
 		IF @TranCounter = 0 AND XACT_STATE() = 1
 			COMMIT TRANSACTION;
