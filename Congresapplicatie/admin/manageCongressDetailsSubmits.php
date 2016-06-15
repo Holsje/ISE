@@ -69,7 +69,6 @@
     }
     elseif (isset($_POST['saveBanner'])){
         $filename = handleFile('img/Banners/', 'bannerPic', 'Congress'.$_SESSION['congressNo']);
-        var_dump($filename);
         $sqlStmt = "UPDATE Congress SET Banner = ? WHERE CongressNo = ?";
         $params = array($filename, $_SESSION['congressNo']);
         $result = $manageCongress->getDatabase()->sendQuery($sqlStmt, $params);
