@@ -1,10 +1,17 @@
 CREATE PROC spDeleteCongressManagerOfCongress
 @CongressNo D_CongressNo, 
 @PersonNo D_PersonNo
+
+/*  Isolation level: Serializable
+	
+	Omdat er een selectie op de hoeveelheid regels gedaan wordt gaat de select niet over één waarde. Hierdoor kunnen phantoms voorkomen. 
+	Om dit te voorkomen moet een rangelock gezet worden.
+	
+*/
 AS
 BEGIN
 	SET NOCOUNT ON;
-
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 	DECLARE @TranCounter INT;
 	SET @TranCounter = @@TRANCOUNT;
 
