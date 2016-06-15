@@ -186,25 +186,29 @@ CREATE TRIGGER trMultipleEventsAtTheSameTimeInOneBuilding_BR4
 	Daardoor zou de melding onterecht op het scherm kunnen komen bij het isolation level read committed. 
 	Vanwege een betere performance bij een lager isolation level en het feit dat er vaak maar één congresbeheerder bezig is komt dit echter niet vaak voor is er toch gekozen voor read committed.
 	Daarnaast is samen met de opdrachtgever afgesproken dat voor deze gevallen het isolation level read committed voldoende is.
+
+
 */
+
 ON EventInRoom
 AFTER INSERT, UPDATE
 AS 
-BEGIN
+BEGIN 
 	IF @@ROWCOUNT = 0 RETURN;
 	SET NOCOUNT ON;
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 	BEGIN TRY	
 		IF EXISTS(
-			SELECT 1
-			FROM EventInRoom EIR INNER JOIN Inserted I 
-			ON EIR.LocationName = I.LocationName AND EIR.City = I.City AND EIR.BName = I.BName AND EIR.RName = I.RName
-			WHERE EIR.EventNo IN (SELECT ET.EventNo
-									FROM EventInTrack ET INNER JOIN EventInTrack ET2
-									ON ET.EventNo != ET2.EventNo AND ET2.EventNo = I.EventNo
-									WHERE (ET2.Start > ET.Start AND ET2.Start < ET.[End]) OR
-										(ET2.[End] > ET.Start AND ET2.[End] < ET.[End]) OR
-										(ET2.Start <= ET.Start AND ET2.[End] >= ET.[End]))			
+					SELECT 1
+					FROM EventInRoom EIR INNER JOIN EventInTrack EIT 
+					ON EIT.EventNo = EIR.EventNo AND EIT.CongressNo = EIR.CongressNo AND EIT.TrackNo = EIR.TrackNo INNER JOIN inserted I 
+						ON EIR.LocationName = I.LocationName AND EIR.City = I.City AND EIR.BName = I.BName AND EIR.RName = I.RName INNER JOIN EventInTrack EIT2
+							ON EIT2.EventNo = I.EventNo AND EIT2.TrackNo = I.TrackNo AND EIT2.CongressNo = I.CongressNo
+					WHERE (EIR.EventNo != I.EventNo OR EIR.CongressNo != I.CongressNo OR EIR.TrackNo != I.TrackNo)
+					AND ((EIT2.Start > EIT.Start AND EIT2.Start < EIT.[End]) OR
+														(EIT2.[End] > EIT.Start AND EIT2.[End] < EIT.[End]) OR
+														(EIT2.Start <= EIT.Start AND EIT2.[End] >= EIT.[End]))	
+
 		)		
 		BEGIN
 			RAISERROR('Er mag maar één event in één room tegelijkertijd plaatsvinden.', 16, 1);
