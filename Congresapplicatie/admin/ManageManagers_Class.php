@@ -51,7 +51,6 @@ GROUP BY P.PersonNo, P.FirstName, P.LastName, P.MailAddress, P.PhoneNumber";
                                 FROM PersonTypeOfPerson
                                 WHERE PersonNo = ?';
             $paramsOldType = array($_POST['AanpassenManager']);
-            var_dump($paramsOldType);
             $resultOldType = $this->database->sendQuery($sqlGetOldType,$paramsOldType);
             $GM = 0;
             $PostGM = 0;
