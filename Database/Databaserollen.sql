@@ -42,7 +42,7 @@ GO
 	REVOKE REFERENCES ON Congress TO [Manager]
 	GO
 
-	REVOKE ALTER ON Congress TO [Manager]
+	GRANT ALTER ON Congress TO [Manager]
 	GO
 
 	/* Website */
