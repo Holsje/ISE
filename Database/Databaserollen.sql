@@ -629,7 +629,7 @@ GO
 	REVOKE UPDATE ON SpeakerOfCongress TO [Manager]
 	GO
 	
-	REVOKE INSERT ON SpeakerOfCongress TO [Manager]
+	GRANT INSERT ON SpeakerOfCongress TO [Manager]
 	GO
 
 	GRANT DELETE ON SpeakerOfCongress TO [Manager]
