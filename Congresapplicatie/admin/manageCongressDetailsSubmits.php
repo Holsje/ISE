@@ -85,10 +85,12 @@
     }
 
     if(isset($_POST['addManagerOfCongress'])){
-        foreach($_POST['deletingManagers'] as $personNo){
-            if($personNo == $_SESSION['personNo']){
-                echo 'err';
-                die();
+        if (isset($_POST['deletingManagers'])) {
+            foreach ($_POST['deletingManagers'] as $personNo) {
+                if ($personNo == $_SESSION['personNo']) {
+                    echo 'err';
+                    die();
+                }
             }
         }
         $manageCongress->handleCongressManagerEdit();

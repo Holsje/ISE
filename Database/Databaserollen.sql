@@ -484,7 +484,7 @@ GO
 	REVOKE UPDATE ON CongressManagerOfCongress TO [Manager]
 	GO
 	
-	REVOKE INSERT ON CongressManagerOfCongress TO [Manager]
+	GRANT INSERT ON CongressManagerOfCongress TO [Manager]
 	GO
 
 	GRANT DELETE ON CongressManagerOfCongress TO [Manager]

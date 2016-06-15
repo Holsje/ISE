@@ -85,6 +85,11 @@ h1 {
     font-weight: bold;
     font-family: "Trebuchet MS";
 }
+.successMsg {
+    color: #00FF00;
+    font-weight: bold;
+    font-family: "Trebuchet MS";
+}
 .eventContent .eventInfoBox{
    height: 250px; 
 }
@@ -100,6 +105,7 @@ h1 {
 .eventBoxSignUp {
 	background-color:#FFFFFF;
 	position:absolute;
+    width: 95%;
 }
 .eventBox {
 	border-style:solid;
@@ -111,6 +117,7 @@ h1 {
 	padding:0;
 	margin-bottom: 10px;
 	max-height: 100px;
+    max-width: 100px;
 }
 
 .whiteSpace {
@@ -131,11 +138,9 @@ h1 {
 .event {
 	padding: 0px 5px;
 }
-.moreInfoButton{
-    position: relative;
-    top: 70px;
+.eventInfoInner{
+    height: 200px;
 }
-
 .bigPop {
     width: 80%;
     margin: auto 10%;
@@ -154,11 +159,12 @@ h1 {
 
 .speaker {
     height: 300px;
+    width: 19%;
     margin: 2px !important;
 }
 .speaker img {
     height: 250px;
-    width: 195px;
+    width: 100%;
     margin: 5px 0px;
     padding: 0px;
 }
@@ -326,6 +332,49 @@ h1 {
 	}
 }
 
+@media only screen
+and (min-device-width:768px)
+and (max-device-width:1024px) {
+    .speaker{
+        -webkit-appearance: none;
+        -webkit-border-radius: 10;
+        border-color: lightgrey;
+        height: 150px;
+        min-width: 80px;
+        max-width: 170px;
+        width: 40%;
+        margin: 2px !important;
+    }
+
+    .speaker img{
+        height: 250px;
+        min-width: 70px;
+        margin: 2px 0px 2px 0px;
+        padding: 0px;
+    }
+
+    #thumbnail{
+        max-width: 150px;
+        max-height: 150px;
+    }
+
+    .closePopup{
+        float: right;
+        right: 0px;
+        left: 0px;
+    }
+
+    .eventBoxSignUp{
+        max-width: 93%;
+    }
+
+    .congresInfo label {
+        width: 100%;
+        padding: 0px;
+    }
+
+}
+
 @media(max-width:768px) {
 
 	.infoGlyph {
@@ -333,10 +382,6 @@ h1 {
 		background-color: transparent;
 		font-size: 30px;
 		text-align: center;
-	}
-	
-	.subjects {
-		display: none;
 	}
 
 	.eventInfoBox {
@@ -379,11 +424,11 @@ h1 {
     }
     .popupWindow label,
     .congresInfo label {
-        width: 90%;
+        width: 100%;
         padding: 0px;
     }
     .form-horizontal {
-        margin-top: 120px;
+
     }
     .popupTitle,
     .bigPop .popupTitle,
@@ -408,6 +453,14 @@ h1 {
     .welcomeText{
         display: none;
     }
+    .eventBoxSignUp{
+        max-width: 85%;
+    }
+    #thumbnail{
+        max-width: 150px;
+        max-height: 150px;
+    }
+
 }
 
 

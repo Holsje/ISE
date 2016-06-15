@@ -52,7 +52,7 @@ function getManagerInfo(){
         data: {
           getManagerInfo: 'action' 
         },
-        success(data){
+        success: function(data){
             data = JSON.parse(data);
             var tableLeft = $('#listBoxCongressManagerLeft').DataTable();
             for(i = 0; i< data['congress'].length; i++){
@@ -76,8 +76,6 @@ function updateCongressManagers(){
     var table = $('#listBoxCongressManagerLeft').DataTable();
     var newManagers= calcNewManagers(table);
     var deleteManagers = calcDeleteManagers(table);
-    console.log('new:' + newManagers);
-    console.log('del:' + deleteManagers);
     $.ajax({
         url: window.location.href,
         type: 'POST',
@@ -87,9 +85,15 @@ function updateCongressManagers(){
             deletingManagers: deleteManagers
         },
         success: function(data){
-            if(data == 'err'){
-                alert('U kunt niet u zelf verwijderen als congres beheerder van dit congres. \nEr zijn geen wijzigingen doorgevoerd. \nNeem contact op met algemene beheerder als u deze actie toch wilt uitvoeren.');
-            }else{
+            if (data != null && data != '' &&  /\S/.test(data)) {
+                if(data == 'err'){
+                    alert('U kunt niet u zelf verwijderen als congres beheerder van dit congres. \nEr zijn geen wijzigingen doorgevoerd. \nNeem contact op met algemene beheerder als u deze actie toch wilt uitvoeren.');
+                }
+                else{
+                    $('#errMsgManagersToCongress').text(data);
+                }
+            }
+            else{
                 window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname;
             }
         }
@@ -100,6 +104,9 @@ function updateCongressInfo(congressName, congressStartDate, congressEndDate, co
     document.forms["formUpdateCongress"]["congressName"].value = congressName;
     document.forms["formUpdateCongress"]["congressStartDate"].value = congressStartDate;
     document.forms["formUpdateCongress"]["congressEndDate"].value = congressEndDate;
+    if (congressPrice = .0000) {
+        congressPrice = 0;
+    }
     document.forms["formUpdateCongress"]["congressPrice"].value = parseInt(congressPrice).toFixed(2);
 
     if (congressPublic == 0) {
@@ -206,9 +213,6 @@ function getCongressInfo(){
                 oldCongressSubjects = data['subjects'];
                 $('#bannerPicBtn').css("background-image", 'url(../' + oldCongressBanner + ')');
                 updateCongressInfo(oldCongressName, oldCongressStartDate, oldCongressEndDate, oldCongressPrice, oldCongressBanner, oldCongressPublic, oldCongressSubjects);
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
 }

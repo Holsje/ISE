@@ -95,9 +95,6 @@ function getSpeakerInfo() {
 				oldAgreement = data[0]['agreement'];
 				document.getElementById("uploadEditSpeakerBtn").style.backgroundImage= "url('../" + data[0]['PicturePath'] + "')";
                 updateSpeakerInfo();
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
     }
@@ -130,12 +127,6 @@ function deleteSpeakers() {
 				data: {
 					deleteSpeaker: 'deleteSpeaker',
 					personNo: selectedRows.data()[i][0]			
-				},
-				success: function (data) {
-					
-				},
-				error: function (request, status, error) {
-					alert(request.responseText);
 				}
 			});
 		}

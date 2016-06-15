@@ -1,4 +1,4 @@
-CREATE PROC spAddManager
+ALTER PROC spAddManager
 
 /*	Isolation level: read committed
 
@@ -24,9 +24,9 @@ CREATE PROC spAddManager
 		ELSE
 			BEGIN TRANSACTION;
 		BEGIN TRY
-			IF EXISTS ( SELECT 1 
-						FROM Person
-						WHERE MailAddress != @mailAddress)
+			IF NOT EXISTS ( SELECT 1 
+							FROM Person
+							WHERE MailAddress = @mailAddress)
 			BEGIN		
 				INSERT INTO Person
 				VALUES(@firstname, @lastname, @mailAddress, @phonenum)
@@ -35,6 +35,13 @@ CREATE PROC spAddManager
 			DECLARE @personNo INT = (SELECT PersonNo 
 									 FROM PERSON 
 									 WHERE  MAILADDRESS = @mailAddress)
+			IF NOT EXISTS ( SELECT 1 
+							FROM Visitor
+							WHERE PersonNo = @personNo)
+			BEGIN
+				INSERT INTO Visitor(PersonNo,[Password])
+				VALUES(@personNo, @password)
+			END
 
 			IF @managerType = 'C'
 			BEGIN

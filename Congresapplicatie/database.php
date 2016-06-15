@@ -111,7 +111,7 @@ class Database
                 else if ($error['code'] == 547){
                     return 'Deze waarde kan niet verwijderd worden, de waarde wordt nog ergens anders in de database gebruikt.';
                 }
-                $err=substr($error['message'],54,strlen($error['message'])-54).'<br>';
+                $err=substr($error['message'],54,strlen($error['message'])-54);
             }
         }
         

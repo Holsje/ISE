@@ -73,12 +73,14 @@ function deleteCongress() {
                 data: {
                     verwijderen: 'Verwijderen',
                     congressNo: selectedRow.data()[0]
+                },
+                success: function (data) {
+                    selectedRow.remove().draw(false);
                 }
             });
-            selectedRow.remove().draw(false);
+        } else {
+            alert("Er is geen selectie gemaakt");
         }
-    } else {
-        alert("Er is geen selectie gemaakt");
     }
 }
 
@@ -137,9 +139,6 @@ function goToEditCongress(){
             },
             success: function (data) {
                 window.location.href = "manage.php";
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
     } else{
@@ -164,9 +163,6 @@ function goToCongressPlanning(){
             },
             success: function (data) {
                 window.location.href = "manageCongressPlanning.php";
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
     } else{

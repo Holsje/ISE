@@ -21,7 +21,11 @@
     }
 
     if (!isset($_POST['previewCongress'])){
-        if (!$indexClass->congressPublic($_SESSION['congressNo']) && !isset($_SESSION['preview'])){
+        if (isset($_SESSION['congressNo'])){
+            if (!$indexClass->congressPublic($_SESSION['congressNo']) && !isset($_SESSION['preview'])){
+                die("U kunt deze pagina niet bezoeken!");
+            }
+        }else{
             die("U kunt deze pagina niet bezoeken!");
         }
     }

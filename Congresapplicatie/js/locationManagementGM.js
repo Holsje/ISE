@@ -25,11 +25,8 @@ $(document).ready(function () {
 			},
 			success: function(data) {
 				window.location.href = 'manageBuildingGeneralManager.php';
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
 			}
-		})
+		});
 	})
 	$("[name=buttonDeleteLocatieGM]").on("click", function(event) {
 		if (confirm("Weet u zeker dat u deze rij(en) wilt verwijderen?")) {
@@ -53,11 +50,8 @@ $(document).ready(function () {
 					}else{
 						dataArray.remove().draw(false);
 					}
-				},
-				error: function (request, status, error) {
-					alert(request.responseText);
 				}
-			})
+			});
 
 		}
 	})

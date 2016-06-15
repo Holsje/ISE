@@ -75,12 +75,12 @@
 		}
 		if ($queryFailed) {
 			echo "<br>";
-			echo 'Het inschrijven is mislukt en uw gegevens zijn niet opgeslagen. U wordt doorverwezen naar de homepagina.';
+			echo $_SESSION['translations']['registerForCongressFail'].' '.$_SESSION['translations']['referralHome'];
 			die();
 		}
 		else {
 			echo '<br>';
-			echo 'Gegevens zijn opgeslagen. U wordt binnen 5 seconden doorverwezen naar de homepagina.';
+			echo $_SESSION['translations']['registerForCongressSuccess'].' '.$_SESSION['translations']['referralHome'];
 			die();
 		}
 	}

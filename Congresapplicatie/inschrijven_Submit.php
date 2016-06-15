@@ -1,6 +1,7 @@
 <?php
 	if(isset($_POST['tracksPerCarouselSlide'])) {
 		$_SESSION['tracksPerCarouselSlide'] = $_POST['tracksPerCarouselSlide'];
+        echo  $_SESSION['translations']['moreInfo'];
 		die();
 	}
 	

@@ -137,16 +137,6 @@
                 $addedFile = 1;
             }
 		$params = array(
-			/*
-				Mogelijk later voor lost updates
-				
-				$_POST["oldFirstName"],
-				$_POST["oldLastName"],
-				$_POST["oldMailAddress"],
-				$_POST["oldPhoneNumber"],
-				$_POST["oldDescription"],
-				$_POST["oldAgreement"],				
-			*/
 			array($_POST["personNo"],SQLSRV_PARAM_IN),
 			array($_POST["newFirstName"],SQLSRV_PARAM_IN),
 			array($_POST["newLastName"],SQLSRV_PARAM_IN),

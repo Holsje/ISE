@@ -52,7 +52,7 @@
     <body>
         <header>
             <div class="header1 col-xs-12 col-sm-12 col-md-12">
-                <img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo $bannerPath ; ?>" alt="logo">
+                <a href="<?php echo $_SERVER['HTTP_REFERER'];?>"><img class="img-responsive logo col-xs-12 col-sm-12 col-md-12" src="<?php echo $bannerPath ; ?>" alt="logo"></a>
             </div>
             <?php include 'menu.php'; ?>
         </header>

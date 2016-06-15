@@ -18,11 +18,11 @@ function sendFormData() {
 			password: form['password'].value
 		},
         success: function(data){
-			if ($.trim(data) == 'mailInUse') {
-				$("[name=formRegistration]").append('<p class="errText">Er is al iemand geregistreerd onder dit mailadres. Probeer het met een ander mailadres.</p>');
+			if (data != null && data != '' &&  /\S/.test(data)) {
+				$("[name=formRegistration]").append('<p class="errText">'+data+'</p>');
+
 			}
 			else {
-				$("[name=formRegistration]").append('<p class="successText">Registreren gelukt.</p>');
 				$('#popUpRegistration').find('.closePopup').trigger("click");
 			}
         }

@@ -49,7 +49,7 @@ $(document).ready(function () {
 
     if(document.forms["formUpdateTracks"]) {
         document.forms["formUpdateTracks"].onsubmit = function() {
-            if(!isValidName(document.forms["formUpdateTracks"]["trackName"].value)) {
+            if(!isValidLocationName(document.forms["formUpdateTracks"]["trackName"].value)) {
                 $("#errMsgUpdateTrack").text("Tracknaam is onjuist.");
                 return false;
             }
@@ -101,9 +101,6 @@ function getTrackInfo(){
             oldTrackName = data['TName'];
             oldTrackDescription = data['Description'];
             updateTrackInfo(oldTrackName, oldTrackDescription);
-        },
-        error: function (request, status, error) {
-            alert(request.responseText);
         }
     });
 }

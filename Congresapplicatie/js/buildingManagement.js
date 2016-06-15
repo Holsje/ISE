@@ -44,9 +44,6 @@ $(document).ready(function () {
 						selectedBuildingValues: result
 					},
 					success: function(data) {
-					},
-					error: function (request, status, error) {
-						alert(request.responseText);
 					}
 				})
 			dataArray.remove().draw(false);
@@ -185,9 +182,6 @@ function getRooms() {
 				document.forms['formUpdateBuildingGM']['houseNo'].value = data[0]['HouseNo'];
 				document.forms['formUpdateBuildingGM']['postalCode'].value = data[0]['PostalCode'];
 				refreshRoom(data);
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
 			}
 		});
 }
@@ -233,9 +227,6 @@ function createRoom() {
 					roomTable.row.add([roomName,roomDescription,roomCapacity]).draw(false);
 					$("#popUpAddZalen button")[0].click();
 				}
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
 			}
 		});
 }
@@ -254,9 +245,6 @@ function getRoomInfo() {
 		success: function (data) {
 			data = JSON.parse(data);
 			refreshEditRoom(data);
-		},
-		error: function (request, status, error) {
-			alert(request.responseText);
 		}
 	});
 }
@@ -303,9 +291,6 @@ function editRoom() {
 					$("[name=buttonDeleteZalen]").prop("disabled", true);
 					$("#popUpUpdateZalen button")[0].click();
 				}
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
 			}
 		});
 }
@@ -331,9 +316,6 @@ function deleteRooms() {
 					}else{
 						selectedRows.remove().draw(false);
 					}
-				},
-				error: function (request, status, error) {
-					alert(request.responseText);
 				}
 			});
 		}

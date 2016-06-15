@@ -90,6 +90,12 @@
                         WHERE CongressNo = ? ';
             $params = array($_SESSION['congressNo']);
             $resultCongress = $this->database->sendQuery($sqlCongress,$params);
+
+            $sqlCongressSubjects = 'SELECT Subject
+                                    FROM SubjectOfCongress
+                                    WHERE CongressNo = ?';
+            $paramsCongressSubjects = array($_SESSION['congressNo']);
+            $resultCongressSubjects = $this->database->sendQuery($sqlCongressSubjects, $paramsCongressSubjects);
             
             $paramsEvent = array($_SESSION['congressNo']);
             $sqlEvents = 'SELECT EventNo, EName, FileDirectory, Description, Price,Type
@@ -123,7 +129,7 @@
                     echo '<h3 class="col-md-12" name="congressInfo">'.$_SESSION['translations']['congressInfo'].'</h3>';
                     echo '<div class="col-md-12 congresInfo">';
                     $objects = array();
-                    array_push($objects,new Span($congressResults['CName'],$_SESSION['translations']['ConName'],'ConName','col-md-8',true,true));
+                    array_push($objects,new Span($congressResults['CName'],$_SESSION['translations']['ConName'],'ConName','col-md-8 col-sm-8',true,true));
                     array_push($objects,new Span($congressResults['Description'],$_SESSION['translations']['ConDescription'],'ConDiscription','col-md-8',true,true));
                     $startDate = $congressResults['Startdate'];
                     $startDate = $startDate->format('Y-m-d');
@@ -133,7 +139,14 @@
                     array_push($objects,new Span($endDate,$_SESSION['translations']['ConEnd'],'ConEnd','col-md-8',true,true));
                     array_push($objects,new Span($congressResults['LocationName'],$_SESSION['translations']['ConLocation'],'ConLocation','col-md-8',true,true));
                     array_push($objects,new Span($congressResults['City'],$_SESSION['translations']['ConCity'],'ConCity','col-md-8',true,true));
-                    array_push($objects,new Span(number_format($congressResults['Price'],2,',','.'),$_SESSION['translations']['ConPrice'],'ConPrice','col-md-8',true,true));
+                    array_push($objects,new Span("€".number_format($congressResults['Price'],2,',','.'),$_SESSION['translations']['ConPrice'],'ConPrice','col-md-8',true,true));
+
+                    $stringSubjects = "";
+                    while ($row = sqlsrv_fetch_array($resultCongressSubjects, SQLSRV_FETCH_ASSOC)){
+                        $stringSubjects .= $row['Subject'].", ";
+                    }
+                    $stringSubjects = substr($stringSubjects, 0, strlen($stringSubjects) - 2);
+                    array_push($objects,new Span($stringSubjects,$_SESSION['translations']['ConSubjects'],'ConSubjects','col-md-8',true,true));
                     foreach($objects as $object){
                         echo '<div class="row" >';
                         echo $object->getObjectCode();
@@ -141,7 +154,7 @@
                     }
                     echo '</div>';
                     //Subject Box
-                    echo '<h3 class="col-md-12" name="congressSubjects">'.$_SESSION['translations']['congressSubjects'].'</h3>';
+                    echo '<h3 class="col-md-12" name="eventSubjects">'.$_SESSION['translations']['eventSubjects'].'</h3>';
                     echo '<div class="col-md-12 congresInfo subjects">';
                     $sqlSubjects = 'SELECT SOE.Subject, (COUNT(E.EventNo)*100)/(SELECT COUNT(*)
                                                                                 FROM SubjectOfEvent SOE INNER JOIN Event E

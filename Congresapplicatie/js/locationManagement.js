@@ -124,15 +124,13 @@ $(document).ready(function () {
 		success: function(data) {
 			location.reload();
 			window.location.href = 'manage.php#Locatie';
-		},
-		error: function (request, status, error) {
-            alert(request.responseText);
-        }});
+		}
 	})
 
 	$("[name=buttonDeleteLocatie]").on("click", function(){
 		alert("U kunt vanaf hier geen gebouw verwijderen.");
 	});
+    });
 });
 
 
@@ -152,9 +150,6 @@ function getRooms() {
 			success: function (data) {
 				data = JSON.parse(data);
 				refreshRoom(data);
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
 			}
 		});
 }
@@ -204,9 +199,6 @@ function createRoom() {
 					roomTable.row.add([roomName,roomDescription,roomCapacity]).draw(false);
 					$("#popUpAddZalen button")[0].click();
 				}
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
 			}
 		});
 }
@@ -225,9 +217,6 @@ function getRoomInfo() {
 		success: function (data) {
 			data = JSON.parse(data);
 			refreshEditRoom(data);
-		},
-		error: function (request, status, error) {
-			alert(request.responseText);
 		}
 	});
 }
@@ -244,10 +233,10 @@ function refreshEditRoom(roomInfo) {
 
 
 function editRoom() {
-		var oldRoomName = roomName;
-		newRoomName = document.forms['formUpdateZalen']['roomName'].value;
-		roomDescription = document.forms['formUpdateZalen']['roomDescription'].value;
-		roomCapacity = document.forms['formUpdateZalen']['roomCapacity'].value;
+	var oldRoomName = roomName;
+	newRoomName = document.forms['formUpdateZalen']['roomName'].value;
+	roomDescription = document.forms['formUpdateZalen']['roomDescription'].value;
+	roomCapacity = document.forms['formUpdateZalen']['roomCapacity'].value;
 		
 	$.ajax({
 			url: window.location.href,
@@ -276,11 +265,8 @@ function editRoom() {
 					$("[name=buttonDeleteZalen]").prop("disabled", true);
 					$("#popUpUpdateZalen button")[0].click();
 				}
-			},
-			error: function (request, status, error) {
-				alert(request.responseText);
 			}
-		});
+    });
 }
 
 
@@ -304,13 +290,9 @@ function deleteRooms() {
 					}else{
 						selectedRows.remove().draw(false);
 					}
-				},
-				error: function (request, status, error) {
-					alert(request.responseText);
 				}
 			});
 		}
-		
 
 	}
 }
