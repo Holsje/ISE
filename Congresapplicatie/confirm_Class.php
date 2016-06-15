@@ -2,6 +2,7 @@
 	class Confirmation {
 		public $congressNo;
 		public $events;
+		private $eventsRegisteredUser;
 		public $tracks;
 		private $dataBase;
 		
@@ -34,8 +35,6 @@
 					echo '<input type="hidden" value="'. $_SESSION['congressNo']. '" name="cancelSignUpValue">';
 					echo '<button value="cancel" type="submit" name="cancelSignUp" class="btn btn-default cancelSignUp">' . $_SESSION['translations']['cancelButton'] . '</button>';
 					echo '<button value="confirmation" type="submit" name="confirmSignUp" class="btn btn-default confirmSignUp">' . $_SESSION['translations']['confirmButton'] . '</button>';
-
-				//echo '</div>';
 			echo '</form>';
 		}
 		
@@ -70,6 +69,72 @@
 					}
 				}
 			}
+		}
+		
+		public function getEventsFromRegisteredPerson() {
+			$queryEvents = 		"SELECT E.EventNo, EOVOC.TrackNo, E.EName, E.Type, E.Price, T.TName, EIT.Start, EIT.[End], EIR.BName
+								FROM EventOfVisitorOfCongress EOVOC 
+								INNER JOIN Event E 
+								ON EOVOC.EventNo = E.EventNo AND EOVOC.CongressNo = E.CongressNo INNER JOIN EventInTrack EIT 
+									ON EOVOC.TrackNo = EIT.TrackNo AND EOVOC.CongressNo = EIT.CongressNo AND EOVOC.EventNo = EIT.EventNo INNER JOIN Track T
+										ON EIT.TrackNo = T.TrackNo AND T.CongressNo = EIT.CongressNo INNER JOIN EventInRoom EIR
+											ON EIR.CongressNo = EOVOC.CongressNo AND EIR.EventNo = EOVOC.EventNo AND EOVOC.TrackNo = EIR.TrackNo
+								WHERE EOVOC.PersonNo = ? AND EOVOC.CongressNo = ?";
+			$paramsEvents = array($_SESSION['userPersonNo'], $_SESSION['congressNo']);
+		    $events = array();
+			$result = $this->dataBase->sendQuery($queryEvents, $paramsEvents);
+			if ($result) {
+				while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+					array_push($events, array("EVENTNO" => $row["EventNo"], "TRACKNO" => $row["TrackNo"], "ENAME" => $row["EName"], "TYPE" => $row["Type"], "PRICE" => $row["Price"], "TRACKNAME" => $row["TName"], "START" => $row["Start"], "END" => $row["End"], "BNAME" => $row["BName"]));
+				}					
+			}
+			return $events;
+		}
+		
+		public function createRegisteredUserScreen() {
+			$this->eventsRegisteredUser = $this->getEventsFromRegisteredPerson();
+				
+			echo '<h1>' . $_SESSION['translations']['chosenEventsText'] . '</h1>';
+			
+			echo '<br>';
+			
+			echo '<div class="eventBox">';
+			
+			foreach($this->eventsRegisteredUser as $event) {
+				echo '<div class="eventInfo col-xs-12 col-sm-6 col-md-6">';
+					echo '<h2>' . $event["ENAME"] . '</h2>';
+					echo '<p> Type: ' . $event["TYPE"] . '</p>';
+					echo '<p> Track : '. $event["TRACKNAME"] .'</p>';
+					echo '<p> Gebouw : '. $event["BNAME"] .'</p>';
+					echo '<p>Zalen:</p>';
+					echo '<ul id="roomList">';
+					$rooms = $this->getRoomsOfEvent($event["EVENTNO"], $event["TRACKNO"]);
+					foreach($rooms as $room) {
+						echo '<li>' . $room . '</li>'; 
+					}
+					echo '</ul>';
+					if ($event["TYPE"] == 'Workshop') {
+						echo '<p> Prijs: '. $event["PRICE"] .'</p>';
+					}
+					echo '<p> Starttijd : '. $event["START"]->format("Y-m-d H:i:s") .'</p>';
+					echo '<p> Eindtijd : '. $event["END"]->format("Y-m-d H:i:s") .'</p>';					
+				echo '</div>';
+			}
+			echo '<button value="cancel" type="button" name="backToHomeConfirm" class="btn btn-default backToHome" onclick=location.href="index.php?congressNo=' . $_SESSION['congressNo'] . '">' . $_SESSION['translations']['backToHome'] . '</button>';
+			echo '</div>';
+		}
+		
+		public function getRoomsOfEvent($eventNo, $trackNo) {
+			$queryRoomsOfEvent = "SELECT RName 
+								  FROM EventInRoom
+								  WHERE EventNo = ? AND TrackNo = ? AND CongressNo = ?";
+			$paramsRoomsOfEvent = array($eventNo, $trackNo, $this->congressNo);
+			$result = $this->dataBase->sendQuery($queryRoomsOfEvent, $paramsRoomsOfEvent);
+			$rooms = array();
+			while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+				array_push($rooms, $row["RName"]);
+			}
+			return $rooms;
 		}
 	}
 ?>
