@@ -1,4 +1,4 @@
-ALTER PROC spAddManager
+CREATE PROC spAddManager
 
 /*	Isolation level: read committed
 

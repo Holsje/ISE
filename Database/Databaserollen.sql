@@ -487,7 +487,7 @@ GO
 	GRANT INSERT ON CongressManagerOfCongress TO [Manager]
 	GO
 
-	GRANT DELETE ON CongressManagerOfCongress TO [Manager]
+	REVOKE DELETE ON CongressManagerOfCongress TO [Manager]
 	GO
 
 	REVOKE REFERENCES ON CongressManagerOfCongress TO [Manager]

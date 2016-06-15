@@ -87,7 +87,7 @@ BEGIN
 		END
 	
 		
-		UPDATE Congress SET CName = @name, Price = @oldprice, StartDate = @startDate, EndDate = @endDate WHERE CongressNo = @congressNo	
+		UPDATE Congress SET CName = @name, Price = @price, StartDate = @startDate, EndDate = @endDate WHERE CongressNo = @congressNo	
 	
 		IF @TranCounter = 0 AND XACT_STATE() = 1
 			COMMIT TRANSACTION;
@@ -602,9 +602,9 @@ CREATE PROC spAddManager
 		ELSE
 			BEGIN TRANSACTION;
 		BEGIN TRY
-			IF EXISTS ( SELECT 1 
-						FROM Person
-						WHERE MailAddress != @mailAddress)
+			IF NOT EXISTS ( SELECT 1 
+							FROM Person
+							WHERE MailAddress = @mailAddress)
 			BEGIN		
 				INSERT INTO Person
 				VALUES(@firstname, @lastname, @mailAddress, @phonenum)
@@ -613,6 +613,13 @@ CREATE PROC spAddManager
 			DECLARE @personNo INT = (SELECT PersonNo 
 									 FROM PERSON 
 									 WHERE  MAILADDRESS = @mailAddress)
+			IF NOT EXISTS ( SELECT 1 
+							FROM Visitor
+							WHERE PersonNo = @personNo)
+			BEGIN
+				INSERT INTO Visitor(PersonNo,[Password])
+				VALUES(@personNo, @password)
+			END
 
 			IF @managerType = 'C'
 			BEGIN

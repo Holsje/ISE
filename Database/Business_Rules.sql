@@ -1,3 +1,4 @@
+
 /* Business Rules */
 
 /* BR1: De einddatum mag niet vóór de begindatum van een congres/evenement liggen. */
@@ -21,12 +22,13 @@ CREATE PROC spPublishCongress
 	@congressno D_CONGRESSNO
 AS
 BEGIN
+
 /*
 	Isolation level: Serializable
 	Uitgaande van repeatable read:
 	Wanneer alle waardes gecontroleerd worden en er wordt een nieuwe 
 	bijvoorbeeld track toegevoegd die leeg is dan zit er geen range lock op.
-	Wanneer het Serializable is, dan komt er wel een range lock op.
+	Wanneer het Serializable is dan komt er wel een range lock op.
 
 */
 	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
@@ -134,7 +136,7 @@ BEGIN
 
 		--Check if every event have atleast one room
 		IF EXISTS(SELECT 1 FROM EventInTrack E
-					LEFT JOIN EventInRoom EIR ON E.CongressNo = EIR.CongressNo AND E.EventNo = EIR.EventNo
+					LEFT JOIN EventInRoom EIR ON E.CongressNo = EIR.CongressNo AND E.EventNo = EIR.EventNo AND E.TrackNo = EIR.TrackNo
 					WHERE E.CongressNo = @congressno AND EIR.RName IS NULL)
 		BEGIN
 			SET @test+= 'Een evenement heeft geen zaal';
@@ -153,7 +155,7 @@ BEGIN
 		END
 		ELSE
 		BEGIN
-			UPDATE Congress SET [Public] = 1 WHERE CongressNo = 1
+			UPDATE Congress SET [Public] = 1 WHERE CongressNo = @congressno
 		END
 
 
@@ -567,32 +569,52 @@ GO
 
 /* BR12: Een congres moet altijd een congresbeheerder hebben*/
 
-CREATE TRIGGER trCongressAlwaysHasCongressManager_BR12
+CREATE PROC spDeleteCongressManagerOfCongress
+@CongressNo D_CongressNo, 
+@PersonNo D_PersonNo
 
-/*	Isolation level: read committed
+/*  Isolation level: Serializable
 	
-	Het isolation level is bij deze trigger niet van toepassing, omdat er niets aangepast wordt en het maar één query is.
-	Er wordt een S-lock aangevraagd en deze duurt tot de data gelezen is. 
-	In de trigger wordt verder niets meer gedaan met de data, dus hiervoor is read committed voldoende. 
+	Omdat er een selectie op de hoeveelheid regels gedaan wordt gaat de select niet over één waarde. Hierdoor kunnen phantoms voorkomen. 
+	Om dit te voorkomen moet een rangelock gezet worden.
+	
 */
-
-  ON CongressManagerOfCongress
-  AFTER UPDATE, DELETE
-  AS 
-  BEGIN
-	IF @@ROWCOUNT = 0 RETURN;
+AS
+BEGIN
 	SET NOCOUNT ON;
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+	DECLARE @TranCounter INT;
+	SET @TranCounter = @@TRANCOUNT;
+
+	IF @TranCounter > 0
+		SAVE TRANSACTION ProcedureSave;
+	ELSE
+		BEGIN TRANSACTION;
 
 	BEGIN TRY
-		IF NOT EXISTS(SELECT 1 
-					 FROM Congress C INNER JOIN deleted d 
-					 ON d.CongressNo = C.CongressNo INNER JOIN CongressManagerOfCongress CMOC
-					 ON CMOC.CongressNo = C.CongressNo)
+		IF (SELECT COUNT(*)
+					FROM CongressManagerOfCongress
+					WHERE CongressNo = @CongressNo ) = 1
 		BEGIN
-			RAISERROR('Een congres moet altijd een congresbeheerder hebben.', 16, 1);
+			RAISERROR('U kunt deze congresbeheerder niet verwijderen. Elk congres moet minimaal één congresbeheerder hebben.',16,1)
 		END
+
+		DELETE FROM CongressManagerOfCongress
+		WHERE CongressNo = @CongressNo AND PersonNo = @PersonNo
+
+		IF @TranCounter = 0 AND XACT_STATE() = 1
+
+			COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
+		IF @TranCounter = 0 
+		BEGIN
+			IF XACT_STATE() = 1
+				ROLLBACK TRANSACTION;
+		END
+		ELSE
+			IF XACT_STATE() <> -1
+				ROLLBACK TRANSACTION ProcedureSave;
 		THROW;
 	END CATCH
 END
