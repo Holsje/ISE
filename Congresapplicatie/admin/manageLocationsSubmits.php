@@ -56,8 +56,6 @@
 			$queryUpdateCongressLocation = "UPDATE Congress SET LocationName = ?, City = ? WHERE CongressNo = ?";
 
 			$paramsUpdateCongressLocation = array($_SESSION['currentLocationName'], $_SESSION['currentLocationCity'], $manage->getCongressNo());
-			var_dump($queryUpdateCongressLocation);
-			var_dump($paramsUpdateCongressLocation);
 			$result = $database->sendQuery($queryUpdateCongressLocation, $paramsUpdateCongressLocation);
 			if (is_string($result)){
 				$_SESSION['errorMsgLinkToCongress'] = $result;
