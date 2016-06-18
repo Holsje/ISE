@@ -47,7 +47,7 @@ BEGIN
 		--Check if congress has all mandatory fields
 		IF EXISTS(SELECT 1 FROM Congress 
 					WHERE CongressNo = @congressno AND (LocationName IS NULL OR City IS NULL 
-					OR Startdate IS NULL OR Enddate IS NULL OR Description IS NULL OR Banner IS NULL OR PRICE IS NULL)) 
+					OR Startdate IS NULL OR Enddate IS NULL OR Banner IS NULL OR PRICE IS NULL)) 
 		BEGIN
 			SET @test+= 'Congress heeft niet alle verplichte velden [NR]';
 		END

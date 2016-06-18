@@ -15,9 +15,7 @@ $manage = new Manage();
 if(isset($_SESSION['congressNo'])) {
 	$manage->setCongressNo($_SESSION['congressNo']);
 }
-else {
-	$manage->setCongressNo(1);
-}
+
 include('manageEvents_Submits.php');
 include('ManageCongressDetailsSubmits.php');
 include('manageSpeakersSubmits.php');

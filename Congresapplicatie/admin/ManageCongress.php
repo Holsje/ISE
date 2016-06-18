@@ -5,12 +5,14 @@ sessionHandler(true, false);
 unset($_SESSION['congressNo']);
 unset($_SESSION['currentLocationName']);
 unset($_SESSION['currentLocationCity']);
+unset($_SESSION['Public']);
 require_once('ManageCongress_Class.php');
 $manageCongress = new ManageCongress();
 include('ManageCongressSubmits.php');
 
 $js = '<script type="text/javascript" src="../js/congressManagement.js"></script>';
 $js .= '<script type="text/javascript" src="../js/manage.js"></script>';
+$js .= '<script type="text/javascript" src="../js/subjects.js"></script>';
 
 topLayoutManagement('Beheren Congres',null,$js);
 ?>
