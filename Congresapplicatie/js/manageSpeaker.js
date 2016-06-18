@@ -43,9 +43,10 @@ $(document).ready(function () {
 		updateSpeakersOfCongress();
 	});
 	if(document.forms["formspreker"]) {
-		document.forms["formspreker"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0,event)};
-		document.forms["formspreker"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1,event)};
+		document.forms["formspreker"]["buttonEditSpeakerOfCongress"].onclick = function() {getSpeakerInfo(0,event); removeHiddenEvent();};
+		document.forms["formspreker"]["buttonEditSpeaker"].onclick = function() {getSpeakerInfo(1,event); removeHiddenEvent();};
 		document.forms["formspreker"]["buttonDeleteSpeaker"].onclick = deleteSpeakers;
+        document.forms['formspreker']['buttonAddSpeakerOfCongress'].onclick = removeHiddenEvent;
 	}
 	
 	if(document.forms["formAddSpeaker"]) {
@@ -160,6 +161,15 @@ function getSpeakersOfCongress() {
 	}
 	
 	return newSpeakers;
+}
+
+function removeHiddenEvent(){
+    var events = document.getElementsByName('eventNoReload');
+    var eventsLength = events.length
+    for(i = 0; i < eventsLength; i++){
+        events[0].parentElement.removeChild(events[0]);
+        hiddenMade = false;
+    }
 }
 
 function getSpeakerInfo(speakerType,event) {
